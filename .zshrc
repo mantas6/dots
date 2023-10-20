@@ -24,14 +24,17 @@ alias ll='ls -alh'
 alias cmatrix='cmatrix -ab'
 alias dotf="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 
-bat_lvl() {
-   cat /sys/class/power_supply/BAT0/capacity
+bat-lvl() {
+    cat /sys/class/power_supply/BAT0/capacity
 }
 
-load_average() {
-    uptime | awk -F'[a-z]:' '{ print $2 }' | awk -F', ' '{ print $1, $2, $3 }'
+bat-volt() {
+    VOLTAGE=$(cat /sys/class/power_supply/BAT0/voltage_now)
+    VOLTAGE=$(($VOLTAGE / 1000000))
+    VOLTAGE=$(($VOLTAGE / 3))
+    print "$VOLTAGE"
 }
 
 setopt prompt_subst
 PROMPT='%F{#c0c0c0}%n%f@%F{#008000}%m%f %F{#800080}%B%~%b%f %# '
-RPROMPT='[$(load_average)] [Bat$(bat_lvl)%#] [%F{#0000ff}%?%f]'
+RPROMPT='[$(bat-volt)] [Bat$(bat-lvl)%#] [%F{#0000ff}%?%f]'
