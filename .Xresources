@@ -1,0 +1,6 @@
+XTerm.termName: xterm-256color
+XTerm.vt100.locale: true
+XTerm.vt100.saveLines: 4096
+XTerm.vt100.reverseVideo: true
+XTerm.vt100.faceName: Liberation Mono:size=24:antialias=true
+XTerm.vt100.font: 7x13
