@@ -22,8 +22,7 @@ GREEN="$(tput setaf 2)"
 YELLOW="$(tput setaf 3)"
 RESET="$(tput sgr0)"
 
-bat_lvl()
-{
+bat_lvl() {
    cat /sys/class/power_supply/BAT0/capacity 
 }
 
