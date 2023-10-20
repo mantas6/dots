@@ -24,6 +24,8 @@ alias ll='ls -alh'
 alias cmatrix='cmatrix -ab'
 alias dotf="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 
+setopt prompt_subst
+
 bat_lvl() {
    cat /sys/class/power_supply/BAT0/capacity
 }
