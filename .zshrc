@@ -30,9 +30,7 @@ bat-lvl() {
 
 bat-volt() {
     VOLTAGE=$(cat /sys/class/power_supply/BAT0/voltage_now)
-    VOLTAGE=$(($VOLTAGE / 1000000))
-    VOLTAGE=$(($VOLTAGE / 3))
-    print "$VOLTAGE"
+    print $(echo "scale=2; $VOLTAGE / 1000000 / 3" | bc)
 }
 
 setopt prompt_subst
