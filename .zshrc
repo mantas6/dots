@@ -33,6 +33,14 @@ bat-volt() {
     print $(echo "scale=2; $VOLTAGE / 1000000 / 3" | bc)
 }
 
+zsh-working-dir() {
+    if [ "$(pwd)" -eq $HOME ]; then
+        "~"
+    else
+        basename $(pwd)
+    fi
+}
+
 setopt prompt_subst
-PROMPT='%F{#c0c0c0}%n%f %F{#800080}%B%1d%b%f %# '
+PROMPT='%F{#c0c0c0}%n%f %F{#800080}%B$(zsh-working-dir)%b%f %# '
 RPROMPT='[$(bat-volt)V] [$(bat-lvl)%#] [%F{#0000ff}%?%f]'
