@@ -35,4 +35,4 @@ bat-volt() {
 
 setopt prompt_subst
 PROMPT='%F{#c0c0c0}%n%f@%F{#008000}%m%f %F{#800080}%B%~%b%f %# '
-RPROMPT='[$(bat-volt)] [Bat$(bat-lvl)%#] [%F{#0000ff}%?%f]'
+RPROMPT='[$(bat-volt)V] [$(bat-lvl)%#] [%F{#0000ff}%?%f]'
