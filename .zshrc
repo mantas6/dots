@@ -28,5 +28,5 @@ bat_lvl() {
    cat /sys/class/power_supply/BAT0/capacity
 }
 
-PROMPT='%F{#c0c0c0}%n%f@%F{#008000}%m%f %F{#800080}%B%~%b%f %# '
+PROMPT='%F{#c0c0c0}%n%f@%F{#008000}%m%f %F{#800080}%B%~%b%f ${bat_lvl} %# '
 RPROMPT='[%F{#0000ff}%?%f]'
