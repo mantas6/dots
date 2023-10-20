@@ -24,11 +24,10 @@ alias ll='ls -alh'
 alias cmatrix='cmatrix -ab'
 alias dotf="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 
-setopt prompt_subst
-
 bat_lvl() {
    cat /sys/class/power_supply/BAT0/capacity
 }
 
-PROMPT='%F{#c0c0c0}%n%f@%F{#008000}%m%f %F{#800080}%B%~%b%f $(bat_lvl) %# '
-RPROMPT='[%F{#0000ff}%?%f]'
+setopt prompt_subst
+PROMPT='%F{#c0c0c0}%n%f@%F{#008000}%m%f %F{#800080}%B%~%b%f %# '
+RPROMPT='[BAT $(bat_lvl)%] [%F{#0000ff}%?%f]'
