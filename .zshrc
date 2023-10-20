@@ -28,6 +28,10 @@ bat_lvl() {
    cat /sys/class/power_supply/BAT0/capacity
 }
 
+load_average() {
+    uptime | awk -F'[a-z]:' '{ print $2 }' | awk -F', ' '{ print $1, $2, $3 }'
+}
+
 setopt prompt_subst
 PROMPT='%F{#c0c0c0}%n%f@%F{#008000}%m%f %F{#800080}%B%~%b%f %# '
-RPROMPT='[BAT$(bat_lvl)%#] [%F{#0000ff}%?%f]'
+RPROMPT='[$(load_average)] [Bat$(bat_lvl)%#] [%F{#0000ff}%?%f]'
