@@ -34,7 +34,7 @@ bat-volt() {
 }
 
 zsh-working-dir() {
-    if [ "$(pwd)" == "$HOME" ]; then
+    if [ "$(pwd)" = "$HOME" ]; then
         "~"
     else
         basename $(pwd)
