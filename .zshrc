@@ -30,4 +30,4 @@ bat_lvl() {
 
 setopt prompt_subst
 PROMPT='%F{#c0c0c0}%n%f@%F{#008000}%m%f %F{#800080}%B%~%b%f %# '
-RPROMPT='[BAT $(bat_lvl)\%] [%F{#0000ff}%?%f]'
+RPROMPT='[ BAT $(bat_lvl)% ] [%F{#0000ff}%?%f]'
