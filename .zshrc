@@ -21,6 +21,7 @@ export MANPAGER="less -R --use-color -Dd+r -Du+b"
 export MANROFFOPT="-P -c"
 
 alias ll='ls -alh'
+alias pac='sudo pacman'
 alias cmatrix='cmatrix -ab'
 alias dotf="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 
