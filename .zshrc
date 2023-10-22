@@ -24,6 +24,7 @@ alias ll='ls -alh'
 alias pac='sudo pacman'
 alias cmatrix='cmatrix -ab'
 alias dotf="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
+alias cal='cal --monday'
 
 bat-lvl() {
     cat /sys/class/power_supply/BAT0/capacity
