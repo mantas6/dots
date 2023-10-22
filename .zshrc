@@ -11,6 +11,7 @@ SAVEHIST=1000
 
 setopt autocd
 bindkey -e
+bindkey  "^[[3~"  delete-char
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
