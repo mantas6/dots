@@ -562,3 +562,17 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
+-- Function to increase brightness
+function brightness_up()
+    awful.util.spawn("light -A 10")  -- Increase brightness by 10%
+end
+
+-- Function to decrease brightness
+function brightness_down()
+    awful.util.spawn("light -U 10")  -- Decrease brightness by 10%
+end
+
+-- Key bindings for brightness control
+awful.key({ }, "XF86MonBrightnessUp", brightness_up, {description = "Increase brightness", group = "hotkeys"}),
+awful.key({ }, "XF86MonBrightnessDown", brightness_down, {description = "Decrease brightness", group = "hotkeys"})
