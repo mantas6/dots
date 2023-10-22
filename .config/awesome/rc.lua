@@ -574,5 +574,5 @@ function brightness_down()
 end
 
 -- Key bindings for brightness control
-awful.key({ }, "XF86MonBrightnessUp", brightness_up, {description = "Increase brightness", group = "hotkeys"}),
+awful.key({ }, "XF86MonBrightnessUp", brightness_up, {description = "Increase brightness", group = "hotkeys"})
 awful.key({ }, "XF86MonBrightnessDown", brightness_down, {description = "Decrease brightness", group = "hotkeys"})
