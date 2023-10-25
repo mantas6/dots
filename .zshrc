@@ -39,8 +39,15 @@ bat-lvl() {
 }
 
 bat-volt() {
-    VOLTAGE=$(cat /sys/class/power_supply/BAT0/voltage_now)
+    local VOLTAGE=$(cat /sys/class/power_supply/BAT0/voltage_now)
     print $(echo "scale=2; $VOLTAGE / 1000000 / 3" | bc)
+}
+
+bat-status() {
+    local STATUS=$(cat /sys/class/power_supply/BAT0/status)
+    #if ["$STATUS" = "Charging"]; then
+    #    print "|AC"
+    #fi
 }
 
 zsh-working-dir() {
@@ -53,4 +60,4 @@ zsh-working-dir() {
 
 setopt prompt_subst
 PROMPT='%F{#c0c0c0}%n%f %F{#800080}%B$(zsh-working-dir)%b%f %# '
-RPROMPT='[$(bat-volt)V] [$(bat-lvl)%#] [%F{%(?.gree.red)}%?%f]'
+RPROMPT='[$(bat-lvl)%#|$(bat-volt)V$(bat-status)] [%F{%(?.green.red)}%?%f]'
