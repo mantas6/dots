@@ -53,4 +53,4 @@ zsh-working-dir() {
 
 setopt prompt_subst
 PROMPT='%F{#c0c0c0}%n%f %F{#800080}%B$(zsh-working-dir)%b%f %# '
-RPROMPT='[$(bat-volt)V] [$(bat-lvl)%#] [%F{#0000ff}%?%f]'
+RPROMPT='[$(bat-volt)V] [$(bat-lvl)%#] [%F{%(?.gree.red)}%?%f]'
