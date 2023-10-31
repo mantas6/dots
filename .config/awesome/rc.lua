@@ -276,7 +276,7 @@ globalkeys = gears.table.join(
 
     -- Standard program
     awful.key({ modkey,           }, "a", function () awful.spawn(browser) end,
-              {description = "open a terminal", group = "launcher"}), 
+              {description = "open a browser", group = "launcher"}), 
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
