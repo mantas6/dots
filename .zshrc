@@ -25,6 +25,7 @@ alias ll='ls -alh'
 alias pac='sudo pacman'
 alias cmatrix='cmatrix -ab'
 alias dotf="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
+alias dotfui="gitui -d $HOME/.dotfiles -w $HOME"
 alias dotfl='dotf pull'
 alias cal='cal --monday'
 
