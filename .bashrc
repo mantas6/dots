@@ -1,4 +1,4 @@
-#
+# 
 # ~/.bashrc
 #
 
@@ -17,4 +17,13 @@ primary=$(tput setaf 2)
 secondary=$(tput setaf 8)
 reset=$(tput sgr0)
 
-PS1="${secondary}\h ${primary}\W${reset} % "
+battery=/sys/class/power_supply/BAT0
+
+bat-lvl() {
+ local energy=$(cat "$battery/energy_now")
+ local energy_full=$(cat "$battery/energy_full")
+ 
+ printf $(echo "scale=1; $energy / $energy_full * 100" | bc)
+}
+
+PS1="[$(bat-lvl)%] ${secondary}\h ${primary}\W${reset} % "
