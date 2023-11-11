@@ -18,12 +18,19 @@ secondary=$(tput setaf 8)
 reset=$(tput sgr0)
 
 battery=/sys/class/power_supply/BAT0
+battery_aux=/sys/class/power_supply/BAT1
 
 bat-lvl() {
- local energy=$(cat "$battery/energy_now")
- local energy_full=$(cat "$battery/energy_full")
- 
- printf $(echo "scale=1; $energy / $energy_full * 100" | bc)
+ local capacity=$(cat "$battery/capacity")
+
+ if [ -d "$battery_aux" ]; then
+  local capacity_aux=$(cat "$battery_aux/capacity")
+  local total=$(echo "scale=1; ($capacity + $capacity_aux) / 2" | bc)
+ else
+  local total="$capacity"
+ fi
+
+ echo -n "[$total%] "
 }
 
-PS1="[$(bat-lvl)%] ${secondary}\h ${primary}\W${reset} % "
+PS1="$(bat-lvl)${secondary}\h ${primary}\W${reset} % "
