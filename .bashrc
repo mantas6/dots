@@ -47,8 +47,12 @@ status-prompt() {
  echo -n "[${color}$1${reset}] " 
 }
 
+time-prompt() {
+ date +%H:%M
+}
+
 PS1='
 ${reset}\
-$(status-prompt $?)$(bat-lvl BAT0)$(bat-lvl BAT1)
+$(status-prompt $?)$(time-prompt) $(bat-lvl BAT0)$(bat-lvl BAT1)
 ${secondary}\h ${primary}\W${reset} % '
 
