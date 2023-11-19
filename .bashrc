@@ -14,35 +14,41 @@ shopt -s histappend
 shopt -s autocd
 
 primary=$(tput setaf 2)
+intermediate=$(tput setaf 3)
 secondary=$(tput setaf 8)
 reset=$(tput sgr0)
-left=$(tput rc)
-right=$(tput sc)
+#left=$(tput rc)
+#right=$(tput sc)
 
-battery=/sys/class/power_supply/BAT0
-battery_aux=/sys/class/power_supply/BAT1
+battery_dir=/sys/class/power_supply
 cell_count=3
 
 bat-lvl() {
+ local battery=$battery_dir/$1
+
+ if [ ! -d "$battery" ]; then
+  return
+ fi
+
  local capacity=$(cat "$battery/capacity")
  local voltage_now=$(cat "$battery/voltage_now")
  local voltage=$(echo "scale=2; $voltage_now / 1000000 / $cell_count" | bc)
 
- #if [ -d "$battery_aux" ]; then
- # local capacity_aux=$(cat "$battery_aux/capacity")
- # local total=$(echo "scale=1; ($capacity + $capacity_aux) / 2" | bc)
- #else
- # local total="$capacity"
- #fi
-
- echo -n "[$capacity%|${voltage}V]"
+ echo -n "[$capacity%${secondary}|${reset}${voltage}V] "
 }
 
-rightprompt()
-{
-	printf "%*s" $COLUMNS '$(bat-lvl)'
+status-prompt() {
+ if [ "$1" -eq "0" ]; then
+  local color="${primary}"
+ else
+  local color="${intermediate}"
+ fi
+ 
+ echo -n "[${color}$1${reset}] " 
 }
 
-PS1="\[$(tput sc; rightprompt; tput rc)\]${secondary}\h ${primary}\W${reset} % "
+PS1='
+${reset}\
+$(status-prompt $?)$(bat-lvl BAT0)$(bat-lvl BAT1)
+${secondary}\h ${primary}\W${reset} % '
 
-unset rightprompt
