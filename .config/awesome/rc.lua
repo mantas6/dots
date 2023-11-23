@@ -91,8 +91,11 @@ myawesomemenu = {
    { "quit", function() awesome.quit() end },
 }
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
+mymainmenu = awful.menu({ items = { 
+	{ "Help", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
+	{ "awesome", myawesomemenu, beautiful.awesome_icon },
+        { "Terminal", terminal },
+   	{ "Logout", function() awesome.quit() end },
                                   }
                         })
 
@@ -213,7 +216,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray(),
-            mytextclock,
+            -- mytextclock,
             s.mylayoutbox,
         },
     }
@@ -222,7 +225,7 @@ end)
 
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
+    -- awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
 ))
