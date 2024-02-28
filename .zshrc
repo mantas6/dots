@@ -28,6 +28,7 @@ alias dotf="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 alias dotfui="gitui -d $HOME/.dotfiles -w $HOME"
 alias dotfl='dotf pull'
 alias cal='cal --monday'
+alias keepon="xset s off && xset -dpms"
 
 dotfa() {
     dotf diff $2
