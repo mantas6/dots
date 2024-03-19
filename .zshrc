@@ -30,6 +30,10 @@ alias dotfl='dotf pull'
 alias cal='cal --monday'
 alias keepon="xset s off && xset -dpms"
 
+if [ -d "$HOME/.config/emacs/bin" ]; then
+    PATH="$HOME/.config/emacs/bin:$PATH"
+fi
+
 dotfa() {
     dotf diff $2
     dotf add $2
