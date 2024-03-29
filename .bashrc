@@ -13,6 +13,23 @@ shopt -s checkwinsize
 shopt -s histappend
 shopt -s autocd
 
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias ip='ip -color=auto'
+alias diff='diff --color=auto'
+
+export MANPAGER="less -R --use-color -Dd+r -Du+b"
+export MANROFFOPT="-P -c"
+
+alias ll='ls -alh'
+alias pac='sudo pacman'
+alias cmatrix='cmatrix -ab'
+alias dotf="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
+alias dotfui="gitui -d $HOME/.dotfiles -w $HOME"
+alias dotfl='dotf pull'
+alias cal='cal --monday'
+alias keepon="xset s off && xset -dpms"
+
 primary=$(tput setaf 2)
 intermediate=$(tput setaf 3)
 secondary=$(tput setaf 8)
