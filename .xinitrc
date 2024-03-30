@@ -33,14 +33,14 @@ fi
 
 xset -b
 
-xinput --set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Accel Speed' -0.2
-xinput --set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Natural Scrolling Enabled' 1
-
-xinput --set-prop 'ETPS/2 Elantech TrackPoint' 'libinput Natural Scrolling Enabled' 1
-xinput --set-prop 'ETPS/2 Elantech Touchpad' 'libinput Natural Scrolling Enabled' 1
-
-xinput --set-prop 'Logitech USB Receiver Mouse' 'libinput Accel Speed' -0.9
-xinput --set-prop 'Logitech USB Receiver Mouse' 'libinput Natural Scrolling Enabled' 1
+#input --set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Accel Speed' -0.2
+#input --set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Natural Scrolling Enabled' 1
+#
+#input --set-prop 'ETPS/2 Elantech TrackPoint' 'libinput Natural Scrolling Enabled' 1
+#input --set-prop 'ETPS/2 Elantech Touchpad' 'libinput Natural Scrolling Enabled' 1
+#
+#input --set-prop 'Logitech USB Receiver Mouse' 'libinput Accel Speed' -0.9
+#input --set-prop 'Logitech USB Receiver Mouse' 'libinput Natural Scrolling Enabled' 1
 
 unclutter --start-hidden &
 numlockx &
