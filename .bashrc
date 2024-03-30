@@ -18,8 +18,8 @@ alias grep='grep --color=auto'
 alias ip='ip -color=auto'
 alias diff='diff --color=auto'
 
-export MANPAGER="less -R --use-color -Dd+r -Du+b"
-export MANROFFOPT="-P -c"
+alias vim="nvim"
+alias vi="nvim"
 
 alias ll='ls -alh'
 alias pac='sudo pacman'
