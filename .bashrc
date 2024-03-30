@@ -23,6 +23,10 @@ alias diff='diff --color=auto'
 alias vim="nvim"
 alias vi="nvim"
 
+alias sail="vendor/bin/sail"
+alias s="sail"
+alias a="sail artisan"
+
 alias ll='ls -alh'
 alias pac='sudo pacman'
 alias cmatrix='cmatrix -ab'
@@ -31,6 +35,8 @@ alias dotfui="gitui -d $HOME/.dotfiles -w $HOME"
 alias dotfl='dotf pull'
 alias cal='cal --monday'
 alias keepon="xset s off && xset -dpms"
+
+eval "$(zoxide init bash)"
 
 primary=$(tput setaf 2)
 intermediate=$(tput setaf 3)
