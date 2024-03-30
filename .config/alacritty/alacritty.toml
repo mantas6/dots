@@ -1,0 +1,18 @@
+[font]
+size = 19.0
+
+[font.bold]
+family = "Anonymous Pro Minus"
+style = "Bold"
+
+[font.bold_italic]
+family = "Anonymous Pro Minus"
+style = "Bold Italic"
+
+[font.italic]
+family = "Anonymous Pro Minus"
+style = "Italic"
+
+[font.normal]
+family = "Anonymous Pro Minus"
+style = "Regular"
