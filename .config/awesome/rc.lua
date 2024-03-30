@@ -53,7 +53,7 @@ beautiful.font = 'Ubuntu 14'
 terminal = "xterm"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
-browser = 'firefox'
+browser = 'chromium'
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
