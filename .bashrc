@@ -13,6 +13,8 @@ shopt -s checkwinsize
 shopt -s histappend
 shopt -s autocd
 
+set -o vi
+
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias ip='ip -color=auto'
