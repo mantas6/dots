@@ -44,6 +44,6 @@ xset -b
 
 unclutter --start-hidden &
 numlockx &
-xterm &
+#xterm &
 
 exec awesome
