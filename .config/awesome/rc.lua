@@ -334,7 +334,23 @@ globalkeys = gears.table.join(
               {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"})
+              {description = "show the menubar", group = "launcher"}),
+-- Volume Keys
+   awful.key({}, "XF86AudioLowerVolume", function ()
+     awful.util.spawn("amixer -q sset Master 5%-", false) end),
+   awful.key({}, "XF86AudioRaiseVolume", function ()
+     awful.util.spawn("amixer -q sset Master 5%+", false) end),
+   awful.key({}, "XF86AudioMute", function ()
+     awful.util.spawn("amixer set Master 1+ toggle", false) end),
+   awful.key({}, "XF86AudioMicMute", function ()
+     awful.util.spawn("amixer set Capture 1+ toggle", false) end),
+   -- Media Keys
+   awful.key({}, "XF86AudioPlay", function()
+     awful.util.spawn("playerctl play-pause", false) end),
+   awful.key({}, "XF86AudioNext", function()
+     awful.util.spawn("playerctl next", false) end),
+   awful.key({}, "XF86AudioPrev", function()
+     awful.util.spawn("playerctl previous", false) end)
 )
 
 clientkeys = gears.table.join(
@@ -582,12 +598,14 @@ function brightness_down()
 end
 
 -- Key bindings for brightness control
-awful.key({ }, "XF86MonBrightnessUp", brightness_up, {description = "Increase brightness", group = "hotkeys"})
-awful.key({ }, "XF86MonBrightnessDown", brightness_down, {description = "Decrease brightness", group = "hotkeys"})
+-- awful.key({ }, "XF86MonBrightnessUp", brightness_up, {description = "Increase brightness", group = "hotkeys"})
+-- awful.key({ }, "XF86MonBrightnessDown", brightness_down, {description = "Decrease brightness", group = "hotkeys"})
 
+
+-- XDG startup functionality
 awful.spawn.with_shell(
     'if (xrdb -query | grep -q "^awesome\\.started:\\s*true$"); then exit; fi;' ..
     'xrdb -merge <<< "awesome.started:true";' ..
-    -- list each of your autostart commands, followed by ; inside single quotes, followed by ..
+    -- list of commands to run
     'dex --environment Awesome --autostart'
 )
