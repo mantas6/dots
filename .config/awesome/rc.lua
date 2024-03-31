@@ -350,7 +350,12 @@ globalkeys = gears.table.join(
    awful.key({}, "XF86AudioNext", function()
      awful.util.spawn("playerctl next", false) end),
    awful.key({}, "XF86AudioPrev", function()
-     awful.util.spawn("playerctl previous", false) end)
+     awful.util.spawn("playerctl previous", false) end),
+    -- Brightness control
+    awful.key({}, "XF86MonBrightnessUp", function()
+        awful.util.spawn("brightnessctl set 5%+", false) end),
+    awful.key({}, "XF86MonBrightnessDown", function()
+        awful.util.spawn("brightnessctl set 5%-", false) end)
 )
 
 clientkeys = gears.table.join(
@@ -586,21 +591,6 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
-
--- Function to increase brightness
-function brightness_up()
-    awful.util.spawn("light -A 10")  -- Increase brightness by 10%
-end
-
--- Function to decrease brightness
-function brightness_down()
-    awful.util.spawn("light -U 10")  -- Decrease brightness by 10%
-end
-
--- Key bindings for brightness control
--- awful.key({ }, "XF86MonBrightnessUp", brightness_up, {description = "Increase brightness", group = "hotkeys"})
--- awful.key({ }, "XF86MonBrightnessDown", brightness_down, {description = "Decrease brightness", group = "hotkeys"})
-
 
 -- XDG startup functionality
 awful.spawn.with_shell(
