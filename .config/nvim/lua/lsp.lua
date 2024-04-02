@@ -8,7 +8,9 @@ end)
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = {},
+  ensure_installed = {
+    "intelephense"
+  },
   handlers = {
     lsp.default_setup,
   },
