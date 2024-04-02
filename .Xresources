@@ -7,3 +7,5 @@ XTerm.vt100.font: 7x13
 XTerm.vt100.metaSendsEscape: true
 XTerm.vt100.backarrowKey: false
 XTerm.ttyModes: erase ^?
+
+Xcursor.size: 16
