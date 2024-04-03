@@ -3,7 +3,7 @@
 @theme "/usr/share/rofi/themes/Arc-Dark.rasi"
 
 configuration {
- modi: "window,drun,ssh,combi";
+ modi: "window,drun,ssh,combi,calc";
  font: "Anonymous Pro 19";
  combi-modi: "window,drun,ssh";
 }
