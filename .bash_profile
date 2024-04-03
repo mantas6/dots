@@ -2,9 +2,9 @@
 # ~/.bash_profile
 #
 
-export MANPAGER="less -R --use-color -Dd+r -Du+b"
-export MANROFFOPT="-P -c"
+export MANPAGER="nvim +Man!"
 export EDITOR="nvim"
+export VISUAL="nvim"
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
