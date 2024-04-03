@@ -1,0 +1,19 @@
+// vim: set ft=scss
+
+@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+
+configuration {
+ modi: "window,drun,ssh,combi";
+ font: "Anonymous Pro 19";
+ combi-modi: "window,drun,ssh";
+}
+
+element {
+  orientation: horizontal;
+  children: [ element-icon, element-text ];
+  spacing: 5px;
+}
+
+element-icon {
+  size: 1em;
+}

@@ -54,6 +54,7 @@ terminal = "alacritty"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 browser = 'chromium'
+menu = 'rofi -show drun'
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -333,7 +334,7 @@ globalkeys = gears.table.join(
               end,
               {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end,
+    awful.key({ modkey }, "p", function() awful.spawn(menu) end,
               {description = "show the menubar", group = "launcher"}),
 -- Volume Keys
    awful.key({}, "XF86AudioLowerVolume", function ()
