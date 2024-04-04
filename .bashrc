@@ -35,7 +35,7 @@ alias dotfui="gitui -d $HOME/.dotfiles -w $HOME"
 alias dotfl='dotf pull'
 alias cal='cal --monday'
 alias keepon="xset s off && xset -dpms"
-alias vf='selected_file=$(fzf); [ -n "$selected_file" ] && vi "$selected_file"'
+alias vf='selected_file=$(fzf --preview "bat --color=always {}" --preview-window "~3"); [ -n "$selected_file" ] && vi "$selected_file"'
 
 eval "$(zoxide init bash)"
 
@@ -82,4 +82,5 @@ time-prompt() {
 #$(status-prompt $?)$(time-prompt) $(bat-lvl BAT0)$(bat-lvl BAT1)
 #${secondary}\h ${primary}\W${reset} % '
 
+eval "$(fzf --bash)"
 eval "$(starship init bash)"
