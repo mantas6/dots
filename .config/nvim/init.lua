@@ -13,4 +13,9 @@ vim.o.expandtab = true
 
 vim.api.nvim_set_option("clipboard", "unnamed")
 
+-- Keymap
 vim.g.mapleader = " "
+
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>p', builtin.find_files, {})
+vim.keymap.set('n', '<leader>f', builtin.live_grep, {})
