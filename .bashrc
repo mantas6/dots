@@ -35,6 +35,7 @@ alias dotfui="gitui -d $HOME/.dotfiles -w $HOME"
 alias dotfl='dotf pull'
 alias cal='cal --monday'
 alias keepon="xset s off && xset -dpms"
+alias vf='selected_file=$(fzf); [ -n "$selected_file" ] && vi "$selected_file"'
 
 eval "$(zoxide init bash)"
 

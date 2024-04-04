@@ -17,6 +17,8 @@ return require('packer').startup(function(use)
         requires = { {'nvim-lua/plenary.nvim'} }
     }
 
+    use("rafamadriz/neon")
+
     use {
       'VonHeikemen/lsp-zero.nvim',
       branch = 'v3.x',
