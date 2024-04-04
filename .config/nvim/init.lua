@@ -1,7 +1,8 @@
 require("plugins")
 require("lsp")
+require("treesitter")
 
-vim.opt.scrolloff = 5
+vim.opt.scrolloff = 8
 
 vim.opt.relativenumber = true
 vim.opt.number = true
@@ -12,6 +13,10 @@ vim.o.shiftwidth = 4
 vim.o.expandtab = true
 
 vim.api.nvim_set_option("clipboard", "unnamed")
+
+vim.g.neon_style = "default"
+vim.g.neon_transparent = true
+vim.cmd[[colorscheme neon]]
 
 -- Keymap
 vim.g.mapleader = " "
