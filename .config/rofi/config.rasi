@@ -1,17 +1,22 @@
-// vim: set ft=scss
+// vim: ft=scss
 
 @theme "/usr/share/rofi/themes/Arc-Dark.rasi"
 
 configuration {
- modi: "window,drun,ssh,combi,calc";
+ modi: "window,drun,ssh,combi,calc,emoji";
  font: "Anonymous Pro 19";
  combi-modi: "window,drun,ssh";
+}
+
+window {
+  width: 900px;
 }
 
 element {
   orientation: horizontal;
   children: [ element-icon, element-text ];
   spacing: 5px;
+  width: 500px;
 }
 
 element-icon {
