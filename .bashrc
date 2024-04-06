@@ -5,15 +5,15 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-HISTCONTROL=ignoreboth
-HISTSIZE=1000
-HISTFILESIZE=2000
+export HISTCONTROL=ignoreboth
+export HISTSIZE=1000
+export HISTFILESIZE=2000
 
 shopt -s checkwinsize
 shopt -s histappend
 shopt -s autocd
 
-set -o vi
+#set -o vi
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
@@ -36,6 +36,7 @@ alias dotfl='dotf pull'
 alias cal='cal --monday'
 alias keepon="xset s off && xset -dpms"
 alias vf='selected_file=$(fzf --preview "bat --color=always {}" --preview-window "~3"); [ -n "$selected_file" ] && vi "$selected_file"'
+alias pingg="ping google.com"
 
 eval "$(zoxide init bash)"
 
