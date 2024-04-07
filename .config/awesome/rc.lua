@@ -47,7 +47,7 @@ end
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
-beautiful.font = 'Ubuntu 14'
+beautiful.font = 'Ubuntu 12'
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
@@ -192,19 +192,48 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist {
         screen  = s,
-        filter  = awful.widget.taglist.filter.all,
-        buttons = taglist_buttons
+        filter  = awful.widget.taglist.filter.noempty,
+        buttons = taglist_buttons,
     }
 
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist {
         screen  = s,
         filter  = awful.widget.tasklist.filter.currenttags,
-        buttons = tasklist_buttons
+        buttons = tasklist_buttons,
+        widget_template = {
+            {
+                {
+                    {
+                        {
+                            id     = "icon_role",
+                            widget = wibox.widget.imagebox,
+                        },
+                        margins = 2,
+                        widget  = wibox.container.margin,
+                    },
+                    {
+                        id     = "text_role",
+                        widget = wibox.widget.textbox,
+                        forced_width = 300,
+                    },
+                    layout = wibox.layout.fixed.horizontal,
+                },
+                left  = 5,
+                right = 5,
+                widget = wibox.container.margin
+            },
+            id     = "background_role",
+            widget = wibox.container.background,
+        },
+        layout = {
+            spacing = 0,
+            layout  = wibox.layout.fixed.horizontal
+        },
     }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
+    s.mywibox = awful.wibar({ position = "top", height = 22, screen = s })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
