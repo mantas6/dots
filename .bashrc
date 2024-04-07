@@ -38,7 +38,18 @@ alias keepon="xset s off && xset -dpms"
 alias vf='selected_file=$(fzf --preview "bat --color=always {}" --preview-window "~3"); [ -n "$selected_file" ] && vi "$selected_file"'
 alias pingg="ping google.com"
 
-eval "$(zoxide init bash)"
+# AP
+alias ap-hostapd-edit="sudoedit /etc/hostapd/hostapd.conf"
+alias ap-hostapd-restart="sudo systemctl restart hostapd"
+alias ap-accept-edit="sudoedit /etc/hostapd/hostapd.accept"
+
+alias ap-dnsmasq-edit="sudoedit /etc/dnsmasq.conf"
+alias ap-dnsmasq-check="sudo dnsmasq --test"
+alias ap-dnsmasq-restart="sudo systemctl restart dnsmasq"
+
+alias ap-hosts-edit="sudoedit /etc/hosts"
+
+# TODO: remove
 
 primary=$(tput setaf 2)
 intermediate=$(tput setaf 3)
@@ -83,5 +94,6 @@ time-prompt() {
 #$(status-prompt $?)$(time-prompt) $(bat-lvl BAT0)$(bat-lvl BAT1)
 #${secondary}\h ${primary}\W${reset} % '
 
+eval "$(zoxide init bash)"
 eval "$(fzf --bash)"
 eval "$(starship init bash)"
