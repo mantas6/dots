@@ -138,7 +138,7 @@ local taglist_buttons = gears.table.join(
 local tasklist_buttons = gears.table.join(
                      awful.button({ }, 1, function (c)
                                               if c == client.focus then
-                                                  c.minimized = true
+                                                  -- c.minimized = true
                                               else
                                                   c:emit_signal(
                                                       "request::activate",
@@ -148,7 +148,7 @@ local tasklist_buttons = gears.table.join(
                                               end
                                           end),
                      awful.button({ }, 3, function()
-                                              awful.menu.client_list({ theme = { width = 250 } })
+                                              awful.menu.client_list({ theme = { width = 250, height = 40 } })
                                           end),
                      awful.button({ }, 4, function ()
                                               awful.client.focus.byidx(1)
@@ -199,7 +199,7 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist {
         screen  = s,
-        filter  = awful.widget.tasklist.filter.currenttags,
+        filter  = awful.widget.tasklist.filter.alltags,
         buttons = tasklist_buttons,
         widget_template = {
             {
@@ -211,11 +211,6 @@ awful.screen.connect_for_each_screen(function(s)
                         },
                         margins = 2,
                         widget  = wibox.container.margin,
-                    },
-                    {
-                        id     = "text_role",
-                        widget = wibox.widget.textbox,
-                        forced_width = 300,
                     },
                     layout = wibox.layout.fixed.horizontal,
                 },
