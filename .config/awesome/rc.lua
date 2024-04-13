@@ -143,7 +143,7 @@ local tasklist_buttons = gears.table.join(
                                                   c:emit_signal(
                                                       "request::activate",
                                                       "tasklist",
-                                                      {raise = true}
+                                                      { raise = true, switchtotag = true }
                                                   )
                                               end
                                           end),
