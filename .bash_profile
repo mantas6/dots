@@ -2,9 +2,10 @@
 # ~/.bash_profile
 #
 
-export MANPAGER="nvim +Man!"
-export EDITOR="nvim"
-export VISUAL="nvim"
+# TODO: remove if environment.d change works
+#export MANPAGER="nvim +Man!"
+#export EDITOR="nvim"
+#export VISUAL="nvim"
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
