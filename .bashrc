@@ -23,6 +23,7 @@ alias diff='diff --color=auto'
 alias vim="nvim"
 alias vi="nvim"
 
+# Laravel
 alias sail="vendor/bin/sail"
 alias s="sail"
 alias a="sail artisan"
@@ -30,13 +31,17 @@ alias a="sail artisan"
 alias ll='ls -alh'
 alias pac='sudo pacman'
 alias cmatrix='cmatrix -ab'
-alias dotf="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
-alias dotfu="lazygit -g $HOME/.dotfiles -w $HOME"
-alias dotfl='dotf pull'
+
+# Dotfiles
+alias dot="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
+alias dotu="lazygit -g $HOME/.dotfiles -w $HOME"
+alias dotl='dotf pull'
+
 alias cal='cal --monday'
 alias keepon="xset s off && xset -dpms"
 alias vf='selected_file=$(fzf --preview "bat --color=always {}" --preview-window "~3"); [ -n "$selected_file" ] && vi "$selected_file"'
 
+# Networking
 alias pingg="ping google.com"
 alias ipa="ip a"
 
