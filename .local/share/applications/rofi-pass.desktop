@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Passwords & Autofill
+Comment=Open passwords and autofill manager
+Exec=/usr/bin/rofi-pass
+Terminal=false
