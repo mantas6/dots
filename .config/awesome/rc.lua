@@ -614,3 +614,5 @@ awful.spawn.with_shell(
     -- list of commands to run
     'dex --environment Awesome --autostart'
 )
+
+require("restore")
