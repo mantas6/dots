@@ -615,4 +615,6 @@ awful.spawn.with_shell(
     'dex --environment Awesome --autostart'
 )
 
+-- Load screnn/tag restoring func
 require("restore")
+
