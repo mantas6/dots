@@ -1,4 +1,5 @@
 require("plugins")
+require("tree")
 require("lsp")
 require("treesitter")
 
