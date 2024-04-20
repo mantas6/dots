@@ -19,7 +19,13 @@ return require('packer').startup(function(use)
 
     use("rafamadriz/neon")
 
-    use("preservim/nerdtree")
+    use {
+        'nvim-tree/nvim-tree.lua',
+
+        requires = {
+            'nvim-tree/nvim-web-devicons',
+        },
+    }
 
     use {
       'VonHeikemen/lsp-zero.nvim',
