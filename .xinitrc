@@ -45,7 +45,7 @@ xset -b
 unclutter --start-hidden &
 numlockx &
 xss-lock i3lock &
-#xautolock -time 12 -locker "systemctl suspend" -detectsleep &
-#xterm &
+lxpolkit &
+setxkbmap -layout "us,lt" -option "grp:ctrl_space_toggle"
 
 exec awesome
