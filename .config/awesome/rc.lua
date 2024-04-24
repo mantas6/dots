@@ -117,7 +117,8 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock("%H:%M:%S", 1)
 
-batteryIndicator = awful.widget.watch('cat /sys/class/power_supply/BAT0/capacity', 15);
+pingIndicator = awful.widget.watch("bash -c \"echo -n 🛜 && ping -c 1 google.com | grep 'time=' | awk -F 'time=' '{print $2}'\"", 15);
+batteryIndicator = awful.widget.watch('bash -c \'echo 🔋$(</sys/class/power_supply/BAT0/capacity)%\' ', 15);
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -244,6 +245,7 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            pingIndicator,
             batteryIndicator,
             mykeyboardlayout,
             -- wibox.widget.systray(),
