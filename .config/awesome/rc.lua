@@ -115,7 +115,9 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock("%H:%M")
+mytextclock = wibox.widget.textclock("%H:%M:%S", 1)
+
+batteryIndicator = awful.widget.watch('cat /sys/class/power_supply/BAT0/capacity', 15);
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -130,9 +132,9 @@ local taglist_buttons = gears.table.join(
                                               if client.focus then
                                                   client.focus:toggle_tag(t)
                                               end
-                                          end),
-                    awful.button({ }, 4, function(t) awful.tag.viewnext(t.screen) end),
-                    awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end)
+                                          end)
+                    -- awful.button({ }, 4, function(t) awful.tag.viewnext(t.screen) end),
+                    -- awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end)
                 )
 
 local tasklist_buttons = gears.table.join(
@@ -242,6 +244,7 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            batteryIndicator,
             mykeyboardlayout,
             -- wibox.widget.systray(),
             mytextclock,
