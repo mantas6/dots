@@ -16,3 +16,12 @@ style = "Italic"
 [font.normal]
 family = "Anonymous Pro Minus"
 style = "Regular"
+
+[cursor]
+style = 'Beam'
+
+[keyboard]
+bindings = [
+    { key = 'C', mods = 'Super', action = 'Copy' },
+    { key = 'V', mods = 'Super', action = 'Paste' },
+]
