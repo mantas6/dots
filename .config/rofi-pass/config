@@ -1,4 +1,4 @@
 source /etc/rofi-pass.conf
 
 default_do='autotype'
-default_autotype='pass'
+#default_autotype='pass'
