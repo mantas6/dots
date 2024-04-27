@@ -234,6 +234,7 @@ awful.screen.connect_for_each_screen(function(s)
     s.mywibox = awful.wibar({ position = "top", height = 24, screen = s })
 
     local statusbar = require("statusbar")
+    local cpu = require("cpu")
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -247,6 +248,7 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            cpu(),
             statusbar.load,
             statusbar.memory,
             statusbar.ping,
