@@ -13,7 +13,7 @@ module.battery = awful.widget.watch('bash -c \'echo 🔋$(</sys/class/power_supp
 
 module.load = awful.widget.watch("bash -c \"echo -n 🧇 && cut -d ' ' -f1 < /proc/loadavg\"", 5);
 
-module.load = awful.widget.watch("bash -c \"echo -n 💾 && free -h | awk '/Mem:/ {print $3}'\"", 5);
+module.memory = awful.widget.watch("bash -c \"echo -n 💾 && free -h | awk '/Mem:/ {print $3}'\"", 5);
 
 -- cat /proc/loadavg | cut -d ' ' -f1
 -- free -h | awk '/Mem:/ {print $3}'
