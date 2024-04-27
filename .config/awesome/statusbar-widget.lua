@@ -2,19 +2,18 @@ local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
 
-local function create()
+local function createWidget(command, icon)
     local widget = wibox.widget.textbox();
 
     gears.timer {
-        timeout   = 10,
+        timeout   = 5,
         call_now  = true,
         autostart = true,
         callback  = function()
             awful.spawn.easy_async(
-            {"sh", "-c", "cut -d ' ' -f1 < /proc/loadavg"},
+            {"sh", "-c", command},
                 function(out)
-                    local icon = '';
-                    local color = '#737373';
+                    local color = '#bfbfbf';
                     widget.markup = string.format('<span foreground="%s"> %s   %s</span>', color, icon, out)
                 end
             )
@@ -24,4 +23,5 @@ local function create()
     return widget
 end
 
-return create
+return createWidget
+
