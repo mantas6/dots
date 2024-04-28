@@ -16,18 +16,19 @@
 !.vimrc
 !.xbindkeysrc
 
-!.config/alacritty
-!.config/autorandr
-!.config/autostart/redshift.desktop
-!.config/awesome
-!.config/htop/htoprc
-!.config/newsboat
-!.config/nvim
-!.config/qalculate/qalc.cfg
-!.config/rofi-pass
-!.config/rofi
 !.config/starship.toml
-!.config/terminal-colors.d
 
-!.local/share/applications
+!.config/alacritty/
+!.config/autorandr/
+!.config/autostart/
+!.config/awesome/
+!.config/htop/
+!.config/newsboat/
+!.config/nvim/
+!.config/qalculate/
+!.config/rofi-pass/
+!.config/rofi/
+!.config/terminal-colors.d/
+
+!.local/share/applications/
 
