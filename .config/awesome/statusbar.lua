@@ -6,7 +6,7 @@ local module = {};
 
 module.keyboard = awful.widget.keyboardlayout()
 
-module.clock = wibox.widget.textclock("%a %d %H:%M:%S", 1)
+module.clock = wibox.widget.textclock("    %a %d %H:%M:%S", 1)
 
 module.ping = createWidget("ping -c 1 google.com | grep 'time=' | awk -F 'time=' '{print $2}'", '')
 
