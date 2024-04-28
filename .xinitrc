@@ -46,6 +46,5 @@ unclutter --start-hidden &
 numlockx &
 xss-lock i3lock &
 lxpolkit &
-setxkbmap -layout "us,lt" -option "grp:ctrl_space_toggle"
 
 exec awesome

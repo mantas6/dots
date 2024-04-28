@@ -27,6 +27,7 @@ alias vi="nvim"
 alias sail="vendor/bin/sail"
 alias s="sail"
 alias a="sail artisan"
+alias deploy="vendor/bin/envoy run deploy"
 
 alias ll='ls -alh'
 alias pac='sudo pacman'
