@@ -1,1 +1,33 @@
-.idea
+*
+!.gitignore
+!.gitconfig
+
+# Shell and env
+!.bash_profile
+!.bashrc
+!.zprofile
+!.zshrc
+
+# Xorg
+!.xinitrc
+!.Xresources
+
+!.tmux.conf
+!.vimrc
+!.xbindkeysrc
+
+!.config/alacritty
+!.config/autorandr
+!.config/autostart/redshift.desktop
+!.config/awesome
+!.config/htop/htoprc
+!.config/newsboat
+!.config/nvim
+!.config/qalculate/qalc.cfg
+!.config/rofi-pass
+!.config/rofi
+!.config/starship.toml
+!.config/terminal-colors.d
+
+!.local/share/applications
+
