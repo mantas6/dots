@@ -549,10 +549,10 @@ awful.rules.rules = {
     -- },
 
     -- Chromium --app launches in pop-up role; make that non floating
-    {
-        rule = { role = "pop-up" },
-        properties = { floating = false }
-    },
+    -- {
+    --     rule = { role = "pop-up" },
+    --     properties = { floating = false }
+    -- },
 }
 -- }}}
 
