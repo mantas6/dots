@@ -23,6 +23,9 @@ alias diff='diff --color=auto'
 alias vim="nvim"
 alias vi="nvim"
 
+# Found myself making this typo, so I suppose it's more natural
+alias chmox="chmod +x"
+
 # Laravel
 alias sail="vendor/bin/sail"
 alias s="sail"
