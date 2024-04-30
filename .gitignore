@@ -24,10 +24,12 @@
 !.config/alacritty/
 !.config/autostart/
 !.config/newsboat/
-!.config/nvim/
 !.config/rofi-pass/
 !.config/rofi/
 !.config/terminal-colors.d/
+
+!.config/nvim/
+.config/nvim/plugin/packer_compiled.lua
 
 .local/*
 !.local/
