@@ -7,7 +7,6 @@
 !.bash_profile
 !.bashrc
 
-# Xorg
 !.xinitrc
 
 .config/*
@@ -21,6 +20,7 @@
 !.config/rofi/
 !.config/terminal-colors.d/
 !.config/tmux/
+!.config/X11/
 
 !.config/nvim/
 .config/nvim/plugin/packer_compiled.lua
