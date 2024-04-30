@@ -6,15 +6,12 @@
 # Shell and env
 !.bash_profile
 !.bashrc
-!.zprofile
-!.zshrc
 
 # Xorg
 !.xinitrc
 !.Xresources
 
 !.vimrc
-!.xbindkeysrc
 
 .config/*
 !.config/
