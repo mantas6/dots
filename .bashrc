@@ -8,20 +8,20 @@
 export HISTCONTROL=ignoreboth
 export HISTSIZE=1000
 export HISTFILESIZE=10000
+export HISTFILE="$XDG_STATE_HOME"/bash/history
 
 shopt -s checkwinsize
 shopt -s histappend
 shopt -s autocd
 
-#set -o vi
-
+# Colors
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias ip='ip -color=auto'
 alias diff='diff --color=auto'
 
-alias vim="nvim"
-alias vi="nvim"
+# Use neovim if available
+[ -x "$(command -v nvim)" ] && alias vim="nvim" vi="nvim"
 
 # Found myself making this typo, so I suppose it's more natural
 alias chmox="chmod +x"
@@ -37,8 +37,8 @@ alias pac='sudo pacman'
 alias cmatrix='cmatrix -ab'
 
 # Dotfiles
-alias dot="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
-alias dotu="lazygit -g $HOME/.dotfiles -w $HOME"
+alias dot="git --git-dir=$HOME/Projects/dotfiles --work-tree=$HOME"
+alias dotu="lazygit -g $HOME/Projects/dotfiles -w $HOME"
 source /usr/share/bash-completion/completions/git
 __git_complete dot __git_main
 
@@ -66,9 +66,9 @@ alias ap-etc-hosts-edit="sudoedit /etc/hosts"
 alias ap-leases-list="sudo cat /var/lib/dnsmasq/dnsmasq.leases"
 alias ap-leases-clear="sudo rm /var/lib/dnsmasq/dnsmasq.leases"
 
-eval "$(zoxide init bash)"
-eval "$(fzf --bash)"
-eval "$(starship init bash)"
+[ -x "$(command -v zoxide)" ] && eval "$(zoxide init bash)"
+[ -x "$(command -v fzf)" ] && eval "$(fzf --bash)"
+[ -x "$(command -v starship)" ] && eval "$(starship init bash)"
 
 # SSH agent
 if ! pgrep -u "$USER" ssh-agent > /dev/null; then
