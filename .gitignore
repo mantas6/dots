@@ -9,9 +9,6 @@
 
 # Xorg
 !.xinitrc
-!.Xresources
-
-!.vimrc
 
 .config/*
 !.config/
