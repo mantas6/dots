@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Github
+Icon=chromium
+Comment=Code projects
+Exec=/usr/bin/chromium github.com
+Terminal=false
