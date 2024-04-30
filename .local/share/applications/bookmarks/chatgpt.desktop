@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=ChatGPT
+Icon=chromium
+Comment=Chat with AI
+Exec=/usr/bin/chromium chat.openai.com
+Terminal=false

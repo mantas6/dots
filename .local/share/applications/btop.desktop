@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Btop
+Icon=alacritty
+Comment=System monitor
+Exec=/usr/bin/alacritty -o font.size=10 -e btop
+Terminal=false

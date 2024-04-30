@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=YouTube
+Icon=chromium
+Comment=Watch video on internet
+Exec=/usr/bin/chromium youtube.com
+Terminal=false
