@@ -1,4 +1,5 @@
-*
+/*
+
 !.gitignore
 !.gitconfig
 
@@ -16,19 +17,19 @@
 !.vimrc
 !.xbindkeysrc
 
+.config/*
+!.config/
 !.config/starship.toml
-
-!.config/alacritty/
-!.config/autorandr/
-!.config/autostart/
 !.config/awesome/
-!.config/htop/
+!.config/alacritty/
+!.config/autostart/
 !.config/newsboat/
 !.config/nvim/
-!.config/qalculate/
 !.config/rofi-pass/
 !.config/rofi/
 !.config/terminal-colors.d/
 
+.local/*
+!.local/
 !.local/share/applications/
 
