@@ -13,7 +13,6 @@
 !.xinitrc
 !.Xresources
 
-!.tmux.conf
 !.vimrc
 !.xbindkeysrc
 
@@ -27,6 +26,7 @@
 !.config/rofi-pass/
 !.config/rofi/
 !.config/terminal-colors.d/
+!.config/tmux/
 
 !.config/nvim/
 .config/nvim/plugin/packer_compiled.lua
