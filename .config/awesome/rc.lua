@@ -51,6 +51,7 @@ beautiful.font = 'Ubuntu 12'
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
+terminal_cmd = terminal .. " -e tmux";
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 browser = 'chromium'
@@ -315,7 +316,7 @@ globalkeys = gears.table.join(
     -- Standard program
     awful.key({ modkey,           }, "a", function () awful.spawn(browser) end,
               {description = "open a browser", group = "launcher"}), 
-    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
+    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal_cmd) end,
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Shift" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
