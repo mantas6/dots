@@ -361,6 +361,9 @@ globalkeys = gears.table.join(
     -- Calc
     awful.key({ modkey, "Shift" }, "p", function() awful.spawn(calculator) end,
               {description = "show the calculator", group = "launcher"}),
+    -- Screenshot
+    awful.key({ modkey, "Shift" }, "u", function() awful.spawn.with_shell('maim -s | xclip -selection clipboard -t image/png -i') end,
+              {description = "take a screenshot", group = "launcher"}),
 -- Volume Keys
    awful.key({}, "XF86AudioLowerVolume", function ()
      awful.util.spawn("amixer -q sset Master 5%-", false) end),
