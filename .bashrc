@@ -26,6 +26,13 @@ alias diff='diff --color=auto'
 # Found myself making this typo, so I suppose it's more natural
 alias chmox="chmod +x"
 
+# Higher verbosity for file operations
+alias cp="cp -v"
+alias mkdir="mkdir -v"
+alias mv="mv -v"
+alias rm="rm -v"
+alias trash="trash -v"
+
 # Laravel
 alias sail="vendor/bin/sail"
 alias s="sail"
