@@ -362,7 +362,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift" }, "p", function() awful.spawn(calculator) end,
               {description = "show the calculator", group = "launcher"}),
     -- Screenshot
-    awful.key({ modkey, "Shift" }, "u", function() awful.spawn.with_shell('maim -s | xclip -selection clipboard -t image/png -i') end,
+    awful.key({ modkey }, "u", function() awful.spawn.with_shell('maim -s | xclip -selection clipboard -t image/png -i') end,
               {description = "take a screenshot", group = "launcher"}),
 -- Volume Keys
    awful.key({}, "XF86AudioLowerVolume", function ()
