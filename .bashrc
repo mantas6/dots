@@ -44,8 +44,8 @@ alias pac='sudo pacman'
 alias cmatrix='cmatrix -ab'
 
 # Dotfiles
-alias dot="git --git-dir=$HOME/Projects/dotfiles --work-tree=$HOME"
-alias dotu="lazygit -g $HOME/Projects/dotfiles -w $HOME"
+alias dot="git --git-dir=$HOME/Repositories/dotfiles --work-tree=$HOME"
+alias dotu="lazygit -g $HOME/Repositories/dotfiles -w $HOME"
 source /usr/share/bash-completion/completions/git
 __git_complete dot __git_main
 
