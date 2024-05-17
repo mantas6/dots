@@ -251,6 +251,7 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            statusbar.track,
             statusbar.journal,
             statusbar.updates,
             statusbar.load,
