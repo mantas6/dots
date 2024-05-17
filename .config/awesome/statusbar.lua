@@ -45,6 +45,7 @@ module.memory = createWidget("free -h | awk '/Mem:/ {print $3}'", '󰘚')
 module.load = createWidget("cut -d ' ' -f1 < /proc/loadavg", '')
 module.updates = createWidget("checkupdates | wc -l", '󰏗', 300)
 module.journal = createWidget('curl "$SAT_JOURNAL_WC_URI"', '', 600)
+module.track = createWidget("track show", '', 5)
 
 -- cat /proc/loadavg | cut -d ' ' -f1
 -- free -h | awk '/Mem:/ {print $3}'
