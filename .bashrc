@@ -14,6 +14,8 @@ shopt -s checkwinsize
 shopt -s histappend
 shopt -s autocd
 
+PROMPT_COMMAND='history -a'
+
 # Colors
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
