@@ -31,12 +31,15 @@ vim.cmd[[colorscheme neon]]
 -- TODO: move to separate file
 vim.g.mapleader = " "
 
+-- Telescope
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>p', builtin.find_files, {})
-vim.keymap.set('n', '<leader>f', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>b', builtin.buffers, {})
+vim.keymap.set('n', '<leader>oo', builtin.find_files, {})
+vim.keymap.set('n', '<leader>of', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>ob', builtin.buffers, {})
 
-vim.keymap.set('n', '<leader>s', ':NvimTreeToggle<CR>', {})
+-- NvimTree
+vim.keymap.set('n', '<leader>ss', ':NvimTreeToggle<CR>', {})
+vim.keymap.set('n', '<leader>sr', ':NvimTreeFindFile<CR>', {})
 
 
 -- if place up to, hotkey doesnt work
