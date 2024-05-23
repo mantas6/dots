@@ -43,4 +43,4 @@ vim.keymap.set('n', '<leader>sr', ':NvimTreeFindFile<CR>', {})
 
 
 -- if place up to, hotkey doesnt work
-require("harpoon_config")
+require("bookmarks")
