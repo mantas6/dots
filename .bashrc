@@ -29,16 +29,17 @@ alias diff='diff --color=auto'
 alias chmox="chmod +x"
 
 # Higher verbosity for file operations
-alias cp="cp -v"
+alias cp="cp -vi"
 alias mkdir="mkdir -v"
-alias mv="mv -v"
+alias mv="mv -vi"
 alias rm="rm -v"
 alias trash="trash -v"
 
 # Laravel
 alias sail="vendor/bin/sail"
+alias artisan="sail artisan"
 alias s="sail"
-alias a="sail artisan"
+alias a="artisan"
 alias deploy="vendor/bin/envoy run deploy"
 
 alias lg="lazygit"
