@@ -38,6 +38,7 @@ alias trash="trash -v"
 # Laravel
 alias sail="vendor/bin/sail"
 alias artisan="sail artisan"
+alias c="sail composer"
 alias s="sail"
 alias a="artisan"
 alias deploy="vendor/bin/envoy run deploy"
