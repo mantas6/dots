@@ -2,6 +2,7 @@ require("plugins")
 require("tree")
 require("lsp")
 require("treesitter")
+require("command")
 
 vim.opt.scrolloff = 8
 
@@ -13,8 +14,7 @@ vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
 
--- vim.opt.autoindent = true
--- vim.opt.smartindent = true
+
 
 vim.opt.hlsearch = false
 
@@ -26,6 +26,9 @@ vim.g.neon_italic_keyword = true
 vim.g.neon_italic_function = true
 vim.g.neon_transparent = true
 vim.cmd[[colorscheme neon]]
+
+vim.opt.spell = true
+vim.opt.spelllang = { 'en_us' }
 
 -- Keymap
 -- TODO: move to separate file
