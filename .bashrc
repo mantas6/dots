@@ -79,6 +79,12 @@ alias ap-etc-hosts-edit="sudoedit /etc/hosts"
 alias ap-leases-list="sudo cat /var/lib/dnsmasq/dnsmasq.leases"
 alias ap-leases-clear="sudo rm /var/lib/dnsmasq/dnsmasq.leases"
 
+# Functions
+# Get time when system was woken from sleep
+awake-since() {
+    journalctl -n1 -u sleep.target | awk '{print $3}'
+}
+
 [ -x "$(command -v zoxide)" ] && eval "$(zoxide init bash)"
 [ -x "$(command -v fzf)" ] && eval "$(fzf --bash)"
 [ -x "$(command -v starship)" ] && eval "$(starship init bash)"
