@@ -25,6 +25,8 @@ alias diff='diff --color=auto'
 # Use neovim if available
 [ -x "$(command -v nvim)" ] && alias vim="nvim" vi="nvim"
 
+alias n="vi ."
+
 # Found myself making this typo, so I suppose it's more natural
 alias chmox="chmod +x"
 
@@ -79,9 +81,12 @@ alias ap-etc-hosts-edit="sudoedit /etc/hosts"
 alias ap-leases-list="sudo cat /var/lib/dnsmasq/dnsmasq.leases"
 alias ap-leases-clear="sudo rm /var/lib/dnsmasq/dnsmasq.leases"
 
+# Other
+alias nj="jq . | nvim -Rc 'set syntax=json | set nospell'"
+
 # Functions
 # Get time when system was woken from sleep
-awake-since() {
+wok() {
     journalctl -n1 -u sleep.target | awk '{print $3}'
 }
 
