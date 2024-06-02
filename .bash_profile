@@ -3,7 +3,7 @@
 #
 
 # Editor
-export MANPAGER="nvim +Man!"
+export MANPAGER="nvim +Man! -c 'set nospell'"
 export EDITOR="nvim"
 export VISUAL="nvim"
 export DIFFPROG="nvim"

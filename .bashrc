@@ -49,6 +49,7 @@ alias lg="lazygit"
 
 alias ll='ls -alh'
 alias pac='sudo pacman'
+alias cu='checkupdates'
 alias cmatrix='cmatrix -ab'
 
 # Dotfiles
