@@ -22,6 +22,7 @@ export MOZ_USE_XINPUT2=1
 [ -f "$HOME/.profile.local" ] && source "$HOME/.profile.local"
 
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
+[ -d "$HOME/Repositories/gfnsh" ] && export PATH="$HOME/Repositories/gfnsh:$PATH"
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
