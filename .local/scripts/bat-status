@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+POWER_SUPPLIES=/sys/class/power_supply
+
+bat-status() {
+  local BAT="$POWER_SUPPLIES/$1"
+
+  local GREEN=$(tput setaf 2)
+  local SECONDARY=$(tput setaf 8)
+  local NC=$(tput sgr0)
+
+  local STATUS=$(cat "$BAT/status")
+  local CAPACITY=$(cat "$BAT/capacity")
+  local VOLTAGE=$(echo "scale=2; $(cat "$BAT/voltage_now") / 1000000" | bc)
+  local VOLTAGE_CELL=$(echo "scale=2; $VOLTAGE / 3" | bc)
+
+  local TOTAL_CAPACITY=$(cat "$BAT/energy_full")
+  local TOTAL_CAPACITY_DESIGN=$(cat "$BAT/energy_full_design")
+  local HEALTH=$(echo "scale=2; $TOTAL_CAPACITY / $TOTAL_CAPACITY_DESIGN * 100" | bc)
+
+  local charge_start=$(cat "$BAT/charge_start_threshold")
+  local charge_stop=$(cat "$BAT/charge_stop_threshold")
+
+  echo -e "Battery:        ${SECONDARY}$1"
+  printf '%s' "${NC}"
+
+  echo "Status is:      ${SECONDARY}$STATUS"
+  printf '%s' "${NC}"
+
+  echo "Capacity is:    ${SECONDARY}$CAPACITY"%
+  printf '%s' "${NC}"
+
+  echo "Voltage is:     ${SECONDARY}$VOLTAGE"V
+  printf '%s' "${NC}"
+
+  echo "Voltage cell:   ${SECONDARY}$VOLTAGE_CELL"V
+  printf '%s' "${NC}"
+
+  echo "Health:         ${SECONDARY}$HEALTH"%
+  printf '%s' "${NC}"
+
+  echo "Charge start:   ${SECONDARY}$charge_start"%  
+  printf '%s' "${NC}"
+
+  echo "Charge stop:    ${SECONDARY}$charge_stop"%  
+  printf '%s' "${NC}"
+}
+
+if [ -d "$POWER_SUPPLIES/BAT0" ]; then
+  bat-status BAT0
+fi
+
+if [ -d "$POWER_SUPPLIES/BAT1" ]; then
+  echo ""
+  bat-status BAT1
+fi
