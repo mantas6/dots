@@ -28,6 +28,7 @@
 .local/*
 !.local/
 .local/share/*
+!.local/scripts
 !.local/share/
 !.local/share/applications/
 .local/share/applications/*.cache

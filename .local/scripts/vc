@@ -1,0 +1,8 @@
+#!/bin/sh
+
+file=$(mktemp)
+
+xclip -selection c -o > "$file"
+"$EDITOR" "$file"
+xclip -selection c -i < "$file"
+rm "$file"
