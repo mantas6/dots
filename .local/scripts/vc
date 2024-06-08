@@ -3,6 +3,6 @@
 file=$(mktemp)
 
 xclip -selection c -o > "$file"
-"$EDITOR" "$file"
+nvim -c 'set nospell' "$file"
 xclip -selection c -i < "$file"
 rm "$file"
