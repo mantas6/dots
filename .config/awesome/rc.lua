@@ -123,9 +123,6 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock("%H:%M:%S", 1)
 
-pingIndicator = awful.widget.watch("bash -c \"echo -n 🛜 && ping -c 1 google.com | grep 'time=' | awk -F 'time=' '{print $2}'\"", 15);
-batteryIndicator = awful.widget.watch('bash -c \'echo 🔋$(</sys/class/power_supply/BAT0/capacity)%\' ', 15);
-
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
                     awful.button({ }, 1, function(t) t:view_only() end),
@@ -324,7 +321,7 @@ globalkeys = gears.table.join(
     -- Standard program
     awful.key({ modkey,           }, "a", function () awful.spawn(browser) end,
               {description = "open a browser", group = "launcher"}), 
-    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal_cmd) end,
+    awful.key({ modkey,           }, "e", function () awful.spawn(terminal_cmd) end,
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Shift" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
@@ -366,6 +363,12 @@ globalkeys = gears.table.join(
     -- Calc
     awful.key({ modkey, "Shift" }, "p", function() awful.spawn(calculator) end,
               {description = "show the calculator", group = "launcher"}),
+    -- Emoji
+    awful.key({ modkey }, "m", function() awful.spawn('rofi -show emoji') end,
+              {description = "show emoji picker", group = "launcher"}),
+    -- Passwords
+    awful.key({ modkey }, "n", function() awful.spawn('rofi-pass') end,
+              {description = "show password manager", group = "launcher"}),
     -- Screenshot
     awful.key({ modkey }, "u", function() awful.spawn.with_shell('maim -s | xclip -selection clipboard -t image/png -i') end,
               {description = "take a screenshot", group = "launcher"}),
