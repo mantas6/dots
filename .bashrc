@@ -36,7 +36,7 @@ alias mkdir="mkdir -v"
 alias mv="mv -vi"
 alias rm="rm -v"
 alias trash="trash -v"
-alisa tree="tree -C"
+alias tree="tree -C"
 
 # Laravel
 alias sail="vendor/bin/sail"
