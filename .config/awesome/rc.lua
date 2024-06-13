@@ -372,6 +372,11 @@ globalkeys = gears.table.join(
     -- Screenshot
     awful.key({ modkey }, "u", function() awful.spawn.with_shell('maim -s | xclip -selection clipboard -t image/png -i') end,
               {description = "take a screenshot", group = "launcher"}),
+    -- Layout
+    awful.key({ modkey }, "w", function() awful.spawn.with_shell('setxkbmap us') end,
+              {description = "set us layout", group = "misc"}),
+    awful.key({ modkey, "Shift" }, "w", function() awful.spawn.with_shell('setxkbmap lt') end,
+              {description = "set lt layout", group = "misc"}),
 -- Volume Keys
    awful.key({}, "XF86AudioLowerVolume", function ()
      awful.util.spawn("amixer -q sset Master 5%-", false) end),
