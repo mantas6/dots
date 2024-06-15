@@ -25,8 +25,6 @@ alias diff='diff --color=auto'
 # Use neovim if available
 [ -x "$(command -v nvim)" ] && alias vim="nvim" vi="nvim"
 
-alias n="vi ."
-
 # Found myself making this typo, so I suppose it's more natural
 alias chmox="chmod +x"
 
@@ -91,6 +89,22 @@ alias wt="$HOME/Repositories/meteo/meteo"
 # Get time when system was woken from sleep
 wok() {
     journalctl -n1 -u sleep.target | awk '{print $3}'
+}
+
+dt() {
+    if [ $# -eq 0 ]; then
+        du -hs .
+    else
+        du -hs "$@"
+    fi
+}
+
+n() {
+    if [ $# -eq 0 ]; then
+        vi .
+    else
+        vi "$@"
+    fi
 }
 
 [ -x "$(command -v zoxide)" ] && eval "$(zoxide init bash)"
