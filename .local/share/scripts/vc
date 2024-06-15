@@ -1,0 +1,7 @@
+#!/bin/sh
+
+file=$(mktemp)
+
+xclip -selection c -o > "$file"
+nvim -c "set nospell | autocmd BufWritePost * :silent !bash -c 'xclip -selection c -i < $file'" "$file"
+rm "$file"
