@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "Syncing newsboat..."
+newsboat -x reload
+
+echo "Clearing trash..."
+trash-empty -vf 90
+
+echo "Updating tldr cache..."
+tldr -u
