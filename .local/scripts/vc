@@ -1,8 +1,0 @@
-#!/bin/sh
-
-file=$(mktemp)
-
-xclip -selection c -o > "$file"
-nvim -c 'set nospell' "$file"
-xclip -selection c -i < "$file"
-rm "$file"
