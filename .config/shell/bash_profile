@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# Editor
+export MANPAGER="nvim +Man! -c 'set nospell'"
+export EDITOR="nvim"
+export VISUAL="nvim"
+export DIFFPROG="nvim"
+
+# XDG
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_STATE_HOME="$HOME/.local/state"
+
+export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
+
+# Other
+export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
+
+export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
+export PASSWORD_STORE_CHARACTER_SET="[:alnum:]"
+
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+
+export MOZ_USE_XINPUT2=1
+
+[ -f "$XDG_CONFIG_HOME/shell/local/profile" ] && . "$XDG_CONFIG_HOME/shell/local/profile"
+
+[ -d "$HOME/.local/share/scripts" ] && export PATH="$HOME/.local/share/scripts:$PATH"
+[ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
+
+[ -f "$XDG_CONFIG_HOME/shell/bashrc" ] && . "$XDG_CONFIG_HOME/shell/bashrc"
+
+if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
+  exec startx "$XINITRC"
+fi
+
