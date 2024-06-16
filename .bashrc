@@ -51,6 +51,8 @@ alias pac='sudo pacman'
 alias cu='checkupdates'
 alias cmatrix='cmatrix -ab'
 
+alias tsr='tmux source-file ~/.config/tmux/tmux.conf'
+
 # Dotfiles
 alias dot="git --git-dir=$HOME/Repositories/dotfiles --work-tree=$HOME"
 alias dotu="lazygit -g $HOME/Repositories/dotfiles -w $HOME"
