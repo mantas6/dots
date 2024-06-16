@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Editor
 export MANPAGER="nvim +Man! -c 'set nospell'"

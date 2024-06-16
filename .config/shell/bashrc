@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -15,10 +15,11 @@ shopt -s autocd
 PROMPT_COMMAND='history -a'
 
 # Colors
-alias ls='ls --color=auto'
+alias ls='ls --color=auto -h'
 alias grep='grep --color=auto'
 alias ip='ip -color=auto'
 alias diff='diff --color=auto'
+alias tree="tree -C"
 
 # Use neovim if available
 [ -x "$(command -v nvim)" ] && alias vim="nvim" vi="nvim"
@@ -32,7 +33,12 @@ alias mkdir="mkdir -v"
 alias mv="mv -vi"
 alias rm="rm -v"
 alias trash="trash -v"
-alias tree="tree -C"
+alias lf="lfcd"
+
+alias t="tree -L 2"
+alias l="ls"
+alias ll="ls -l"
+alias la="ls -la"
 
 # Laravel
 alias sail="vendor/bin/sail"
@@ -105,6 +111,10 @@ n() {
     else
         vi "$@"
     fi
+}
+
+lfcd () {
+    cd "$(command lf -print-last-dir "$@")"
 }
 
 [ -x "$(command -v zoxide)" ] && eval "$(zoxide init bash)"

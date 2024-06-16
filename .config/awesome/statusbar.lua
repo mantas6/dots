@@ -47,7 +47,7 @@ module.updates = createWidget("checkupdates | wc -l", '󰏗', 300)
 module.journal = createWidget('curl "$SAT_JOURNAL_WC_URI"', '', 600)
 -- module.track = createWidget("track show", '', 5)
 module.cpuf = createWidget("echo $(grep MHz /proc/cpuinfo | sed 's/.* //' | awk '{sum += $1} END {if (NR > 0) printf \"%.1f\", sum / NR / 1000}')G/$(grep MHz /proc/cpuinfo | sed 's/.* //' | sort -rn | awk 'NR==1 {printf \"%.1f\", $1 / 1000}')G", '󰓅', 3)
-
+module.rain = createWidget("meteo -r | jq -r '[.[] | select(.totalPrecipitation > 0)] | .[0] | .forecastTime'", '󰖗', 300);
 
 -- cat /proc/loadavg | cut -d ' ' -f1
 -- free -h | awk '/Mem:/ {print $3}'
