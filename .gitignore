@@ -20,6 +20,7 @@
 !.config/terminal-colors.d/
 !.config/tmux/
 !.config/X11/
+!.config/lf/
 !.config/shell/
 .config/shell/local/
 
