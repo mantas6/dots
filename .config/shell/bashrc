@@ -12,7 +12,12 @@ shopt -s checkwinsize
 shopt -s histappend
 shopt -s autocd
 
-PROMPT_COMMAND='history -a'
+PROMPT_COMMAND='prompt'
+
+prompt() {
+    history -a
+    echo -e "\e[6 q"
+}
 
 # Colors
 alias ls='ls --color=auto -h'
