@@ -17,9 +17,6 @@ style = "Italic"
 family = "Anonymous Pro Minus"
 style = "Regular"
 
-[cursor]
-style = 'Beam'
-
 [keyboard]
 bindings = [
     { key = 'C', mods = 'Super', action = 'Copy' },
