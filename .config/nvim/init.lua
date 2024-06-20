@@ -4,6 +4,9 @@ require("lsp")
 require("treesitter")
 require("command")
 
+-- mv to dedicated file later
+require('colorizer').setup()
+
 vim.opt.scrolloff = 8
 
 vim.opt.relativenumber = true

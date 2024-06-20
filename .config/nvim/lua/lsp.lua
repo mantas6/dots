@@ -11,7 +11,8 @@ require('mason-lspconfig').setup({
   ensure_installed = {
     "intelephense",
     "bashls",
-    "lua_ls"
+    "lua_ls",
+    "vuels",
   },
   handlers = {
     lsp.default_setup,
