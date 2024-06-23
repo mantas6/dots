@@ -320,7 +320,7 @@ globalkeys = gears.table.join(
         {description = "go back", group = "client"}),
 
     -- Standard program
-    awful.key({ modkey,           }, "a", function () awful.spawn(browser) end,
+    awful.key({ modkey,           }, "r", function () awful.spawn(browser) end,
               {description = "open a browser", group = "launcher"}), 
     awful.key({ modkey,           }, "e", function () awful.spawn(terminal_cmd) end,
               {description = "open a terminal", group = "launcher"}),
@@ -374,9 +374,9 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, "u", function() awful.spawn.with_shell('maim -s | xclip -selection clipboard -t image/png -i') end,
               {description = "take a screenshot", group = "launcher"}),
     -- Layout
-    awful.key({ modkey }, "w", function() awful.spawn.with_shell('setxkbmap us') end,
+    awful.key({ modkey }, "b", function() awful.spawn.with_shell('setxkbmap us') end,
               {description = "set us layout", group = "misc"}),
-    awful.key({ modkey, "Shift" }, "w", function() awful.spawn.with_shell('setxkbmap lt') end,
+    awful.key({ modkey, "Shift" }, "b", function() awful.spawn.with_shell('setxkbmap lt') end,
               {description = "set lt layout", group = "misc"}),
 -- Volume Keys
    awful.key({}, "XF86AudioLowerVolume", function ()
@@ -406,7 +406,7 @@ clientkeys = gears.table.join(
               {description = "close", group = "client"}),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
               {description = "toggle floating", group = "client"}),
-    awful.key({ modkey, "Shift" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
+    awful.key({ modkey, "Shift" }, "e", function (c) c:swap(awful.client.getmaster()) end,
               {description = "move to master", group = "client"}),
     awful.key({ modkey, "Shift" }, "o",      function (c) c:move_to_screen()               end,
               {description = "move to screen", group = "client"}),
