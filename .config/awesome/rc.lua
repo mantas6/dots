@@ -371,6 +371,32 @@ globalkeys = gears.table.join(
         end,
         {description = "move all to other screen", group = "client"}),
 
+    awful.key(
+        { modkey, "Shift" }, "i",
+        function()
+            local focused = awful.screen.focused()
+
+            focused.tags[1]:view_only()
+            awful.spawn(browser)
+            awful.spawn(terminal_cmd)
+
+            gears.timer.start_new(0.5, function()
+                focused.tags[2]:view_only()
+                awful.spawn('chromium --app=https://messenger.com')
+            end)
+
+            gears.timer.start_new(1, function()
+                focused.tags[3]:view_only()
+                awful.spawn('chromium --new-window https://youtube.com')
+                awful.spawn(browser)
+            end)
+
+            gears.timer.start_new(1.5, function()
+                focused.tags[1]:view_only()
+            end)
+        end,
+        {description = "start default applications", group = "launcher"}),
+
     -- Menubar
     awful.key({ modkey }, "p", function() awful.spawn(menu) end,
               {description = "show the menubar", group = "launcher"}),
