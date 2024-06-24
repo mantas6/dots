@@ -38,4 +38,4 @@ numlockx &
 xss-lock i3lock &
 lxpolkit &
 
-exec awesome
+exec awesome >> ~/.cache/awesome/stdout 2>> ~/.cache/awesome/stderr
