@@ -22,6 +22,7 @@ export PASSWORD_STORE_CHARACTER_SET="[:alnum:]"
 
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 
+export WGETRC="$XDG_CONFIG_HOME/wgetrc"
 export VIT_DIR="$XDG_CONFIG_HOME/vit"
 
 export MOZ_USE_XINPUT2=1

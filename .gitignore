@@ -11,6 +11,7 @@
 .config/*
 !.config/
 !.config/starship.toml
+!.config/wgetrc
 !.config/awesome/
 !.config/alacritty/
 !.config/autostart/
