@@ -21,7 +21,7 @@ vim.o.expandtab = true
 
 vim.opt.hlsearch = false
 
-vim.api.nvim_set_option("clipboard", "unnamed")
+vim.api.nvim_set_option("clipboard", "unnamedplus")
 
 vim.o.termguicolors = true
 vim.g.neon_style = "default"
