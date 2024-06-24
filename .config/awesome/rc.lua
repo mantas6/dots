@@ -358,6 +358,19 @@ globalkeys = gears.table.join(
               end,
               {description = "restore minimized", group = "client"}),
 
+    awful.key(
+        { modkey, "Control", "Shift" }, "o",
+        function()
+            local focused = awful.screen.focused()
+            local other = screen[focused.index == 1 and 2 or 1]
+            for i, c in pairs(focused.all_clients) do
+                -- TODO: move multi-tag clients correctly by toggling each tag
+                c:move_to_tag(other.tags[c.first_tag.index])
+            end
+            awful.screen.focus(other)
+        end,
+        {description = "move all to other screen", group = "client"}),
+
     -- Menubar
     awful.key({ modkey }, "p", function() awful.spawn(menu) end,
               {description = "show the menubar", group = "launcher"}),
@@ -650,5 +663,5 @@ awful.spawn.with_shell(
 )
 
 -- Load screnn/tag restoring func
-require("restore")
+-- require("restore")
 
