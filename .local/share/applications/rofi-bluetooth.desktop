@@ -3,5 +3,5 @@ Type=Application
 Version=1.0
 Name=Bluetooth Devices
 Comment=Manager bluetooth devices and connections
-Exec=/bin/sh -c "$HOME/Repositories/rofi-bluetooth/rofi-bluetooth"
+Exec=/bin/sh -c "$HOME/Repos/rofi-bluetooth/rofi-bluetooth"
 Terminal=false
