@@ -66,8 +66,8 @@ alias cmatrix='cmatrix -ab'
 alias tsr='tmux source-file ~/.config/tmux/tmux.conf'
 
 # Dotfiles
-alias dot="git --git-dir=$HOME/Repositories/dotfiles --work-tree=$HOME"
-alias dotu="lazygit -g $HOME/Repositories/dotfiles -w $HOME"
+alias dot="git --git-dir=$HOME/Repos/dotfiles --work-tree=$HOME"
+alias dotu="lazygit -g $HOME/Repos/dotfiles -w $HOME"
 source /usr/share/bash-completion/completions/git
 __git_complete dot __git_main
 
@@ -97,7 +97,7 @@ alias ap-leases-clear="sudo rm /var/lib/dnsmasq/dnsmasq.leases"
 
 # Other
 alias nj="jq . | nvim -Rc 'set syntax=json | set nospell'"
-alias wt="$HOME/Repositories/meteo/meteo"
+alias wt="$HOME/Repos/meteo/meteo"
 
 # Functions
 # Get time when system was woken from sleep
