@@ -2,6 +2,11 @@
 
 file=$(mktemp)
 
-xclip -selection c -o > "$file"
-nvim -c "set nospell | autocmd BufWritePost * :silent !bash -c 'xclip -selection c -i < $file'" "$file"
+paste_cmd="xclip -selection c -o"
+copy_cmd="xclip -selection c -i"
+
+[ "$(uname)" = "Darwin" ] && paste_cmd="pbpaste" copy_cmd="pbcopy"
+
+$paste_cmd > "$file"
+nvim -c "set nospell | autocmd BufWritePost * :silent !bash -c '$copy_cmd < $file'" "$file"
 rm "$file"
