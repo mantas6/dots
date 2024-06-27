@@ -22,6 +22,7 @@ return {
               "sql",
               "vue",
               "json",
+              "twig",
           },
 
           -- Install parsers synchronously (only applied to `ensure_installed`)
