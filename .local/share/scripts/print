@@ -6,4 +6,4 @@ device="${1:-/dev/ttyUSB0}"
 
 stty -F "$device" 115200 || echo "Failed to set baud rate"
 
-curl -s itp90015:8170/toPrint | xargs --null echo -e > "$device"
+curl -so "$device" itp90015:8170/toPrint
