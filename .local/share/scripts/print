@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+device="${1:-/dev/ttyUSB0}"
+
+[ ! -e "$device" ] && echo "Device $device does not exist"
+
+stty -F "$device" 115200 || echo "Failed to set baud rate"
+
+curl -so "$device" itp90015:8170/toPrint
