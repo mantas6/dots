@@ -1,0 +1,11 @@
+#!/bin/sh
+
+for file in $(git diff --name-only); do
+    scp "$file" "$1:$2/$file"
+done
+
+for file in $(git ls-files --others --exclude-standard); do
+    scp "$file" "$1:$2/$file"
+done
+
+ssh "$1" "(cd '$2' && php cachetool.phar opcache:reset --cli && php artisan horizon:terminate)"

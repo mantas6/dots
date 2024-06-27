@@ -63,6 +63,7 @@ alias dup='docker-compose up'
 alias dst='docker-compose stop'
 
 alias lg="lazygit"
+alias glc="git log -1 --pretty=%B"
 alias ld="lazydocker"
 
 alias pac='sudo pacman'
