@@ -41,7 +41,10 @@ export MOZ_USE_XINPUT2=1
 
 [ -f "$XDG_CONFIG_HOME/shell/local/profile" ] && . "$XDG_CONFIG_HOME/shell/local/profile"
 
+[ -x "$(command -v npm)" ] && PATH="$(npm config get prefix)/bin:$PATH"
+
 [ -d "$HOME/.local/share/scripts" ] && export PATH="$HOME/.local/share/scripts:$PATH"
+
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 
 [ -f "$XDG_CONFIG_HOME/shell/bashrc" ] && . "$XDG_CONFIG_HOME/shell/bashrc"
