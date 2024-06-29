@@ -2,8 +2,6 @@
 local naughty = require("naughty")
 local awful = require("awful")
 
-local tag_store = {}
-
 tag.connect_signal("request::screen", function(t)
   local fallback_tag = nil
 
@@ -23,36 +21,11 @@ tag.connect_signal("request::screen", function(t)
   end
 
   if not (fallback_tag == nil) then
-    local output = next(t.screen.outputs)
-
-    if tag_store[output] == nil then
-      tag_store[output] = {}
-    end
-
-    clients = t:clients()
-    tag_store[output][t.name] = clients
+    local clients = t:clients()
 
     for _, c in ipairs(clients) do
+      -- TODO: support for multitag clients
       c:move_to_tag(fallback_tag)
-    end
-  end
-end)
-
-screen.connect_signal("added", function(s)
-  local output = next(s.outputs)
-  naughty.notify({ text = output .. " Connected" })
-
-  tags = tag_store[output]
-  if not (tags == nil) then
-    naughty.notify({ text = "Restoring Tags" })
-
-    for _, tag in ipairs(s.tags) do
-      clients = tags[tag.name]
-      if not (clients == nil) then
-        for _, client in ipairs(clients) do
-          client:move_to_tag(tag)
-        end
-      end
     end
   end
 end)

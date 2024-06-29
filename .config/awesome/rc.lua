@@ -383,12 +383,13 @@ globalkeys = gears.table.join(
             gears.timer.start_new(0.5, function()
                 focused.tags[2]:view_only()
                 awful.spawn('chromium --app=https://messenger.com')
+                awful.spawn('chromium')
             end)
 
             gears.timer.start_new(1, function()
                 focused.tags[3]:view_only()
                 awful.spawn('chromium --new-window https://youtube.com')
-                awful.spawn(browser)
+                awful.spawn('chromium --new-window https://netflix.com')
             end)
 
             gears.timer.start_new(1.5, function()
@@ -689,5 +690,5 @@ awful.spawn.with_shell(
 )
 
 -- Load screnn/tag restoring func
--- require("restore")
+require("restore")
 
