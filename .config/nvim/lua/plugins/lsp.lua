@@ -25,6 +25,7 @@ return {
             "bashls",
             "lua_ls",
             "vuels",
+            "dockerls",
           },
           handlers = {
             lsp.default_setup,
