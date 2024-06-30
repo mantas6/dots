@@ -22,6 +22,9 @@
 !.config/tmux/
 !.config/X11/
 !.config/lf/
+!.config/docker/
+.config/docker/*
+!.config/docker/config.json
 !.config/shell/
 .config/shell/local/
 
