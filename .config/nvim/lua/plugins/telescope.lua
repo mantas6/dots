@@ -15,5 +15,6 @@ return {
         vim.keymap.set('n', '<leader>pf', builtin.live_grep, {})
         vim.keymap.set('n', '<leader>pb', builtin.buffers, {})
         vim.keymap.set('n', '<leader>ps', builtin.git_status, {})
+        vim.keymap.set('n', '<leader>pr', builtin.resume, {})
     end
 }
