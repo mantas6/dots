@@ -359,7 +359,7 @@ globalkeys = gears.table.join(
               {description = "restore minimized", group = "client"}),
 
     awful.key(
-        { modkey, "Control", "Shift" }, "o",
+        { modkey, "Control" }, "o",
         function()
             local focused = awful.screen.focused()
             local other = screen[focused.index == 1 and 2 or 1]
