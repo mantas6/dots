@@ -1,0 +1,11 @@
+#!/bin/sh
+
+baseurl="$SAT_JOURNAL_BASE_URL"
+
+[ -z "$baseurl" ] && echo "SAT_JOURNAL_BASE_URL is not specified" && exit 1
+
+curl -s "$baseurl" \
+    | jq -r 'map((.id | tostring) + "\t" + .title + "\t" + .created_at) | .[]' \
+    | column -t \
+    | fzf --header="ID$(printf '\t')Title$(printf '\t')Date" --delimiter="\t" \
+    | awk '{print $1}'
