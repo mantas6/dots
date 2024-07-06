@@ -13,7 +13,7 @@ module.ping = createWidget("ping -c 1 google.com | grep 'time=' | awk -F 'time='
 -- Battery
 
 local batteryPath = '/sys/class/power_supply/BAT0'
-module.battery = createWidget("echo -n $(<"..batteryPath.."/capacity):$(<"..batteryPath.."/status)", function(params)
+module.battery = createWidget("printf \"%s\" $(cat "..batteryPath.."/capacity):$(cat "..batteryPath.."/status)", function(params)
     local percentage = string.match(params.text, "([^:]+)")
     local status = string.match(params.text, ":(.+)"):match("^%s*(.-)%s*$")
 
