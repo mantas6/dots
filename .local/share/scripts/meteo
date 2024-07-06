@@ -1,0 +1,79 @@
+#!/bin/sh
+
+place_file="${XDG_CONFIG_HOME:-$HOME/.config}/meteo/place_code"
+place_code=$(cat "$place_file")
+
+lines=$(tput lines)
+forecast_length=$((lines - 10))
+
+list_places() {
+    curl -s https://api.meteo.lt/v1/places | jq -r '.[].code'
+}
+
+get_forecast() {
+    curl -s "https://api.meteo.lt/v1/places/$place_code/forecasts/long-term"
+}
+
+expand_forecast() {
+    now=$(date -u +"%Y-%m-%d %H:00:00")
+
+    echo "$1" | jq --arg now "$now" -r \
+        '[ .forecastTimestamps[]
+        | select(.forecastTimeUtc >= $now)
+        | .forecastTime = (.forecastTimeUtc | split(" ") | join("T")) + "Z"
+        | .forecastTime |= (fromdate | . | strflocaltime("%a %d %Hh")) ]'
+}
+
+print_header() {
+    place_title=$(echo "$1" | jq -r '.place.name')
+    creation_time=$(echo "$1" | jq -r '.forecastCreationTimeUtc
+        | (. | split(" ") | join("T")) + "Z"
+        | fromdate | .
+        | strflocaltime("%Y-%m-%d %H:%M:%S")'
+    )
+
+    printf "%s\nCreated at: %s\n\n" "$place_title" "$creation_time"
+}
+
+format_forecast() {
+    echo "$1" | jq -r '.[] | "\(.forecastTime)\t\(.feelsLikeTemperature)\t\(.totalPrecipitation)\t\(.conditionCode)"' | column -t
+}
+
+options=$(getopt -l "list-places,place:,write-place:,raw" -o "Lp:s:r" -a -- "$@")
+eval set -- "$options"
+
+while true
+do
+    case $1 in
+        -L|--list-places) 
+            shift
+            list_places
+            exit 0
+            ;;
+        -p|--place)
+            shift
+            place_code="$1"
+            ;;
+        -s|--write-place)
+            shift
+            mkdir -pv "$(dirname "$place_file")"
+            echo "$1" > "$place_file"
+            exit 0
+            ;;
+        -r|--raw)
+            shift
+            forecast=$(get_forecast)
+            expand_forecast "$forecast"
+            exit 0
+            ;;
+        --)
+            shift
+            forecast=$(get_forecast)
+            expanded=$(expand_forecast "$forecast")
+            print_header "$forecast"
+            format_forecast "$expanded" | head -n "$forecast_length"
+            break;;
+    esac
+    shift
+done
+

@@ -104,7 +104,7 @@ alias ap-leases-clear="sudo rm /var/lib/dnsmasq/dnsmasq.leases"
 
 # Other
 alias nj="jq . | nvim -Rc 'set syntax=json | set nospell'"
-alias wt="$HOME/Repos/meteo/meteo"
+alias wt="meteo"
 
 # Functions
 # Get time when system was woken from sleep
