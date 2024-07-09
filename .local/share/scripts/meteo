@@ -39,7 +39,7 @@ format_forecast() {
     echo "$1" | jq -r '.[] | "\(.forecastTime)\t\(.feelsLikeTemperature)\t\(.totalPrecipitation)\t\(.conditionCode)"' | column -t
 }
 
-options=$(getopt -l "list-places,place:,write-place:,raw" -o "Lp:s:r" -a -- "$@")
+options=$(getopt -l "list-places,place:,length:,write-place:,raw" -o "Lp:n:s:r" -a -- "$@")
 eval set -- "$options"
 
 while true
@@ -53,6 +53,10 @@ do
         -p|--place)
             shift
             place_code="$1"
+            ;;
+        -n|--length)
+            shift
+            forecast_length="$1"
             ;;
         -s|--write-place)
             shift
