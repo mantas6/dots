@@ -328,6 +328,12 @@ globalkeys = gears.table.join(
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
+    awful.key({ modkey }, "Home", function () awful.spawn('systemctl suspend') end,
+              {description = "suspend", group = "awesome"}),
+    awful.key({ modkey, "Shift" }, "Delete", function () awful.spawn('systemctl reboot') end,
+              {description = "reboot", group = "awesome"}),
+    awful.key({ modkey, "Shift" }, "End", function () awful.spawn('systemctl poweroff') end,
+              {description = "shutdown", group = "awesome"}),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
