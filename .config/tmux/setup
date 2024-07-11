@@ -1,0 +1,10 @@
+#!/bin/sh
+
+tmux_dir="$XDG_DATA_HOME/tmux"
+plugins_dir="$tmux_dir/plugins"
+
+[ ! -d "$plugins_dir" ] && \
+    mkdir -p "$plugins_dir" && \
+    git clone https://github.com/tmux-plugins/tpm "$plugins_dir/tpm"
+
+exit 0
