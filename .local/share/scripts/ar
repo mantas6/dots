@@ -1,0 +1,8 @@
+#!/bin/sh
+
+id=$(curl -X POST -s "$SAT_JOURNAL_BASE_URL" | jq .id)
+
+[ -z "$id" ] && exit 1
+
+file=$(mktemp)
+nvim -c "set nospell | set filetype=markdown | autocmd BufWritePost * !bash -c 'arw $id $file'" "$file"
