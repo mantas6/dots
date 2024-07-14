@@ -10,6 +10,7 @@ set previewer '~/.config/lf/scope'
 
 map <enter> shell
 map ` !true
+map . set hidden!
 
 cmd z %{{
 	result="$(zoxide query --exclude $PWD $@ | sed 's/\\/\\\\/g;s/"/\\"/g')"
