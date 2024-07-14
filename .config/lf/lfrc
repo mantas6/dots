@@ -5,6 +5,8 @@ set shellopts '-eu'
 cmd trash %trash-put $fx
 
 set scrolloff 10
+set icons 
+set previewer '~/.config/lf/scope'
 
 map <enter> shell
 map ` !true
