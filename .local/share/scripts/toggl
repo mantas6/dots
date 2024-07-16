@@ -1,0 +1,24 @@
+#!/bin/sh
+ 
+workspace_id=$(curl -s \
+    -u "$TOGGL_API_TOKEN":api_token https://api.track.toggl.com/api/v9/me \
+    | jq '.default_workspace_id'
+)
+
+project_id=$(curl -s \
+    https://api.track.toggl.com/api/v9/workspaces/"$workspace_id"/projects \
+    -H "Content-Type: application/json" \
+    -u "$TOGGL_API_TOKEN":api_token \
+    | jq -r 'map((.id | tostring) + "\t" + .name) | .[]' \
+    | fzf -i --delimiter="\t" --with-nth=2 \
+    | awk '{print $1}'
+)
+
+task_id=$(curl -s \
+    https://api.track.toggl.com/api/v9/workspaces/"$workspace_id"/projects/"$project_id"/tasks \
+    -H "Content-Type: application/json" \
+    -u "$TOGGL_API_TOKEN":api_token \
+    | jq -r 'map((.id | tostring) + "\t" + .name) | .[]' \
+    | fzf -i --delimiter="\t" --with-nth=2 \
+    | awk '{print $1}'
+)
