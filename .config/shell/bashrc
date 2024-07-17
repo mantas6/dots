@@ -133,6 +133,10 @@ lfcd () {
     cd "$(command lf -print-last-dir "$@")" || return
 }
 
+loop() {
+    while true; do read; $@; done
+}
+
 [ -x "$(command -v zoxide)" ] && eval "$(zoxide init bash)"
 [ -x "$(command -v fzf)" ] && eval "$(fzf --bash)"
 [ -x "$(command -v starship)" ] && eval "$(starship init bash)"
