@@ -41,8 +41,7 @@ export MOZ_USE_XINPUT2=1
 
 [ -f "$XDG_CONFIG_HOME/shell/local/profile" ] && . "$XDG_CONFIG_HOME/shell/local/profile"
 
-scripts="$(find "$HOME"/.local/share/scripts -type d | paste -sd ':' -)"
-export PATH="$PATH:$scripts"
+export PATH="$PATH:$(find "$HOME"/.local/share/scripts -type d | paste -sd ':' -)"
 
 [ -x "$(command -v npm)" ] && PATH="$(npm config get prefix)/bin:$PATH"
 
