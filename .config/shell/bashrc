@@ -145,6 +145,12 @@ loop() {
     while true; do read; $@; done
 }
 
+se() {
+    # TODO: fix
+	choice="$(find "$HOME"/.local/share/scripts -mindepth 1 -printf '%P\n' | fzf)"
+	[ -f "$HOME/.local/share/scripts/$choice" ] && $EDITOR "$HOME/.local/share/scripts/$choice"
+}
+
 [ -x "$(command -v zoxide)" ] && eval "$(zoxide init bash)"
 [ -x "$(command -v fzf)" ] && eval "$(fzf --bash)"
 [ -x "$(command -v starship)" ] && eval "$(starship init bash)"

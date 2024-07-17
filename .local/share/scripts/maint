@@ -1,8 +1,9 @@
 #!/bin/sh
 
-echo "Syncing newsboat..."
-newsboat -x reload
-newsboat -x print-unread
+
+[ -x "$(command -v newsboat)" ] && echo "Syncing newsboat..." \
+    && newsboat -x reload \
+    && newsboat -x print-unread
 
 echo "Clearing trash..."
 trash-empty -vf 90
