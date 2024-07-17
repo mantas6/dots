@@ -8,6 +8,10 @@
 
 !.xinitrc
 
+.gnupg/*
+!.gnupg/
+!.gnupg/gpg-agent.conf
+
 .config/*
 !.config/
 !.config/starship.toml
