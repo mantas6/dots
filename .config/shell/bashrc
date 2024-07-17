@@ -73,6 +73,14 @@ alias cmatrix='cmatrix -ab'
 alias tsr='tmux source-file ~/.config/tmux/tmux.conf'
 alias ts='tmux split-window -h \; split-window -v'
 
+# Clipboard
+if [ "$(uname)" = "Darwin" ]; then
+    alias xp='pbpaste' xc='pbcopy'
+else
+    alias xp='xclip -selection c -o' \
+        xc='xclip -selection c -i'
+fi
+
 # Dotfiles
 alias dot="git --git-dir=$HOME/Repos/dotfiles --work-tree=$HOME"
 alias dotu="lazygit -g $HOME/Repos/dotfiles -w $HOME"
