@@ -91,6 +91,8 @@ alias cal='cal --monday'
 alias keepon="xset s off && xset -dpms"
 alias vf='selected_file=$(fzf --preview "bat --color=always {}" --preview-window "~3"); [ -n "$selected_file" ] && vi "$selected_file"'
 
+alias se="(cd $HOME/.local/share/scripts && vf)"
+
 # Networking
 alias pingg="ping google.com"
 alias ipa="ip a"
@@ -141,7 +143,7 @@ lfcd () {
     cd "$(command lf -print-last-dir "$@")" || return
 }
 
-yy() {
+li() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
 	yazi "$@" --cwd-file="$tmp"
 
@@ -155,13 +157,6 @@ yy() {
 loop() {
     while true; do read; $@; done
 }
-
-se() {
-    # TODO: fix
-	choice="$(find "$HOME"/.local/share/scripts -mindepth 1 -printf '%P\n' | fzf)"
-	[ -f "$HOME/.local/share/scripts/$choice" ] && $EDITOR "$HOME/.local/share/scripts/$choice"
-}
-
 
 glz() {
     glc && read -r && git commit -m "$(glc)" && git push
