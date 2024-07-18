@@ -63,8 +63,8 @@ alias dup='docker-compose up'
 alias dst='docker-compose stop'
 
 alias lg="lazygit"
-alias glc="git log -1 --pretty=%B"
 alias ld="lazydocker"
+alias glc="git log -1 --pretty=%B"
 
 alias pac='sudo pacman'
 alias cu='checkupdates'
@@ -160,6 +160,11 @@ se() {
     # TODO: fix
 	choice="$(find "$HOME"/.local/share/scripts -mindepth 1 -printf '%P\n' | fzf)"
 	[ -f "$HOME/.local/share/scripts/$choice" ] && $EDITOR "$HOME/.local/share/scripts/$choice"
+}
+
+
+glz() {
+    glc && read -r && git commit -m "$(glc)" && git push
 }
 
 [ -x "$(command -v zoxide)" ] && eval "$(zoxide init bash)"

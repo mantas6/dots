@@ -24,8 +24,9 @@ return {
             "intelephense",
             "bashls",
             "lua_ls",
-            "vuels",
+            "volar",
             "dockerls",
+            "cssls",
           },
           handlers = {
             lsp.default_setup,
