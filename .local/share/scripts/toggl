@@ -20,5 +20,7 @@ task_id=$(curl -s \
     -u "$TOGGL_API_TOKEN":api_token \
     | jq -r 'map((.id | tostring) + "\t" + .name) | .[]' \
     | fzf -i --delimiter="\t" --with-nth=2 \
-    | awk '{print $1}'
+    | awk -F'\t' '{print $2}'
 )
+
+echo "$task_id"
