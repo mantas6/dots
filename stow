@@ -1,0 +1,5 @@
+#!/bin/sh
+
+dir=$(dirname "$(readlink -f "$0")")
+
+stow --dir="$dir" --target="$HOME" --verbose base "$@"
