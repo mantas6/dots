@@ -2,4 +2,8 @@
 
 dir=$(dirname "$(readlink -f "$0")")
 
+mkdir -p "$HOME/.config" \
+    "$HOME/.local/share" \
+    "$HOME/.gnupg"
+
 stow --dir="$dir" --target="$HOME" --verbose base "$@"
