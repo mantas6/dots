@@ -15,7 +15,7 @@ local function createWidget(command, formatter, timeout)
             {"sh", "-c", command},
                 function(out, _err, _reason, exitCode)
                     local params = {
-                        color = '#bfbfbf',
+                        color = '#c0c0c0',
                         icon = '󰕟',
                         text = exitCode == 0 and out or '-',
                     }

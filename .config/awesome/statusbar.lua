@@ -13,14 +13,16 @@ module.ping = createWidget("ping -c 1 google.com | grep 'time=' | awk -F 'time='
 -- Battery
 
 local batteryPath = '/sys/class/power_supply/BAT0'
-module.battery = createWidget("printf \"%s\" $(cat "..batteryPath.."/capacity):$(cat "..batteryPath.."/status)", function(params)
+module.battery = createWidget("printf \"%s\" \"$(cat "..batteryPath.."/capacity):$(cat "..batteryPath.."/status)\"", function(params)
     local percentage = string.match(params.text, "([^:]+)")
     local status = string.match(params.text, ":(.+)"):match("^%s*(.-)%s*$")
 
     if status == 'Not charging' then
         params.icon = ''
+        params.color = '#c0c0c0';
     elseif status == 'Charging' then
         params.icon = '󱐋'
+        params.color = '#ffa500';
     else
         local percentNum = tonumber(percentage)
 
@@ -34,6 +36,12 @@ module.battery = createWidget("printf \"%s\" $(cat "..batteryPath.."/capacity):$
             params.icon = '' -- 1/3
         else
             params.icon = '' -- 0
+        end
+
+        if percentNum > 20 then
+            params.color = '#57996e';
+        else
+            params.color = '#be2908';
         end
     end
 
