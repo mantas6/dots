@@ -2,9 +2,7 @@
 
 dir=$(dirname "$(readlink -f "$0")")
 
-mkdir -p "$HOME/.config" \
-    "$HOME/.local/share" \
-    "$HOME/.gnupg" \
-    "$HOME/.config/docker"
+# Create base directories so that stow wouldn't link them directly
+xargs -a "$dir/directories" -I {} mkdir -pv "$HOME/{}"
 
 stow --dir="$dir" --target="$HOME" --verbose base "$@"

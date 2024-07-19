@@ -1,0 +1,4 @@
+.config
+.config/docker
+.local/share
+.gnupg
