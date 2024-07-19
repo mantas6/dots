@@ -15,6 +15,6 @@
 
 ## Setup
 
-Clone the repository and run `./stow`.
+Clone the repository and run `./stow`
 
 If stow fails, remove conflicting files (preferably to trash) and run again. Pay close attention to the output to make sure that the links that it creates make sense.
