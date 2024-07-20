@@ -23,12 +23,9 @@ vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
 
-
-
 vim.opt.hlsearch = false
 
 vim.api.nvim_set_option("clipboard", "unnamedplus")
-
 
 vim.opt.spell = true
 vim.opt.spelllang = { 'en_us' }
@@ -36,8 +33,4 @@ vim.opt.spelllang = { 'en_us' }
 -- Keymap
 -- TODO: move to separate file
 vim.g.mapleader = " "
-
-
--- NvimTree
-vim.keymap.set('n', '<leader>ss', ':NvimTreeToggle<CR>', {})
-vim.keymap.set('n', '<leader>sr', ':NvimTreeFindFile<CR>', {})
+vim.api.nvim_set_keymap("i", "jj", "<Esc>", {noremap=false})

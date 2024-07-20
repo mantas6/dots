@@ -11,6 +11,9 @@ return {
 
         vim.opt.termguicolors = true
 
+        vim.keymap.set('n', '<leader>ss', ':NvimTreeToggle<CR>', {})
+        vim.keymap.set('n', '<leader>sr', ':NvimTreeFindFile<CR>', {})
+
         local function on_attach(bufnr)
           local api = require "nvim-tree.api"
 
