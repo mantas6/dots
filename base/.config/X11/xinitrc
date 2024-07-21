@@ -33,9 +33,11 @@ fi
 
 xset -b
 
-unclutter --start-hidden &
-numlockx &
-xss-lock i3lock &
-lxpolkit &
+[ -x "$(command -v unclutter )" ] && unclutter --start-hidden &
+[ -x "$(command -v numlockx )" ] && numlockx &
 
+[ -x "$(command -v xss-lock)" ] && xss-lock i3lock &
+[ -x "$(command -v lxpolkit)" ] && lxpolkit &
+
+mkdir -p ~/.cache/awesome
 exec awesome >> ~/.cache/awesome/stdout 2>> ~/.cache/awesome/stderr
