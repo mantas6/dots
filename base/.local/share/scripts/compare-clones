@@ -1,0 +1,6 @@
+#!/bin/sh
+
+path="$(pwd)"
+cd "$1" || exit 1
+
+find . -type f -exec diff --color=always "$path/$1/{}" "$path/$2/{}" \;
