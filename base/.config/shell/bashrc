@@ -70,6 +70,7 @@ alias glc="git log -1 --pretty=%B"
 
 alias cu='checkupdates'
 [ -x "$(command -v brew)" ] && alias cu='brew update && brew outdated'
+alias brew-backup="rsync -a $HOMEBREW_PREFIX/ $HOME/.local/brew-backups/$(date +%Y%m%d)"
 
 alias cmatrix='cmatrix -ab'
 
@@ -92,7 +93,8 @@ alias cal='cal --monday'
 alias keepon="xset s off && xset -dpms"
 alias vf='selected_file=$(fzf --preview "bat --color=always {}" --preview-window "~3"); [ -n "$selected_file" ] && vi "$selected_file"'
 
-alias se="(cd $HOME/.local/share/scripts && vf)"
+alias vse="(cd $HOME/.local/share/scripts && vf)"
+alias vrc="(cd $HOME/.config/shell && vf)"
 
 # Networking
 alias pingg="ping google.com"
