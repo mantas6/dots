@@ -1,3 +1,5 @@
 base/.config/shell/local/
 base/.local/share/applications/*.cache
 
+base/.stow-local-ignore
+
