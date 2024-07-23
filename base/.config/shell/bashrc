@@ -68,8 +68,9 @@ alias lg="lazygit"
 alias ld="lazydocker"
 alias glc="git log -1 --pretty=%B"
 
-alias pac='sudo pacman'
 alias cu='checkupdates'
+[ -x "$(command -v brew)" ] && alias cu='brew update && brew outdated'
+
 alias cmatrix='cmatrix -ab'
 
 alias tsr='tmux source-file ~/.config/tmux/tmux.conf'

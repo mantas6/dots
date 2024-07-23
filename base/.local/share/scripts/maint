@@ -1,8 +1,5 @@
 #!/bin/sh
 
-[ -x "$(command -v brew)" ] && brew update \
-    && brew outdated
-
 [ -x "$(command -v newsboat)" ] && echo "Syncing newsboat..." \
     && newsboat -x reload \
     && newsboat -x print-unread
