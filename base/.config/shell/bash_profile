@@ -15,6 +15,7 @@ export XDG_STATE_HOME="$HOME/.local/state"
 [ "$(uname)" = "Darwin" ] && export XDG_RUNTIME_DIR="$HOME/Library/Caches/TemporaryItems"
 
 export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
+export AWESOME_OUTPUT_DIR="$XDG_CACHE_HOME/awesome"
 
 # Homebrew rootless
 if [ -d "$HOME/.local/brew" ]; then
@@ -50,6 +51,6 @@ export PATH="$PATH:$(find "$HOME"/.local/share/scripts/ -type d | paste -sd ':' 
 [ -f "$XDG_CONFIG_HOME/shell/bashrc" ] && . "$XDG_CONFIG_HOME/shell/bashrc"
 
 if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
-  exec startx "$XINITRC"
+  exec startx "$XINITRC" &> "$XDG_CACHE_HOME/Xoutput"
 fi
 
