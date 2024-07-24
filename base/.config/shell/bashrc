@@ -95,6 +95,7 @@ alias vf='selected_file=$(fzf --preview "bat --color=always {}" --preview-window
 
 alias vse="(cd $HOME/.local/share/scripts && vf)"
 alias vrc="(cd $HOME/.config/shell && vf)"
+alias vaw="(cd $HOME/.config/awesome && vf)"
 
 # Networking
 alias pingg="ping google.com"
