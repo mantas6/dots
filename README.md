@@ -30,6 +30,7 @@ If stow fails, remove conflicting files (preferably to trash) and run again. Pay
 `btop htop fastfetch`
 `starship zoxide`
 `pass rofi rofi-pass rofi-emoji rofi-calc`
+`pipewire wireplumber pipewire-alsa pipewire-pulse alsa-utils pavucontrol`
 `base-devel pacman-contrib`
 `dashbinsh paru-bin`
 `git node npm php luarocks wget tldr`
