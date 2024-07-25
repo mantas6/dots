@@ -26,7 +26,7 @@ If stow fails, remove conflicting files (preferably to trash) and run again. Pay
 `bluez bluez-utilsj udisks2`
 `lxpolkit xss-lock i3lock`
 `unclutter numlockx redshift autorandr`
-`ttf-anonymous-pro ttf-anonymouspro-nerd lxappearance gnome-themes-extra terminus-font`
+`ttf-anonymous-pro ttf-anonymouspro-nerd ttf-ubuntu-font-family noto-fonts-emoji lxappearance gnome-themes-extra terminus-font`
 `btop htop fastfetch`
 `starship zoxide`
 `pass rofi rofi-pass rofi-emoji rofi-calc`
