@@ -39,5 +39,7 @@ xset -b
 [ -x "$(command -v xss-lock)" ] && xss-lock i3lock &
 [ -x "$(command -v lxpolkit)" ] && lxpolkit &
 
+[ -x "$(command -v auto-suspend)" ] && auto-suspend &
+
 mkdir -p "$AWESOME_OUTPUT_DIR"
 exec awesome >> "$AWESOME_OUTPUT_DIR/out" 2>> "$AWESOME_OUTPUT_DIR/err"
