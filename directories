@@ -1,4 +1,5 @@
 .config
 .config/docker
+.config/autorandr
 .local/share
 .gnupg
