@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Set shell strict mode
+set -euo pipefail
+
+# Detected block device that is plugged in
+dev_name=""
+
+# Mount the drive as read only
+mount_point=$(udisksctl mount -b "$dev_name" -o 'ro' --no-user-interaction | grep "Mounted" | awk '{print $4}')
+
+cd "$mount_point"
+
+# Check if marker file exist on the root of the drive
+if [ ! -f '.sync-photos' ]; then
+    echo "Marked file not found on $dev_name"
+    cd
+    udisksctl unmount -b "$dev_name"
+    exit 0
+fi
+
+# List all jpg files in drive
+find . -iname '*.jpg'
+
+# Rsync files to local HDD, if file exists and shasum match skip, if not throw
