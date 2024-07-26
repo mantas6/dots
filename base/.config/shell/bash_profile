@@ -42,6 +42,7 @@ export WGETRC="$XDG_CONFIG_HOME/wgetrc"
 export VIT_DIR="$XDG_CONFIG_HOME/vit"
 
 export MOZ_USE_XINPUT2=1
+export QT_QPA_PLATFORMTHEME=qt6ct
 
 [ -f "$XDG_CONFIG_HOME/shell/local/profile" ] && . "$XDG_CONFIG_HOME/shell/local/profile"
 
