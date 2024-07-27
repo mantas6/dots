@@ -382,23 +382,42 @@ globalkeys = gears.table.join(
         function()
             local focused = awful.screen.focused()
 
-            focused.tags[1]:view_only()
-            awful.spawn(browser)
-            awful.spawn(terminal_cmd)
+            local apps = {
+                [1] = {
+                    'chromium --new-window https://chatgpt.com',
+                    terminal_cmd,
+                },
 
-            gears.timer.start_new(0.5, function()
-                focused.tags[2]:view_only()
-                awful.spawn('chromium --app=https://messenger.com')
-                awful.spawn('chromium')
-            end)
+                [2] = {
+                    'chromium --app=https://messenger.com',
+                    'chromium',
+                },
 
-            gears.timer.start_new(1, function()
-                focused.tags[3]:view_only()
-                awful.spawn('chromium --new-window https://youtube.com')
-                awful.spawn('chromium --new-window https://netflix.com')
-            end)
+                [3] = {
+                    'chromium --new-window https://youtube.com',
+                    'chromium --new-window https://wiki.archlinux.org',
+                },
+            }
 
-            gears.timer.start_new(1.5, function()
+            local timeout = 0
+
+            for tag, items in pairs(apps) do
+                -- Jump to tag of the application
+                gears.timer.start_new(timeout, function()
+                    focused.tags[tag]:view_only()
+                end)
+
+                -- Spawn the clients
+                for id, cmd in ipairs(items) do
+                    gears.timer.start_new(timeout, function()
+                        awful.spawn(cmd)
+                    end)
+
+                    timeout = timeout + 0.5
+                end
+            end
+
+            gears.timer.start_new(timeout, function()
                 focused.tags[1]:view_only()
             end)
         end,
