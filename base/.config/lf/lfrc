@@ -2,6 +2,8 @@
 
 set shell bash
 set shellopts '-eu'
+set ignorecase true
+
 cmd trash %trash-put $fx
 
 set scrolloff 10
@@ -23,5 +25,9 @@ cmd zi ${{
 }}
 
 cmd on-cd &{{
-        zoxide add "$PWD"
+    zoxide add "$PWD"
+}}
+
+cmd on-select &{{
+    lf -remote "send $id set statfmt \"$(cd "$PWD" && eza -ld --color=always "$(basename "$f")")\""
 }}
