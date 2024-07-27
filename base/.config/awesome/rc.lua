@@ -394,7 +394,7 @@ globalkeys = gears.table.join(
                 },
 
                 [3] = {
-                    'chromium --new-window https://youtube.com',
+                    'chromium --new-window https://www.youtube.com/feed/subscriptions',
                     'chromium --new-window https://wiki.archlinux.org',
                 },
             }
