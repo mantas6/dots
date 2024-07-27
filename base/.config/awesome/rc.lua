@@ -402,19 +402,26 @@ globalkeys = gears.table.join(
             local timeout = 0
 
             for tag, items in pairs(apps) do
+                -- If tag has clients, skip it
+                if #focused.tags[tag]:clients() > 0 then
+                    goto continue
+                end
+
                 -- Jump to tag of the application
                 gears.timer.start_new(timeout, function()
                     focused.tags[tag]:view_only()
                 end)
 
                 -- Spawn the clients
-                for id, cmd in ipairs(items) do
+                for _, cmd in ipairs(items) do
                     gears.timer.start_new(timeout, function()
                         awful.spawn(cmd)
                     end)
 
                     timeout = timeout + 0.5
                 end
+
+                ::continue::
             end
 
             gears.timer.start_new(timeout, function()
