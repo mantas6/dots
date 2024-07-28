@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -euo pipefail
+
+file="$1"
+#output="$2"
+
+echo "Processing $file"
+
+# Get all the meta data from photo
+metadata=$(exiftool -DateTimeOriginal -d "%Y/%m/%d/%H/%M/%S" "$file")
+
+datetime=$(echo "$metadata" | grep 'Date/Time Original' | awk '{print $4}')
+
+# Get directory path
+dir_path=$(echo "$datetime" | cut --delimiter "/" --fields 1,2,3)
+
+echo $dir_path
+#mkdir -pv "$output"
+

@@ -20,6 +20,6 @@ if [ ! -f '.sync-photos' ]; then
 fi
 
 # List all jpg files in drive
-find . -iname '*.jpg'
+find . -iname '*.jpg' -exec sync-photo-process {} \;
 
 # Rsync files to local HDD, if file exists and shasum match skip, if not throw
