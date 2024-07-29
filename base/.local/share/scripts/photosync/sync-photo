@@ -3,23 +3,36 @@
 # Set shell strict mode
 set -euo pipefail
 
-# Detected block device that is plugged in
-dev_name=""
 
-# Mount the drive as read only
-mount_point=$(udisksctl mount -b "$dev_name" -o 'ro' --no-user-interaction | grep "Mounted" | awk '{print $4}')
+pathtoname() {
+    udevadm info -p /sys/"$1" | awk -v FS== '/DEVNAME/ {print $2}'
+}
 
-cd "$mount_point"
+process-drive() {
+    # Detected block device that is plugged in
+    dev_name="$1"
 
-# Check if marker file exist on the root of the drive
-if [ ! -f '.sync-photos' ]; then
-    echo "Marked file not found on $dev_name"
-    cd
-    udisksctl unmount -b "$dev_name"
-    exit 0
-fi
+    # Mount the drive as read only
+    mount_point=$(udisksctl mount -b "$dev_name" -o 'ro' --no-user-interaction | grep "Mounted" | awk '{print $4}')
 
-# List all jpg files in drive
-find . -iname '*.jpg' -exec sync-photo-process {} \;
+    cd "$mount_point"
 
-# Rsync files to local HDD, if file exists and shasum match skip, if not throw
+    # Check if marker file exist on the root of the drive
+    if [ ! -f '.sync-photos' ]; then
+        echo "Marked file not found on $dev_name"
+        cd
+        udisksctl unmount -b "$dev_name"
+        exit 0
+    fi
+
+    # List all jpg files in drive
+    find . -iname '*.jpg' -exec sync-photo-process {} \;
+}
+
+stdbuf -oL -- udevadm monitor --udev -s block | while read -r -- _ _ event devpath _; do
+        if [ "$event" = add ]; then
+            devname=$(pathtoname "$devpath")
+            echo "Detected $devname"
+            # process-drive "$devname"
+        fi
+done
