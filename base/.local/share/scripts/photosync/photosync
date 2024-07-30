@@ -27,7 +27,7 @@ process-drive() {
     fi
 
     # List all jpg files in drive
-    find . -iname '*.jpg' -exec sync-photo-process {} "$output_dir" \;
+    find . -iname '*.jpg' -exec photosync-process {} "$output_dir" \;
 
     echo "Finish processing drive"
 
