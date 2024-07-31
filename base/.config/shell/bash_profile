@@ -41,7 +41,6 @@ export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 export WGETRC="$XDG_CONFIG_HOME/wgetrc"
 export VIT_DIR="$XDG_CONFIG_HOME/vit"
 
-export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
 export MOZ_USE_XINPUT2=1
 export QT_QPA_PLATFORMTHEME=qt6ct
 
