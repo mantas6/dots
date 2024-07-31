@@ -41,5 +41,7 @@ xset -b
 
 [ -x "$(command -v auto-suspend)" ] && auto-suspend &
 
+[ -x "$(command -v xcape )" ] && xcape -e 'Control_L=Escape'
+
 mkdir -p "$AWESOME_OUTPUT_DIR"
 exec awesome >> "$AWESOME_OUTPUT_DIR/out" 2>> "$AWESOME_OUTPUT_DIR/err"
