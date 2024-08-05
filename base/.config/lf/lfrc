@@ -7,12 +7,14 @@ set ignorecase true
 cmd trash %trash-put $fx
 
 set scrolloff 10
+set mouse
 set icons 
 set previewer '~/.config/lf/scope'
 
-map <enter> shell
+map <enter> open
 map ` !true
 map . set hidden!
+map zi zi
 
 cmd z %{{
 	result="$(zoxide query --exclude $PWD $@ | sed 's/\\/\\\\/g;s/"/\\"/g')"
