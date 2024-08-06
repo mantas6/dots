@@ -399,6 +399,12 @@ globalkeys = gears.table.join(
                 },
             }
 
+            -- Load custom apps configuration if exists
+            local config_dir = gears.filesystem.get_configuration_dir()
+            if gears.filesystem.file_readable(config_dir .. '/local/apps.lua') then
+                apps = require('local.apps')
+            end
+
             local timeout = 0
 
             for tag, items in pairs(apps) do

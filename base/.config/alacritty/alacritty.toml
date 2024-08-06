@@ -22,3 +22,6 @@ bindings = [
     { key = 'C', mods = 'Super', action = 'Copy' },
     { key = 'V', mods = 'Super', action = 'Paste' },
 ]
+
+# [window]
+# opacity = 0.8
