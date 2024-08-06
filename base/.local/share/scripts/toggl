@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+set -euo 'pipefail'
 
 cache="${XDG_CACHE_DIR:-$HOME/.cache}/toggl"
 mkdir -pv "$cache"
@@ -6,7 +8,7 @@ mkdir -pv "$cache"
 if [ -f "$cache/workspace" ]; then
     workspace_id=$(cat "$cache/workspace")
 else
-    workspace_id=$(curl -su \
+    workspace_id=$(curl -sfu \
         "$TOGGL_API_TOKEN":api_token https://api.track.toggl.com/api/v9/me \
         | jq '.default_workspace_id')
 
@@ -15,6 +17,15 @@ else
 fi
 
 [ -z "$workspace_id" ] && echo "Failed to get default workspace" && exit 1
+
+# Idea is to automatically iterate over projects and cache each projects tasks
+list-project-tasks() {
+    curl -sf \
+        https://api.track.toggl.com/api/v9/workspaces/"$workspace_id"/projects/"$1"/tasks \
+        -H "Content-Type: application/json" \
+        -u "$TOGGL_API_TOKEN":api_token \
+        | jq -r 'sort_by(.id) | reverse | map((.id | tostring) + "\t" + .name + .project_name) | .[]'
+}
 
 project_id=$(curl -s \
     https://api.track.toggl.com/api/v9/workspaces/"$workspace_id"/projects \
