@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -e
+
+host='http://l4:8080'
+workdir="$XDG_STATE_HOME/wallpaper"
+
+file=$(curl -f "$host/filelist" | shuf -n 1)
+
+mkdir -p "$workdir"
+curl -fo "$workdir/pending.jpg" "$host/$file"
+
+feh --bg-fill --no-fehbg "$workdir/pending.jpg"
+cp -f "$workdir/pending.jpg" "$workdir/current.jpg"
