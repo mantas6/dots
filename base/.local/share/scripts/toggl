@@ -27,6 +27,61 @@ list-project-tasks() {
         | jq -r 'sort_by(.id) | reverse | map((.id | tostring) + "\t" + .name + .project_name) | .[]'
 }
 
+list-projects() {
+    curl -sf \
+        https://api.track.toggl.com/api/v9/workspaces/"$workspace_id"/projects \
+        -H "Content-Type: application/json" \
+        -u "$TOGGL_API_TOKEN":api_token \
+        | jq -r 'map((.id | tostring) + "\t" + .name) | .[]'
+}
+
+branch-projects() {
+    case "$1" in
+        all)
+            list-projects | column -ts $'\t'
+            ;;
+        add)
+            list-projects | fzf -i --delimiter="\t" --with-nth=2 >> "$cache/projects"
+            ;;
+        list)
+            column -ts $'\t' < "$cache/projects"
+            ;;
+        *)
+            echo "[toggl] projects [all|add|list]"
+            exit 1
+            ;;
+    esac
+}
+
+branch-tasks() {
+    case "$1" in
+        all)
+            ;;
+        *)
+            echo "[toggl] tasks [all]"
+            exit 1
+            ;;
+    esac
+}
+
+case "$1" in
+    projects)
+        shift
+        branch-projects "$@"
+        ;;
+    tasks)
+        shift
+        branch-tasks "$@"
+        ;;
+
+    *)
+        echo "unknown option $1"
+        exit 1
+        ;;
+esac
+
+exit 0
+
 project_id=$(curl -s \
     https://api.track.toggl.com/api/v9/workspaces/"$workspace_id"/projects \
     -H "Content-Type: application/json" \
