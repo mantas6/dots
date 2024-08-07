@@ -10,3 +10,9 @@ autocmd('BufEnter', {
         vim.opt.smartindent = true
     end
 })
+
+autocmd('FileType', {
+    pattern = { 'lua', 'javascript', 'vue' },
+    command = 'setlocal shiftwidth=2 softtabstop=2 expandtab',
+})
+
