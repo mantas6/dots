@@ -41,6 +41,9 @@ return {
         map('n', '<leader>gR', gs.reset_buffer)
         map('n', '<leader>gp', gs.preview_hunk)
         map('n', '<leader>gv', ':<C-U>Gitsigns select_hunk<CR>')
+
+        map('n', '<leader>gd', gs.diffthis)
+        -- map('n', '<leader>gD', function() gs.diffthis('~') end)
       end
     })
   end
