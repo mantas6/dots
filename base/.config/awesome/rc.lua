@@ -52,7 +52,7 @@ end
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
-beautiful.font = 'Ubuntu 12'
+beautiful.font = 'Ubuntu Bold 12'
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
@@ -234,7 +234,12 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", height = 24, screen = s })
+    s.mywibox = awful.wibar({
+      position = "top",
+      height = 24,
+      screen = s,
+      opacity = 0.85,
+    })
 
     local statusbar = require("statusbar")
 

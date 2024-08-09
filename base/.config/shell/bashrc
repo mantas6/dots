@@ -90,7 +90,7 @@ fi
 
 # Dotfiles
 alias dlg="(cd $HOME/Repos/dotfiles && lazygit)"
-alias dsy="$HOME/Repos/dotfiles/stow"
+alias dsy="(cd $HOME/Repos/dotfiles && git pull && ./stow)"
 
 alias cal='cal --monday'
 alias keepon="xset s off && xset -dpms"

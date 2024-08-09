@@ -23,5 +23,6 @@ bindings = [
     { key = 'V', mods = 'Super', action = 'Paste' },
 ]
 
-# [window]
-# opacity = 0.8
+[window]
+opacity = 0.95
+blur = true
