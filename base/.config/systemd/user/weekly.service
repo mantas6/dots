@@ -1,0 +1,6 @@
+[Unit]
+Description=Runs weekly jobs
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/share/scripts/maint
