@@ -104,6 +104,11 @@ alias vaw="(cd $HOME/.config/awesome && vf)"
 alias pingg="ping google.com"
 alias ipa="ip a"
 
+alias sc='systemctl'
+alias scu='systemctl --user'
+alias jc='journalctl'
+alias jcu='journalctl --user'
+
 # AP
 alias ap-hostapd-edit="sudoedit /etc/hostapd/hostapd.conf"
 alias ap-hostapd-restart="sudo systemctl restart hostapd"
