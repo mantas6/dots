@@ -613,6 +613,17 @@ awful.rules.rules = {
      }
     },
 
+    {
+        rule = { class = "Conky" },
+        properties = {
+            floating = true,
+            sticky = true,
+            ontop = false,
+            focusable = false,
+            below = true
+        }
+    },
+
     -- Floating clients.
     { rule_any = {
         instance = {
