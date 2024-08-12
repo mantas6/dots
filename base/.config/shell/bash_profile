@@ -33,6 +33,9 @@ if [ "$(uname)" != "Darwin" ]; then
     export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
 fi
 
+export ATAC_MAIN_DIR="$XDG_CONFIG_HOME/atac"
+export ATAC_KEY_BINDINGS="$XDG_CONFIG_HOME/atac/key.toml"
+
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 export PASSWORD_STORE_CHARACTER_SET="[:alnum:]"
 
