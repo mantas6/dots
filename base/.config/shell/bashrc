@@ -73,7 +73,6 @@ alias glc="git log -1 --pretty=%B"
 
 alias cu='checkupdates'
 [ -x "$(command -v brew)" ] && alias cu='brew update && brew outdated'
-alias brew-backup="rsync -a $HOMEBREW_PREFIX/ $HOME/.local/brew-backups/$(date +%Y%m%d)"
 
 alias cmatrix='cmatrix -ab'
 
@@ -172,6 +171,10 @@ loop() {
 
 glz() {
     glc && read -r && git commit -m "$(glc)" && git push
+}
+
+brew-backup() {
+    rsync -a "$HOMEBREW_PREFIX/" "$HOME/.local/brew-backups/$(date +%Y%m%d)"
 }
 
 [ -x "$(command -v zoxide)" ] && eval "$(zoxide init bash)"
