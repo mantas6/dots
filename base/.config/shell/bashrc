@@ -75,6 +75,7 @@ alias cu='checkupdates'
 [ -x "$(command -v brew)" ] && alias cu='brew update && brew outdated'
 
 alias cmatrix='cmatrix -ab'
+alias ff='fastfetch'
 
 alias tsr='tmux source-file ~/.config/tmux/tmux.conf'
 alias ts='tmux split-window -h \; split-window -v'
