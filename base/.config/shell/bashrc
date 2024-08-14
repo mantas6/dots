@@ -96,8 +96,9 @@ alias keepon="xset s off && xset -dpms"
 alias vf='selected_file=$(fzf --preview "bat --color=always {}" --preview-window "~3"); [ -n "$selected_file" ] && vi "$selected_file"'
 
 alias vse="(cd $HOME/.local/share/scripts && vf)"
-alias vrc="(cd $HOME/.config/shell && vf)"
 alias vaw="(cd $HOME/.config/awesome && vf)"
+alias vsh="(cd $HOME/.config/shell && vf)"
+alias vrc="(cd $HOME/Repos/dotfiles && vf)"
 
 # Networking
 alias pingg="ping google.com"
