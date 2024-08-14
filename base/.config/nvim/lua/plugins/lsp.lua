@@ -10,27 +10,28 @@ return {
     'L3MON4D3/LuaSnip',
   },
   config = function ()
-        local lsp = require('lsp-zero')
+    local lsp = require('lsp-zero')
 
-        lsp.on_attach(function(client, bufnr)
-          -- see :help lsp-zero-keybindings
-          -- to learn the available actions
-          lsp.default_keymaps({buffer = bufnr})
-        end)
+    lsp.on_attach(function(client, bufnr)
+      -- see :help lsp-zero-keybindings
+      -- to learn the available actions
+      lsp.default_keymaps({buffer = bufnr})
+    end)
 
-        require('mason').setup({})
-        require('mason-lspconfig').setup({
-          ensure_installed = {
-            "intelephense",
-            "bashls",
-            "lua_ls",
-            "volar",
-            "dockerls",
-            "cssls",
-          },
-          handlers = {
-            lsp.default_setup,
-          },
-        })
+    require('mason').setup({})
+    require('mason-lspconfig').setup({
+      ensure_installed = {
+        "intelephense",
+        "bashls",
+        "lua_ls",
+        "volar",
+        "dockerls",
+        "cssls",
+        "jsonls",
+      },
+      handlers = {
+        lsp.default_setup,
+      },
+    })
   end
 }
