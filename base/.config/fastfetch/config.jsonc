@@ -6,62 +6,56 @@
         }
     },
     "modules": [
-        "title",
-        "separator",
+        {
+            "type": "title",
+            "key": "Hostname",
+            "format": "{host-name}"
+        },
         "os",
         "host",
         "bios",
         "board",
         "chassis",
         "kernel",
+        "shell",
+        "display",
+        "locale",
+        "separator",
+        "cpuusage",
+        "loadavg",
         "uptime",
         {
             "type": "command",
             "key": "OS Age",
             "text": "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days"
         },
-        "loadavg",
         "processes",
+        "memory",
+        "swap",
         "packages",
-        "shell",
-        "display",
-        "brightness",
-        "monitor",
-        "theme",
-        "icons",
-        "font",
-        "wallpaper",
+        "separator",
+        {
+            "type": "publicip",
+            "timeout": 1000
+        },
+        "localip",
+        "wifi",
+        "separator",
         {
             "type": "cpu",
             "showPeCoreCount": true,
             "temp": true
         },
-        "cpuusage",
         {
             "type": "gpu",
             "driverSpecific": true,
             "temp": true
         },
-        "memory",
-        "swap",
         "disk",
         "battery",
         "poweradapter",
         "player",
         "media",
-        {
-            "type": "publicip",
-            "timeout": 1000
-        },
-        {
-            "type": "localip",
-            "showIpv6": true,
-            "showMac": true
-        },
-        "wifi",
-        "locale",
-        "netio",
-        "diskio",
         {
             "type": "physicaldisk",
             "temp": true
