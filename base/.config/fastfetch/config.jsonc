@@ -54,8 +54,6 @@
         "disk",
         "battery",
         "poweradapter",
-        "player",
-        "media",
         {
             "type": "physicaldisk",
             "temp": true
