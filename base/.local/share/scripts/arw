@@ -1,16 +1,22 @@
-#!/bin/sh
+#!/bin/bash
+
+set -euo 'pipefail'
+set -x
 
 id="$1"
 file="$2"
 
 [ -z "$id" ] || [ -z "$file" ] && exit 1
 
+[ "$id" = 0 ] && id=$(curl -sfX 'POST' "$SAT_JOURNAL_BASE_URL" | jq '.id')
+
 markdown=$(cat "$file")
 json=$(jq -n --arg k "contents" --arg v "$markdown" '{$k: $v}')
 
-response=$(curl -s \
+response=$(curl -sfX PUT \
     -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
     -d "$json" \
-    -X PUT "$SAT_JOURNAL_BASE_URL/$id")
+    "$SAT_JOURNAL_BASE_URL/$id")
 
 echo "$response"

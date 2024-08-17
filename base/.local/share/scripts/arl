@@ -1,18 +1,25 @@
-#!/bin/sh
+#!/bin/bash
+
+set -euo 'pipefail'
+set -x
 
 baseurl="$SAT_JOURNAL_BASE_URL"
 
-[ -z "$baseurl" ] && echo "SAT_JOURNAL_BASE_URL is not specified" && exit 1
+options=$(curl -sf "$baseurl" \
+    | jq -r 'map((.id | tostring) + "\t" + .title + "\t" + (.word_count | tostring) + "w\t" + .created_at + "\t" + .journal.title) | .[]')
 
-id=$(curl -s "$baseurl" \
-    | jq -r 'map((.id | tostring) + "\t" + .title + "\t" + (.word_count | tostring) + "\t" + .created_at + "\t" + .journal.title) | .[]' \
-    | column -t \
-    | fzf --header="ID$(printf '\t')Title$(printf '\t')Date" --delimiter="\t" \
+options="$options$(printf '\n0\tNew')"
+
+id=$(echo "$options" \
+    | tac \
+    | column -ts $'\t' \
+    | fzf  --delimiter="\t" \
     | awk '{print $1}')
 
-contents=$(curl -s "$baseurl/$id" | jq -r '.contents')
+contents=''
+[ "$id" != 0 ] && contents=$(curl -sf "$baseurl/$id" | jq -r '.contents')
 
-file=$(mktemp)
+file=$(mktemp).md
 echo "$contents" > "$file"
 
-nvim -c "set nospell | set filetype=markdown | autocmd BufWritePost * !bash -c 'arw $id $file'" "$file"
+nvim -c "set nospell | autocmd BufWritePost * !bash -c 'arw $id $file'" "$file"
