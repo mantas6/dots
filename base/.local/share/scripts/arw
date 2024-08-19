@@ -2,25 +2,28 @@
 
 set -euo 'pipefail'
 
-token=$(<"$XDG_STATE_HOME"/articles_token)
+token=$(<"$XDG_STATE_HOME"/articles/token)
+url="$SAT_JOURNAL_BASE_URL"
+dir="$1"
 
-id="$1"
-file="$2"
+if [ -f "$dir"/id ]; then
+    method=PUT
+    url="$url/$(<"$dir/id")"
+else
+    method=POST
+fi
 
-[ "$id" = 0 ] && id=$(curl -sfX POST \
-    -H "Authorization: Bearer $token" \
-    "$SAT_JOURNAL_BASE_URL" \
-    | jq '.id'
-)
+cp "$dir"/contents.md "$(mktemp -p "$dir" 'XXXXXXX.md')"
 
-markdown=$(<"$file")
+markdown=$(<"$dir"/contents.md)
 json=$(jq -n --arg k "contents" --arg v "$markdown" '{$k: $v}')
 
-response=$(curl -sSfX PUT \
+response=$(curl -sSfX "$method" \
     -H "Authorization: Bearer $token" \
     -H 'Content-Type: application/json' \
     -H 'Accept: application/json' \
     -d "$json" \
-    "$SAT_JOURNAL_BASE_URL/$id")
+    "$url"
+)
 
-echo "$response"
+echo "$response" | jq '.id' > "$dir/id"

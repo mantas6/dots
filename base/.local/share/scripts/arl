@@ -3,7 +3,8 @@
 set -euo 'pipefail'
 
 baseurl="$SAT_JOURNAL_BASE_URL"
-token=$(<"$XDG_STATE_HOME"/articles_token)
+state="$XDG_STATE_HOME"/articles
+token=$(<"$state"/token)
 
 options=$(curl -sSfH "Authorization: Bearer $token" "$baseurl" \
     | jq -r 'map((.id | tostring) + "\t" + .title + "\t" + (.word_count | tostring) + "w\t" + .created_at + "\t" + .journal.title) | .[]')
@@ -16,10 +17,18 @@ id=$(echo "$options" \
     | fzf  --delimiter="\t" \
     | awk '{print $1}')
 
-contents=''
-[ "$id" != 0 ] && contents=$(curl -sSfH "Authorization: Bearer $token" "$baseurl/$id" | jq -r '.contents')
+mkdir -p "$state/tmp"
 
-file=$(mktemp).md
-echo "$contents" > "$file"
+dir=$(mktemp -dp "$state/tmp" 'XXXXXXXXXX')
+file="$dir"/contents.md
 
-nvim -c "set nospell | autocmd BufWritePost * !bash -c 'arw $id $file'" "$file"
+if [ "$id" != 0 ]; then
+    contents=$(curl -sSfH "Authorization: Bearer $token" "$baseurl/$id" | jq -r '.contents')
+
+    echo "$id" > "$dir"/id
+    echo "$contents" > "$file"
+fi
+
+nvim -c "set nospell | autocmd BufWritePost * !bash -c 'arw $dir'" "$file"
+
+[ ! -f "$file" ] && echo 'Article discarded'
