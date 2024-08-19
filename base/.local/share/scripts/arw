@@ -7,8 +7,6 @@ token=$(<"$XDG_STATE_HOME"/articles_token)
 id="$1"
 file="$2"
 
-[ -z "$id" ] || [ -z "$file" ] && exit 1
-
 [ "$id" = 0 ] && id=$(curl -sfX POST \
     -H "Authorization: Bearer $token" \
     "$SAT_JOURNAL_BASE_URL" \
