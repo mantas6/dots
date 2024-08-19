@@ -15,7 +15,7 @@ file="$2"
     | jq '.id'
 )
 
-markdown=$(cat "$file")
+markdown=$(<"$file")
 json=$(jq -n --arg k "contents" --arg v "$markdown" '{$k: $v}')
 
 response=$(curl -sSfX PUT \
