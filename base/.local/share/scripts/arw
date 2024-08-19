@@ -1,21 +1,27 @@
 #!/bin/bash
 
 set -euo 'pipefail'
-set -x
+
+token=$(<"$XDG_STATE_HOME"/articles_token)
 
 id="$1"
 file="$2"
 
 [ -z "$id" ] || [ -z "$file" ] && exit 1
 
-[ "$id" = 0 ] && id=$(curl -sfX 'POST' "$SAT_JOURNAL_BASE_URL" | jq '.id')
+[ "$id" = 0 ] && id=$(curl -sfX POST \
+    -H "Authorization: Bearer $token" \
+    "$SAT_JOURNAL_BASE_URL" \
+    | jq '.id'
+)
 
 markdown=$(cat "$file")
 json=$(jq -n --arg k "contents" --arg v "$markdown" '{$k: $v}')
 
-response=$(curl -sfX PUT \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
+response=$(curl -sSfX PUT \
+    -H "Authorization: Bearer $token" \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
     -d "$json" \
     "$SAT_JOURNAL_BASE_URL/$id")
 

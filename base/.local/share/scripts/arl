@@ -1,11 +1,11 @@
 #!/bin/bash
 
 set -euo 'pipefail'
-set -x
 
 baseurl="$SAT_JOURNAL_BASE_URL"
+token=$(<"$XDG_STATE_HOME"/articles_token)
 
-options=$(curl -sf "$baseurl" \
+options=$(curl -sSfH "Authorization: Bearer $token" "$baseurl" \
     | jq -r 'map((.id | tostring) + "\t" + .title + "\t" + (.word_count | tostring) + "w\t" + .created_at + "\t" + .journal.title) | .[]')
 
 options="$options$(printf '\n0\tNew')"
@@ -17,7 +17,7 @@ id=$(echo "$options" \
     | awk '{print $1}')
 
 contents=''
-[ "$id" != 0 ] && contents=$(curl -sf "$baseurl/$id" | jq -r '.contents')
+[ "$id" != 0 ] && contents=$(curl -sSfH "Authorization: Bearer $token" "$baseurl/$id" | jq -r '.contents')
 
 file=$(mktemp).md
 echo "$contents" > "$file"
