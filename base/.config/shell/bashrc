@@ -51,6 +51,9 @@ if [ -x "$(command -v eza)" ]; then
     alias lt3="eza -T -L 3"
 fi
 
+alias zd='cd ~/Downloads'
+alias ze='cd ~/Desktop'
+
 # Laravel
 alias sail="vendor/bin/sail"
 alias artisan="sail artisan"
