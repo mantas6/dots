@@ -176,7 +176,9 @@ glz() {
 }
 
 brew-backup() {
-    rsync -a "$HOMEBREW_PREFIX/" "$HOME/.local/brew-backups/$(date +%Y%m%d)"
+    out="$HOME/.local/brew-backups/$(date +%Y%m%d)"
+    rsync -a "$HOMEBREW_PREFIX/" "$out"
+    du -hs "$out"
 }
 
 [ -x "$(command -v zoxide)" ] && eval "$(zoxide init bash)"
