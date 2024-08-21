@@ -3,6 +3,6 @@
 dir=$(dirname "$(readlink -f "$0")")
 
 # Create base directories so that stow wouldn't link them directly
-xargs -I {} mkdir -pv "$HOME/{}" < "$dir/directories"
+xargs -I {} mkdir -pv "$HOME/{}" < "$dir/dirs.conf"
 
 stow --dir="$dir" --target="$HOME" --verbose "$@" base 
