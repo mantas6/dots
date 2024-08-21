@@ -36,7 +36,7 @@ alias chmox="chmod +x"
 alias cp="cp -vi"
 alias mkdir="mkdir -v"
 alias mv="mv -vi"
-alias rm="rm -v"
+alias rm="rm -vi"
 alias trash="trash -v"
 alias lf="lfcd"
 
