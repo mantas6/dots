@@ -27,3 +27,4 @@ response=$(curl -sSfX "$method" \
 )
 
 echo "$response" | jq '.id' > "$dir/id"
+echo "Word count: $(echo "$response" | jq '.word_count')"
