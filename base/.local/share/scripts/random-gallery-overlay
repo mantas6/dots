@@ -36,9 +36,10 @@ bake() {
 }
 
 bake 'Multiply'
+selected=''
 
 while true; do
-    selected=$(printf '%s\n' "$filters" | fzf)
+    selected=$(printf '%s\n' "$filters" | fzf --query="$selected")
 
     [ "$selected" = '' ] && exit 0
 
