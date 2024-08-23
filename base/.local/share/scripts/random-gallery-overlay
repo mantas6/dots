@@ -27,6 +27,7 @@ Screen
 ColorBurn'
 
 bake() {
+    # -paint 6
     magick "$workdir/a.jpg" "$workdir/b.jpg" \
         -geometry +0+0 \
         -compose "$1" \
