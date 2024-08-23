@@ -337,7 +337,7 @@ globalkeys = gears.table.join(
               {description = "suspend", group = "awesome"}),
     awful.key({ modkey, "Shift" }, "Delete", function () awful.spawn('systemctl reboot') end,
               {description = "reboot", group = "awesome"}),
-    awful.key({ modkey, "Shift" }, "End", function () awful.spawn('systemctl poweroff') end,
+    awful.key({ modkey, "Control" }, "Delete", function () awful.spawn('systemctl poweroff') end,
               {description = "shutdown", group = "awesome"}),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
