@@ -1,0 +1,46 @@
+#!/bin/sh
+
+set -e
+
+host='http://l4:8080'
+filelist=$(curl -f "$host/filelist")
+
+file_a=$(echo "$filelist" | shuf -n 1)
+file_b=$(echo "$filelist" | shuf -n 1)
+
+workdir="$(mktemp -d)"
+
+curl -fo "$workdir/a.jpg" "$host/$file_a"
+curl -fo "$workdir/b.jpg" "$host/$file_b"
+
+filters='
+Add
+Subtract
+Multiply
+Divide
+Darken
+Lighten
+Overlay
+HardLight
+SoftLight
+Screen
+ColorBurn'
+
+bake() {
+    magick "$workdir/a.jpg" "$workdir/b.jpg" \
+        -geometry +0+0 \
+        -compose "$1" \
+        -composite "$workdir/out.jpg"
+
+    feh --fullscreen "$workdir/out.jpg"
+}
+
+bake 'Multiply'
+
+while true; do
+    selected=$(printf '%s\n' "$filters" | fzf)
+
+    [ "$selected" = '' ] && exit 0
+
+    bake "$selected"
+done
