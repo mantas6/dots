@@ -187,6 +187,7 @@ brew-backup() {
 [ -x "$(command -v zoxide)" ] && eval "$(zoxide init bash)"
 [ -x "$(command -v fzf)" ] && eval "$(fzf --bash)"
 [ -x "$(command -v starship)" ] && eval "$(starship init bash)"
+[ -x "$(command -v direnv)" ] && eval "$(direnv hook bash)"
 
 # SSH agent
 if ! pgrep -u "$USER" ssh-agent > /dev/null; then
