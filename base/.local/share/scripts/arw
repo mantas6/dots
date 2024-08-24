@@ -2,8 +2,9 @@
 
 set -euo 'pipefail'
 
-token=$(<"$XDG_STATE_HOME"/articles/token)
-url="$SAT_JOURNAL_BASE_URL"
+state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/articles}
+token=$(<"$state"/token)
+url="$SAT_BASE_URL"/api/journals/articles
 dir="$1"
 
 if [ -f "$dir"/id ]; then

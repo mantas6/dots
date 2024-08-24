@@ -2,8 +2,8 @@
 
 set -euo 'pipefail'
 
-baseurl="$SAT_JOURNAL_BASE_URL"
-state="$XDG_STATE_HOME"/articles
+baseurl="$SAT_BASE_URL"/api/journals/articles
+state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/articles}
 token=$(<"$state"/token)
 
 options=$(curl -sSfH "Authorization: Bearer $token" "$baseurl" \
