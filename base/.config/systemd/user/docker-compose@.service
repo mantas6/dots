@@ -4,7 +4,7 @@ Requires=docker.service
 After=docker.service
 
 [Service]
-WorkingDirectory=%h/Docker/%i
+WorkingDirectory=%h/.local/share/docker-compose/%i
 ExecStartPre=-/usr/bin/docker compose pull
 ExecStart=/usr/bin/docker compose up --remove-orphans
 ExecStop=/usr/bin/docker compose down
@@ -12,4 +12,4 @@ ExecReload=/usr/bin/docker compose pull
 ExecReload=/usr/bin/docker compose up --remove-orphans
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
