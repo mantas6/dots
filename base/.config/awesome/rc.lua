@@ -461,6 +461,8 @@ globalkeys = gears.table.join(
               {description = "set us layout", group = "misc"}),
     awful.key({ modkey, "Shift" }, "b", function() awful.spawn.with_shell('setxkbmap lt') end,
               {description = "set lt layout", group = "misc"}),
+    awful.key({ modkey, "Shift" }, "x", function() awful.spawn.with_shell('xset dpms force off') end,
+              {description = "reset/turn off monitor", group = "misc"}),
 -- Volume Keys
    awful.key({}, "XF86AudioLowerVolume", function ()
      awful.util.spawn("amixer -q sset Master 5%-", false) end),
