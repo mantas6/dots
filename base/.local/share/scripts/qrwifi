@@ -1,0 +1,9 @@
+#!/bin/sh
+
+printf '%s' 'SSID: '
+read -r ssid
+
+printf '%s' 'Password: '
+read -r password
+
+qrencode -o "$ssid.png" "WIFI:S:$ssid;T:WPA;P:$password;;"
