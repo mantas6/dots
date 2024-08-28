@@ -2,21 +2,21 @@
 
 set -euo 'pipefail'
 
-state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/articles}
+state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
 token=$(<"$state"/token)
 url="$SAT_BASE_URL"/api/journals/articles
-dir="$1"
+current="$1"
 
-if [ -f "$dir"/id ]; then
+if [ -f "$current"/id ]; then
     method=PUT
-    url="$url/$(<"$dir/id")"
+    url="$url/$(<"$current/id")"
 else
     method=POST
 fi
 
-cp "$dir"/contents.md "$(mktemp -p "$dir" 'XXXXXXX.md')"
+cp "$current"/contents.md "$(mktemp -p "$current" 'XXXXXXX.md')"
 
-markdown=$(<"$dir"/contents.md)
+markdown=$(<"$current"/contents.md)
 json=$(jq -n --arg k "contents" --arg v "$markdown" '{$k: $v}')
 
 response=$(curl -sSfX "$method" \
@@ -27,5 +27,5 @@ response=$(curl -sSfX "$method" \
     "$url"
 )
 
-echo "$response" | jq '.id' > "$dir/id"
+echo "$response" | jq '.id' > "$current/id"
 echo "Word count: $(echo "$response" | jq '.word_count')"

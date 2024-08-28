@@ -3,7 +3,7 @@
 set -euo 'pipefail'
 
 baseurl="$SAT_BASE_URL"/api/journals/articles
-state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/articles}
+state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
 token=$(<"$state"/token)
 
 options=$(curl -sSfH "Authorization: Bearer $token" "$baseurl" \
@@ -19,16 +19,16 @@ id=$(echo "$options" \
 
 mkdir -p "$state/tmp"
 
-dir=$(mktemp -dp "$state/tmp" 'XXXXXXXXXX')
-file="$dir"/contents.md
+current=$(mktemp -dp "$state/tmp" 'XXXXXXXXXX')
+file="$current"/contents.md
 
 if [ "$id" != 0 ]; then
     contents=$(curl -sSfH "Authorization: Bearer $token" "$baseurl/$id" | jq -r '.contents')
 
-    echo "$id" > "$dir"/id
+    echo "$id" > "$current"/id
     echo "$contents" > "$file"
 fi
 
-nvim -c "set nospell | autocmd BufWritePost * !bash -c 'arw $dir'" "$file"
+nvim -c "set nospell | autocmd BufWritePost * !bash -c 'arw $current'" "$file"
 
 [ ! -f "$file" ] && echo 'Article discarded'
