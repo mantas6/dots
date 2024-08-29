@@ -1,2 +1,6 @@
 #!/bin/sh
 
+base=$(basename "$SAT_BASE_URL")
+name=$(echo "$base" | cut -d'.' -f2,3)
+
+ssh -o LogLevel=QUIET -tt "$name" "cd /var/www/$base/current && php artisan $*"
