@@ -31,4 +31,6 @@ fi
 
 nvim -c "set nospell | autocmd BufWritePost * !bash -c 'arw $current'" "$file"
 
-[ ! -f "$file" ] && echo 'Article discarded'
+if [ -f "$file" ] && [ "$id" = 0 ]; then
+    ara "$(<"$current/id")"
+fi

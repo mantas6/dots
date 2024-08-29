@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -euo 'pipefail'
+
+baseurl="$SAT_BASE_URL"/api/journals/articles
+state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
+token=$(<"$state"/token)
+
+id="$1"
+
+journals_filename="$state/journals"
+
+if [ ! -f "$journals_filename" ]; then
+    journals=$(curl -sSf \
+        -H "Authorization: Bearer $token" \
+        "$SAT_BASE_URL/api/journals"
+    )
+
+    echo "$journals" | jq -r 'map(.title) | .[]' > "$journals_filename"
+fi
+
+journal="$(fzf < "$journals_filename")"
+
+json=$(jq -n --arg k "journal" --arg v "$journal" '{$k: $v}')
+
+curl -sSfX 'PUT' \
+    -H "Authorization: Bearer $token" \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d "$json" \
+    "$baseurl/$id" > /dev/null
