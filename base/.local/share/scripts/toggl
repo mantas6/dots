@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo 'pipefail'
+set -eo 'pipefail'
 
 cache="${XDG_CACHE_DIR:-$HOME/.cache}/toggl"
 mkdir -pv "$cache"
@@ -35,6 +35,14 @@ list-projects() {
         | jq -r 'map((.id | tostring) + "\t" + .name) | .[]'
 }
 
+create-time-entry() {
+    curl -sfX 'POST' \
+        https://api.track.toggl.com/api/v9/workspaces/"$workspace_id"/time_entries \
+        -H "Content-Type: application/json" \
+        -u "$TOGGL_API_TOKEN":api_token \
+        | jq -r 'map((.id | tostring) + "\t" + .name) | .[]'
+}
+
 branch-projects() {
     case "$1" in
         all)
@@ -55,27 +63,50 @@ branch-projects() {
 
 branch-tasks() {
     case "$1" in
-        all)
+        sync)
+            projects_ids=$(awk '{print $1}' "$cache/projects")
+            all_tasks=''
+
+            for id in $projects_ids; do
+                all_tasks="$all_tasks$(list-project-tasks "$id")"
+            done
+
+            echo "Sycned total $(echo "$all_tasks" | wc -l) tasks."
+            echo "$all_tasks" > "$cache/tasks"
+            ;;
+        select)
+            selected_task=$(fzf -i --delimiter="\t" --with-nth=2 < "$cache/tasks")
+            echo "$selected_task" > "$cache/current_task"
+            ;;
+        start)
+            now=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
+            echo "$now" > "$cache/start_time"
+            ;;
+        stop)
+            start=$(<"$cache/start_time")
+            # CURL
+            rm "$cache/start_time"
             ;;
         *)
-            echo "[toggl] tasks [all]"
+            echo "[toggl] tasks [sync|select]"
             exit 1
             ;;
     esac
 }
 
 case "$1" in
-    projects)
+    p|projects)
         shift
         branch-projects "$@"
         ;;
-    tasks)
+    t|tasks)
         shift
         branch-tasks "$@"
         ;;
 
     *)
         echo "unknown option $1"
+        echo "toggl [projects|tasks]"
         exit 1
         ;;
 esac
