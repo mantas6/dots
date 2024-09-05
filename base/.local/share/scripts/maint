@@ -1,5 +1,10 @@
 #!/bin/sh
 
+while true; do
+    ping -c1 google.com > /dev/null && break;
+    sleep 1
+done
+
 [ -x "$(command -v pass)" ] && pass git pull
 
 (cd "$HOME"/Repos/dotfiles && git pull && ./stow)
