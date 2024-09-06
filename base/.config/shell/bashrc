@@ -97,7 +97,6 @@ fi
 # Dotfiles
 alias dlg="(cd $HOME/Repos/dotfiles && lazygit)"
 alias dsy="(cd $HOME/Repos/dotfiles && git pull && ./stow)"
-
 dss() {
     (cd "$HOME/Repos/dotfiles" \
         && git diff \
