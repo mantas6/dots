@@ -1,0 +1,7 @@
+#!/bin/sh
+
+cd /usr/share/doc/arch-wiki/html/en || exit 1
+
+file=$(fzf)
+
+sed 's#http[s]\?://\S\+##g' "$file" | html2text | glow -p
