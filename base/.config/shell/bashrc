@@ -100,7 +100,7 @@ alias dsy="(cd $HOME/Repos/dotfiles && git pull && ./stow)"
 dss() {
     msg="$1"
     [ -z "$msg" ] && msg='Update'
-    (cd "$HOME/Repos/dotfiles" && git add . && git commit -m "$msg" && git pull && git push)
+    (cd "$HOME/Repos/dotfiles" && git diff && read -r && git add . && git commit -m "$msg" && git pull && git push)
 }
 
 alias cal='cal --monday'
