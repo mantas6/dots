@@ -100,6 +100,7 @@ alias dsy="(cd $HOME/Repos/dotfiles && git pull && ./stow)"
 
 dss() {
     (cd "$HOME/Repos/dotfiles" \
+        && git status \
         && git diff \
         && printf '%s' 'Message: ' \
         && read -r msg \
