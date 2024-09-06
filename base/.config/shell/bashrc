@@ -104,7 +104,7 @@ dss() {
         && printf '%s' 'Message: ' \
         && read -r msg \
         && git add . \
-        && git commit -m "${msg:='Update'}" \
+        && git commit -m "${msg:=Update}" \
         && git pull && git push)
 }
 
