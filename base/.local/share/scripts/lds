@@ -1,0 +1,9 @@
+#!/bin/sh
+
+repo="$HOME"/Repos/laravel-docs
+
+[ ! -d "$repo" ] && git clone https://github.com/laravel/docs "$repo"
+cd "$repo" || exit 1
+
+file=$(fzf --preview 'glow -s dark {}')
+sed 's/\[\([^][]*\)\]([^()]*)/\1/g' "$file" | glow -p
