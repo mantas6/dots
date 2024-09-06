@@ -63,7 +63,7 @@ alias s="sail"
 alias a="artisan"
 alias deploy="vendor/bin/envoy run deploy"
 
-alias ldocs="(cd ~/Repos/laravel-docs && fzf --preview 'glow -p {}' | xargs -r glow -p)"
+alias lds="(cd ~/Repos/laravel-docs && fzf --preview 'glow -s dark {}' | xargs -r glow -p)"
 
 alias pc='tools/scripts/precommit'
 alias de='./tools/scripts/docker-exec'
