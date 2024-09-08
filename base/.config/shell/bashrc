@@ -39,6 +39,7 @@ alias mv="mv -vi"
 alias rm="rm -vi"
 alias trash="trash -v"
 alias lf="lfcd"
+alias t='trash'
 
 if [ -x "$(command -v eza)" ]; then
     export EZA_COLORS="uu=0:gu=0"
