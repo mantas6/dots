@@ -1,0 +1,5 @@
+#!/bin/sh
+
+load=$(sysctl vm.loadavg | awk '{print $3}')
+
+sketchybar --set "$NAME" icon="" label="$load"

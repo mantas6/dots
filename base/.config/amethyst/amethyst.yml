@@ -36,7 +36,7 @@ layouts:
 # First mod (default option + shift).
 mod1:
   - option
-  - shift
+  # - shift
   # - control
   # - command
 
@@ -44,7 +44,7 @@ mod1:
 mod2:
   - option
   - shift
-  - control
+  # - control
   # - command
 
 # Commands:
@@ -230,7 +230,7 @@ toggle-focus-follows-mouse:
 # Automatically quit and reopen Amethyst.
 relaunch-amethyst:
   mod: mod2
-  key: z
+  key: r
 
 # disable screen padding on builtin display
 disable-padding-on-builtin-display: false

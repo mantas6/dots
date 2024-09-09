@@ -1,0 +1,5 @@
+#!/bin/sh
+
+pressure=$(sysctl vm.memory_pressure | awk '{print $2}')
+
+sketchybar --set "$NAME" icon="" label="$pressure"

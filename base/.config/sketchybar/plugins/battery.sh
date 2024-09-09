@@ -19,8 +19,8 @@ case "${PERCENTAGE}" in
   *) ICON=""
 esac
 
-if [[ "$CHARGING" != "" ]]; then
-  ICON=""
+if [ "$CHARGING" != "" ]; then
+  ICON=""
 fi
 
 # The item invoking this script (name $NAME) will get its icon and label
