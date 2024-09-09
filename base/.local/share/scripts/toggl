@@ -35,6 +35,16 @@ list-projects() {
         | jq -r 'map((.id | tostring) + "\t" + .name) | .[]'
 }
 
+list-entries() {
+    start=$(date +%Y-%m-%dT00:00:00Z)
+    end=$(date +%Y-%m-%dT23:59:59Z)
+
+    curl -sSf "https://api.track.toggl.com/api/v9/me/time_entries?start_date=$start&end_date=$end&meta=true" \
+        -H "Content-Type: application/json" \
+        -u "$TOGGL_API_TOKEN":api_token \
+        | jq -r 'sort_by(.id) | map((.id | tostring) + "\t" + (.duration / 60 | tostring) + "min" + "\t" + .name + .task_name) | .[]'
+}
+
 create-time-entry() {
     curl -sfX 'POST' \
         https://api.track.toggl.com/api/v9/workspaces/"$workspace_id"/time_entries \
@@ -61,76 +71,49 @@ branch-projects() {
     esac
 }
 
-branch-tasks() {
-    case "$1" in
-        sync)
-            projects_ids=$(awk '{print $1}' "$cache/projects")
-            all_tasks=''
-
-            for id in $projects_ids; do
-                all_tasks="$all_tasks$(list-project-tasks "$id")"
-            done
-
-            echo "Sycned total $(echo "$all_tasks" | wc -l) tasks."
-            echo "$all_tasks" > "$cache/tasks"
-            ;;
-        select)
-            selected_task=$(fzf -i --delimiter="\t" --with-nth=2 < "$cache/tasks")
-            echo "$selected_task" > "$cache/current_task"
-            ;;
-        start)
-            now=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
-            echo "$now" > "$cache/start_time"
-            ;;
-        stop)
-            start=$(<"$cache/start_time")
-            # CURL
-            rm "$cache/start_time"
-            ;;
-        *)
-            echo "[toggl] tasks [sync|select]"
-            exit 1
-            ;;
-    esac
-}
-
 case "$1" in
     p|projects)
         shift
         branch-projects "$@"
         ;;
-    t|tasks)
-        shift
-        branch-tasks "$@"
+    y|sync)
+        projects_ids=$(awk '{print $1}' "$cache/projects")
+        all_tasks=''
+
+        for id in $projects_ids; do
+            all_tasks="$all_tasks$(list-project-tasks "$id")"
+        done
+
+        echo "Sycned total $(echo "$all_tasks" | wc -l) tasks."
+        echo "$all_tasks" > "$cache/tasks"
+        ;;
+    s|sel|select)
+        selected_task=$(fzf -i --delimiter="\t" --with-nth=2 < "$cache/tasks")
+        echo "$selected_task" > "$cache/current_task"
+        ;;
+    c|cp|copy)
+        selected_task=$(fzf -i --delimiter="\t" --with-nth=2 < "$cache/tasks")
+        echo -n "$selected_task" | awk -F'\t' '{print $2}' | pbcopy
+        ;;
+    ls)
+        list-entries
+        ;;
+    start)
+        now=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
+        echo "$now" > "$cache/start_time"
+        ;;
+    stop)
+        start=$(<"$cache/start_time")
+        # CURL
+        rm "$cache/start_time"
         ;;
 
     *)
         echo "unknown option $1"
-        echo "toggl [projects|tasks]"
+        echo "toggl [projects|sync|select|copy]"
         exit 1
         ;;
 esac
 
 exit 0
 
-project_id=$(curl -s \
-    https://api.track.toggl.com/api/v9/workspaces/"$workspace_id"/projects \
-    -H "Content-Type: application/json" \
-    -u "$TOGGL_API_TOKEN":api_token \
-    | jq -r 'map((.id | tostring) + "\t" + .name) | .[]' \
-    | fzf -i --delimiter="\t" --with-nth=2 \
-    | awk '{print $1}'
-)
-
-[ -z "$project_id" ] && echo "Cancelled" && exit 1
-
-task_id=$(curl -s \
-    https://api.track.toggl.com/api/v9/workspaces/"$workspace_id"/projects/"$project_id"/tasks \
-    -H "Content-Type: application/json" \
-    -u "$TOGGL_API_TOKEN":api_token \
-    | jq -r 'sort_by(.id) | reverse | map((.id | tostring) + "\t" + .name + .project_name) | .[]' \
-    | fzf -i --delimiter="\t" --with-nth=2 \
-    | awk -F'\t' '{print $2}'
-)
-
-echo "$task_id"

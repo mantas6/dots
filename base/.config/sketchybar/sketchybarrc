@@ -96,6 +96,9 @@ sketchybar --add item cpu right \
 sketchybar --add item memory right \
            --set memory update_freq=3 script="$PLUGIN_DIR/memory"
 
+sketchybar --add item docker right \
+           --set docker update_freq=15 script="$PLUGIN_DIR/docker"
+
 sketchybar --hotload true
 
 ##### Force all scripts to run the first time (never do this in a script) #####
