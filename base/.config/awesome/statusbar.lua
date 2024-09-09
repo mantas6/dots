@@ -17,10 +17,6 @@ module.battery = createWidget("printf \"%s\" \"$(cat "..batteryPath.."/capacity)
     local percentage = string.match(params.text, "([^:]+)")
     local status = string.match(params.text, ":(.+)"):match("^%s*(.-)%s*$")
 
-    if status == nil or percentage == nil then
-      return
-    end
-
     if status == 'Not charging' then
         params.icon = ''
         params.color = '#c0c0c0';
@@ -29,6 +25,10 @@ module.battery = createWidget("printf \"%s\" \"$(cat "..batteryPath.."/capacity)
         params.color = '#ffa500';
     else
         local percentNum = tonumber(percentage)
+
+        if percentNum == nil then
+          return
+        end
 
         if percentNum > 80 then
             params.icon = '' -- full

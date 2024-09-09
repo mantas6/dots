@@ -39,6 +39,7 @@ alias mv="mv -vi"
 alias rm="rm -vi"
 alias trash="trash -v"
 alias lf="lfcd"
+alias t='trash'
 
 if [ -x "$(command -v eza)" ]; then
     export EZA_COLORS="uu=0:gu=0"
@@ -54,6 +55,7 @@ fi
 alias zd='cd ~/Downloads'
 alias ze='cd ~/Desktop'
 alias zr='cd "$(git rev-parse --show-toplevel)"'
+alias zf='__fzf_cd__'
 
 # Laravel
 alias sail="vendor/bin/sail"
@@ -95,6 +97,17 @@ fi
 # Dotfiles
 alias dlg="(cd $HOME/Repos/dotfiles && lazygit)"
 alias dsy="(cd $HOME/Repos/dotfiles && git pull && ./stow)"
+
+dss() {
+    (cd "$HOME/Repos/dotfiles" \
+        && git status \
+        && git diff \
+        && printf '%s' 'Message: ' \
+        && read -r msg \
+        && git add . \
+        && git commit -m "${msg:=Update}" \
+        && git pull && git push)
+}
 
 alias cal='cal --monday'
 alias keepon="xset s off && xset -dpms"

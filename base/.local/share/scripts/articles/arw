@@ -27,5 +27,7 @@ response=$(curl -sSfX "$method" \
     "$url"
 )
 
+rm -f "$state/list"
+
 echo "$response" | jq '.id' > "$current/id"
 echo "Word count: $(echo "$response" | jq '.word_count')"
