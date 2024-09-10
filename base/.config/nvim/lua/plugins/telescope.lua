@@ -8,12 +8,17 @@ return {
   },
 
   config = function()
-    require('telescope').setup({})
+    require('telescope').setup({
+      pickers = {
+       find_files = { hidden = true },
+      },
+    })
 
     local builtin = require('telescope.builtin')
     local utils = require("telescope.utils")
 
     vim.keymap.set('n', '<leader>pp', builtin.find_files, {})
+    vim.keymap.set('n', '<leader>pa', function() builtin.find_files({ no_ignore = true, prompt_title = 'All Files' }) end)
     vim.keymap.set('n', '<leader>pf', builtin.live_grep, {})
     vim.keymap.set('n', '<leader>pd', function ()
       builtin.find_files({ cwd = utils.buffer_dir() })
