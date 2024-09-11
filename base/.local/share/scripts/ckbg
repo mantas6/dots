@@ -1,9 +1,9 @@
 #!/bin/bash
 
+processes=('scp' 'rsync')
+
 if [ "$1" = '-a' ]; then
-    processes=('brew' 'pacman' 'cp' 'rm')
-else
-    processes=('scp' 'rsync')
+    processes+=('brew' 'pacman' 'cp' 'rm')
 fi
 
 for process in "${processes[@]}"
