@@ -1,3 +1,5 @@
 #!/bin/sh
 
-docker exec -it "$DOCKER_EXEC_NAME" "${@:-bash}"
+name=$(docker-compose ps --format '{{.Names}}' | grep -i fpm)
+
+docker exec -it "$name" "${@:-bash}"
