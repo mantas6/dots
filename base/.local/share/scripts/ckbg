@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ "$1" = '-a' ]; then
+    processes=('brew' 'pacman' 'cp')
+else
+    processes=('scp' 'rsync')
+fi
+
+for process in "${processes[@]}"
+do
+    if pgrep -x "$process" > /dev/null; then
+        echo "$process is running"
+    fi
+done
