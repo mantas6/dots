@@ -99,6 +99,9 @@ sketchybar --add item memory right \
 sketchybar --add item docker right \
            --set docker update_freq=15 script="$PLUGIN_DIR/docker"
 
+sketchybar --add item packages right \
+           --set packages update_freq=300 script="$PLUGIN_DIR/packages"
+
 sketchybar --hotload true
 
 ##### Force all scripts to run the first time (never do this in a script) #####
