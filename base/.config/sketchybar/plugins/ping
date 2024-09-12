@@ -1,0 +1,5 @@
+#!/bin/sh
+
+value=$(ping -c 1 google.com | grep 'time=' | awk -F 'time=' '{print $2}' | cut -d'.' -f1)
+
+sketchybar --set "$NAME" icon="" label="${value}ms"

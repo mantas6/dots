@@ -96,6 +96,9 @@ sketchybar --add item cpu right \
 sketchybar --add item memory right \
            --set memory update_freq=3 script="$PLUGIN_DIR/memory"
 
+sketchybar --add item ping right \
+           --set ping update_freq=5 script="$PLUGIN_DIR/ping"
+
 sketchybar --add item docker right \
            --set docker update_freq=15 script="$PLUGIN_DIR/docker"
 
