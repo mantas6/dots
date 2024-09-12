@@ -1,5 +1,8 @@
 #!/bin/sh
 
-pressure=$(sysctl vm.memory_pressure | awk '{print $2}')
+export PATH="$HOME/.local/bin:$PATH"
 
-sketchybar --set "$NAME" icon="" label="$pressure"
+mem=$(fastfetch -s memory --format json | jq -r '(.[0].result.used / 1024 / 1024 / 1024 * 10 | round) / 10')
+swap=$(fastfetch -s swap --format json | jq -r '(.[0].result.used / 1024 / 1024 / 1024 * 10 | round) / 10')
+
+sketchybar --set "$NAME" icon="" label="${mem}G/${swap}G"
