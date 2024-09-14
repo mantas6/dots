@@ -1,0 +1,3 @@
+#!/bin/bash
+
+curl -sSfL "$SAT_BASE_URL/api/wt/vilnius" | column -t -s $'\t'
