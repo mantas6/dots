@@ -33,6 +33,10 @@ return {
           { name = "buffer" },
         }),
       })
+
+      require("cmp").setup.filetype('markdown', {
+        enabled = false,
+      })
     end,
   },
 }
