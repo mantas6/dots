@@ -259,6 +259,7 @@ awful.screen.connect_for_each_screen(function(s)
             statusbar.rain,
             statusbar.journal,
             statusbar.updates,
+            statusbar.temp,
             statusbar.cpuf,
             statusbar.load,
             statusbar.memory,
