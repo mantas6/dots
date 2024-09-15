@@ -1,3 +1,5 @@
 #!/bin/bash
 
-curl -sSfL "$SAT_BASE_URL/api/wt/vilnius" | column -t -s $'\t'
+place=${1:-vilnius}
+
+curl -sSfL "$SAT_BASE_URL/api/wt/$place" | column -t -s $'\t'
