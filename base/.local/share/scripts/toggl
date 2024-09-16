@@ -61,14 +61,33 @@ branch-projects() {
         add)
             list-projects | fzf -i --delimiter="\t" --with-nth=2 >> "$cache/projects"
             ;;
-        list)
+        ls)
             column -ts $'\t' < "$cache/projects"
             ;;
         *)
-            echo "[toggl] projects [all|add|list]"
+            print-help
             exit 1
             ;;
     esac
+}
+
+sync-tasks() {
+    projects_ids=$(awk '{print $1}' "$cache/projects")
+    all_tasks=''
+
+    for id in $projects_ids; do
+        all_tasks="$all_tasks$(list-project-tasks "$id")"
+    done
+
+    echo "Sycned total $(echo "$all_tasks" | wc -l) tasks."
+    echo "$all_tasks" > "$cache/tasks"
+}
+
+print-help() {
+    echo ''
+    echo "toggl [projects|sync|select|copy]"
+    echo ''
+    echo "toggl projects [all|add|ls]"
 }
 
 case "$1" in
@@ -77,15 +96,7 @@ case "$1" in
         branch-projects "$@"
         ;;
     y|sync)
-        projects_ids=$(awk '{print $1}' "$cache/projects")
-        all_tasks=''
-
-        for id in $projects_ids; do
-            all_tasks="$all_tasks$(list-project-tasks "$id")"
-        done
-
-        echo "Sycned total $(echo "$all_tasks" | wc -l) tasks."
-        echo "$all_tasks" > "$cache/tasks"
+        sync-tasks
         ;;
     s|sel|select)
         selected_task=$(fzf -i --delimiter="\t" --with-nth=2 < "$cache/tasks")
@@ -98,11 +109,11 @@ case "$1" in
     ls)
         list-entries
         ;;
-    start)
+    r|start)
         now=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
         echo "$now" > "$cache/start_time"
         ;;
-    stop)
+    t|stop)
         start=$(<"$cache/start_time")
         # CURL
         rm "$cache/start_time"
@@ -110,7 +121,7 @@ case "$1" in
 
     *)
         echo "unknown option $1"
-        echo "toggl [projects|sync|select|copy]"
+        print-help
         exit 1
         ;;
 esac
