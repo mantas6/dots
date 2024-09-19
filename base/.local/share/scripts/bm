@@ -1,1 +1,16 @@
-#!/bin/sh
+#!/bin/bash
+
+list=('https://google.com/search?q={query}' 'https://github.com/search?q={query}')
+
+selected=$(printf '%s\n' "${list[@]}" | fzf)
+
+# Extract the text inside the curly braces {}
+placeholder=$(echo "$selected" | grep -oP '{.*?}' | tr -d '{}')
+
+# Prompt the user for input to replace the placeholder
+read -rp "$placeholder: " input
+
+# Replace the placeholder with the user input
+url="${selected//\{$placeholder\}/$input}"
+
+xdg-open "$url"
