@@ -2,6 +2,8 @@ base/.config/awesome/local/
 base/.config/shell/local/
 base/.config/nvim/spell/
 
+base/.config/bookmarks.local.list
+
 base/.local/share/applications/*.cache
 
 base/.stow-local-ignore

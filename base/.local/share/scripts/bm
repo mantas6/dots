@@ -2,18 +2,23 @@
 
 # Access bookmarks and open a browser tab with an optional parameter
 
-list=(
-    'https://google.com/search?q={query}'
-    'https://github.com/search?q={query}'
-    'https://youtube.com/feed/subscriptions'
-)
+list="$XDG_CONFIG_HOME/bookmarks.list"
+list_local="$XDG_CONFIG_HOME/bookmarks.local.list"
+
+# Editing bookmarks lists
+[ "$1" = '-e' ] && nvim "$list" && exit 0
+[ "$1" = '-el' ] && nvim "$list_local" && exit 0
+
+list=$(cat "$list" "$list_local" 2> /dev/null)
+
+# Listing all bookmarks
+[ "$1" = '-l' ] && echo "$list" && exit 0
 
 # Use fzf to select one of the URLs
-url=$(printf '%s\n' "${list[@]}" | fzf)
+url=$(printf '%s\n' "${list[@]}" | fzf -i)
 
 # If selection was canceled then exit
 [ ! "$url" ] && exit 1
-
 
 # Extract the text inside the curly braces {}
 placeholder=$(echo "$url" | grep -oP '{.*?}' | tr -d '{}')
@@ -26,5 +31,4 @@ if [ "$placeholder" ]; then
     url="${url//\{$placeholder\}/$input}"
 fi
 
-
-xdg-open "$url"
+xdg-open "https://$url"

@@ -1,0 +1,6 @@
+google.com/search?q={query}
+github.com/search?q={query}
+youtube.com/feed/subscriptions
+youtube.com/results?search_query={query}
+packagist.org/?query={query}
+gmail.com
