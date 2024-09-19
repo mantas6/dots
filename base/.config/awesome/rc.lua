@@ -454,6 +454,9 @@ globalkeys = gears.table.join(
     -- Passwords
     awful.key({ modkey }, "n", function() awful.spawn('rofi-pass') end,
               {description = "show password manager", group = "launcher"}),
+    -- Bookmarks
+    awful.key({ modkey }, "g", function() awful.spawn('bm --rofi') end,
+              {description = "show bookmarks", group = "launcher"}),
     -- Screenshot
     awful.key({ modkey }, "u", function() awful.spawn.with_shell('maim -s | xclip -selection clipboard -t image/png -i') end,
               {description = "take a screenshot", group = "launcher"}),
