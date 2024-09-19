@@ -6,7 +6,7 @@ list="$XDG_CONFIG_HOME/bookmarks.list"
 list_local="$XDG_CONFIG_HOME/bookmarks.local.list"
 search_cmd='fzf -i'
 
-list=$(cat "$list" "$list_local" 2> /dev/null)
+items=$(cat "$list" "$list_local" 2> /dev/null)
 
 for p in "$@"
 do
@@ -15,13 +15,13 @@ do
     [ "$p" = '-el' ] && nvim "$list_local" && exit 0
 
     # Listing all bookmarks
-    [ "$p" = '-l' ] && echo "$list" && exit 0
+    [ "$p" = '-l' ] && echo "$items" && exit 0
 
     [ "$p" = '--rofi' ] && search_cmd='rofi -dmenu'
 done
 
 # Use fzf to select one of the URLs
-url=$(printf '%s\n' "${list[@]}" | $search_cmd)
+url=$(printf '%s\n' "${items[@]}" | $search_cmd)
 
 # If selection was canceled then exit
 [ ! "$url" ] && exit 1
