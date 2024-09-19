@@ -1,16 +1,30 @@
 #!/bin/bash
 
-list=('https://google.com/search?q={query}' 'https://github.com/search?q={query}')
+# Access bookmarks and open a browser tab with an optional parameter
 
-selected=$(printf '%s\n' "${list[@]}" | fzf)
+list=(
+    'https://google.com/search?q={query}'
+    'https://github.com/search?q={query}'
+    'https://youtube.com/feed/subscriptions'
+)
+
+# Use fzf to select one of the URLs
+url=$(printf '%s\n' "${list[@]}" | fzf)
+
+# If selection was canceled then exit
+[ ! "$url" ] && exit 1
+
 
 # Extract the text inside the curly braces {}
-placeholder=$(echo "$selected" | grep -oP '{.*?}' | tr -d '{}')
+placeholder=$(echo "$url" | grep -oP '{.*?}' | tr -d '{}')
 
-# Prompt the user for input to replace the placeholder
-read -rp "$placeholder: " input
+if [ "$placeholder" ]; then
+    # Prompt the user for input to replace the placeholder
+    read -rp "$placeholder: " input
 
-# Replace the placeholder with the user input
-url="${selected//\{$placeholder\}/$input}"
+    # Replace the placeholder with the user input
+    url="${url//\{$placeholder\}/$input}"
+fi
+
 
 xdg-open "$url"
