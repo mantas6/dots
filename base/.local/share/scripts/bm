@@ -2,6 +2,10 @@
 
 # Access bookmarks and open a browser tab with an optional parameter
 
+state="$XDG_STATE_HOME/bm"
+mkdir -p "$state"
+touch "$state/history"
+
 list="$XDG_CONFIG_HOME/bm/list"
 list_local="$XDG_CONFIG_HOME/bm/list.local"
 search_cmd='fzf -i'
@@ -33,10 +37,14 @@ placeholder=$(echo "$url" | grep -oP '{.*?}' | tr -d '{}')
 if [ "$placeholder" ]; then
     # Prompt the user for input to replace the placeholder
     if [[ "$search_cmd" == *'fzf'* ]]; then
-        read -rp "$placeholder: " input
+        input=$(uniq < "$state/history" | fzf -i --print-query --prompt "$placeholder > " --bind tab:replace-query)
     else
         input=$($search_cmd -p "$placeholder: ")
     fi
+
+    [ ! "$input" ] && exit 1
+
+    echo "$input" | grep -v '^$' >> "$state/history"
 
     # Replace the placeholder with the user input
     url="${url//\{$placeholder\}/$input}"
