@@ -1,10 +1,18 @@
-google.com/search?q={query}
-github.com/search?q={query}
+google.com/search?q={}
+
 youtube.com/feed/subscriptions
-youtube.com/results?search_query={query}
-packagist.org/?query={query}
-gmail.com
+youtube.com/results?search_query={}
+
+github.com/search?q={}
+packagist.org/?query={}
+
+# Manual
+mywiki.wooledge.org/BashGuide
+php.net/manual-lookup.php?pattern={}&scope=quickref
+wiki.archlinux.org/index.php?search={}
+
+# Weather
 meteo.lt/prognozes/specialisto-komentaras
 meteo.lt/prognozes/zemelapiai
-mywiki.wooledge.org/BashGuide
-php.net/manual-lookup.php?pattern={query}&scope=quickref
+
+gmail.com

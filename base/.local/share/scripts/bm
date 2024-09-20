@@ -9,9 +9,8 @@ touch "$state/history"
 list="$XDG_CONFIG_HOME/bm/list"
 list_local="$XDG_CONFIG_HOME/bm/list.local"
 search_cmd='fzf -i'
-# --bind tab:replace-query
 
-items=$(cat "$list" "$list_local" 2> /dev/null)
+items=$(cat "$list" "$list_local" 2> /dev/null | grep -v '^\(#\|$\)')
 
 for p in "$@"
 do
@@ -32,14 +31,14 @@ url=$(printf '%s\n' "${items[@]}" | $search_cmd)
 [ ! "$url" ] && exit 1
 
 # Extract the text inside the curly braces {}
-placeholder=$(echo "$url" | grep -oP '{.*?}' | tr -d '{}')
+placeholder=$(echo "$url" | grep '{}')
 
 if [ "$placeholder" ]; then
     # Prompt the user for input to replace the placeholder
     if [[ "$search_cmd" == *'fzf'* ]]; then
-        input=$(uniq < "$state/history" | fzf -i --print-query --prompt "$placeholder > " --bind tab:replace-query)
+        input=$(uniq < "$state/history" | fzf -i --print-query --bind tab:replace-query)
     else
-        input=$(uniq < "$state/history" | $search_cmd -p "$placeholder: ")
+        input=$(uniq < "$state/history" | $search_cmd -p "> ")
     fi
 
     [ ! "$input" ] && exit 1
@@ -47,7 +46,7 @@ if [ "$placeholder" ]; then
     echo "$input" | grep -v '^$' >> "$state/history"
 
     # Replace the placeholder with the user input
-    url="${url//\{$placeholder\}/$input}"
+    url="${url//\{\}/$input}"
 fi
 
 xdg-open "https://$url"
