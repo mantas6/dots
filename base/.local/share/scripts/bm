@@ -5,6 +5,7 @@
 list="$XDG_CONFIG_HOME/bm/list"
 list_local="$XDG_CONFIG_HOME/bm/list.local"
 search_cmd='fzf -i'
+# --bind tab:replace-query
 
 items=$(cat "$list" "$list_local" 2> /dev/null)
 
