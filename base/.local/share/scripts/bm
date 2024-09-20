@@ -39,7 +39,7 @@ if [ "$placeholder" ]; then
     if [[ "$search_cmd" == *'fzf'* ]]; then
         input=$(uniq < "$state/history" | fzf -i --print-query --prompt "$placeholder > " --bind tab:replace-query)
     else
-        input=$($search_cmd -p "$placeholder: ")
+        input=$(uniq < "$state/history" | $search_cmd -p "$placeholder: ")
     fi
 
     [ ! "$input" ] && exit 1
