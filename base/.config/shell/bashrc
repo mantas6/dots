@@ -64,7 +64,6 @@ alias artisan="sail artisan"
 alias c="sail composer"
 alias s="sail"
 alias a="de php artisan"
-alias deploy="vendor/bin/envoy run deploy"
 
 alias pc='tools/scripts/precommit'
 alias dup='docker-compose up'
