@@ -1,5 +1,5 @@
 #!/bin/sh
 
-name=$(docker-compose ps --format '{{.Names}}' | grep -i fpm)
+name=$(docker-compose ps --format '{{.Names}}' | grep -i 'fpm\|laravel.test')
 
 docker exec -it "$name" "${@:-bash}"
