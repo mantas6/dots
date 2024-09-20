@@ -2,7 +2,7 @@ base/.config/awesome/local/
 base/.config/shell/local/
 base/.config/nvim/spell/
 
-base/.config/bookmarks.local.list
+base/.config/bm/list.local
 
 base/.local/share/applications/*.cache
 

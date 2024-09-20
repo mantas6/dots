@@ -2,8 +2,8 @@
 
 # Access bookmarks and open a browser tab with an optional parameter
 
-list="$XDG_CONFIG_HOME/bookmarks.list"
-list_local="$XDG_CONFIG_HOME/bookmarks.local.list"
+list="$XDG_CONFIG_HOME/bm/list"
+list_local="$XDG_CONFIG_HOME/bm/list.local"
 search_cmd='fzf -i'
 
 items=$(cat "$list" "$list_local" 2> /dev/null)
