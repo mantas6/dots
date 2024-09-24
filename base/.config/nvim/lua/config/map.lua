@@ -1,5 +1,3 @@
-vim.api.nvim_set_keymap("i", "jj", "<Esc>", {noremap=false})
-
 function ToggleHighlightSearch()
   if vim.o.hlsearch then
     vim.o.hlsearch = false
