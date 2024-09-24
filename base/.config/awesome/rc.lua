@@ -330,6 +330,8 @@ globalkeys = gears.table.join(
               {description = "open a browser", group = "launcher"}), 
     awful.key({ modkey,           }, "e", function () awful.spawn(terminal_cmd) end,
               {description = "open a terminal", group = "launcher"}),
+    awful.key({ modkey, 'Shift' }, "e", function () awful.spawn(terminal..' -o font.size=50 -e tmux') end,
+              {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Shift" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
