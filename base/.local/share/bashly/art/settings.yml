@@ -16,7 +16,7 @@ source_dir: src
 config_path: "%{source_dir}/bashly.yml"
 
 # The path to use for creating the bash script
-target_dir: .
+target_dir: bin
 
 # The path to use for common library files, relative to source_dir
 lib_dir: lib

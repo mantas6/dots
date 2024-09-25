@@ -14,13 +14,15 @@ environment_variables:
 commands:
 - name: list
   alias: ls
+  group: Projects
   help: List all projects
 
   examples:
   - art ls
 
-- name: create
-  alias: c
+- name: init
+  alias: i
+  group: Projects
   help: Create a new project
 
   args:
@@ -29,10 +31,11 @@ commands:
       help: Name of the project
 
   examples:
-    - art create my-new-project
+    - art init my-new-project
 
 - name: select
-  alias: s
+  alias: l
+  group: Projects
   help: Select a project (make link to the main dir)
 
   args:
@@ -42,3 +45,70 @@ commands:
 
   examples:
     - art select my-new-project
+
+- name: scene
+  alias: s
+  help: Scene commands
+  commands:
+
+  - name: list
+    alias: ls
+    group: Scenes
+    help: List all scenes
+
+    examples:
+      - art scene ls
+
+  - name: create
+    alias: c
+    group: Scenes
+    help: Create a new sciene
+
+    args:
+      - name: name
+        required: true
+        help: Name of the scene
+
+    examples:
+      - art create first-scene
+
+  - name: add
+    alias: a
+    group: Scenes
+    help: Add a source to scene
+
+    args:
+      - name: scene
+        required: true
+        help: Name of the scene
+        validate: scene_exists
+
+      - name: subscene
+        required: true
+        help: Name of the sub-scene
+
+      - name: source
+        required: true
+        validate: file_exists
+        help: Source file
+
+    examples:
+      - art scene add first-scene mask mask.png
+
+  - name: rm
+    alias: r
+    group: Scenes
+    help: Remove source from scene
+
+    args:
+      - name: scene
+        required: true
+        help: Name of the scene
+        validate: scene_exists
+
+      - name: subscene
+        required: true
+        help: Name of the sub-scene
+
+    examples:
+      - art scene rm first-scene mask
