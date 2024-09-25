@@ -1,0 +1,1 @@
+ls "$ART_PROJECTS_PATH"

@@ -1,0 +1,44 @@
+name: art
+help: Manage video art projects
+version: 0.1.0
+
+environment_variables:
+- name: art_current_path
+  help: Symlinked current project path
+  default: $HOME/Art
+
+- name: art_projects_path
+  help: Folder where the projects are stored
+  default: $HOME/Videos/Creations
+
+commands:
+- name: list
+  alias: ls
+  help: List all projects
+
+  examples:
+  - art ls
+
+- name: create
+  alias: c
+  help: Create a new project
+
+  args:
+    - name: name
+      required: true
+      help: Name of the project
+
+  examples:
+    - art create my-new-project
+
+- name: select
+  alias: s
+  help: Select a project (make link to the main dir)
+
+  args:
+    - name: name
+      required: true
+      help: Name of the project
+
+  examples:
+    - art select my-new-project
