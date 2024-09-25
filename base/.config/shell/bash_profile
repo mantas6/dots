@@ -27,6 +27,11 @@ if [ -d "$HOME/.local/brew" ]; then
         && source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
 fi
 
+if [ -x "$(command -v gem)" ]; then
+    export GEM_HOME=$(gem env user_gemhome)
+    export PATH="$PATH:$GEM_HOME/bin"
+fi
+
 # Other
 if [ "$(uname)" != "Darwin" ]; then
     export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
