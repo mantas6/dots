@@ -49,4 +49,8 @@ if [ "$placeholder" ]; then
     url="${url//\{\}/$input}"
 fi
 
-xdg-open "https://$url"
+open_cmd='xdg-open'
+
+[ "$(uname)" = "Darwin" ] && open_cmd='open'
+
+"$open_cmd" "https://$url"
