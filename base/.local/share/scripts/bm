@@ -9,19 +9,30 @@ touch "$state/history"
 list="$XDG_CONFIG_HOME/bm/list"
 list_local="$XDG_CONFIG_HOME/bm/list.local"
 search_cmd='fzf -i'
+input_cmd='fzf -i --print-query --bind tab:replace-query'
 
 items=$(cat "$list" "$list_local" 2> /dev/null | grep -v '^\(#\|$\)')
 
 for p in "$@"
 do
-    # Editing bookmarks lists
-    [ "$p" = '-e' ] && nvim "$list" && exit 0
-    [ "$p" = '-el' ] && nvim "$list_local" && exit 0
-
-    # Listing all bookmarks
-    [ "$p" = '-l' ] && echo "$items" && exit 0
-
-    [ "$p" = '--rofi' ] && search_cmd='rofi -dmenu'
+    case "$p" in
+        -e)
+            nvim "$list"; exit 0
+            ;;
+        -el)
+            nvim "$list_local"; exit 0
+            ;;
+        -l)
+            echo "$items"; exit 0
+            ;;
+        --rofi)
+            search_cmd='rofi -dmenu'
+            input_cmd='rofi -dmenu -p "> "'
+            ;;
+        *)
+            echo "Unknown option: $p"; exit 1
+            ;;
+    esac
 done
 
 # Use fzf to select one of the URLs
@@ -35,11 +46,7 @@ placeholder=$(echo "$url" | grep '{}')
 
 if [ "$placeholder" ]; then
     # Prompt the user for input to replace the placeholder
-    if [[ "$search_cmd" == *'fzf'* ]]; then
-        input=$(uniq < "$state/history" | fzf -i --print-query --bind tab:replace-query)
-    else
-        input=$(uniq < "$state/history" | $search_cmd -p "> ")
-    fi
+    input=$(uniq < "$state/history" | $input_cmd)
 
     [ ! "$input" ] && exit 1
 
