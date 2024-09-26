@@ -5,4 +5,4 @@
 
 echo "Opening $*"
 
-awesome-client "require('awful').spawn.with_shell('$*')"
+awesome-client "require('awful').spawn.with_shell('cd $(pwd); $*')"
