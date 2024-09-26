@@ -6,3 +6,8 @@ dir=$(dirname "$(readlink -f "$0")")
 xargs -I {} mkdir -pv "$HOME/{}" < "$dir/dirs.conf"
 
 stow --dir="$dir" --target="$HOME" --verbose "$@" base 
+
+for dir in "$HOME"/.local/share/bashly/*; do
+    cd "$dir" || exit 1
+    bashly generate -e production --quiet
+done

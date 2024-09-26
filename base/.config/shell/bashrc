@@ -128,8 +128,6 @@ alias scu='systemctl --user'
 alias jc='journalctl'
 alias jcu='journalctl --user'
 
-alias bashly='docker run --rm -it --volume "$PWD:/app" dannyben/bashly'
-
 # AP
 alias ap-hostapd-edit="sudoedit /etc/hostapd/hostapd.conf"
 alias ap-hostapd-restart="sudo systemctl restart hostapd"
