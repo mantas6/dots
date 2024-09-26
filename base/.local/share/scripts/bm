@@ -12,7 +12,7 @@ search_cmd='fzf -i'
 input_cmd='fzf -i --print-query --bind tab:replace-query'
 
 show_help() {
-    echo 'bm - boomarkmarks manager'
+    echo 'bm - boomarkmarks for browser'
     echo
     echo 'Editing:'
     echo '  -e            Edit global bookmarks list'
@@ -48,8 +48,10 @@ do
             exit 0
             ;;
         *)
+            echo "Unknown option: $p" >&2
+            echo
             show_help
-            echo "Unknown option: $p"; exit 1
+            exit 1
             ;;
     esac
 done
