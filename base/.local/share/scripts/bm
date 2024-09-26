@@ -11,6 +11,20 @@ list_local="$XDG_CONFIG_HOME/bm/list.local"
 search_cmd='fzf -i'
 input_cmd='fzf -i --print-query --bind tab:replace-query'
 
+show_help() {
+    echo 'bm - boomarkmarks manager'
+    echo
+    echo 'Editing:'
+    echo '  -e            Edit global bookmarks list'
+    echo '  -el           Edit local (untracked) bookmarks list'
+    echo
+    echo 'Other:'
+    echo '  -l            List all bookmarks and exit'
+    echo '  --rofi        Use rofi instead of fzf for prompt'
+    echo
+    echo '  -h, --help    Display help'
+}
+
 items=$(cat "$list" "$list_local" 2> /dev/null | grep -v '^\(#\|$\)')
 
 for p in "$@"
@@ -27,9 +41,14 @@ do
             ;;
         --rofi)
             search_cmd='rofi -dmenu'
-            input_cmd='rofi -dmenu -p "> "'
+            input_cmd=(rofi -dmenu -p '> ')
+            ;;
+        -h|--help)
+            show_help
+            exit 0
             ;;
         *)
+            show_help
             echo "Unknown option: $p"; exit 1
             ;;
     esac
@@ -46,7 +65,7 @@ placeholder=$(echo "$url" | grep '{}')
 
 if [ "$placeholder" ]; then
     # Prompt the user for input to replace the placeholder
-    input=$(uniq < "$state/history" | $input_cmd)
+    input=$(uniq < "$state/history" | "${input_cmd[@]}")
 
     [ ! "$input" ] && exit 1
 
