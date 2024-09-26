@@ -12,6 +12,11 @@ environment_variables:
   default: $HOME/Videos/Creations
 
 commands:
+- name: completions
+  help: |-
+    Generate bash completions
+    Usage: eval "\$(art completions)"
+
 - name: list
   alias: ls
   group: Projects
@@ -72,10 +77,10 @@ commands:
     examples:
       - art create first-scene
 
-  - name: add
+  - name: import
     alias: a
     group: Scenes
-    help: Add a source to scene
+    help: Import a source to scene
 
     args:
       - name: scene
