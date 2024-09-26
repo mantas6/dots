@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Spawn application with WM as parent
+# Note: CWD is not inherited, full path must be given for files
+
+echo "Opening $*"
+
+awesome-client "require('awful').spawn.with_shell('$*')"

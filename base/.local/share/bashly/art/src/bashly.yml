@@ -117,3 +117,36 @@ commands:
 
     examples:
       - art scene rm first-scene mask
+
+  - name: open
+    alias: o
+    group: Scenes
+    help: Open scene in Natron
+
+    args:
+      - name: scene
+        required: true
+        help: Name of the scene
+        validate: scene_exists
+
+    examples:
+      - art scene open first-scene
+
+  - name: iterate
+    alias: i
+    group: Scenes
+    help: Create a new iteration (version) of the scene
+
+    args:
+      - name: scene
+        required: true
+        help: Name of the scene
+        validate: scene_exists
+
+    flags:
+        - long: --open
+          short: -o
+          help: Open after copying
+
+    examples:
+      - art scene iterate first-scene
