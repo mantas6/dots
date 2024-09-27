@@ -13,4 +13,4 @@ new_file=$(printf "$scene%02d.ntp" $((current_number + 1)))
 
 cp -vi "$latest" "$new_file"
 
-[ "${args[--open]}" ] && wmspawn "Natron $new_file"
+[ "${args[--open]}" ] && wms "Natron $new_file"

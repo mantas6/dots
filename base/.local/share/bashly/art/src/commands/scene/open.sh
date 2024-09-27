@@ -6,5 +6,5 @@ cd "$path" || exit 1
 
 latest=$(find . -maxdepth 1 -name "$scene*.ntp" | sort -V | tail -n 1)
 
-wmspawn "Natron $latest"
+wms "Natron $latest"
 
