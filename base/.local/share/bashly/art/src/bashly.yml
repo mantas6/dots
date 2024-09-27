@@ -150,3 +150,17 @@ commands:
 
     examples:
       - art scene iterate first-scene
+
+  - name: tree
+    alias: t
+    group: Scenes
+    help: Display tree of project/scene
+
+    args:
+      - name: scene
+        help: Name of the scene
+        validate: scene_exists
+
+    examples:
+      - art scene tree
+      - art scene tree first-scene
