@@ -1,4 +1,4 @@
 #!/bin/sh
 # Use with https://github.com/mantas6/tinywolf
 
-curl t460:5001/wol/"$1"
+curl -sSfL t460:5001/wol/"$1"
