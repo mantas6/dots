@@ -9,5 +9,6 @@ stow --dir="$dir" --target="$HOME" --verbose "$@" base
 
 for dir in "$HOME"/.local/share/bashly/*; do
     cd "$dir" || exit 1
+    mkdir -pv bin
     bashly generate -e production --quiet
 done
