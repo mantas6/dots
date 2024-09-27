@@ -38,6 +38,9 @@ if [ "$(uname)" != "Darwin" ]; then
     export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
 fi
 
+export GOPATH="$XDG_DATA_HOME"/go
+export GOMODCACHE="$XDG_CACHE_HOME"/go/mod
+
 export ATAC_MAIN_DIR="$XDG_CONFIG_HOME/atac"
 export ATAC_KEY_BINDINGS="$XDG_CONFIG_HOME/atac/key.toml"
 
