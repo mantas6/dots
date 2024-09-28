@@ -1,0 +1,8 @@
+#!/bin/sh
+# Spawn application with WM as parent
+
+cmd=$*
+
+[ $# -eq 1 ] && cmd="xdg-open $1"
+
+awesome-client "require('awful').spawn.with_shell('cd $(pwd); $cmd')"
