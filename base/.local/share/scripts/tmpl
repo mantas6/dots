@@ -1,0 +1,12 @@
+#!/bin/sh
+# Execute templating script on current dir
+
+dir="$XDG_CONFIG_HOME/tmpl/templates.d"
+
+list=$(cd "$dir" && find . -type f | sed 's|^\./||')
+
+choice=$(echo "$list" | fzf)
+
+[ ! "$choice" ] && exit 1
+
+"$dir/$choice"

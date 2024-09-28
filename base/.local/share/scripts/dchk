@@ -3,6 +3,11 @@
 
 cd "$HOME/Repos/dotfiles" || exit 1
 
+if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+    echo 'Dotfiles: There are untracked files.'
+    exit 1
+fi
+
 # Check for uncommitted changes
 if ! git diff --quiet; then
     echo 'Dotfiles: There are unstaged changes.'

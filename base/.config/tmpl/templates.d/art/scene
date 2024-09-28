@@ -1,0 +1,3 @@
+#!/bin/sh
+
+mkdir -v Read Write Intermediate
