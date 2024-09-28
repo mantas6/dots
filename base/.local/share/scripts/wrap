@@ -1,0 +1,14 @@
+#!/bin/sh
+# Wrap file in a directory
+
+file="$1"
+dir="$2"
+
+[ ! -f "$file" ] && exit 1
+[ -z "$dir" ] && dir="${file%.*}"
+
+dirt="$dir.wrap"
+
+mkdir "$dirt"
+mv "$file" "$dirt"
+mv "$dirt" "$dir"
