@@ -1,0 +1,18 @@
+#!/bin/sh
+# Jump to marked parent directories
+
+# Start from the current directory
+dir=$(pwd)
+
+[ "$1" = '-f' ] && dir=$(dirname "$dir")
+
+# Loop until the root directory is reached
+while [ "$dir" != "/" ]; do
+    # Check if the .zt file exists in the current directory
+    [ -f "$dir/.zt" ] && echo "$dir" && exit 0
+
+    # Move to the parent directory
+    dir=$(dirname "$dir")
+done
+
+exit 1

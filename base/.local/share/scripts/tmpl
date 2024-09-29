@@ -7,7 +7,7 @@ dir="$XDG_CONFIG_HOME/tmpl/templates.d"
 
 list=$(cd "$dir" && find . -type f | sed 's|^\./||')
 
-[ -n "$1" ] && cd "$1" || exit 1
+[ -n "$1" ] && (cd "$1" || exit 1)
 [ -n "$2" ] && list=$(echo "$list" | grep -i "$2")
 
 [ "$list" = '' ] && echo 'No template matches found' && exit 1

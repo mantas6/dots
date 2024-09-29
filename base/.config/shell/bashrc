@@ -181,6 +181,10 @@ lfcd () {
     cd "$(command lf -print-last-dir "$@")" || return
 }
 
+zt() {
+    cd "$(command zt "$@")" || return
+}
+
 li() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
 	yazi "$@" --cwd-file="$tmp"
