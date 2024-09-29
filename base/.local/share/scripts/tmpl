@@ -1,12 +1,20 @@
 #!/bin/sh
 # Execute templating script on current dir
 
+[ "$1" = '-h' ] && echo 'tmpl [dir?] [template?]' && exit 0
+
 dir="$XDG_CONFIG_HOME/tmpl/templates.d"
 
 list=$(cd "$dir" && find . -type f | sed 's|^\./||')
 
-choice=$(echo "$list" | fzf)
+[ -n "$1" ] && cd "$1" || exit 1
+[ -n "$2" ] && list=$(echo "$list" | grep -i "$2")
 
+[ "$list" = '' ] && echo 'No template matches found' && exit 1
+
+choice=$(echo "$list" | fzf --preview="bat --color=always $dir/{}")
 [ ! "$choice" ] && exit 1
+
+echo "Running $choice"
 
 "$dir/$choice"
