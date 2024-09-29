@@ -1,6 +1,6 @@
 #!/bin/sh
 
-filename="/backup_$(date +%y%m%d%H%M).tar.gz"
+filename="/$(uname -n)_$(date +%y%m%d%H%M).tar.gz"
 
 sudo tar czf "$filename" \
     --exclude="$filename" \
