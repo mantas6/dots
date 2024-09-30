@@ -3,4 +3,4 @@
 base=$(basename "$SAT_BASE_URL")
 name=$(echo "$base" | cut -d'.' -f2,3)
 
-ssh -o LogLevel=QUIET -tt "$name" "cd /var/www/$base/current && php artisan $*"
+ssh -o LogLevel=QUIET -tt "$name" "cd /home/mantas/$base/current && php artisan $*"
