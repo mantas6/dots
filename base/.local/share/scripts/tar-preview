@@ -2,4 +2,6 @@
 
 result=$(tar -tf "$1" | fzf --preview="tar -xzOf '$1' {} | bat --color=always")
 
+[ ! "$result" ] && exit 0
+
 tar -xzOf "$1" "$result"
