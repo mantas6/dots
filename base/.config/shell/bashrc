@@ -181,8 +181,8 @@ lfcd () {
     cd "$(command lf -print-last-dir "$@")" || return
 }
 
-zt() {
-    cd "$(command zt "$@")" || return
+zt() { 
+    out=$(command zt "$@") && eval "$out"
 }
 
 li() {
