@@ -60,8 +60,8 @@ alias zf='eval "$(__fzf_cd__)"'
 
 # Laravel
 alias sail="vendor/bin/sail"
-alias artisan="sail artisan"
-alias c="sail composer"
+alias artisan="de artisan"
+alias c="de composer"
 alias s="sail"
 alias a="de php artisan"
 
