@@ -1,0 +1,11 @@
+#!/bin/sh
+
+root=$(pwd)
+file=$(mktemp "$root/.XXXXXXX.php")
+
+echo '<?php' >> "$file"
+echo "require __DIR__.'/vendor/autoload.php';" >> "$file"
+
+nvim -c "set nospell | autocmd BufWritePost * !bash -c 'de php $(basename "$file")'" "$file"
+
+rm "$file"
