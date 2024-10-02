@@ -1,11 +1,34 @@
 #!/bin/sh
 
-root=$(pwd)
-file=$(mktemp "$root/.XXXXXXX.php")
+cd "$(git rev-parse --show-toplevel)" || exit 1
 
-echo '<?php' >> "$file"
-echo "require __DIR__.'/vendor/autoload.php';" >> "$file"
+index=$(mktemp "$(pwd)/.ti-XXXXXXX.php")
+buffer=$(mktemp "$(pwd)/.tb-XXXXXXX.php")
 
-nvim -c "set splitright | autocmd BufWritePost * only | vsp | terminal de php $(basename "$file")" "$file"
+echo '<?php' >> "$buffer"
 
-rm "$file"
+cat <<EOF > "$index"
+<?php
+
+require __DIR__.'/vendor/autoload.php';
+
+\$app = require_once __DIR__.'/bootstrap/app.php';
+
+\$kernel = \$app->make(Illuminate\Contracts\Console\Kernel::class);
+
+\$status = \$kernel->handle(
+    \$input = new Symfony\Component\Console\Input\ArgvInput,
+    new Symfony\Component\Console\Output\BufferedOutput
+);
+
+\$result = require './$(basename "$buffer")';
+
+dump(\$result);
+
+\$kernel->terminate(\$input, \$status);
+EOF
+
+nvim -c "set nospell | set splitright | autocmd BufWritePost * only | vsp | terminal de php $(basename "$index")" "$buffer"
+
+rm "$buffer"
+rm "$index"
