@@ -1,4 +1,5 @@
 #!/bin/sh
+# Tmux session start hook - ran after new session creation
 
 if [ -d '.git' ]; then
     tmux rename-window 'vi'
