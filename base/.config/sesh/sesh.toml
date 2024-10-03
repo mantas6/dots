@@ -1,2 +1,2 @@
 [default_session]
-startup_command = "ll"
+startup_command = "start-tmux-session"

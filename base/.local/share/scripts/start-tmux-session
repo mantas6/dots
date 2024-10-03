@@ -1,0 +1,11 @@
+#!/bin/sh
+
+[ ! -d '.git' ] && exit 0
+
+tmux rename-window 'vi'
+tmux send-keys 'nvim .' C-m
+
+tmux new-window -n 'ex'
+tmux new-window -n 'git' 'lazygit'
+
+tmux select-window -t 'vi'
