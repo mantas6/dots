@@ -151,10 +151,6 @@ alias tra="sat transactions:select"
 
 alias reboot-windows='sudo grub-reboot "$(grep -i windows /boot/grub/grub.cfg|cut -d"'\''" -f2)" && reboot'
 
-for file in "$HOME"/.local/share/bashly/*/bin/*; do
-    [ -f "$file" ] && eval "$("$file" completions)"
-done
-
 # Functions
 # Get time when system was woken from sleep
 wok() {
