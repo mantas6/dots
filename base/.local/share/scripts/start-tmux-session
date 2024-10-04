@@ -10,5 +10,7 @@ if [ -d '.git' ]; then
 
     tmux select-window -t 'vi'
 elif [ "$(pwd)" = "$HOME/Downloads" ]; then
-    eza --icons --group-directories-first -l
+    [ -x "$(command -v eza)" ] && eza --icons --group-directories-first -l
+elif [ "$(pwd)" = "$HOME" ]; then
+    [ -x "$(command -v fastfetch)" ] && fastfetch
 fi
