@@ -52,6 +52,8 @@ export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 export WGETRC="$XDG_CONFIG_HOME/wgetrc"
 export VIT_DIR="$XDG_CONFIG_HOME/vit"
 
+export OLLAMA_HOST='amd:11434'
+
 export MOZ_USE_XINPUT2=1
 export QT_QPA_PLATFORMTHEME=qt6ct
 
