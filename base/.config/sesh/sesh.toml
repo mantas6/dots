@@ -1,2 +1,6 @@
 [default_session]
 startup_command = "start-tmux-session"
+
+[[session]]
+name = "generic"
+path = "~"
