@@ -1,6 +1,11 @@
 #!/bin/sh
 # Execute cmd or sh "main" docker container
 
-name=$(docker-compose ps --format '{{.Names}}' | grep -i 'fpm\|laravel.test')
+names=$(docker-compose ps --format '{{.Names}}')
+
+name=$(echo "$names" | grep -i 'fpm\|laravel.test')
+
+# Use first if no matches
+[ ! "$name" ] && name=$(echo "$names" | head -n 1)
 
 docker exec -it "$name" "${@:-bash}"
