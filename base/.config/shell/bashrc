@@ -144,6 +144,8 @@ alias ap-etc-hosts-edit="sudoedit /etc/hosts"
 alias ap-leases-list="sudo cat /var/lib/dnsmasq/dnsmasq.leases"
 alias ap-leases-clear="sudo rm /var/lib/dnsmasq/dnsmasq.leases"
 
+alias sshvm='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+
 # Other
 alias nj="jq . | nvim -Rc 'set syntax=json | set nospell'"
 
