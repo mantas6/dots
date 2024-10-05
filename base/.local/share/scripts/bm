@@ -67,7 +67,7 @@ placeholder=$(echo "$url" | grep '{}')
 
 if [ "$placeholder" ]; then
     # Prompt the user for input to replace the placeholder
-    input=$(uniq < "$state/history" | "${input_cmd[@]}")
+    input=$(uniq < "$state/history" | ${input_cmd[*]})
 
     [ ! "$input" ] && exit 1
 
