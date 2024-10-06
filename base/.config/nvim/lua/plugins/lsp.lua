@@ -28,6 +28,7 @@ return {
         "dockerls",
         "cssls",
         "jsonls",
+        "gopls",
       },
       handlers = {
         lsp.default_setup,
