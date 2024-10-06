@@ -1,3 +1,3 @@
 #!/bin/sh
 
-curl -sSfL t460:5001/res/"$1"
+curl -sSfL 192.168.0.1:5001/res/"$1"
