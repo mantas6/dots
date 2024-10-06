@@ -12,9 +12,9 @@ ssh_result=$(timeout 5 ssh "$1" -p "$ssh_port" \
     -o UserKnownHostsFile=/dev/null 2>&1)
 
 if [[ "$ssh_result" =~ "Permission denied" ]]; then
-    echo "SSH OK $ssh_result"
+    echo -e "SSH \e[32mOK\e[0m $ssh_result"
     exit 0
 else
-    echo "SSH attempt assertion failed $ssh_result"
+    echo -e "SSH attempt assertion \e[31mfailed\e[0m $ssh_result"
     exit 1
 fi
