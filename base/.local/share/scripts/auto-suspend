@@ -3,6 +3,9 @@
 
 while :
 do
-    [ "$(xssstate -s)" = "on" ] && systemctl suspend
     sleep 60
+
+    [ -f "$XDG_STATE_HOME/.inhibit-suspend" ] && continue
+
+    [ "$(xssstate -s)" = "on" ] && systemctl suspend
 done
