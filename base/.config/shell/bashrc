@@ -146,6 +146,8 @@ alias ap-leases-clear="sudo rm /var/lib/dnsmasq/dnsmasq.leases"
 
 alias sshvm='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -A'
 
+alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+
 # Other
 alias nj="jq . | nvim -Rc 'set syntax=json | set nospell'"
 
