@@ -1,0 +1,12 @@
+#!/bin/sh
+# Compare two json structures
+
+first=$(mktemp)
+second=$(mktemp)
+
+gum write --char-limit=0 --placeholder 'first json' | jq '.' > "$first"
+gum write --char-limit=0 --placeholder 'second json' | jq '.' > "$second"
+
+delta "$first" "$second"
+
+rm "$first" "$second"
