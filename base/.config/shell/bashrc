@@ -208,7 +208,7 @@ glz() {
 
 brew-backup() {
     out="$HOME/.local/brew-backups/$(date +%Y%m%d)"
-    rsync -a "$HOMEBREW_PREFIX/" "$out"
+    command rsync -a "$HOMEBREW_PREFIX/" "$out"
     du -hs "$out"
 }
 
