@@ -6,7 +6,9 @@ if [ -d '.git' ]; then
     tmux send-keys 'nvim .' C-m
 
     tmux new-window -n 'ex'
-    tmux new-window -n 'git' 'lazygit'
+
+    tmux new-window -n 'git'
+    tmux send-keys 'lazygit' C-m
 
     tmux select-window -t 'vi'
 elif [ "$(pwd)" = "$HOME/Downloads" ]; then
