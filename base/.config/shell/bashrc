@@ -148,6 +148,8 @@ alias sshvm='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -A'
 
 alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 
+alias oat='oatmeal --ollama-url "http://$(bomzolv amd):11434"'
+
 # Other
 alias nj="jq . | nvim -Rc 'set syntax=json | set nospell'"
 
