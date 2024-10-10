@@ -11,3 +11,6 @@ vim.api.nvim_set_keymap('n', '<leader>h', ':lua ToggleHighlightSearch()<CR>', { 
 
 -- alias :W to :w
 vim.api.nvim_command('command W write')
+
+vim.api.nvim_command('command X set splitright | vsp | terminal bash %:p')
+
