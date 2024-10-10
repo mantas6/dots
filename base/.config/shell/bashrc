@@ -203,7 +203,11 @@ loop() {
 }
 
 glz() {
-    glc && read -r && git commit -m "$(glc)" && git push
+    msg=$(gum input --value="$(glc)")
+
+    [ $? != 0 ] && return
+
+    git commit -m "$(glc)" && git push
 }
 
 brew-backup() {
