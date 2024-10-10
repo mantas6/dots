@@ -151,7 +151,7 @@ alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 alias oat='oatmeal --ollama-url "http://$(bomzolv amd):11434"'
 
 # Other
-alias nj="jq . | nvim -Rc 'set syntax=json | set nospell'"
+alias nj="jq . | nvim -Rc 'set syntax=json | set nospell | set nomodifiable' -"
 
 alias tra="sat transactions:select"
 
