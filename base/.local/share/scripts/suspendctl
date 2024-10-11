@@ -1,0 +1,11 @@
+#!/bin/sh
+
+file="$XDG_STATE_HOME/.inhibit-suspend"
+
+if [ -f "$file" ]; then
+    rm "$file"
+    echo 'Inhibition disabled'
+else
+    touch "$file"
+    echo 'Inhibition enabled'
+fi
