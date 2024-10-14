@@ -61,7 +61,7 @@ alias zf='eval "$(__fzf_cd__)"'
 
 # Laravel
 alias sail="vendor/bin/sail"
-alias artisan="de artisan"
+alias artisan="de php artisan"
 alias c="de composer"
 alias s="sail"
 alias a="de php artisan"
@@ -201,20 +201,6 @@ li() {
 
 loop() {
     while true; do read; $@; done
-}
-
-glz() {
-    msg=$(gum input --value="$(glc)")
-
-    [ $? != 0 ] && return
-
-    git commit -m "$(glc)" && git push
-}
-
-brew-backup() {
-    out="$HOME/.local/brew-backups/$(date +%Y%m%d)"
-    command rsync -a "$HOMEBREW_PREFIX/" "$out"
-    du -hs "$out"
 }
 
 [ -x "$(command -v zoxide)" ] && eval "$(zoxide init bash)"

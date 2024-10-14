@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+git add .
+
+msg=$(gum input --value="$(git log -1 --pretty=%B)")
+
+git commit -m "$msg"
+git push
