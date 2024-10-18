@@ -27,20 +27,20 @@ return function()
         'chromium https://wiki.archlinux.org/title/Main_page',
       }
     },
-    {
-      tag = 4,
-      exec = {
-        terminal_cmd,
-
-        function()
-          local client = focused.tags[1]:clients()[2]
-
-          if client then
-            client:toggle_tag(focused.tags[4])
-          end
-        end,
-      }
-    },
+--     {
+--       tag = 4,
+--       exec = {
+--         terminal_cmd,
+-- 
+--         function()
+--           local client = focused.tags[1]:clients()[2]
+-- 
+--           if client then
+--             client:toggle_tag(focused.tags[4])
+--           end
+--         end,
+--       }
+--     },
     {
       tag = 5,
       exec = { terminal_cmd }
