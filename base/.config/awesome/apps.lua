@@ -33,16 +33,12 @@ return function()
         terminal_cmd,
 
         function()
-          local first_client = nil
-          for _, c in ipairs(focused.tags[1]:clients()) do
-            first_client = c
-            break
-          end
+          local client = focused.tags[1]:clients()[2]
 
-          if first_client then
-            first_client:toggle_tag(focused.tags[4])
+          if client then
+            client:toggle_tag(focused.tags[4])
           end
-        end
+        end,
       }
     },
     {

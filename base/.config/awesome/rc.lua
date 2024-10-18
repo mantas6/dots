@@ -388,59 +388,7 @@ globalkeys = gears.table.join(
     awful.key(
         { modkey, "Shift" }, "i",
         function()
-            local focused = awful.screen.focused()
-
-            local apps = {
-                [1] = {
-                    'chromium --new-window https://chatgpt.com',
-                    terminal_cmd,
-                },
-
-                [2] = {
-                    'chromium --app=https://messenger.com',
-                    'chromium',
-                },
-
-                [3] = {
-                    'chromium --new-window https://www.youtube.com/feed/subscriptions',
-                    'chromium --new-window https://wiki.archlinux.org',
-                },
-            }
-
-            -- Load custom apps configuration if exists
-            local config_dir = gears.filesystem.get_configuration_dir()
-            if gears.filesystem.file_readable(config_dir .. '/local/apps.lua') then
-                apps = require('local.apps')
-            end
-
-            local timeout = 0
-
-            for tag, items in pairs(apps) do
-                -- If tag has clients, skip it
-                if #focused.tags[tag]:clients() > 0 then
-                    goto continue
-                end
-
-                -- Jump to tag of the application
-                gears.timer.start_new(timeout, function()
-                    focused.tags[tag]:view_only()
-                end)
-
-                -- Spawn the clients
-                for _, cmd in ipairs(items) do
-                    gears.timer.start_new(timeout, function()
-                        awful.spawn(cmd)
-                    end)
-
-                    timeout = timeout + 0.5
-                end
-
-                ::continue::
-            end
-
-            gears.timer.start_new(timeout, function()
-                focused.tags[1]:view_only()
-            end)
+          require('apps')()
         end,
         {description = "start default applications", group = "launcher"}),
 
