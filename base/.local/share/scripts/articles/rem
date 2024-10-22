@@ -1,0 +1,13 @@
+#!/bin/bash
+
+quoted=()
+
+# Loop through the arguments array and add quotes around each argument
+for arg in "$@"; do
+    quoted+=("\"$arg\"")
+done
+
+# Join the quoted arguments into a single string
+args=$(IFS=" "; echo "${quoted[*]}")
+
+curl -sSfLX POST "$SAT_BASE_URL/api/rem" -d "args=$args --ansi"
