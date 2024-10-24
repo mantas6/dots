@@ -112,7 +112,7 @@ dss() {
         && git pull && git push)
 }
 
-alias cal='cal --monday'
+[ "$(uname)" != 'Darwin' ] && alias cal='cal --monday'
 alias keepon="xset s off && xset -dpms"
 alias vf='selected_file=$(fzf --preview "bat --color=always {}" --preview-window "~3"); [ -n "$selected_file" ] && vi "$selected_file"'
 
