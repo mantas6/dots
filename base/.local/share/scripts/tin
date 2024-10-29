@@ -29,7 +29,7 @@ dump(\$result);
 \$kernel->terminate(\$input, \$status);
 EOF
 
-nvim -c "set nospell | set splitright | autocmd BufWritePost * only | vsp | terminal de php $(basename "$index")" "$buffer"
+nvim -c "set nospell | set scrollback=100000 | set splitright | autocmd BufWritePost * only | vsp | terminal de php $(basename "$index")" "$buffer"
 
 rm "$buffer"
 rm "$index"
