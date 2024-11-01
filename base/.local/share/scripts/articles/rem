@@ -1,5 +1,8 @@
 #!/bin/bash
 
+state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
+token=$(<"$state"/token)
+
 quoted=()
 
 # Loop through the arguments array and add quotes around each argument
@@ -10,4 +13,6 @@ done
 # Join the quoted arguments into a single string
 args=$(IFS=" "; echo "${quoted[*]}")
 
-curl -sSfLX POST "$SAT_BASE_URL/api/rem" -d "args=$args --ansi"
+curl -sSfLX POST \
+    -H "Authorization: Bearer $token" \
+    "$SAT_BASE_URL/api/rem" -d "args=$args --ansi"
