@@ -5,7 +5,7 @@ while true; do
     sleep 1
 done
 
-[ -x "$(command -v pass)" ] && pass git pull
+[ -x "$(command -v pass)" ] && (pass git pull; pass git push)
 
 (cd "$HOME"/Repos/dotfiles && git pull && ./stow)
 
