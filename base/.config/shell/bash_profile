@@ -51,7 +51,10 @@ export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 
 export WGETRC="$XDG_CONFIG_HOME/wgetrc"
 export VIT_DIR="$XDG_CONFIG_HOME/vit"
+
 export NBRC_PATH="$HOME/.config/nb/nbrc"
+export NB_DIR="$XDG_DATA_HOME/nb"
+export NB_HIST="$XDG_STATE_HOME/nb/history"
 
 export OLLAMA_HOST='amd:11434'
 

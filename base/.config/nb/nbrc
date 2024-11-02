@@ -1,0 +1,2 @@
+#!/bin/sh
+export NB_MARKDOWN_TOOL=glow
