@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+dir="$XDG_DATA_HOME/services"
+
+cd "$dir" || exit 1
+
+selected=$(ls | fzf)
+
+ln -sv "$dir/$selected" "$XDG_DATA_HOME/docker-compose/$selected"
+systemctl --user enable "docker-compose@$selected" --now
