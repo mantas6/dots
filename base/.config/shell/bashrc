@@ -89,14 +89,6 @@ alias ff='fastfetch'
 alias tsr='tmux source-file ~/.config/tmux/tmux.conf'
 alias ts='tmux split-window -h \; split-window -v'
 
-# Clipboard
-if [ "$(uname)" = "Darwin" ]; then
-    alias xp='pbpaste' xc='pbcopy'
-else
-    alias xp='xclip -selection c -o' \
-        xc='xclip -selection c -i'
-fi
-
 # Dotfiles
 alias dlg="(cd $HOME/Repos/dotfiles && lazygit)"
 alias dsy="(cd $HOME/Repos/dotfiles && git pull && ./stow)"
