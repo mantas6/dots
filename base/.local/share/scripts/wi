@@ -2,5 +2,11 @@
 
 while true; do
     gum confirm --no-show-help --affirmative 'Run' --negative 'Exit' "Run $*" || exit 0
-    "$@"
+
+    output=$("$@")
+
+    level=info
+    [ $? != 0 ] && level=error
+
+    gum log --level "$level" --time TimeOnly "$output"
 done

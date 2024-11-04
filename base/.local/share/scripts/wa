@@ -8,9 +8,9 @@ shift
 cmd="$*"
 
 while true; do
-    level=info
-
     output=$($cmd)
+
+    level=info
     [ $? != 0 ] && level=error
 
     gum log --level "$level" --time TimeOnly "$output"
