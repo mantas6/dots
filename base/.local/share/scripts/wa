@@ -1,0 +1,12 @@
+#!/bin/sh
+
+[ -z "$1" ] && echo 'wa [seconds] <cmd>' && exit 1
+
+interval="$1"
+shift
+cmd="$*"
+
+while true; do
+    gum log --level info --time TimeOnly "$($cmd)"
+    sleep "$interval"
+done
