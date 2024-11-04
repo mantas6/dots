@@ -7,7 +7,8 @@ cd "$HOME/Repos/dotfiles"
 git status
 git diff
 
-msg=$(gum input --value="$(git log -1 --pretty=%B)")
+echo
+msg=$(gum input --placeholder 'Commit message')
 
 git add .
 git commit -m "${msg:=Update}"
