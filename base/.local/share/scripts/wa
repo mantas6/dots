@@ -1,4 +1,5 @@
 #!/bin/sh
+# Watch command output
 
 [ -z "$1" ] && echo 'wa [seconds] <cmd>' && exit 1
 
@@ -7,6 +8,11 @@ shift
 cmd="$*"
 
 while true; do
-    gum log --level info --time TimeOnly "$($cmd)"
+    level=info
+
+    output=$($cmd)
+    [ $? != 0 ] && level=error
+
+    gum log --level "$level" --time TimeOnly "$output"
     sleep "$interval"
 done
