@@ -101,17 +101,6 @@ fi
 alias dlg="(cd $HOME/Repos/dotfiles && lazygit)"
 alias dsy="(cd $HOME/Repos/dotfiles && git pull && ./stow)"
 
-dss() {
-    (cd "$HOME/Repos/dotfiles" \
-        && git status \
-        && git diff \
-        && printf '%s' 'Message: ' \
-        && read -r msg \
-        && git add . \
-        && git commit -m "${msg:=Update}" \
-        && git pull && git push)
-}
-
 [ "$(uname)" != 'Darwin' ] && alias cal='cal --monday'
 [ "$(uname)" = 'Darwin' ] && alias cal='cal -A 2'
 
