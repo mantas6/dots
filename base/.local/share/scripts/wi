@@ -1,0 +1,6 @@
+#!/bin/sh
+
+while true; do
+    gum confirm --no-show-help --affirmative 'Run' --negative 'Exit' "Run $*" || exit 0
+    "$@"
+done
