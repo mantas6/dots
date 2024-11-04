@@ -30,7 +30,7 @@ alias tree="tree -C"
 [ -x "$(command -v nvim)" ] && alias vim="nvim" vi="nvim"
 
 # Found myself making this typo, so I suppose it's more natural
-alias chmox="chmod +x"
+alias chx="chmod +x"
 
 # Higher verbosity for file operations
 alias cp="cp -vi"
