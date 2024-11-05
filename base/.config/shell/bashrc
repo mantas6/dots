@@ -29,8 +29,7 @@ alias tree="tree -C"
 # Use neovim if available
 [ -x "$(command -v nvim)" ] && alias vim="nvim" vi="nvim"
 
-# Found myself making this typo, so I suppose it's more natural
-alias chmox="chmod +x"
+alias chx="chmod +x"
 
 # Higher verbosity for file operations
 alias cp="cp -vi"
@@ -89,28 +88,9 @@ alias ff='fastfetch'
 alias tsr='tmux source-file ~/.config/tmux/tmux.conf'
 alias ts='tmux split-window -h \; split-window -v'
 
-# Clipboard
-if [ "$(uname)" = "Darwin" ]; then
-    alias xp='pbpaste' xc='pbcopy'
-else
-    alias xp='xclip -selection c -o' \
-        xc='xclip -selection c -i'
-fi
-
 # Dotfiles
 alias dlg="(cd $HOME/Repos/dotfiles && lazygit)"
 alias dsy="(cd $HOME/Repos/dotfiles && git pull && ./stow)"
-
-dss() {
-    (cd "$HOME/Repos/dotfiles" \
-        && git status \
-        && git diff \
-        && printf '%s' 'Message: ' \
-        && read -r msg \
-        && git add . \
-        && git commit -m "${msg:=Update}" \
-        && git pull && git push)
-}
 
 [ "$(uname)" != 'Darwin' ] && alias cal='cal --monday'
 [ "$(uname)" = 'Darwin' ] && alias cal='cal -A 2'
@@ -200,10 +180,6 @@ li() {
 	fi
 
 	command rm -f -- "$tmp"
-}
-
-loop() {
-    while true; do read; $@; done
 }
 
 [ -x "$(command -v zoxide)" ] && eval "$(zoxide init bash)"

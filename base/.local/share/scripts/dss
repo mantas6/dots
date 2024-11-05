@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+cd "$HOME/Repos/dotfiles"
+
+git status
+git diff
+
+echo
+msg=$(gum input --placeholder 'Commit message')
+
+git add .
+git commit -m "${msg:=Update}"
+git pull
+git push
