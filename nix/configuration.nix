@@ -88,6 +88,8 @@
     bat
     tmux
     stow
+    zoxide
+    starship
   ];
 
 	virtualisation.docker = {
