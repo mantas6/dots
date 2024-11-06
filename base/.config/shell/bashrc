@@ -58,6 +58,9 @@ alias zr='cd "$(git rev-parse --show-toplevel)"'
 alias zk='z "$(tmux display-message -p "#S")"'
 alias zf='eval "$(__fzf_cd__)"'
 
+# Nix
+alias nixb='~/Repos/dotfiles/nix/build'
+
 # Laravel
 alias sail="vendor/bin/sail"
 alias artisan="de php artisan"
