@@ -2,7 +2,9 @@
 
 dir=$(dirname "$(readlink -f "$0")")
 
+dirs=$(grep -v '^\(#\|$\)' < "$dir/dirs.conf")
+
 # Create base directories so that stow wouldn't link them directly
-xargs -I {} mkdir -pv "$HOME/{}" < "$dir/dirs.conf"
+echo "$dirs" | xargs -I {} mkdir -pv "$HOME/{}"
 
 stow --dir="$dir" --target="$HOME" --verbose "$@" base 
