@@ -1,10 +1,10 @@
 #!/bin/sh
 
-dir=$(dirname "$(readlink -f "$0")")
+source=$(dirname "$(readlink -f "$0")")
 
-dirs=$(grep -v '^\(#\|$\)' < "$dir/dirs.conf")
+dirs=$(grep -v '^\(#\|$\)' < "$source/dirs.conf")
 
 # Create base directories so that stow wouldn't link them directly
 echo "$dirs" | xargs -I {} mkdir -pv "$HOME/{}"
 
-stow --dir="$dir" --target="$HOME" --verbose "$@" base 
+stow --dir="$source" --target="$HOME" --verbose "$@" base 
