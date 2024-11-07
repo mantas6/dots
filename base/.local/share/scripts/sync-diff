@@ -4,12 +4,14 @@
 [ -z "$1" ] && REMOTE_HOST="$1"
 [ -z "$2" ] && REMOTE_ROOT="$2"
 
+host="$REMOTE_USER@$REMOTE_HOST"
+
 for file in $(git diff --name-only); do
-    scp "$file" "$REMOTE_HOST:$REMOTE_ROOT/$file"
+    scp "$file" "$host:$REMOTE_ROOT/$file"
 done
 
 for file in $(git ls-files --others --exclude-standard); do
-    scp "$file" "$REMOTE_HOST:$REMOTE_ROOT/$file"
+    scp "$file" "$host:$REMOTE_ROOT/$file"
 done
 
-ssh "$REMOTE_HOST" "(cd '$REMOTE_ROOT' && php cachetool.phar opcache:reset --cli; php artisan horizon:terminate; php artisan view:cache)"
+ssh "$host" "(cd '$REMOTE_ROOT' && php cachetool.phar opcache:reset --cli; php artisan horizon:terminate; php artisan view:cache)"

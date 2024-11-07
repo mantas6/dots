@@ -1,6 +1,7 @@
 #!/bin/sh
 # Override remote variable with production ones
 
+export REMOTE_USER="$REMOTE_PROD_USER"
 export REMOTE_HOST="$REMOTE_PROD_HOST"
 export REMOTE_ROOT="$REMOTE_PROD_ROOT"
 

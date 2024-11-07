@@ -8,8 +8,9 @@ buffer="$(pwd)/.tinker-buffer.php"
 
 # Evaluate in remote host
 if [ "$1" = '-s' ]; then
-    scp "$index" "$buffer" "$REMOTE_HOST:$REMOTE_ROOT"
-    ssh -tt "$REMOTE_HOST" "cd $REMOTE_ROOT && php .tinker-index.php"
+    host="$REMOTE_USER@$REMOTE_HOST"
+    scp "$index" "$buffer" "$host:$REMOTE_ROOT"
+    ssh -tt "$host" "cd $REMOTE_ROOT && php .tinker-index.php"
     exit 0
 fi
 
