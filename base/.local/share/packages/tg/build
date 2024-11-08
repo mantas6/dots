@@ -1,0 +1,5 @@
+#!/bin/sh
+
+./tg app:build tg --build-version=master
+
+cp -vf builds/tg "$HOME/.local/bin"
