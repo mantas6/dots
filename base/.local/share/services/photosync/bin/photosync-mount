@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Detected block device that is plugged in
+dev_name="$1"
+
+echo "Processing $dev_name"
+
+# Mount the drive as read only
+mount_point=$(udisksctl mount -b "$dev_name" -o 'ro' --no-user-interaction \
+    | grep 'Mounted' \
+    | awk '{print $4}')
+
+unmount() {
+    echo 'Preparing to unmount the drive'
+    cd
+    sleep 5
+    udisksctl unmount -b "$dev_name"
+    trap - EXIT
+}
+
+cancel() {
+    unmount
+    exit 0
+}
+
+trap cancel EXIT
+
+photosync-process "$mount_point"
+unmount
+photosync-gallery

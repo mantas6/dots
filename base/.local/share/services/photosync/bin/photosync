@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# A photo in an external device
+source="$1"
+
+echo "Processing $source"
+
+# Get all the meta data from the photo
+metadata=$(exiftool -DateTimeOriginal -d "%Y/%m/%d/%H/%M/%S" "$source")
+
+# TODO: add date time validation
+datetime=$(echo "$metadata" | grep 'Date/Time Original' | awk '{print $4}')
+
+photo_path=$(echo "$datetime" | cut --delimiter "/" --fields 1,2,3)
+
+# Create a recursive path based on year, month and day
+mkdir -pv "$PHOTOSYNC_ORIGINALS/$photo_path"
+
+extension=$(echo "${source##*.}" | tr '[:upper:]' '[:lower:]')
+output_basename=$(echo "$datetime" | sed 's/\///g')_$(basename "$source" | cksum | cut -c 1-4)."$extension"
+output_filename="$PHOTOSYNC_ORIGINALS/$photo_path/$output_basename"
+
+if [ ! -f "$output_filename" ]; then
+    cp -nv "$source" "$output_filename"
+    echo "$photo_path/$output_basename" >> "$PHOTOSYNC_ORIGINALS/filelist"
+    photosync-cache "$source"
+else
+    cmp "$source" "$output_filename" || exit 1
+
+    photosync-cache "$source"
+fi
+
+

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -eu
+
+file="$PHOTOSYNC_CACHE/$PHOTOSYNC_CACHE_TAG.list"
+[ ! -f "$file" ] && echo "$PHOTOSYNC_CACHE_TAG" >> "$file"
+
+# Querying the cache
+[ "$#" -eq 0 ] && cat "$file" && exit 0
+
+# Writing to cache
+echo "$1" >> "$file"

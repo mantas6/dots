@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -euo pipefail
+
+echo 'Starting watcher'
+
+pathtoname() {
+    udevadm info -p /sys/"$1" | awk -v FS== '/DEVNAME/ {print $2}'
+}
+
+stdbuf -oL -- udevadm monitor --udev -s block | while read -r -- _ _ event devpath _; do
+    if [ "$event" = add ]; then
+        devname=$(pathtoname "$devpath")
+        echo "Detected $devname"
+
+        if lsblk -o PATH,TYPE | grep 'part' | grep -q "$devname "; then
+            photosync-mount "$devname"
+        fi
+    fi
+done

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -euo pipefail
+
+mount_point="$1"
+
+cd "$mount_point"
+
+# Check if marker file exist on the root of the drive
+if [ ! -f '.photosync' ]; then
+    echo 'Not a photosync volume'
+    exit 0
+fi
+
+tag=$(< .photosync)
+[ -z "$tag" ] && echo 'Empty tag value' && exit 1
+
+export PHOTOSYNC_CACHE_TAG="$tag"
+
+cache=$(photosync-cache | tr '\n' '|' | sed 's/|$//')
+start_count=$(photosync-cache | wc -l)
+
+# List all jpg files in drive
+target_files=$(find . -iname '*.jpg' | grep -Ev "$cache")
+
+set +e
+echo "$target_files" | xargs -n 1 photosync
+set -e
+
+end_count=$(photosync-cache | wc -l)
+processed_count=$((end_count - start_count))
+targeted_count=$(echo "$target_files" | wc -l)
+errors_count=$((targeted_count - processed_count))
+
+photosync-notify "Processed: $processed_count, Errors: $errors_count, Total: $end_count" &

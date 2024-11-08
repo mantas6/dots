@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -u
+
+originals="$PHOTOSYNC_ORIGINALS"
+site="$PHOTOSYNC_SITE"
+
+python3 -m http.server 80 --directory "$site" > /dev/null 2>&1 &
+gallery_pid="$!"
+
+python3 -m http.server 8080 --directory "$originals" > /dev/null 2>&1 &
+originals_pid="$!"
+
+cleanup() {
+    kill "$gallery_pid" "$originals_pid"
+}
+
+trap cleanup EXIT
+
+wait "$gallery_pid"
+wait "$originals_pid"
