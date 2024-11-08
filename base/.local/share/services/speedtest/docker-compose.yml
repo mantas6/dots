@@ -1,0 +1,12 @@
+services:
+  speedtest:
+    container_name: speedtest
+    image: ghcr.io/librespeed/speedtest:latest
+    restart: always
+    environment:
+      MODE: standalone
+      TELEMETRY: "false"
+    ports:
+      - "6001:80"
+    volumes:
+          - './data:/database'
