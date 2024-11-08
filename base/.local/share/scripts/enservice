@@ -13,7 +13,7 @@ unit_dir="$dir/$selected"
 
 cd "$unit_dir"
 
-if docker-compose config > /dev/null 2>&1; then
+if docker compose config > /dev/null 2>&1; then
     echo 'Enabling docker service'
 
     ln -sv "$unit_dir" "$XDG_DATA_HOME/docker-compose/$selected"
