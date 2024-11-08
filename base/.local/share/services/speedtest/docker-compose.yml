@@ -5,8 +5,9 @@ services:
     restart: always
     environment:
       MODE: standalone
-      TELEMETRY: "false"
+      TELEMETRY: true
+      DB_TYPE: sqlite
     ports:
       - "6001:80"
     volumes:
-          - './data:/database'
+      - './data:/database'
