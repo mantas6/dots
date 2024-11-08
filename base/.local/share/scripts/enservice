@@ -8,5 +8,15 @@ cd "$dir" || exit 1
 
 selected=$(ls | fzf)
 
-ln -sv "$dir/$selected" "$XDG_DATA_HOME/docker-compose/$selected"
-systemctl --user enable "docker-compose@$selected" --now
+unit_dir="$dir/$selected"
+
+if docker-compose config > /dev/null 2>&1; then
+    echo 'Enabling docker service'
+
+    ln -sv "$unit_dir" "$XDG_DATA_HOME/docker-compose/$selected"
+    systemctl --user enable "docker-compose@$selected" --now
+else
+    echo 'Enabling local service'
+
+    systemctl --user enable "local-service@$selected" --now
+fi
