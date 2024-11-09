@@ -1,4 +1,4 @@
 */data/*
 */.env
 
-docker-compose/*.local
+*/*.local
