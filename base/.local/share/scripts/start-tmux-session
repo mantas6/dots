@@ -10,6 +10,8 @@ if [ -d '.git' ]; then
     tmux new-window -n 'git'
     tmux send-keys 'lazygit' C-m
 
+    tmux new-window -n 'tin'
+
     tmux select-window -t 'vi'
 elif [ "$(pwd)" = "$HOME/Downloads" ]; then
     [ -x "$(command -v eza)" ] && eza --icons --group-directories-first -l
