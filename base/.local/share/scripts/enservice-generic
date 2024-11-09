@@ -1,0 +1,12 @@
+#!/bin/sh
+# Enable generic service
+
+set -e
+
+dir="$XDG_DATA_HOME/services/generic"
+
+cd "$dir"
+
+selected=$(find ./ -maxdepth 1 -type d | sed 's|^\./||; /^$/d' | fzf)
+
+systemctl --user enable "local-service@$selected" --now

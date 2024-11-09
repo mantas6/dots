@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+dir="$XDG_DATA_HOME/services/docker-compose"
+
+cd "$dir"
+
+selected=$(find ./ -maxdepth 1 -type d | sed 's|^\./||; /^$/d' | fzf)
+
+systemctl --user enable "docker-compose@$selected" --now
