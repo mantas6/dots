@@ -91,6 +91,7 @@
     zoxide
     starship
     eza
+    trash-cli
   ];
 
 	virtualisation.docker = {
