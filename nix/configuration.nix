@@ -90,6 +90,7 @@
     stow
     zoxide
     starship
+    eza
   ];
 
 	virtualisation.docker = {
