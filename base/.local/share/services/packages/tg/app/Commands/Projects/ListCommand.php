@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Commands;
+namespace App\Commands\Projects;
 
 use App\Http\Integrations\Toggl\Requests\MeRequest;
+use App\Http\Integrations\Toggl\Requests\ProjectsRequest;
 use App\Http\Integrations\Toggl\TogglConnector;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
-class ProjectList extends Command
+class ListCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -28,8 +29,13 @@ class ProjectList extends Command
      */
     public function handle()
     {
-        $connector = new TogglConnector('abc');
+        $connector = new TogglConnector(env('TOGGL_API_TOKEN'));
 
-        $response = $connector->send(new MeRequest);
+        $workspaceId = $connector->send(new MeRequest)
+            ->json('default_workspace_id');
+
+        $response = $connector->send(new ProjectsRequest($workspaceId));
+
+        dd($response->collect()->pluck('name'));
     }
 }

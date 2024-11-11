@@ -9,7 +9,7 @@ use Saloon\Traits\Plugins\AcceptsJson;
 
 class TogglConnector extends Connector
 {
-    use AcceptsJson, HasJsonBody;
+    use AcceptsJson;
 
     public function __construct(
         public readonly string $token,
