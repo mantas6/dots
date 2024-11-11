@@ -69,7 +69,7 @@ alias c="de composer"
 alias s="sail"
 alias a="de php artisan"
 
-alias pc='tools/scripts/precommit'
+alias pc='precommit'
 alias dup='docker-compose up'
 alias dst='docker-compose stop'
 
