@@ -87,6 +87,7 @@ alias cu='checkupdates'
 
 alias cmatrix='cmatrix -ab'
 alias ff='fastfetch'
+alias q='numbat'
 
 alias tsr='tmux source-file ~/.config/tmux/tmux.conf'
 alias ts='tmux split-window -h \; split-window -v'
