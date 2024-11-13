@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-set -e
+set -eo 'pipefail'
 selected=$(de php artisan list --raw | fzf | awk '{print $1}')
 
 set -x
