@@ -1,0 +1,9 @@
+[Unit]
+Description=Automount local nfs share
+
+[Automount]
+Where=/mnt/nfs
+TimeoutIdleSec=60
+
+[Install]
+WantedBy=multi-user.target

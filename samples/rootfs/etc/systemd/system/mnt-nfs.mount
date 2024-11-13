@@ -1,0 +1,14 @@
+[Unit]
+Description=Mount local nfs share
+After=nss-lookup.target
+
+[Mount]
+What=l4:/
+Where=/mnt/nfs
+Options=vers=4,noauto,nofail
+Type=nfs
+TimeoutSec=10
+ForceUnmount=true
+
+[Install]
+WantedBy=multi-user.target
