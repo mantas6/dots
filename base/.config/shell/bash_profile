@@ -19,6 +19,8 @@ export XDG_STATE_HOME="$HOME/.local/state"
 
 [ "$(uname)" = "Darwin" ] && export XDG_RUNTIME_DIR="$HOME/Library/Caches/TemporaryItems"
 
+export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
+
 export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
 export AWESOME_OUTPUT_DIR="$XDG_CACHE_HOME/awesome"
 

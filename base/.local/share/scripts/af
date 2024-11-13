@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -e
+selected=$(de php artisan list --raw | fzf | awk '{print $1}')
+
+set -x
+de php artisan "$selected"
