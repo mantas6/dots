@@ -94,7 +94,7 @@
     trash-cli
     gh
     php
-    node
+    nodejs_22
   ];
 
 	virtualisation.docker = {
