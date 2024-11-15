@@ -16,7 +16,7 @@
   boot.loader.timeout = 1;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "vm"; # Define your hostname.
+  networking.hostName = "nx"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -92,6 +92,9 @@
     starship
     eza
     trash-cli
+    gh
+    php
+    node
   ];
 
 	virtualisation.docker = {
