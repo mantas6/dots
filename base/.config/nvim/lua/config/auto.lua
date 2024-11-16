@@ -12,7 +12,7 @@ autocmd('BufEnter', {
 })
 
 autocmd('FileType', {
-    pattern = { 'lua', 'javascript', 'vue' },
+    pattern = { 'lua', 'javascript', 'vue', 'nix' },
     command = 'setlocal shiftwidth=2 softtabstop=2 expandtab',
 })
 

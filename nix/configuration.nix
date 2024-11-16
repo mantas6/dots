@@ -139,6 +139,8 @@
     };
   };
 
+  services.udisks2.enable = true;
+
   services.getty.autologinUser = "mantas";
 
   # Open ports in the firewall.
