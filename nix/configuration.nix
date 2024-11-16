@@ -68,7 +68,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.mantas = {
     isNormalUser = true;
-    password = "1";
+    password = "2";
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHtMJ6SP+1ppYvlbRSDyjhmWvDFOvKGFMD7V88h7Q6Ni mantas@amd"
