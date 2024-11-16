@@ -95,6 +95,9 @@
     eza
     trash-cli
     gh
+    gum
+    unzip
+    # development pkgs
     php
     nodejs_22
     go
@@ -102,10 +105,9 @@
     luajitPackages.luarocks
     python3
     shellcheck
-    unzip
     ripgrep
     fd
-    gum
+    #
   ];
 
 	virtualisation.docker = {
