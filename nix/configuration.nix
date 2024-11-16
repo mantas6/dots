@@ -98,7 +98,8 @@
     gum
     unzip
     # development pkgs
-    php
+    php83
+    php83Packages.composer
     nodejs_22
     go
     gcc
@@ -107,6 +108,9 @@
     shellcheck
     ripgrep
     fd
+
+    nixd
+    alejandra
     #
   ];
 
