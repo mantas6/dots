@@ -99,6 +99,7 @@
     gh
     gum
     fzf
+    delta
     unzip
     # development pkgs
     php83
