@@ -16,7 +16,9 @@
   boot.loader.timeout = 1;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nx"; # Define your hostname.
+  networking.hostName = "ix"; # Define your hostname.
+  networking.interfaces.enp11s0.wakeOnLan.enable = true;
+
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -95,6 +97,15 @@
     gh
     php
     nodejs_22
+    go
+    gcc
+    luajitPackages.luarocks
+    python3
+    shellcheck
+    unzip
+    ripgrep
+    fd
+    gum
   ];
 
 	virtualisation.docker = {
