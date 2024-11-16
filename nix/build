@@ -2,4 +2,4 @@
 
 cfg_dir=$(dirname "$(realpath "$0")")
 
-sudo nixos-rebuild switch -I nixos-config="$cfg_dir/configuration.nix"
+sudo nixos-rebuild switch --flake .

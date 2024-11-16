@@ -98,6 +98,7 @@
     trash-cli
     gh
     gum
+    fzf
     unzip
     # development pkgs
     php83
