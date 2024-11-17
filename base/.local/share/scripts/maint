@@ -1,9 +1,6 @@
 #!/bin/sh
 
-while true; do
-    ping -c1 google.com > /dev/null && break;
-    sleep 1
-done
+wait-for-host google.com
 
 [ -x "$(command -v pass)" ] && (pass git pull; pass git push)
 
