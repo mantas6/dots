@@ -118,29 +118,29 @@ focus-cw:
   key: k
 
 # Focus the main window in the list.
-focus-main:
-  mod: mod1
-  key: m
+# focus-main:
+#   mod: mod1
+#   key: m
 
 # Focus the next screen in the list going counter-clockwise.
-focus-screen-ccw:
-  mod: mod1
-  key: p
+# focus-screen-ccw:
+#   mod: mod1
+#   key: p
 
 # Focus the next screen in the list going clockwise.
 focus-screen-cw:
   mod: mod1
-  key: n
+  key: o
 
 # Move the currently focused window onto the next screen in the list going counter-clockwise.
-swap-screen-ccw:
-  mod: mod2
-  key: h
+# swap-screen-ccw:
+#   mod: mod2
+#   key: h
 
 # Move the currently focused window onto the next screen in the list going clockwise.
 swap-screen-cw:
   mod: mod2
-  key: l
+  key: o
 
 # Swap the position of the currently focused window with the next window in the list going counter-clockwise.
 swap-ccw:
@@ -193,14 +193,14 @@ swap-main:
   #   key: f
 
 # Move the currently focused window to the space to the left.
-throw-space-left:
-  mod: mod2
-  key: left
+# throw-space-left:
+#   mod: mod2
+#   key: left
 
 # Move currently the focused window to the space to the right.
-throw-space-right:
-  mod: mod2
-  key: right
+# throw-space-right:
+#   mod: mod2
+#   key: right
 
 # Toggle the floating state of the currently focused window; i.e., if it was floating make it tiled and if it was tiled make it floating.
 # toggle-float:
@@ -208,9 +208,9 @@ throw-space-right:
   #   key: t
 
 # Display the layout HUD with the current layout on each screen.
-display-current-layout:
-  mod: mod1
-  key: i
+# display-current-layout:
+#   mod: mod1
+#   key: i
 
 # Turn on or off tiling entirely.
 # toggle-tiling:
