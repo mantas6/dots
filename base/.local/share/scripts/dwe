@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -e
+
+port=$(docker compose ps --format json | jq -r '.Publishers | add | .PublishedPort | select(. > 0)' | fzf)
+url="http://localhost:$port"
+
+if [ -x "$(command -v xdg-open)" ]; then
+    xdg-open "$url"
+else
+    open "$url"
+fi
+
