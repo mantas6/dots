@@ -66,7 +66,8 @@ alias sail="vendor/bin/sail"
 alias artisan="de php artisan"
 alias composer="de composer"
 alias c="de composer"
-alias cou='de composer update'
+alias cupd='de composer update'
+alias rector='de vendor/bin/rector process'
 alias s="sail"
 alias a="de php artisan"
 
