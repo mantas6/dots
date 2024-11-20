@@ -8,18 +8,28 @@ state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
 token=$(<"$state"/token)
 
 last_checksum=''
+text=''
+exit_code=0
 
 while true; do
-    text=$(curl -sSf \
+    received=$(curl -sSf \
         -H "Authorization: Bearer $token" \
-        "$SAT_BASE_URL/api/dash"
+        "$SAT_BASE_URL/api/dash" \
+        2> /dev/null
     )
 
-    checksum=$(echo "$text" | md5sum)
+    exit_code=$?
+
+    checksum=$(echo "$received" | md5sum)
 
     if [ "$checksum" != "$last_checksum" ]; then
+        [ -n "$received" ] && text="$received"
+
         clear
         echo "$text"
+
+        [ "$exit_code" != 0 ] && echo -e '\033[0;31m---- <!> ----\033[0m'
+
         last_checksum="$checksum"
     fi
 
