@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+timeout=0
+
+[ -n "$1" ] && [ "$1" = '-f' ] && timeout="${2:-60}"
+
+state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
+token=$(<"$state"/token)
+
+last_checksum=''
+
+while true; do
+    text=$(curl -sSf \
+        -H "Authorization: Bearer $token" \
+        "$SAT_BASE_URL/api/dash"
+    )
+
+    checksum=$(echo "$text" | md5sum)
+
+    if [ "$checksum" != "$last_checksum" ]; then
+        clear
+        echo "$text"
+        last_checksum="$checksum"
+    fi
+
+    ([ "$timeout" != 0 ] && sleep "$timeout") || exit 0
+done
