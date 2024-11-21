@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+state_home=${XDG_STATE_HOME:-"$HOME/.local/state"}
+state=${SAT_JOURNAL_STATE:-"$state_home"/sat}
+token=$(cat "$state"/token)
+
+while true; do
+    curl -sSfL \
+        -H "Authorization: Bearer $token" \
+        -X POST "$SAT_BASE_URL/api/machine/$(uname -n)" \
+        > /dev/null
+
+    sleep 60
+done
