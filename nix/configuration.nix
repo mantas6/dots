@@ -67,6 +67,8 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
 
+  users.defaultUserShell = pkgs.zsh;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.mantas = {
     isNormalUser = true;
@@ -127,6 +129,8 @@
   };
 
   environment.variables.EDITOR = "${pkgs.neovim}/bin/nvim";
+
+  programs.zsh.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
