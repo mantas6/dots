@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+set -e
+
+state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
+
+[ ! -d "$state" ] && mkdir -pv "$state"
+[ -f "$state/token" ] && gum log --level warn 'Token is already defined'
+
+token=$(gum input --placeholder 'Token' --no-show-help)
+
+echo "$token" > "$state/token"
+
+gum log --level info 'Token added successfuly'
