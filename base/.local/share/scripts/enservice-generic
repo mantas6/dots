@@ -9,4 +9,4 @@ cd "$dir"
 
 selected=$(find ./ -maxdepth 1 -type d | sed 's|^\./||; /^$/d' | fzf)
 
-systemctl --user enable "local-service@$selected" --now
+systemctl --user enable "generic@$selected" --now
