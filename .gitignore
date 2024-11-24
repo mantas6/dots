@@ -3,9 +3,9 @@ base/.config/nvim/spell/
 
 base/.config/bm/list.local
 
-base/.local/share/bashly/*/bin/*
-
 base/.local/share/applications/*.cache
+
+base/.config/shell/.zcompdump
 
 base/.stow-local-ignore
 
