@@ -1,6 +1,8 @@
 #!/usr/bin/env zsh
 
-eval "$(starship init zsh)"
-eval "$(fzf --zsh)"
-eval "$(zoxide init zsh)"
-eval "$(direnv hook zsh)"
+[ -x "$(command -v starship)" ] && eval "$(starship init zsh)"
+[ -x "$(command -v fzf)" ] && eval "$(fzf --zsh)"
+[ -x "$(command -v zoxide)" ] && eval "$(zoxide init zsh)"
+[ -x "$(command -v direnv)" ] && eval "$(direnv hook zsh)"
+
+dchk

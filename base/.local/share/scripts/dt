@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+if [ $# -eq 0 ]; then
+    du -hs .
+else
+    du -hs "$@"
+fi

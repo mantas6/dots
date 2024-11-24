@@ -153,22 +153,6 @@ wok() {
     journalctl -n1 -u sleep.target | awk '{print $3}'
 }
 
-dt() {
-    if [ $# -eq 0 ]; then
-        du -hs .
-    else
-        du -hs "$@"
-    fi
-}
-
-n() {
-    if [ $# -eq 0 ]; then
-        vi .
-    else
-        vi "$@"
-    fi
-}
-
 lfcd () {
     cd "$(command lf -print-last-dir "$@")" || return
 }

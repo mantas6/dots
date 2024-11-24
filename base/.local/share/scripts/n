@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+n() {
+    if [ $# -eq 0 ]; then
+        vi .
+    else
+        vi "$@"
+    fi
+}
