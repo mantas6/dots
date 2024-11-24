@@ -11,6 +11,9 @@ HISTSIZE=50000
 HISTFILE=~/.local/state/zsh/history
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
+
+mkdir -p "$HISTFILE"
+
 setopt appendhistory
 setopt sharehistory
 setopt hist_ignore_space
