@@ -2,7 +2,7 @@
 
 timeout=0
 
-[ -n "$1" ] && [ "$1" = '-f' ] && timeout="${2:-10}"
+[ -n "$1" ] && [ "$1" = '-f' ] && timeout="${2:-5}"
 
 state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
 token=$(<"$state"/token)
