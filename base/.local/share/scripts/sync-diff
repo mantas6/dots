@@ -1,8 +1,8 @@
 #!/bin/sh
 # Upload changes to remote server
 
-[ -z "$1" ] && REMOTE_HOST="$1"
-[ -z "$2" ] && REMOTE_ROOT="$2"
+#[ -z "$1" ] && REMOTE_HOST="$1"
+#[ -z "$2" ] && REMOTE_ROOT="$2"
 
 host="$REMOTE_USER@$REMOTE_HOST"
 
