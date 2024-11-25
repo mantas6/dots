@@ -27,6 +27,7 @@ $words = [
     'miskomunikacija',
     'skilimas',
     'puvimas',
+    'šlapdriba',
 ];
 
 function sentence(array $words) {
