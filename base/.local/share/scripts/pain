@@ -20,6 +20,8 @@ $words = [
     'depresija', 'kilpa',
     'demonai', 'demonas',
     'velnias', 'velniai',
+    'trauma',
+    'klaidos',
 ];
 
 function sentence(array $words) {
