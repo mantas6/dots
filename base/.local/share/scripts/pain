@@ -22,6 +22,11 @@ $words = [
     'velnias', 'velniai',
     'trauma',
     'klaidos',
+    'vienišumas',
+    'pagalbos šauksmas',
+    'miskomunikacija',
+    'skilimas',
+    'puvimas',
 ];
 
 function sentence(array $words) {
