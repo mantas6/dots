@@ -1,0 +1,38 @@
+#!/usr/bin/env php
+<?php
+
+$words = [
+    'skausmas',
+    'kančia',
+    'pragaras',
+    'dykuma', 'sausuma', 'sausas',
+    'tuščiagyvenimis',
+    'skausmagyvenimis',
+    'egzistencija',
+    'skerdykla',
+    'pjovykla',
+    'mėsmalė',
+    'pabaiga',
+    'nepavykę santykiai',
+    'pabaiga be pradžios',
+    'tuščias',
+    'depresija', 'kilpa',
+    'demonai', 'demonas',
+    'velnias', 'velniai',
+];
+
+function sentence(array $words) {
+    $sentence = [];
+
+    shuffle($words);
+
+    $sentence = array_slice($words, 0, rand(3, 10));
+
+    return ucfirst(implode(' ', $sentence));
+}
+
+$paragraph = range(1, rand(7,10));
+
+$paragraph = array_map(fn () => sentence($words), $paragraph);
+
+echo implode('. ', $paragraph) . '.';
