@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Upload changes to remote server
 
 #[ -z "$1" ] && REMOTE_HOST="$1"
@@ -6,12 +6,18 @@
 
 host="$REMOTE_USER@$REMOTE_HOST"
 
+files=()
+
 for file in $(git diff --name-only); do
-    scp "$file" "$host:$REMOTE_ROOT/$file"
+    files+=("$file")
+    # scp "$file" "$host:$REMOTE_ROOT/$file"
 done
 
 for file in $(git ls-files --others --exclude-standard); do
-    scp "$file" "$host:$REMOTE_ROOT/$file"
+    files+=("$file")
+    # scp "$file" "$host:$REMOTE_ROOT/$file"
 done
+
+rsync -Rrzcav "${files[@]}" "$host:$REMOTE_ROOT"
 
 ssh "$host" "(cd '$REMOTE_ROOT' && php cachetool.phar opcache:reset --cli; php artisan horizon:terminate; php artisan view:cache)"
