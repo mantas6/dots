@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+# Execute artisan command on remote server
 
 name="$REMOTE_USER@$REMOTE_HOST"
 base="$REMOTE_ROOT"
