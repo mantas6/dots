@@ -26,6 +26,7 @@ $words = [
     'puvimas',
     'šlapdriba',
     'pasėkmės',
+    'tamsa',
 ];
 
 $joins = [
@@ -35,19 +36,14 @@ $joins = [
     'po to',
 ];
 
-function sentence(array $words, array $joins) {
-    $sentence = [];
+shuffle($words);
 
-    shuffle($words);
-    shuffle($joins);
+$paragraph = [];
 
-    $sentence = array_slice($words, 0, 2);
+while (count($words) > 0) {
+    $sentence = array_splice($words, 0, rand(2,4));
 
-    return ucfirst(implode(', '.$joins[0].' ', $sentence));
+    $paragraph[] = ucfirst(implode(' ', $sentence));
 }
-
-$paragraph = range(1, rand(8,12));
-
-$paragraph = array_map(fn () => sentence($words, $joins), $paragraph);
 
 echo implode('. ', $paragraph) . '.';
