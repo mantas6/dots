@@ -14,7 +14,7 @@ function CopyCurrentBufferPath()
 end
 
 -- Map <leader>h to toggle search highlighting
-vim.api.nvim_set_keymap('n', '<leader>bh', ':lua ToggleHighlightSearch()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>h', ':lua ToggleHighlightSearch()<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>bf', ':LspZeroFormat<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>by', ':lua CopyCurrentBufferPath()<CR>', {})
 
