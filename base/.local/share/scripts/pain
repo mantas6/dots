@@ -29,13 +29,6 @@ $words = [
     'tamsa',
 ];
 
-$joins = [
-    'nes',
-    'dėl to kad',
-    'ir',
-    'po to',
-];
-
 shuffle($words);
 
 $paragraph = [];
