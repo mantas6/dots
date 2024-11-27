@@ -28,14 +28,34 @@ $words = [
     'tamsa',
 ];
 
-shuffle($words);
+$paragraphs = array_fill(0, $argv[1] ?? 1, $words);
 
-$paragraph = [];
+$paragraphs = array_map(
+    callback: function ($words) {
+        shuffle($words);
 
-while (count($words) > 0) {
-    $sentence = array_splice($words, 0, rand(2,4));
+        $sentences = [];
 
-    $paragraph[] = ucfirst(implode(' ', $sentence));
-}
+        while (count($words) > 0) {
+            $sentence = array_splice($words, 0, rand(2, 4));
 
-echo implode('. ', $paragraph) . '.';
+            $sentences[] = ucfirst(implode(' ', $sentence));
+        }
+
+        return implode('. ', $sentences) . '.';
+    },
+
+    array: $paragraphs,
+);
+
+$paragraphs = array_chunk(
+    array: $paragraphs,
+    length: round(count($paragraphs) / ($argv[2] ?? 1)),
+);
+
+$paragraphs = array_map(
+    callback: fn ($sentences) => implode('', $sentences),
+    array: $paragraphs,
+);
+
+echo implode("\n\n", $paragraphs);
