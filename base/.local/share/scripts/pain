@@ -31,8 +31,10 @@ $words = [
 $paragraphs = array_fill(0, $argv[1] ?? 1, $words);
 
 $paragraphs = array_map(
-    callback: function ($words) {
+    callback: function ($words) use ($argv) {
         shuffle($words);
+
+        $words = array_slice($words, 0, $argv[2] ?? count($words));
 
         $sentences = [];
 
@@ -42,19 +44,21 @@ $paragraphs = array_map(
             $sentences[] = ucfirst(implode(' ', $sentence));
         }
 
-        return implode('. ', $sentences) . '.';
+        return $sentences;
     },
 
     array: $paragraphs,
 );
 
+$paragraphs = array_merge(...$paragraphs);
+
 $paragraphs = array_chunk(
     array: $paragraphs,
-    length: round(count($paragraphs) / ($argv[2] ?? 1)),
+    length: round(count($paragraphs) / ($argv[1] ?? 1)),
 );
 
 $paragraphs = array_map(
-    callback: fn ($sentences) => implode('', $sentences),
+    callback: fn ($sentences) => implode('. ', $sentences) . '.',
     array: $paragraphs,
 );
 
