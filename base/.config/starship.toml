@@ -40,3 +40,6 @@ style = "bright-black"
 [cmd_duration]
 format = " [$duration]($style) "
 style = "yellow"
+
+[hostname]
+format = '[$ssh_symbol] '
