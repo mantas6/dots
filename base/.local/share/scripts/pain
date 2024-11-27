@@ -5,13 +5,12 @@ $words = [
     'skausmas',
     'kančia',
     'pragaras',
-    'dykuma', 'sausuma',
+    'dykuma',
     'tuščias gyvenimas',
     'egzistencija',
     'skerdykla',
     'mėsmalė',
     'pabaiga',
-    'bekelė',
     'nepavykę santykiai',
     'pabaiga be pradžios',
     'depresija',
@@ -29,14 +28,41 @@ $words = [
     'tamsa',
 ];
 
-shuffle($words);
+$paragraphCount = $argv[1] ?? 1;
+$wordCount = $argv[2] ?? count($words);
 
-$paragraph = [];
+$carry = array_fill(0, $paragraphCount * (count($words) / $wordCount), $words);
 
-while (count($words) > 0) {
-    $sentence = array_splice($words, 0, rand(2,4));
+$carry = array_map(
+    callback: function ($words) use ($wordCount) {
+        shuffle($words);
 
-    $paragraph[] = ucfirst(implode(' ', $sentence));
-}
+        $words = array_slice($words, 0, $wordCount);
 
-echo implode('. ', $paragraph) . '.';
+        $sentences = [];
+
+        while (count($words) > 0) {
+            $sentence = array_splice($words, 0, rand(2, 4));
+
+            $sentences[] = ucfirst(implode(' ', $sentence));
+        }
+
+        return $sentences;
+    },
+
+    array: $carry,
+);
+
+$carry = array_merge(...$carry);
+
+$paragraphs = array_chunk(
+    array: $carry,
+    length: round(count($carry) / $paragraphCount),
+);
+
+$paragraphs = array_map(
+    callback: fn ($sentences) => implode('. ', $sentences) . '.',
+    array: $paragraphs,
+);
+
+echo implode("\n\n", $paragraphs);
