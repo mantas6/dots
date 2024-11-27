@@ -28,13 +28,16 @@ $words = [
     'tamsa',
 ];
 
-$carry = array_fill(0, $argv[1] ?? 1, $words);
+$paragraphCount = $argv[1] ?? 1;
+$wordCount = $argv[2] ?? count($words);
+
+$carry = array_fill(0, $paragraphCount * (count($words) / $wordCount), $words);
 
 $carry = array_map(
-    callback: function ($words) use ($argv) {
+    callback: function ($words) use ($wordCount) {
         shuffle($words);
 
-        $words = array_slice($words, 0, $argv[2] ?? count($words));
+        $words = array_slice($words, 0, $wordCount);
 
         $sentences = [];
 
@@ -54,7 +57,7 @@ $carry = array_merge(...$carry);
 
 $paragraphs = array_chunk(
     array: $carry,
-    length: round(count($carry) / ($argv[1] ?? 1)),
+    length: round(count($carry) / $paragraphCount),
 );
 
 $paragraphs = array_map(
