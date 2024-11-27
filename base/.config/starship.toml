@@ -42,4 +42,4 @@ format = " [$duration]($style) "
 style = "yellow"
 
 [hostname]
-format = '[$ssh_symbol](bold blue) '
+format = '[$hostname](bold red) '
