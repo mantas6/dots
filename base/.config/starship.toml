@@ -43,3 +43,6 @@ style = "yellow"
 
 [hostname]
 format = '[$hostname](bold red) '
+
+[username]
+disabled = true
