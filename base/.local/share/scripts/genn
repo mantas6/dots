@@ -1,0 +1,84 @@
+#!/usr/bin/env php
+<?php
+
+$generator = new class {
+    static $startParts = [
+        'man',
+        'rud',
+        'ak',
+        'ern',
+        'don',
+        'taut',
+        'vyt',
+        'urb',
+        'zych',
+        'šliuž',
+        'gyva',
+        'au',
+        'emi',
+    ];
+
+    static $endParts = [
+        'male' => [
+            'as',
+            'tas',
+            'stas',
+            'us',
+            'jus',
+            'vydas',
+            'frydas',
+            'rimas',
+            'lis',
+        ],
+
+        'female' => [
+            'ė',
+            'a',
+            'la',
+            'aitė',
+            'tė',
+            'ienė',
+            'ūtė',
+        ],
+    ];
+
+    function generate(): string
+    {
+        $gender = rand(0, 1) ? 'male' : 'female';
+
+        $startParts = static::$startParts;
+        $endParts = static::$endParts[$gender];
+
+        shuffle($startParts);
+        shuffle($endParts);
+
+        $names = [];
+
+        foreach (range(1, 2) as $i) {
+            $names[] = ucfirst(
+                preg_replace(
+                    pattern: '/(.)\1+/i',
+                    replacement: '$1',
+                    subject: array_shift($startParts) . array_shift($endParts)
+                )
+            );
+        }
+
+        return implode(' ', $names);
+    }
+
+    function __invoke(int $count): string
+    {
+        return implode(
+            separator: "\n",
+            array: array_map(
+                callback: fn () => $this->generate(),
+                array: range(1, $count),
+            ),
+        );
+    }
+};
+
+echo $generator(
+    count: $argv[1] ?? 1,
+);
