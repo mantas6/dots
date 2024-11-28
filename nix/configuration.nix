@@ -19,7 +19,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "ix"; # Define your hostname.
-  networking.interfaces.enp11s0.wakeOnLan.enable = true;
+  networking.interfaces.enp12s0.wakeOnLan.enable = true;
 
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -117,6 +117,8 @@
 
     nixd
     alejandra
+
+    pciutils
     #
   ];
 
