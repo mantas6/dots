@@ -59,12 +59,12 @@ $generator = new class {
                         length: rand(2, 4),
                     );
 
-                    $sentences[] = implode(' ', $sentence);
+                    $sentences[] = ucfirst(
+                        implode(' ', $sentence)
+                    );
                 }
 
-                return ucfirst(
-                    implode('. ', $sentences) . '.',
-                );
+                return implode('. ', $sentences) . '.';
             },
 
             array: range(1, $paragraphCount),
