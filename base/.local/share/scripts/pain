@@ -1,68 +1,80 @@
 #!/usr/bin/env php
 <?php
 
-$words = [
-    'skausmas',
-    'kančia',
-    'pragaras',
-    'dykuma',
-    'tuščias gyvenimas',
-    'egzistencija',
-    'skerdykla',
-    'mėsmalė',
-    'pabaiga',
-    'nepavykę santykiai',
-    'pabaiga be pradžios',
-    'depresija',
-    'demonai',
-    'velniai',
-    'trauma',
-    'klaidos',
-    'vienišumas',
-    'pagalbos šauksmas',
-    'širdies skausmas',
-    'skilimas',
-    'puvimas',
-    'šlapdriba',
-    'pasėkmės',
-    'tamsa',
-];
+$generator = new class {
+    static array $words = [
+        'skausmas',
+        'kančia',
+        'pragaras',
+        'dykuma',
+        'tuščias gyvenimas',
+        'egzistencija',
+        'skerdykla',
+        'mėsmalė',
+        'pabaiga',
+        'nepavykę santykiai',
+        'pabaiga be pradžios',
+        'depresija',
+        'demonai',
+        'velniai',
+        'trauma',
+        'klaidos',
+        'vienišumas',
+        'pagalbos šauksmas',
+        'širdies skausmas',
+        'skilimas',
+        'puvimas',
+        'šlapdriba',
+        'pasėkmės',
+        'tamsa',
+    ];
 
-$paragraphCount = $argv[1] ?? 1;
-$wordCount = $argv[2] ?? count($words);
+    private array $bucket = [];
 
-$carry = array_fill(0, $paragraphCount * (count($words) / $wordCount), $words);
-
-$carry = array_map(
-    callback: function ($words) use ($wordCount) {
-        shuffle($words);
-
-        $words = array_slice($words, 0, $wordCount);
-
-        $sentences = [];
-
-        while (count($words) > 0) {
-            $sentence = array_splice($words, 0, rand(2, 4));
-
-            $sentences[] = ucfirst(implode(' ', $sentence));
+    function generator(): string
+    {
+        if (!$this->bucket) {
+            $this->bucket = static::$words;
+            shuffle($this->bucket);
         }
 
-        return $sentences;
-    },
+        return array_shift($this->bucket);
+    }
 
-    array: $carry,
+    function __invoke(int $paragraphCount, int $wordCount): string
+    {
+        $paragraphs = array_map(
+            callback: function () use ($wordCount) {
+                $words = array_map(
+                    callback: fn() => $this->generator(),
+                    array: range(1, $wordCount),
+                );
+
+                $sentences = [];
+
+                while ($words) {
+                    $sentence = array_splice(
+                        array: $words,
+                        offset: 0,
+                        length: rand(2, 4),
+                    );
+
+                    $sentences[] = implode(' ', $sentence);
+                }
+
+                return ucfirst(
+                    implode('. ', $sentences) . '.',
+                );
+            },
+
+            array: range(1, $paragraphCount),
+        );
+
+        return implode("\n\n", $paragraphs);
+    }
+};
+
+echo $generator(
+    paragraphCount: $argv[1] ?? 1,
+    wordCount: $argv[2] ?? count($generator::$words),
 );
-
-$carry = array_merge(...$carry);
-
-$paragraphs = array_chunk(
-    array: $carry,
-    length: round(count($carry) / $paragraphCount),
-);
-
-$paragraphs = array_map(
-    callback: fn ($sentences) => implode('. ', $sentences) . '.',
-    array: $paragraphs,
-);
-
-echo implode("\n\n", $paragraphs);
