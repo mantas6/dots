@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+selected_file=$(fzf --preview "bat --color=always {}" --preview-window "~3")
+
+[ -n "$selected_file" ] && "$EDITOR" "$selected_file"

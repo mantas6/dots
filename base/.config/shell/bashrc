@@ -68,7 +68,6 @@ alias composer="de composer"
 alias c="de composer"
 alias cupd='de composer update'
 alias s="sail"
-alias a="de php artisan"
 
 alias pc='precommit'
 alias dup='docker-compose up'
@@ -82,9 +81,6 @@ alias ld="lazydocker"
 alias glc="git log -1 --pretty=%B"
 
 alias tg='toggl'
-
-alias cu='checkupdates'
-[ -x "$(command -v brew)" ] && alias cu='brew update && brew outdated'
 
 alias cmatrix='cmatrix -ab'
 alias ff='fastfetch'
@@ -101,7 +97,6 @@ alias dsy="(cd $HOME/Repos/dotfiles && git pull && ./stow)"
 [ "$(uname)" = 'Darwin' ] && alias cal='cal -A 2'
 
 alias keepon="xset s off && xset -dpms"
-alias vf='selected_file=$(fzf --preview "bat --color=always {}" --preview-window "~3"); [ -n "$selected_file" ] && vi "$selected_file"'
 
 alias vse="(cd $HOME/.local/share/scripts && vf)"
 alias vaw="(cd $HOME/.config/awesome && vf)"
@@ -123,10 +118,6 @@ alias reboot-windows='sudo grub-reboot "$(grep -i windows /boot/grub/grub.cfg|cu
 alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 
 # Functions
-# Get time when system was woken from sleep
-wok() {
-    journalctl -n1 -u sleep.target | awk '{print $3}'
-}
 
 lfcd () {
     cd "$(command lf -print-last-dir "$@")" || return
