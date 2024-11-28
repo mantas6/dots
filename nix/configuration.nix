@@ -117,6 +117,8 @@
 
     nixd
     alejandra
+
+    pciutils
     #
   ];
 
