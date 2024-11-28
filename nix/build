@@ -1,5 +1,5 @@
 #!/bin/sh
 
-cfg_dir=$(dirname "$(realpath "$0")")
+cd "$(dirname "$(realpath "$0")")" || exit 1
 
 sudo nixos-rebuild switch --flake .
