@@ -67,7 +67,6 @@ alias artisan="de php artisan"
 alias composer="de composer"
 alias c="de composer"
 alias cupd='de composer update'
-alias rector='de vendor/bin/rector process'
 alias s="sail"
 alias a="de php artisan"
 
@@ -113,32 +112,7 @@ alias vrc="(cd $HOME/Repos/dotfiles && vf)"
 alias pingg="ping google.com"
 alias ipa="ip a"
 
-alias sc='systemctl'
-alias scu='systemctl --user'
-alias jc='journalctl'
-alias jcu='journalctl --user'
-
-# AP
-alias ap-hostapd-edit="sudoedit /etc/hostapd/hostapd.conf"
-alias ap-hostapd-restart="sudo systemctl restart hostapd"
-alias ap-hostapd-logs="sudo journalctl -u hostapd"
-alias ap-accept-edit="sudoedit /etc/hostapd/hostapd.accept"
-
-alias ap-dnsmasq-edit="sudoedit /etc/dnsmasq.conf"
-alias ap-dnsmasq-check="sudo dnsmasq --test"
-alias ap-dnsmasq-restart="sudo systemctl restart dnsmasq"
-alias ap-dnsmasq-logs="sudo journalctl -u dnsmasq"
-
-alias ap-etc-hosts-edit="sudoedit /etc/hosts"
-
-alias ap-leases-list="sudo cat /var/lib/dnsmasq/dnsmasq.leases"
-alias ap-leases-clear="sudo rm /var/lib/dnsmasq/dnsmasq.leases"
-
 alias sshvm='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -A'
-
-alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
-
-alias oat='oatmeal --ollama-url "http://$(bomzolv amd):11434"'
 
 # Other
 alias nj="jq . | nvim -Rc 'set syntax=json | set nospell' -"
@@ -146,6 +120,7 @@ alias nj="jq . | nvim -Rc 'set syntax=json | set nospell' -"
 alias tra="sat transactions:select"
 
 alias reboot-windows='sudo grub-reboot "$(grep -i windows /boot/grub/grub.cfg|cut -d"'\''" -f2)" && reboot'
+alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 
 # Functions
 # Get time when system was woken from sleep
