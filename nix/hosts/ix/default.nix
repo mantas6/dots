@@ -84,33 +84,6 @@
     ];
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    neovim
-    wget
-    curl
-    git
-    fastfetch
-    lf
-    bat
-    tmux
-    stow
-    zoxide
-    starship
-    eza
-    trash-cli
-    gh
-    gum
-    fzf
-    delta
-    unzip
-    sysz
-
-    pciutils
-    #
-  ];
-
 	virtualisation.docker = {
     enable = true;
     rootless = {
