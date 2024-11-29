@@ -21,7 +21,12 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "ix"; # Define your hostname.
-  networking.interfaces.enp12s0.wakeOnLan.enable = true;
+  networking.interfaces.net0.wakeOnLan.enable = true;
+
+  systemd.network.links."10-net" = {
+    matchConfig.PermanentMACAddress = "04:7c:16:4f:88:ea";
+    linkConfig.Name = "net0";
+  };
 
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
