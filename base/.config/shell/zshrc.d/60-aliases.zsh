@@ -1,12 +1,18 @@
 #!/usr/bin/env zsh
 
-[ -x "$(command -v nvim)" ] && alias vim="nvim" vi="nvim"
-
+# Colors
+alias ls='ls --color=auto -h'
 alias grep='grep --color=auto'
 alias ip='ip -color=auto'
 alias diff='diff --color=auto'
+alias tree="tree -C"
+
+# Use neovim if available
+[ -x "$(command -v nvim)" ] && alias vim="nvim" vi="nvim"
 
 alias chx="chmod +x"
+
+# Higher verbosity for file operations
 alias cp="cp -vi"
 alias mkdir="mkdir -v"
 alias mv="mv -vi"
@@ -33,6 +39,55 @@ alias zr='cd "$(git rev-parse --show-toplevel)"'
 alias zk='z "$(tmux display-message -p "#S")"'
 alias zf='eval "$(__fzf_cd__)"'
 
+# Laravel
+alias sail="vendor/bin/sail"
+alias artisan="de php artisan"
+alias composer="de composer"
+alias c="de composer"
+alias cupd='de composer update'
+alias s="sail"
+
+alias pc='precommit'
+alias dup='docker-compose up'
+alias dst='docker-compose stop'
+
+alias g="git"
+alias gp="g pull"
+alias gP="g push"
+alias lg="lazygit"
+alias ld="lazydocker"
+alias glc="git log -1 --pretty=%B"
+
+alias tg='toggl'
+
 alias cmatrix='cmatrix -ab'
 alias ff='fastfetch'
 alias q='numbat'
+
+alias tsr='tmux source-file ~/.config/tmux/tmux.conf'
+alias ts='tmux split-window -h \; split-window -v'
+
+# Dotfiles
+alias dlg="(cd $HOME/Repos/dotfiles && lazygit)"
+alias dsy="(cd $HOME/Repos/dotfiles && git pull && ./stow)"
+
+[ "$(uname)" != 'Darwin' ] && alias cal='cal --monday'
+[ "$(uname)" = 'Darwin' ] && alias cal='cal -A 2'
+
+alias keepon="xset s off && xset -dpms"
+
+alias vse="(cd $HOME/.local/share/scripts && vf)"
+alias vaw="(cd $HOME/.config/awesome && vf)"
+alias vsh="(cd $HOME/.config/shell && vf)"
+alias vrc="(cd $HOME/Repos/dotfiles && vf)"
+
+# Networking
+alias pingg="ping google.com"
+alias ipa="ip a"
+
+alias sshvm='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -A'
+
+# Other
+alias nj="jq . | nvim -Rc 'set syntax=json | set nospell' -"
+
+alias tra="sat transactions:select"
