@@ -114,9 +114,6 @@ alias nj="jq . | nvim -Rc 'set syntax=json | set nospell' -"
 
 alias tra="sat transactions:select"
 
-alias reboot-windows='sudo grub-reboot "$(grep -i windows /boot/grub/grub.cfg|cut -d"'\''" -f2)" && reboot'
-alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
-
 # Functions
 
 lfcd () {
