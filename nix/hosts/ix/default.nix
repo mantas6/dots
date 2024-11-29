@@ -8,7 +8,9 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ./hardware.nix
+      ../../modules/pkgs
+      ../../modules/services
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -103,20 +105,7 @@
     fzf
     delta
     unzip
-    # development pkgs
-    php83
-    php83Packages.composer
-    nodejs_22
-    go
-    gcc
-    luajitPackages.luarocks
-    python3
-    shellcheck
-    ripgrep
-    fd
-
-    nixd
-    alejandra
+    sysz
 
     pciutils
     #
@@ -145,13 +134,6 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh = {
-    enable = true;
-    settings = {
-     PermitRootLogin = "no";
-     PasswordAuthentication = false;
-    };
-  };
 
   services.udisks2.enable = true;
 

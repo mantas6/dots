@@ -8,7 +8,7 @@
   outputs = { self, nixpkgs }: {
 
     nixosConfigurations.ix = nixpkgs.lib.nixosSystem {
-      modules = [ ./configuration.nix ];
+      modules = [ ./hosts/ix ];
     };
 
   };
