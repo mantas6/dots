@@ -1,0 +1,6 @@
+.zcompdump
+
+local/*
+
+zprofile.d/*.local.zsh
+zshrc.d/*.local.zsh
