@@ -2,18 +2,20 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-{ config, lib, pkgs, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware.nix
-      ../../modules/pkgs
-      ../../modules/services
-    ];
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware.nix
+    ../../modules/pkgs
+    ../../modules/services
+  ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -21,19 +23,21 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "ix"; # Define your hostname.
-  networking.interfaces.net0.wakeOnLan.enable = true;
+  networking.interfaces.eth0.wakeOnLan.enable = true;
 
-  systemd.network.links."10-net" = {
-    matchConfig.PermanentMACAddress = "04:7c:16:4f:88:ea";
-    linkConfig.Name = "net0";
-  };
+  # systemd.network.links."10-net" = {
+  #   matchConfig.PermanentMACAddress = "04:7c:16:4f:88:ea";
+  #   linkConfig.Name = "net0";
+  # };
+
+  networking.usePredictableInterfaceNames = false;
 
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   boot.kernel.sysctl = {
-#    "net.ipv4.ip_unprivileged_port_start" = 0;
+    #    "net.ipv4.ip_unprivileged_port_start" = 0;
   };
 
   # Set your time zone.
@@ -48,7 +52,7 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
-		packages = with pkgs; [ terminus_font ];
+    packages = with pkgs; [terminus_font];
     font = "ter-v32n";
     keyMap = "us";
   };
@@ -80,7 +84,7 @@
   users.users.mantas = {
     isNormalUser = true;
     password = "2";
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHtMJ6SP+1ppYvlbRSDyjhmWvDFOvKGFMD7V88h7Q6Ni mantas@amd"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKwmj+D1NO4kg3E6JH4ck0q+C65hTiTh69POfqXMROhF mantas@X13"
@@ -89,7 +93,7 @@
     ];
   };
 
-	virtualisation.docker = {
+  virtualisation.docker = {
     enable = true;
     rootless = {
       enable = true;
@@ -144,6 +148,4 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.05"; # Did you read the comment?
-
 }
-
