@@ -41,4 +41,4 @@ nvim -c "command! Remote only | vsp | terminal bash -c 'tin -s'" \
     -c "set nospell | set scrollback=100000 | set splitright" \
     -c "autocmd BufWritePost * only | vsp | terminal de php $(basename "$index")" "$buffer"
 
-rm "$buffer"
+rm "$index"
