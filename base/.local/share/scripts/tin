@@ -14,7 +14,7 @@ if [ "$1" = '-s' ]; then
     exit 0
 fi
 
-echo '<?php' >> "$buffer"
+[ ! -f "$buffer" ] && echo '<?php' >> "$buffer"
 
 cat <<EOF > "$index"
 <?php
@@ -42,4 +42,3 @@ nvim -c "command! Remote only | vsp | terminal bash -c 'tin -s'" \
     -c "autocmd BufWritePost * only | vsp | terminal de php $(basename "$index")" "$buffer"
 
 rm "$buffer"
-rm "$index"
