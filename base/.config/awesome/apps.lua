@@ -42,10 +42,6 @@ return function()
 --       }
 --     },
     {
-      tag = 5,
-      exec = { terminal_cmd }
-    },
-    {
       tag = 8,
       exec = {
         'chromium --new-window ' .. os.getenv('SAT_BASE_URL') .. '/resources/transactions',
