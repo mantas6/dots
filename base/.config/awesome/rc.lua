@@ -258,7 +258,6 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             -- statusbar.track,
             statusbar.rain,
-            statusbar.journal,
             statusbar.updates,
             statusbar.temp,
             statusbar.cpuf,
