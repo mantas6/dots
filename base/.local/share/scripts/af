@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -eo 'pipefail'
-selected=$(de php artisan list --raw | fzf | awk '{print $1}')
+selected=$(a list --raw | fzf | awk '{print $1}')
 
 set -x
-de php artisan "$selected"
+a "$selected"
