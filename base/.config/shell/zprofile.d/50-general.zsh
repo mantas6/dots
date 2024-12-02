@@ -26,6 +26,9 @@ if [ -d "$HOME/.local/brew" ]; then
         && source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
 fi
 
+[ -d "$HOME/Library/Application Support/Herd/bin" ] && \
+    export PATH="$HOME/Library/Application Support/Herd/bin:$PATH"
+
 if [ -x "$(command -v gem)" ]; then
     export GEM_HOME=$(gem env user_gemhome)
     export PATH="$PATH:$GEM_HOME/bin"
