@@ -16,19 +16,6 @@ export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
 export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
 export AWESOME_OUTPUT_DIR="$XDG_CACHE_HOME/awesome"
 
-# Homebrew rootless
-if [ -d "$HOME/.local/brew" ]; then
-    export HOMEBREW_PREFIX="$HOME/.local/brew"
-    export HOMEBREW_MAKE_JOBS=2
-    export PATH="$HOMEBREW_PREFIX/bin:$PATH"
-
-    [ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ] \
-        && source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
-fi
-
-[ -d "$HOME/Library/Application Support/Herd/bin" ] && \
-    export PATH="$HOME/Library/Application Support/Herd/bin:$PATH"
-
 if [ -x "$(command -v gem)" ]; then
     export GEM_HOME=$(gem env user_gemhome)
     export PATH="$PATH:$GEM_HOME/bin"
