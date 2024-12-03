@@ -44,7 +44,6 @@ alias sail="vendor/bin/sail"
 alias artisan="de php artisan"
 alias composer="de composer"
 alias c="de composer"
-alias cupd='de composer update'
 alias s="sail"
 
 alias pc='precommit'
