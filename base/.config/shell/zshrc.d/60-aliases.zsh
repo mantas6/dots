@@ -10,9 +10,6 @@ alias tree="tree -C"
 # Use neovim if available
 [ -x "$(command -v nvim)" ] && alias vim="nvim" vi="nvim"
 
-alias chx="chmod +x"
-
-# Higher verbosity for file operations
 alias cp="cp -vi"
 alias mkdir="mkdir -v"
 alias mv="mv -vi"
@@ -21,6 +18,7 @@ alias trash="trash -v"
 alias lf="lfcd"
 alias t='trash'
 alias rsync='rsync -avP'
+alias chx="chmod +x"
 
 if [ -x "$(command -v eza)" ]; then
     export EZA_COLORS="uu=0:gu=0"
@@ -68,7 +66,6 @@ alias ts='tmux split-window -h \; split-window -v'
 
 # Dotfiles
 alias dlg="(cd $HOME/Repos/dotfiles && lazygit)"
-alias dsy="(cd $HOME/Repos/dotfiles && git pull && ./stow)"
 
 [ "$(uname)" != 'Darwin' ] && alias cal='cal --monday'
 [ "$(uname)" = 'Darwin' ] && alias cal='cal -A 2'
