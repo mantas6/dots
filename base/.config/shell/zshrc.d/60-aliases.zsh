@@ -25,8 +25,9 @@ if [ -x "$(command -v eza)" ]; then
     alias eza="eza --icons --group-directories-first"
     alias ls="eza"
     alias l="eza"
-    alias ll="eza -l"
-    alias la="eza -la"
+    alias ll="eza --no-user -l"
+    alias la="eza --no-user -la"
+    alias lu="eza -la"
     alias lt="eza -T -L 2"
     alias lt3="eza -T -L 3"
 fi
