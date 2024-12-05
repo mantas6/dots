@@ -1,7 +1,7 @@
 #!/bin/sh
 # Tmux session start hook - ran after new session creation
 
-if [ -d '.git' ]; then
+if [ -d '.git' ] || [ -f 'composer.json' ]; then
     tmux rename-window 'vi'
     tmux send-keys 'nvim .' C-m
 
