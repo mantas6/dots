@@ -5,6 +5,4 @@
 [ -x "$(command -v zoxide)" ] && eval "$(zoxide init zsh)"
 [ -x "$(command -v direnv)" ] && eval "$(direnv hook zsh)"
 
-[ -f '/etc/profile.d/nix.sh' ] && source '/etc/profile.d/nix.sh'
-
 dchk

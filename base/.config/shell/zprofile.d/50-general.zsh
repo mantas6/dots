@@ -57,3 +57,5 @@ export PATH="$PATH:$(find "$HOME"/.local/share/scripts/ -type d | paste -sd ':' 
 [ -x "$(command -v npm)" ] && PATH="$(npm config get prefix)/bin:$PATH"
 
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
+
+[ -f '/etc/profile.d/nix.sh' ] && source '/etc/profile.d/nix.sh'
