@@ -16,3 +16,8 @@ autocmd('FileType', {
     command = 'setlocal shiftwidth=2 softtabstop=2 expandtab',
 })
 
+vim.filetype.add({
+  pattern = {
+    [".*%.blade%.php"] = "html",
+  },
+})
