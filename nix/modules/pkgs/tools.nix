@@ -19,6 +19,7 @@
     delta
     unzip
     sysz
+    tealdeer
 
     pciutils
   ];
