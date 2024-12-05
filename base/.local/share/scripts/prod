@@ -5,4 +5,6 @@ export REMOTE_USER="$REMOTE_PROD_USER"
 export REMOTE_HOST="$REMOTE_PROD_HOST"
 export REMOTE_ROOT="$REMOTE_PROD_ROOT"
 
+gum confirm 'Run cmd in production?' || exit 1
+
 "$@"
