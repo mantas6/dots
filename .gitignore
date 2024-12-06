@@ -1,5 +1,7 @@
 base/.config/nvim/spell/
 
+base/.config/bm/list.local
+
 base/.local/share/applications/*.cache
 
 base/.stow-local-ignore
