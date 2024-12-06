@@ -29,7 +29,10 @@ for p in "$@"
 do
     case "$p" in
         -e)
-            nvim "$list"; exit 0
+            nvim "$list"
+            formatted=$(sed -E 's#^(http://|https://)##; s#/$##' "$list")
+            echo "$formatted" > "$list"
+            exit 0
             ;;
         -l)
             echo "$items"; exit 0
