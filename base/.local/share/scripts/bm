@@ -7,7 +7,6 @@ mkdir -p "$state"
 touch "$state/history"
 
 list="$XDG_CONFIG_HOME/bm/list"
-list_local="$XDG_CONFIG_HOME/bm/list.local"
 search_cmd='fzf -i'
 input_cmd='fzf -i --print-query --bind tab:replace-query'
 
@@ -16,7 +15,6 @@ show_help() {
     echo
     echo 'Editing:'
     echo '  -e            Edit global bookmarks list'
-    echo '  -el           Edit local (untracked) bookmarks list'
     echo
     echo 'Other:'
     echo '  -l            List all bookmarks and exit'
@@ -25,16 +23,13 @@ show_help() {
     echo '  -h, --help    Display help'
 }
 
-items=$(cat "$list" "$list_local" 2> /dev/null | grep -v '^\(#\|$\)')
+items=$(grep -v '^\(#\|$\)' "$list")
 
 for p in "$@"
 do
     case "$p" in
         -e)
             nvim "$list"; exit 0
-            ;;
-        -el)
-            nvim "$list_local"; exit 0
             ;;
         -l)
             echo "$items"; exit 0
