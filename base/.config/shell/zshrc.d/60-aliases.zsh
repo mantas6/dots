@@ -33,9 +33,9 @@ if [ -x "$(command -v eza)" ]; then
 fi
 
 alias zd='cd ~/Downloads'
-alias ze='cd ~/Desktop'
+alias zs='cd ~/Desktop'
 alias zr='cd "$(git rev-parse --show-toplevel)"'
-alias zk='z "$(tmux display-message -p "#S")"'
+alias ze='z "$(tmux display-message -p "#S")"'
 alias zf='eval "$(__fzf_cd__)"'
 
 # Laravel
