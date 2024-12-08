@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 
+set -e
+
 while true; do
-    machine-heartbeat
+    sat-send-heartbeat
     sleep 60
 done
