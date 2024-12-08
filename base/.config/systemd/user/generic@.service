@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 WorkingDirectory=%h/.local/share/services/generic/%i
-ExecStart=/usr/bin/env bash -lc %h/.local/share/services/generic/%i/run
+ExecStart=%h/.local/share/services/generic/%i/run
 Restart=on-failure
 RestartSec=60s
 
