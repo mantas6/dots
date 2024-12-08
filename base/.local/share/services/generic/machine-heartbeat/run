@@ -1,7 +1,5 @@
 #!/usr/bin/env sh
 
-PATH="$HOME/.local/share/scripts/sat-ext:$PATH"
-
 while true; do
     machine-heartbeat
     sleep 60
