@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# Execute artisan command on remote server
+
+sse "php artisan $*"

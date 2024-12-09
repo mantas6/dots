@@ -3,4 +3,8 @@
 name="$REMOTE_USER@$REMOTE_HOST"
 base="$REMOTE_ROOT"
 
-ssh -o LogLevel=QUIET -tt "$name" "cd $base; exec \$SHELL -l"
+cmd="exec \$SHELL -l"
+
+[ $# != 0 ] && cmd="$*"
+
+ssh -o LogLevel=QUIET -tt "$name" "cd $base; $cmd"
