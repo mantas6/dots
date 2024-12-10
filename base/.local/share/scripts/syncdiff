@@ -20,4 +20,4 @@ done
 
 rsync -RPrzcav "${files[@]}" "$host:$REMOTE_ROOT"
 
-ssh "$host" "(cd '$REMOTE_ROOT' && php cachetool.phar opcache:reset --cli; php artisan horizon:terminate; php artisan view:cache)"
+ssh "$host" "(cd '$REMOTE_ROOT' && php cachetool.phar opcache:reset --cli; php artisan horizon:terminate; php artisan optimize)"
