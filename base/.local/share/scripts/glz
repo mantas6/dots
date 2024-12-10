@@ -4,7 +4,11 @@ set -e
 
 git add .
 
-msg=$(gum input --value="$(git log -1 --pretty=%B)")
+if [ "$1" = '-i' ]; then
+    msg=$(git log -n 100 --pretty=%B | sed '/^\s*$/d' | fzf)
+else
+    msg=$(gum input --value="$(git log -1 --pretty=%B)")
+fi
 
 git commit -m "$msg"
 git push
