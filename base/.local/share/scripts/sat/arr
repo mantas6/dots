@@ -2,15 +2,14 @@
 
 set -euo 'pipefail'
 
-baseurl="$SAT_BASE_URL"/api/journals/articles
+baseurl="$(sat-base-url)"/api/journals/articles
 state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
-token=$(<"$state"/token)
 
 if [ ! -f "$state/list" ]; then
     echo 'Fetching articles list...'
 
     options=$(curl -sSf "$baseurl?all=1" \
-        -H "Authorization: Bearer $token" \
+        -H "$(sat-auth-header)" \
         -H 'Content-Type: application/json' \
         | jq -r 'map((.id | tostring) + "\t" + .title + "\t" + (.word_count | tostring) + "w\t" + .created_at + "\t" + .journal.title) | .[]')
 
@@ -25,6 +24,6 @@ id=$(echo "$options" \
     | fzf  --delimiter="\t" \
     | awk '{print $1}')
 
-contents=$(curl -sSfH "Authorization: Bearer $token" "$baseurl/$id" | jq -r '.contents')
+contents=$(curl -sSfH "$(sat-auth-header)" "$baseurl/$id" | jq -r '.contents')
 
 echo "$contents" | glow -p

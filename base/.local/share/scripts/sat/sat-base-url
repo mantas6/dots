@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
+
+if [ ! -f "$state/url" ]; then
+    echo 'Error: URL is not configured' >&2
+    exit 1
+fi
+
+echo "$(<"$state/url")"

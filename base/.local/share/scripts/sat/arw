@@ -3,8 +3,7 @@
 set -euo 'pipefail'
 
 state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
-token=$(<"$state"/token)
-url="$SAT_BASE_URL"/api/journals/articles
+url="$(sat-base-url)"/api/journals/articles
 current="$1"
 
 if [ -f "$current"/id ]; then
@@ -20,7 +19,7 @@ markdown=$(<"$current"/contents.md)
 json=$(jq -n --arg k "contents" --arg v "$markdown" '{$k: $v}')
 
 response=$(curl -sSfX "$method" \
-    -H "Authorization: Bearer $token" \
+    -H "$(sat-auth-header)" \
     -H 'Content-Type: application/json' \
     -H 'Accept: application/json' \
     -d "$json" \

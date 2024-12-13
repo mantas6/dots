@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
-token=$(<"$state"/token)
-
-curl -sSfL \
-    -H "Authorization: Bearer $token" "$@"

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
+
+if [ ! -f "$state/token" ]; then
+    echo 'Error: Token is not configured' >&2
+    exit 1
+fi
+
+token=$(<"$state/token")
+
+echo "Authorization: Bearer $token"

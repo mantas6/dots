@@ -4,17 +4,14 @@ timeout=0
 
 [ -n "$1" ] && [ "$1" = '-f' ] && timeout="${2:-5}"
 
-state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
-token=$(<"$state"/token)
-
 last_checksum=''
 text=''
 exit_code=0
 
 while true; do
     received=$(curl -sSf \
-        -H "Authorization: Bearer $token" \
-        "$SAT_BASE_URL/api/dash" \
+        -H "$(sat-auth-header)" \
+        "$(sat-base-url)/api/dash" \
         2> /dev/null
     )
 

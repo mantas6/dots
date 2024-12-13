@@ -2,11 +2,10 @@
 
 set -euo 'pipefail'
 
-baseurl="$SAT_BASE_URL"/api/journals/articles
+baseurl="$(sat-base-url)"/api/journals/articles
 state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
-token=$(<"$state"/token)
 
-options=$(curl -sSfH "Authorization: Bearer $token" "$baseurl" \
+options=$(curl -sSfH "$(sat-auth-header)" "$baseurl" \
     | jq -r 'map((.id | tostring) + "\t" + .title + "\t" + (.word_count | tostring) + "w\t" + .created_at + "\t" + .journal.title) | .[]')
 
 options="$options$(printf '\n0\tNew')"
@@ -23,7 +22,7 @@ current=$(mktemp -dp "$state/tmp" 'XXXXXXXXXX')
 file="$current"/contents.md
 
 if [ "$id" != 0 ]; then
-    contents=$(curl -sSfH "Authorization: Bearer $token" "$baseurl/$id" | jq -r '.contents')
+    contents=$(curl -sSfH "$(sat-auth-header)" "$baseurl/$id" | jq -r '.contents')
 
     echo "$id" > "$current"/id
     echo "$contents" > "$file"
