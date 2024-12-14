@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+state_home=${XDG_STATE_HOME:-"$HOME/.local/state"}
+state=${SAT_JOURNAL_STATE:-"$state_home/sat"}
+
+echo "$state"

@@ -3,7 +3,7 @@
 set -euo 'pipefail'
 
 baseurl="$(sat-base-url)"/api/journals/articles
-state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
+state=$(sat-state-dir)
 
 if [ ! -f "$state/list" ]; then
     echo 'Fetching articles list...'

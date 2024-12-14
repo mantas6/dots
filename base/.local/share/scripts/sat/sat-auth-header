@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
+state=$(sat-state-dir)
 
 if [ ! -f "$state/token" ]; then
     echo 'Error: Token is not configured' >&2

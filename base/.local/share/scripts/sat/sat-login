@@ -2,7 +2,7 @@
 
 set -e
 
-state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
+state=$(sat-state-dir)
 
 [ ! -d "$state" ] && mkdir -pv "$state"
 

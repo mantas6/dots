@@ -2,7 +2,7 @@
 
 set -euo 'pipefail'
 
-state=${SAT_JOURNAL_STATE:-"$XDG_STATE_HOME"/sat}
+state=$(sat-state-dir)
 url="$(sat-base-url)"/api/journals/articles
 current="$1"
 
