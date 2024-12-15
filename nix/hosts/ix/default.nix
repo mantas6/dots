@@ -13,6 +13,7 @@
     ./hardware.nix
     ../../modules/pkgs
     ../../modules/services
+    ../../modules/sets
   ];
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
