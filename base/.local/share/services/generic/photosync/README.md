@@ -4,7 +4,7 @@ Sync photos from a digital camera or other external devices to a local computer 
 
 ## Setup
 
-Run the `./install` script. This will create and enable user `systemd` service.
+Run the `./run` script to start the service.
 
 Run `./bin/photosync-env photosync-watch` to start manually.
 
