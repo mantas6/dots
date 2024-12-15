@@ -23,6 +23,9 @@ search.nixos.org/packages
 nixos.wiki/wiki/Configuration_Collection
 nixos.wiki/wiki/Main_Page
 
+# Nix example config
+github.com/nmasur/dotfiles/tree/master
+
 # Weather
 meteo.lt/prognozes/specialisto-komentaras
 meteo.lt/prognozes/zemelapiai
