@@ -9,8 +9,9 @@
     };
   };
 
-  fonts.packages = [
-    pkgs.nerd-fonts.anonymice
+  fonts.packages = with pkgs; [
+    nerd-fonts.anonymice
+    ubuntu_font_family
   ];
 
   environment.systemPackages = with pkgs; [
@@ -22,6 +23,7 @@
 
     rofi
     rofi-emoji
+    rofi-pass
 
     pass
 
