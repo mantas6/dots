@@ -11,9 +11,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware.nix
-    ../../modules/pkgs
-    ../../modules/services
-    ../../modules/sets
+    ../../modules
   ];
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
