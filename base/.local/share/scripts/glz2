@@ -1,0 +1,38 @@
+#!/bin/sh
+
+set -e
+
+options=$(getopt "in" "$@")
+eval set -- "$options"
+
+interactive=''
+no_add=''
+
+while true
+do
+    case $1 in
+        -i) 
+            shift
+            interactive=1
+            ;;
+        -n) 
+            shift
+            no_add=1
+            ;;
+        --)
+            shift
+            break;;
+    esac
+    shift
+done
+
+if [ -n "$interactive" ]; then
+    msg=$(git log -n 100 --pretty=%B | sed '/^\s*$/d' | fzf)
+else
+    msg=$(gum input --value="$(git log -1 --pretty=%B)")
+fi
+
+[ -z "$no_add" ] && git add .
+
+git commit -m "$msg"
+git push
