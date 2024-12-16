@@ -1,5 +1,0 @@
-#!/bin/sh
-
-value=$(/usr/local/bin/docker ps | wc -l | tr -d '[:space:]')
-
-sketchybar --set "$NAME" icon="" label="$value"

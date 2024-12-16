@@ -2,7 +2,6 @@
 
 export PATH="$HOME/.local/bin:$PATH"
 
-mem=$(fastfetch -s memory --format json | jq -r '(.[0].result.used / 1024 / 1024 / 1024 * 10 | round) / 10')
-swap=$(fastfetch -s swap --format json | jq -r '(.[0].result.used / 1024 / 1024 / 1024 * 10 | round) / 10')
+mem=$(memory_pressure | awk '/percentage/{print $5}')
 
-sketchybar --set "$NAME" icon="" label="${mem}G/${swap}G"
+sketchybar --set "$NAME" icon="" label="${mem}"

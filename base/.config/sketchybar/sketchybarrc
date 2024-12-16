@@ -99,9 +99,6 @@ sketchybar --add item memory right \
 sketchybar --add item ping right \
            --set ping update_freq=5 script="$PLUGIN_DIR/ping"
 
-sketchybar --add item docker right \
-           --set docker update_freq=15 script="$PLUGIN_DIR/docker"
-
 sketchybar --add item packages right \
            --set packages update_freq=300 script="$PLUGIN_DIR/packages"
 
