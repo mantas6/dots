@@ -6,13 +6,17 @@
 index="$(pwd)/.tinker-index.php"
 buffer="$(pwd)/.tinker-buffer.php"
 
+write_cmd="de php $(basename "$index")"
+
 # Evaluate in remote host
-if [ "$1" = '-s' ]; then
+if [ "$1" = '-x' ]; then
     host="$REMOTE_USER@$REMOTE_HOST"
-    scp "$index" "$buffer" "$host:$REMOTE_ROOT"
+    rsync -av "$index" "$buffer" "$host:$REMOTE_ROOT"
     ssh -tt "$host" "cd $REMOTE_ROOT && php .tinker-index.php"
     exit 0
 fi
+
+[ "$1" = '-r' ] && write_cmd='tin -x'
 
 [ ! -f "$buffer" ] && echo '<?php' >> "$buffer"
 
@@ -37,8 +41,7 @@ dump(\$result);
 \$kernel->terminate(\$input, \$status);
 EOF
 
-nvim -c "command! Remote only | vsp | terminal bash -c 'tin -s'" \
-    -c "set nospell | set scrollback=100000 | set splitright" \
-    -c "autocmd BufWritePost * only | vsp | terminal de php $(basename "$index")" "$buffer"
+nvim -c "set nospell | set scrollback=100000 | set splitright" \
+    -c "autocmd BufWritePost * only | vsp | terminal $write_cmd" "$buffer"
 
 rm "$index"
