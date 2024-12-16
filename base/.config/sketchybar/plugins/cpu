@@ -1,5 +1,7 @@
 #!/bin/sh
 
-load=$(sysctl vm.loadavg | awk '{print $3}')
+export PATH="$HOME/.local/bin:$PATH"
 
-sketchybar --set "$NAME" icon="" label="$load"
+cpu=$(fastfetch -s cpuusage --format json  | jq '.[0].result[]' | awk '{sum+=$1} END { print int(sum/NR)}')
+
+sketchybar --set "$NAME" icon="" label="$cpu%"
