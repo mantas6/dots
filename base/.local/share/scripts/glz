@@ -1,14 +1,32 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 set -e
 
-git add .
+interactive=''
+no_add=''
 
-if [ "$1" = '-i' ]; then
+while getopts ':in' opt; do
+  case ${opt} in
+    i) 
+        interactive=1
+        ;;
+    n) 
+        no_add=1
+        ;;
+    ?)
+      echo "Invalid option: -${OPTARG}."
+      exit 1
+      ;;
+  esac
+done
+
+if [ -n "$interactive" ]; then
     msg=$(git log -n 100 --pretty=%B | sed '/^\s*$/d' | fzf)
 else
     msg=$(gum input --value="$(git log -1 --pretty=%B)")
 fi
+
+[ -z "$no_add" ] && git add .
 
 git commit -m "$msg"
 git push
