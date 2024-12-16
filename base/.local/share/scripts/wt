@@ -2,4 +2,4 @@
 
 place=${1:-vilnius}
 
-curl -sSfL "$SAT_BASE_URL/api/wt/$place"
+curl -sSfL "$(sat-base-url)/api/wt/$place"
