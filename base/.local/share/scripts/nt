@@ -32,7 +32,7 @@ case ${mode} in
         ;;
     edit)
         filename="$note_dir/$current_file"
-        sum=$(shasum "$filename")
+        sum=$(shasum "$filename" || echo '')
 
         nvim -c 'set nospell' + "$filename"
 
