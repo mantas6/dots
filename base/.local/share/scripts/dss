@@ -4,6 +4,11 @@ set -e
 
 cd "$HOME/Repos/dotfiles"
 
+if [ -z "$(git status --porcelain)" ]; then
+    gum log --level=info 'No changes are present' >&2
+    exit 1
+fi
+
 git status
 git diff
 
