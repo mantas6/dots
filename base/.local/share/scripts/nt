@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+note_dir="$HOME/.local/share/notes"
+current_file=$(date +%y-%m-%d).md
+
+mkdir -pv "$note_dir"
+
+mode='preview'
+
+while getopts ':e' opt; do
+  case ${opt} in
+    e)
+        mode='edit'
+        ;;
+    ?)
+      echo "Invalid option: -${OPTARG}."
+      exit 1
+      ;;
+    esac
+done
+
+case ${mode} in
+    preview)
+        cat "$note_dir"/* | glow -p
+        ;;
+    edit)
+        nvim -c 'set nospell' + "$note_dir/$current_file"
+        ;;
+esac
