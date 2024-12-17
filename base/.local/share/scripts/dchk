@@ -4,24 +4,24 @@
 cd "$HOME/Repos/dotfiles" || exit 1
 
 if [ -n "$(git ls-files --others --exclude-standard)" ]; then
-    echo 'Dotfiles: There are untracked files.'
+    gum log --level=warn 'Dotfiles: There are untracked files'
     exit 1
 fi
 
 # Check for uncommitted changes
 if ! git diff --quiet; then
-    echo 'Dotfiles: There are unstaged changes.'
+    gum log --level=warn 'Dotfiles: There are unstaged changes.'
     exit 1
 fi
 
 # Check for uncommitted (but staged) changes
 if ! git diff --cached --quiet; then
-    echo 'Dotfiles: There are uncommitted changes.'
+    gum log --level=warn 'Dotfiles: There are uncommitted changes.'
     exit 1
 fi
 
 # Check if the branch is ahead/behind the remote (unpushed commits)
 if git status | grep -q 'Your branch is ahead of'; then
-    echo 'Dotfiles: There are unpushed changes.'
+    gum log --level=warn 'Dotfiles: There are unpushed changes.'
     exit 1
 fi
