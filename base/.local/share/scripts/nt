@@ -1,9 +1,16 @@
 #!/usr/bin/env sh
 
+set -e
+
 note_dir="$HOME/.local/share/notes"
 current_file=$(date +%y-%m-%d).md
 
-mkdir -pv "$note_dir"
+cd "$note_dir"
+
+if [ ! -d .git ]; then
+    echo "Notes repository is not set up at $note_dir" >&2
+    exit 1
+fi
 
 mode='preview'
 
@@ -24,6 +31,15 @@ case ${mode} in
         cat "$note_dir"/* | glow -p
         ;;
     edit)
-        nvim -c 'set nospell' + "$note_dir/$current_file"
+        filename="$note_dir/$current_file"
+        sum=$(shasum "$filename")
+
+        nvim -c 'set nospell' + "$filename"
+
+        if [ "$sum" != "$(shasum "$filename")" ]; then
+            git add "$filename"
+            git commit -m "Update $(basename "$filename")"
+            git push
+        fi
         ;;
 esac
