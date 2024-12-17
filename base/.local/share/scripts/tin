@@ -3,6 +3,11 @@
 
 # cd "$(git rev-parse --show-toplevel)" || exit 1
 
+if [ ! -f composer.json ]; then
+    echo 'Current directory is not an PHP application' >&2
+    exit 1
+fi
+
 index="$(pwd)/.tinker-index.php"
 buffer="$(pwd)/.tinker-buffer.php"
 
