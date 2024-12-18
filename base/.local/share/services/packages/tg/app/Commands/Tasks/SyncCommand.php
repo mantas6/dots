@@ -18,6 +18,8 @@ class SyncCommand extends Command
      */
     protected $signature = 'tasks:sync';
 
+    protected $aliases = ['sync', 'y'];
+
     /**
      * The console command description.
      *
