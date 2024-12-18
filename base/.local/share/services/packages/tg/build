@@ -1,5 +1,5 @@
 #!/bin/sh
 
-./tg app:build tg --build-version=master
+cd "$(dirname "$(realpath "$0")")" || exit 1
 
-cp -vf builds/tg "$HOME/.local/bin"
+ln -s ./tg "$HOME/.local/bin"
