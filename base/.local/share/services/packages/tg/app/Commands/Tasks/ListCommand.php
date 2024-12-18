@@ -16,7 +16,7 @@ class ListCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'tasks:list';
+    protected $signature = 'tasks:list {project-name}';
 
     /**
      * The console command description.
@@ -30,7 +30,9 @@ class ListCommand extends Command
      */
     public function handle()
     {
-        Project::first()
+        Project::query()
+            ->where('name', 'like', '%'.$this->argument('project-name').'%')
+            ->firstOrFail()
             ->tasks
             ->each(fn (Task $task) => $this->line($task->name));
     }
