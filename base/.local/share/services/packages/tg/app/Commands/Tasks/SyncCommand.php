@@ -16,7 +16,7 @@ class SyncCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'tasks:sync';
+    protected $signature = 'tasks:sync {project-name?}';
 
     protected $aliases = ['sync', 'y'];
 
@@ -32,7 +32,15 @@ class SyncCommand extends Command
      */
     public function handle()
     {
-        foreach (Project::all() as $project) {
+        if ($projectName = $this->argument('project-name')) {
+            $projects = Project::query()
+                ->where('name', 'like', '%' . $projectName . '%')
+                ->get();
+        } else {
+            $projects = Project::all();
+        }
+
+        foreach ($projects as $project) {
             (new TogglConnector)
                 ->tasks($project)
                 ->collect()

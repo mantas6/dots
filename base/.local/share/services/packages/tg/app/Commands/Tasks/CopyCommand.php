@@ -18,7 +18,7 @@ class CopyCommand extends Command implements PromptsForMissingInput
      *
      * @var string
      */
-    protected $signature = 'tasks:cp {project-name} {--S|sync}';
+    protected $signature = 'tasks:cp {project-name} {--y|sync}';
 
     protected $aliases = ['cp'];
 
@@ -35,18 +35,20 @@ class CopyCommand extends Command implements PromptsForMissingInput
     public function handle()
     {
         if ($this->option('sync')) {
-            $this->call(SyncCommand::class);
+            $this->call(SyncCommand::class, [
+                'project-name' => $this->argument('project-name'),
+            ]);
         }
 
         $tasks = Project::query()
-            ->where('name', 'like', '%' . $this->argument('project-name') . '%')
+            ->where('name', 'like', '%'.$this->argument('project-name').'%')
             ->firstOrFail()
             ->tasks
             ->map(fn(Task $task) => $task->name);
 
         Storage::put('tasks', $tasks->join("\n"));
 
-        $result = Process::pipe(function (Pipe $pipe) {
+        Process::pipe(function (Pipe $pipe) {
             $pipe->command('cat ' . Storage::path('tasks'));
             $pipe->command('fzf --tac');
             $pipe->command('xc');

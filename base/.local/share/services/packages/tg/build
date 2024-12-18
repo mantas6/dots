@@ -2,4 +2,4 @@
 
 cd "$(dirname "$(realpath "$0")")" || exit 1
 
-ln -s ./tg "$HOME/.local/bin"
+ln -sv "$(pwd)"/tg "$HOME/.local/bin"
