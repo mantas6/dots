@@ -17,6 +17,8 @@ class AddCommand extends Command
      */
     protected $signature = 'projects:add';
 
+    protected $aliases = ['add'];
+
     /**
      * The console command description.
      *
