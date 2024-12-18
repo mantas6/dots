@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Commands\Projects;
+namespace App\Commands\Tasks;
 
 use App\Http\Integrations\Toggl\TogglConnector;
+use App\Project;
+use App\Task;
 use LaravelZero\Framework\Commands\Command;
+
+use function Laravel\Prompts\search;
 
 class ListCommand extends Command
 {
@@ -12,7 +16,7 @@ class ListCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'projects:list';
+    protected $signature = 'tasks:list';
 
     /**
      * The console command description.
@@ -26,12 +30,8 @@ class ListCommand extends Command
      */
     public function handle()
     {
-        $connector = new TogglConnector();
-
-        $response = $connector->projects();
-
-        $response->collect()
-            ->pluck('name')
-            ->each(fn (string $name) => $this->line($name));
+        Project::first()
+            ->tasks
+            ->each(fn (Task $task) => $this->line($task->name));
     }
 }

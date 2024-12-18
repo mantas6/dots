@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('tokens', function (Blueprint $table) {
             $table->id();
 
             $table->string('name');
-            $table->unsignedInteger('ext_id');
+            $table->string('contents');
+            $table->string('default_workspace_id');
 
             $table->timestamps();
         });
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('tokens');
     }
 };

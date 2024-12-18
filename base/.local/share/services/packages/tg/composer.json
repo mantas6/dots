@@ -19,6 +19,7 @@
         "php": "^8.2.0",
         "illuminate/database": "^11.5",
         "laravel-zero/framework": "^11.0.2",
+        "laravel/serializable-closure": "^2.0",
         "saloonphp/laravel-http-sender": "^3.0",
         "saloonphp/laravel-plugin": "^3.0",
         "saloonphp/saloon": "^3.0"
