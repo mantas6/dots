@@ -56,8 +56,6 @@ alias lg="lazygit"
 alias ld="lazydocker"
 alias glc="git log -1 --pretty=%B"
 
-alias tg='toggl'
-
 alias cmatrix='cmatrix -ab'
 alias ff='fastfetch'
 alias q='numbat'
