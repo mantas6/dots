@@ -2,6 +2,8 @@
 
 ## Multiplexing
 
+Speed up connection initiation times.
+
 ```
 Host *
     ControlMaster auto

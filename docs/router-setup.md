@@ -1,6 +1,8 @@
 # router-setup
 
-Linux router/server etc
+Using linux system as a router for home network.
+
+This was done on Debian 12.
 
 `/etc/NetworkManager/conf.d/unmanaged.conf`
 ```
