@@ -1,4 +1,5 @@
 #!/bin/sh
+# Backup local brew prefix
 
 out="$HOME/.local/brew-backups/$(date +%Y%m%d)"
 command rsync -a "$HOMEBREW_PREFIX/" "$out"

@@ -1,4 +1,5 @@
 #!/bin/sh
+# Commit and push dotfile changes
 
 set -e
 

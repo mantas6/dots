@@ -1,4 +1,5 @@
 #!/bin/bash
+# Set charging limit
 
 bat0=/sys/class/power_supply/BAT0
 bat1=/sys/class/power_supply/BAT1

@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Access bookmarks and open a browser tab with an optional parameter
 
 state="$XDG_STATE_HOME/bm"

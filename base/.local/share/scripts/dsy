@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+# Pull down dotfile changes
 
 set -e
 

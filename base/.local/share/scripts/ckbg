@@ -1,4 +1,5 @@
 #!/bin/bash
+# Check for running background processes
 
 processes=('scp' 'rsync')
 

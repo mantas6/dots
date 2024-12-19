@@ -1,4 +1,5 @@
 #!/bin/sh
+# Compare files in separate dirs
 
 path="$(pwd)"
 cd "$1" || exit 1

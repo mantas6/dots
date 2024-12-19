@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+# Open file in editor (git files)
 
 selected_file=$(git ls-files --others --cached --exclude-standard \
     | fzf --preview "bat --color=always {}" --preview-window "~3"

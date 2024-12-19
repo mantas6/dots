@@ -1,4 +1,5 @@
 #!/bin/sh
+# Choose tmux session
 
 session=$(
     sesh list -i | gum filter --limit 1 --no-sort --fuzzy --placeholder 'Pick a sesh' --height 50 --prompt='⚡'

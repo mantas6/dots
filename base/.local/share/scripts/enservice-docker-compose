@@ -1,4 +1,5 @@
 #!/bin/sh
+# Enable docker compose service
 
 set -e
 
