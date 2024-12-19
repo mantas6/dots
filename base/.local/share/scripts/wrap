@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # Wrap file in a directory
 
 file="$1"

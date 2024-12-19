@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 repo="$HOME"/Repos/laravel-docs
 

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # Enable or disable sleep inhibition
 
 file="$XDG_STATE_HOME/.inhibit-suspend"

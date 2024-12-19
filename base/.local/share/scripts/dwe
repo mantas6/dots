@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # List published port for docker compose and open in browser
 
 set -e
@@ -11,4 +11,3 @@ if [ -x "$(command -v xdg-open)" ]; then
 else
     open "$url"
 fi
-

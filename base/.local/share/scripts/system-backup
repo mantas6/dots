@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 filename="/$(uname -n)_$(date +%y%m%d%H%M).tar.gz"
 

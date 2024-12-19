@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 place_file="${XDG_CONFIG_HOME:-$HOME/.config}/meteo/place_code"
 place_code=$(cat "$place_file")
@@ -80,4 +80,3 @@ do
     esac
     shift
 done
-

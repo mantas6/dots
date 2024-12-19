@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # Tmux session start hook - ran after new session creation
 
 if [ -d '.git' ] || [ -f 'composer.json' ]; then

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 wait-for-host google.com
 

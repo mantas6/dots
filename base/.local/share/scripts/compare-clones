@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # Compare files in separate dirs
 
 path="$(pwd)"

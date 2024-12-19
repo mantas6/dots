@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # Automatically suspend if screen is off
 
 while :

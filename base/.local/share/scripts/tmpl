@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # Execute templating script on current dir
 
 [ "$1" = '-h' ] && echo 'tmpl [dir?] [template?]' && exit 0

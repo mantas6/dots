@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # Override remote variable with production ones
 
 export REMOTE_USER="$REMOTE_PROD_USER"

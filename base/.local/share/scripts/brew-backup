@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # Backup local brew prefix
 
 out="$HOME/.local/brew-backups/$(date +%Y%m%d)"

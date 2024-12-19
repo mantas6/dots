@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # Spawn application with WM as parent
 
 cmd=$*

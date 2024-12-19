@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 cd /usr/share/doc/arch-wiki/html/en || exit 1
 

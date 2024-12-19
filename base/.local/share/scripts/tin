@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # Live PHP code evaluation from vim buffer
 
 # cd "$(git rev-parse --show-toplevel)" || exit 1

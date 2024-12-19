@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # Check for changes in dotfiles repo
 
 cd "$HOME/Repos/dotfiles" || exit 1
