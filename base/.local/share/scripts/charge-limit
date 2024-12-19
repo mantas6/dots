@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Set charging limit
 
 bat0=/sys/class/power_supply/BAT0
@@ -37,4 +37,3 @@ esac
 
 [ -d "$bat0" ] && set-limit "$bat0"
 [ -d "$bat1" ] && set-limit "$bat1"
-

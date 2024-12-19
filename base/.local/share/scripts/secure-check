@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Check if sshd is configured for key only auth
 
 [ -z "$1" ] && echo "secure-check [server] [ssh-port]" && exit 1

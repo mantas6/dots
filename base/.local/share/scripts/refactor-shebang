@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+find . -type f | while IFS= read -r file; do
+    echo "Processing file: $file"
+    contents=$(sed '1s|^#!/bin/bash|#!/usr/bin/env bash|' "$file")
+    echo "$contents" > "$file"
+done

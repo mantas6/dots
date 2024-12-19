@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Jump to marked parent directories
 
 # Start from the current directory
@@ -42,4 +42,3 @@ case "$1" in
         exit 1
         ;;
 esac
-
