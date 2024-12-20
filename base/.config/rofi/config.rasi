@@ -1,6 +1,6 @@
 // vim: ft=scss
 
-@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+@theme "theme.rasi"
 
 configuration {
  modi: "window,drun,ssh,combi,calc,emoji";
