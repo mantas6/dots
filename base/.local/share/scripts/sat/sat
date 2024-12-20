@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 base=$(basename "$(sat-base-url)")
 name=$(echo "$base" | cut -d'.' -f2,3)
