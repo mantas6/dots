@@ -14,6 +14,9 @@
     ripgrep
     fd
 
+    lazygit
+    lazydocker
+
     nixd
     alejandra
   ];

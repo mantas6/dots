@@ -14,8 +14,6 @@
     ../../modules
   ];
 
-  nix.settings.experimental-features = ["nix-command" "flakes"];
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.timeout = 1;
@@ -34,10 +32,6 @@
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
-
-  boot.kernel.sysctl = {
-    #    "net.ipv4.ip_unprivileged_port_start" = 0;
-  };
 
   # Set your time zone.
   time.timeZone = "Europe/Vilnius";
@@ -90,14 +84,6 @@
     ];
     packages = with pkgs; [
     ];
-  };
-
-  virtualisation.docker = {
-    enable = true;
-    rootless = {
-      enable = true;
-      setSocketVariable = true;
-    };
   };
 
   environment.variables.EDITOR = "${pkgs.neovim}/bin/nvim";
