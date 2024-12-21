@@ -1,7 +1,8 @@
-{pkgs, ...}: {
-  environment.systemPackages = [pkgs.tealdeer];
-
-  systemd.user.services."tldr-update" = {
+{pkgs, ...}:
+let
+  serviceName = "tldr-update";
+in {
+  systemd.user.services.${serviceName} = {
     script = "${pkgs.tealdeer}/bin/tldr -u";
 
     serviceConfig = {
@@ -9,13 +10,13 @@
     };
   };
 
-  systemd.user.timers."tldr-update" = {
+  systemd.user.timers.${serviceName} = {
     wantedBy = ["timers.target"];
 
     timerConfig = {
       OnCalendar = "daily";
       Persistent = true;
-      Unit = "tldr-update.service";
+      Unit = "${serviceName}.service";
     };
   };
 }
