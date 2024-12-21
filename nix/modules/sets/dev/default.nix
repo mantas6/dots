@@ -1,7 +1,8 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
+  imports = [
+    ./tldr.nix
+  ];
+
   environment.systemPackages = with pkgs; [
     php83
     php83Packages.composer
