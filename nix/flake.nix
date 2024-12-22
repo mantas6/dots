@@ -6,6 +6,8 @@
   };
 
   outputs = { self, nixpkgs }: {
+    
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
     nixosConfigurations.ix = nixpkgs.lib.nixosSystem {
       modules = [ ./hosts/ix ];

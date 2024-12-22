@@ -1,5 +1,4 @@
-{pkgs, ...}:
-let
+{pkgs, ...}: let
   serviceName = "tldr-update";
 in {
   systemd.user.services.${serviceName} = {
@@ -7,6 +6,8 @@ in {
 
     serviceConfig = {
       Type = "oneshot";
+      After = "network-online.target";
+      Wants = "network-online.target";
     };
   };
 
@@ -16,6 +17,8 @@ in {
     timerConfig = {
       OnCalendar = "daily";
       Persistent = true;
+      AccuracySec = "6h";
+      RandomizedDelaySec = "1h";
       Unit = "${serviceName}.service";
     };
   };
