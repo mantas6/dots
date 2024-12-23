@@ -4,7 +4,7 @@
 
 configuration {
  modi: "window,drun,ssh,combi,emoji";
- font: "Anonymous Pro 19";
+ font: "Anonymice Pro Nerd Font Mono 19";
  combi-modi: "window,drun,ssh";
 }
 

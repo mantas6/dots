@@ -40,14 +40,14 @@
     dex
     redshift
 
-    # (
-    #   rofi.override (old: {
-    #     plugins = old.plugins ++ [
-    #       rofi-emoji
-    #       rofi-pass
-    #     ];
-    #   })
-    # )
+    (
+      rofi.override {
+        plugins = [
+          rofi-emoji
+          rofi-pass
+        ];
+      }
+    )
 
     pass
 
