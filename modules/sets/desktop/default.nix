@@ -44,14 +44,12 @@
 
     (
       rofi.override {
-        plugins = [
-          rofi-emoji
-          rofi-pass
-        ];
+        plugins = [rofi-emoji];
       }
     )
 
     pass
+    rofi-pass
 
     lxappearance
     gnome-themes-extra
