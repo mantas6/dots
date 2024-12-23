@@ -1,4 +1,4 @@
 [Desktop Entry]
 Type=Application
 Name=Redshift
-Exec=/usr/bin/redshift -O 4500
+Exec=/usr/bin/env redshift -O 4500

@@ -14,12 +14,26 @@
     ubuntu_font_family
   ];
 
+  # location.provider = "manual";
+  # location.latitude = 54.0;
+  # location.longitude = 25.0;
+  #
+  # services.redshift = {
+  #   enable = true;
+  #   temperature = {
+  #     day = 4500;
+  #     night = 4500;
+  #   };
+  # };
+
   environment.systemPackages = with pkgs; [
     xorg.xinit
     xclip
     arandr
     autorandr
     picom
+    dex
+    redshift
 
     rofi
     rofi-emoji
