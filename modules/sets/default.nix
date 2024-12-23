@@ -1,6 +1,6 @@
 {...}: {
   imports = [
-    ./desktop.nix
+    ./desktop
     ./develop
   ];
 }
