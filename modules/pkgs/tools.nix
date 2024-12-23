@@ -20,6 +20,7 @@
     delta
     unzip
     sysz
+    htop
     tealdeer
 
     pciutils
