@@ -54,7 +54,6 @@
     pass
 
     lxappearance
-    lxpolkit
     gnome-themes-extra
     pavucontrol
 
