@@ -9,7 +9,8 @@ return function()
       tag = 1,
       exec = {
         'chromium --new-window https://chatgpt.com',
-        terminal_cmd,
+        'sesh connect generic',
+        terminal_cmd .. ' attach-session -t generic',
       }
     },
     {
