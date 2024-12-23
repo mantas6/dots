@@ -26,6 +26,11 @@
   #   };
   # };
 
+  services.libinput.mouse = {
+    naturalScrolling = true;
+    accelSpeed = "-1";
+  };
+
   environment.systemPackages = with pkgs; [
     xorg.xinit
     xclip
@@ -35,9 +40,14 @@
     dex
     redshift
 
-    rofi
-    rofi-emoji
-    rofi-pass
+    # (
+    #   rofi.override (old: {
+    #     plugins = old.plugins ++ [
+    #       rofi-emoji
+    #       rofi-pass
+    #     ];
+    #   })
+    # )
 
     pass
 

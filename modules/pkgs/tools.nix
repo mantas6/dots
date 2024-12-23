@@ -8,6 +8,7 @@
     lf
     bat
     tmux
+    sesh
     stow
     zoxide
     starship

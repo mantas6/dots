@@ -3,7 +3,7 @@
 @theme "theme.rasi"
 
 configuration {
- modi: "window,drun,ssh,combi,calc,emoji";
+ modi: "window,drun,ssh,combi,emoji";
  font: "Anonymous Pro 19";
  combi-modi: "window,drun,ssh";
 }
