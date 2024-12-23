@@ -61,7 +61,6 @@ editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 browser = 'chromium'
 menu = 'rofi -show drun'
-calculator = 'rofi -show calc -no-show-match -no-sort -automatic-save-to-history'
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -396,9 +395,6 @@ globalkeys = gears.table.join(
     -- Menubar
     awful.key({ modkey }, "p", function() awful.spawn(menu) end,
               {description = "show the menubar", group = "launcher"}),
-    -- Calc
-    awful.key({ modkey, "Shift" }, "p", function() awful.spawn(calculator) end,
-              {description = "show the calculator", group = "launcher"}),
     -- Emoji
     awful.key({ modkey }, "m", function() awful.spawn('rofi -show emoji') end,
               {description = "show emoji picker", group = "launcher"}),
