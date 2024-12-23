@@ -23,7 +23,6 @@ jobs:
       - uses: cachix/install-nix-action@v27
 
       - run: nix flake update
-        working-directory: nix
 
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
