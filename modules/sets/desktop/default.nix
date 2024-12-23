@@ -1,18 +1,9 @@
 {pkgs, ...}: {
-  services = {
-    xserver = {
-      enable = true;
-
-      windowManager.awesome.enable = true;
-
-      displayManager.startx.enable = true;
-    };
-  };
-
-  fonts.packages = with pkgs; [
-    nerd-fonts.anonymice
-    ubuntu_font_family
+  imports = [
+    ./xserver.nix
+    ./fonts.nix
   ];
+
 
   # location.provider = "manual";
   # location.latitude = 54.0;
@@ -26,10 +17,8 @@
   #   };
   # };
 
-  services.libinput.mouse = {
-    naturalScrolling = true;
-    accelSpeed = "-1";
-  };
+
+  # programs.gnupg.agent.enable = true;
 
   environment.systemPackages = with pkgs; [
     xorg.xinit
@@ -52,8 +41,6 @@
     pass
 
     lxappearance
-
-    noto-fonts-emoji
 
     alacritty
     chromium
