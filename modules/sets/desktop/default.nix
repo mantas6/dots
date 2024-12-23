@@ -4,7 +4,6 @@
     ./fonts.nix
   ];
 
-
   # location.provider = "manual";
   # location.latitude = 54.0;
   # location.longitude = 25.0;
@@ -17,8 +16,20 @@
   #   };
   # };
 
-
   # programs.gnupg.agent.enable = true;
+
+  hardware.bluetooth.enable = true;
+
+  # rtkit is optional but recommended
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true; # if not already enabled
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
 
   environment.systemPackages = with pkgs; [
     xorg.xinit
@@ -28,6 +39,8 @@
     picom
     dex
     redshift
+    unclutter
+    numlockx
 
     (
       rofi.override {
@@ -41,6 +54,9 @@
     pass
 
     lxappearance
+    lxpolkit
+    gnome-themes-extra
+    pavucontrol
 
     alacritty
     chromium

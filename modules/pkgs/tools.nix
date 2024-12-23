@@ -6,6 +6,7 @@
     git
     fastfetch
     lf
+    yazi
     bat
     tmux
     sesh
@@ -20,6 +21,8 @@
     delta
     unzip
     sysz
+    htop
+    btop
     htop
     tealdeer
 
