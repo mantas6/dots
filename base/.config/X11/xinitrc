@@ -41,8 +41,6 @@ xset -b
 
 [ -x "$(command -v auto-suspend)" ] && auto-suspend &
 
-[ -x "$(command -v xcape )" ] && xcape -e 'Control_L=Escape'
-
 [ -x "$(command -v feh )" ] && feh --bg-fill --no-fehbg "$XDG_STATE_HOME/wallpaper/current.jpg" &
 
 mkdir -p "$AWESOME_OUTPUT_DIR"

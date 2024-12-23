@@ -6,6 +6,8 @@
     enable = true;
   };
 
+  hardware.nvidia-container-toolkit.enable = true;
+
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = ["nvidia"];
 

@@ -1,17 +1,7 @@
 {pkgs, ...}: {
-  services = {
-    xserver = {
-      enable = true;
-
-      windowManager.awesome.enable = true;
-
-      displayManager.startx.enable = true;
-    };
-  };
-
-  fonts.packages = with pkgs; [
-    nerd-fonts.anonymice
-    ubuntu_font_family
+  imports = [
+    ./xserver.nix
+    ./fonts.nix
   ];
 
   # location.provider = "manual";
@@ -26,9 +16,19 @@
   #   };
   # };
 
-  services.libinput.mouse = {
-    naturalScrolling = true;
-    accelSpeed = "-1";
+  # programs.gnupg.agent.enable = true;
+
+  hardware.bluetooth.enable = true;
+
+  # rtkit is optional but recommended
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true; # if not already enabled
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
@@ -39,6 +39,8 @@
     picom
     dex
     redshift
+    unclutter
+    numlockx
 
     (
       rofi.override {
@@ -52,8 +54,8 @@
     pass
 
     lxappearance
-
-    noto-fonts-emoji
+    gnome-themes-extra
+    pavucontrol
 
     alacritty
     chromium
