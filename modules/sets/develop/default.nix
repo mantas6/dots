@@ -9,6 +9,7 @@
     nodejs_22
     go
     gcc
+    lua
     luajitPackages.luarocks
     python3
     shellcheck
