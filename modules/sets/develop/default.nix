@@ -9,8 +9,8 @@
     nodejs_22
     go
     gcc
-    lua
-    luajitPackages.luarocks
+    lua51Packages.lua
+    lua51Packages.luarocks
     python3
     shellcheck
     ripgrep
