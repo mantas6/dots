@@ -1,25 +1,38 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: let
+  opts = config.develop;
+in {
   imports = [
     ./tldr.nix
   ];
 
-  environment.systemPackages = with pkgs; [
-    php83
-    php83Packages.composer
-    nodejs_22
-    go
-    gcc
-    lua51Packages.lua
-    lua51Packages.luarocks
-    python3
-    shellcheck
-    ripgrep
-    fd
+  options = {
+    develop.enable = lib.mkEnableOption "enables development progs";
+  };
 
-    lazygit
-    lazydocker
+  config = lib.mkIf opts.enable {
+    environment.systemPackages = with pkgs; [
+      php83
+      php83Packages.composer
+      nodejs_22
+      go
+      gcc
+      lua51Packages.lua
+      lua51Packages.luarocks
+      python3
+      shellcheck
+      ripgrep
+      fd
 
-    nixd
-    alejandra
-  ];
+      lazygit
+      lazydocker
+
+      nixd
+      alejandra
+    ];
+  };
 }
