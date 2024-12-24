@@ -3,9 +3,7 @@
   lib,
   config,
   ...
-}: let
-  opts = config.develop;
-in {
+}: {
   imports = [
     ./tldr.nix
   ];
@@ -14,7 +12,7 @@ in {
     develop.enable = lib.mkEnableOption "enables development progs";
   };
 
-  config = lib.mkIf opts.enable {
+  config = lib.mkIf config.develop.enable {
     environment.systemPackages = with pkgs; [
       neovim
       tmux

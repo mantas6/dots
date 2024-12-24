@@ -5,9 +5,8 @@
   ...
 }: let
   serviceName = "tldr-update";
-  opts = config.develop;
 in {
-  config = lib.mkIf opts.enable {
+  config = lib.mkIf config.develop.enable {
     systemd.user.services.${serviceName} = {
       script = "${pkgs.tealdeer}/bin/tldr -u";
 
