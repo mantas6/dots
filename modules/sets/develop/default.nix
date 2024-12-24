@@ -16,6 +16,10 @@ in {
 
   config = lib.mkIf opts.enable {
     environment.systemPackages = with pkgs; [
+      neovim
+      tmux
+      sesh
+
       php83
       php83Packages.composer
       nodejs_22

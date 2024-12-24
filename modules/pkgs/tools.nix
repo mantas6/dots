@@ -1,6 +1,5 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    neovim
     wget
     curl
     git
@@ -8,8 +7,6 @@
     lf
     yazi
     bat
-    tmux
-    sesh
     stow
     zoxide
     starship
@@ -24,7 +21,6 @@
     htop
     btop
     htop
-    tealdeer
 
     pciutils
   ];
