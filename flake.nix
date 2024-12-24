@@ -16,5 +16,9 @@
     nixosConfigurations.ix = nixpkgs.lib.nixosSystem {
       modules = [./hosts/ix];
     };
+
+    # nixosConfigurations.l4 = nixpkgs-stable.lib.nixosSystem {
+    #   modules = [./hosts/l4];
+    # };
   };
 }
