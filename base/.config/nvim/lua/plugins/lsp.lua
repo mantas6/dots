@@ -35,6 +35,9 @@ return {
       },
     })
 
+    local user = os.getenv("USER") or os.getenv("USERNAME");
+    local hostname = vim.loop.os_gethostname()
+
     require("lspconfig").nixd.setup({
       cmd = { "nixd" },
       settings = {
@@ -45,14 +48,14 @@ return {
           formatting = {
             command = { "alejandra" }, -- or nixfmt or nixpkgs-fmt
           },
-          -- options = {
-          --   nixos = {
-          --       expr = '(builtins.getFlake "/PATH/TO/FLAKE").nixosConfigurations.CONFIGNAME.options',
-          --   },
+          options = {
+            nixos = {
+                expr = '(builtins.getFlake "/home/'..user..'/Repos/dotfiles").nixosConfigurations.'..hostname..'.options',
+            },
           --   home_manager = {
           --       expr = '(builtins.getFlake "/PATH/TO/FLAKE").homeConfigurations.CONFIGNAME.options',
           --   },
-          -- },
+          },
         },
       },
     })
