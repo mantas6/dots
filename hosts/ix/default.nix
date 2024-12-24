@@ -15,6 +15,7 @@
   ];
 
   develop.enable = true;
+  gpu.type = "nvidia";
 
   networking.hostName = "ix"; # Define your hostname.
   networking.interfaces.eth0.wakeOnLan.enable = true;
