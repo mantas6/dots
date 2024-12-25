@@ -3,7 +3,7 @@
 set -e
 
 message="$1"
-expire='now + 2 days'
+expire='+2 days'
 
 curl -fsSLX POST \
     -d "message=$message" \
