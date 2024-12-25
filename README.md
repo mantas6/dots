@@ -24,6 +24,13 @@
 
 ## Setup
 
+```sh
+mkdir "$HOME/Repos"
+gh repo clone mantas6/dotfiles "$HOME/Repos/dotfiles"
+cd "$HOME/Repos/dotfiles"
+./stow
+```
+
 ### Home configuration
 
 Clone the repository and run `./stow`
