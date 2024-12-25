@@ -1,31 +1,38 @@
-{pkgs, ...}: {
-  environment.systemPackages = with pkgs; [
-    xorg.xinit
-    xclip
-    arandr
-    autorandr
-    picom
-    dex
-    redshift
-    unclutter
-    numlockx
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
+  config = lib.mkIf config.desktop.enable {
+    environment.systemPackages = with pkgs; [
+      xorg.xinit
+      xclip
+      arandr
+      autorandr
+      picom
+      dex
+      redshift
+      unclutter
+      numlockx
 
-    (
-      rofi.override {
-        plugins = [rofi-emoji];
-      }
-    )
+      (
+        rofi.override {
+          plugins = [rofi-emoji];
+        }
+      )
 
-    pass
-    rofi-pass
+      pass
+      rofi-pass
 
-    lxappearance
-    gnome-themes-extra
-    pavucontrol
+      lxappearance
+      gnome-themes-extra
+      pavucontrol
 
-    alacritty
-    chromium
-    firefox
-    feh
-  ];
+      alacritty
+      chromium
+      firefox
+      feh
+    ];
+  };
 }

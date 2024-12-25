@@ -24,4 +24,9 @@
 
     pciutils
   ];
+
+  programs.nh = {
+    enable = true;
+    flake = "/home/mantas/Repos/dotfiles";
+  };
 }

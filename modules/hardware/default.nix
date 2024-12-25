@@ -1,6 +1,6 @@
 {...}: {
   imports = [
-    ./gpu
+    ./graphics
     ./power.nix
   ];
 }

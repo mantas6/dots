@@ -11,7 +11,11 @@
         "nvidia"
         "amd"
         "intel"
+        "unspecified"
       ];
+
+      default = "unspecified";
+
       description = "Set gpu vendor";
     };
   };
