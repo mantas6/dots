@@ -12,6 +12,7 @@
     ../../modules
   ];
 
+  desktop.enable = true;
   develop.enable = true;
   gpu.type = "nvidia";
   shares.client.enabled = true;
