@@ -7,10 +7,6 @@
   config = lib.mkIf (config.gpu.type == "nvidia") {
     nixpkgs.config.allowUnfree = true;
 
-    environment.systemPackages = with pkgs; [
-      nvtopPackages.nvidia
-    ];
-
     # Enable OpenGL
     hardware.graphics = {
       enable = true;
