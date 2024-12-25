@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+
+message="$1"
+expire='now + 2 days'
+
+curl -fsSLX POST \
+    -d "message=$message" \
+    -d "expire=$expire" \
+    -H "$(sat-auth-header)" \
+    "$(sat-base-url)/api/notify"
+
+exit 0
