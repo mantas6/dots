@@ -8,7 +8,7 @@
     nixpkgs.config.allowUnfree = true;
 
     environment.systemPackages = with pkgs; [
-      nvtop
+      nvtopPackages.nvidia
     ];
 
     # Enable OpenGL
