@@ -3,7 +3,7 @@
 state=$(sat-state-dir)
 
 if [ ! -f "$state/url" ]; then
-    echo 'Error: URL is not configured' >&2
+    echo 'Error: URL is not configured. Use sat-login command to enter it.' >&2
     exit 1
 fi
 
