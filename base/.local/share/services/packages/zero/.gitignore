@@ -5,3 +5,4 @@
 /.vagrant
 .phpunit.result.cache
 /database/database.sqlite
+.tinker-*.php

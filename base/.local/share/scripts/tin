@@ -11,7 +11,13 @@ fi
 index="$(pwd)/.tinker-index.php"
 buffer="$(pwd)/.tinker-buffer.php"
 
-write_cmd="de php $(basename "$index")"
+if docker compose ps > /dev/null 2>&1; then
+    exec_cmd='de php'
+else
+    exec_cmd='php'
+fi
+
+write_cmd="$exec_cmd $(basename "$index")"
 
 # Evaluate in remote host
 if [ "$1" = '-x' ]; then
