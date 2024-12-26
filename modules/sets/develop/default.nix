@@ -13,6 +13,9 @@
   };
 
   config = lib.mkIf config.develop.enable {
+    # lua_ls fix
+    programs.nix-ld.enable = true;
+
     environment.systemPackages = with pkgs; [
       neovim
       tmux
@@ -25,7 +28,6 @@
       gcc
       lua51Packages.lua
       lua51Packages.luarocks
-      lua-language-server
       python3
       shellcheck
       ripgrep
