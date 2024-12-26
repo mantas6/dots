@@ -17,6 +17,8 @@
   gpu.type = "nvidia";
   shares.client.enabled = true;
 
+  programs.nix-ld.enable = true;
+
   networking.hostName = "ix";
 
   system.stateVersion = "24.05";

@@ -10,13 +10,13 @@ return {
   config = function()
     require('telescope').setup({
       pickers = {
-       find_files = { hidden = true },
+        find_files = { hidden = true },
         grep_string = {
-      additional_args = {"--hidden"}
-    },
-    live_grep = {
-      additional_args = {"--hidden"}
-    },
+          additional_args = { "--hidden" }
+        },
+        live_grep = {
+          additional_args = { "--hidden" }
+        },
       },
     })
 
@@ -26,7 +26,7 @@ return {
     vim.keymap.set('n', '<leader>pp', builtin.git_files, {})
     vim.keymap.set('n', '<leader>pa', function() builtin.find_files({ no_ignore = true, prompt_title = 'All Files' }) end)
     vim.keymap.set('n', '<leader>pf', builtin.live_grep, {})
-    vim.keymap.set('n', '<leader>pd', function ()
+    vim.keymap.set('n', '<leader>pd', function()
       builtin.find_files({ cwd = utils.buffer_dir() })
     end)
 
