@@ -58,9 +58,6 @@ alias zr='cd "$(git rev-parse --show-toplevel)"'
 alias zk='z "$(tmux display-message -p "#S")"'
 alias zf='eval "$(__fzf_cd__)"'
 
-# Nix
-alias nxb='~/Repos/dotfiles/nix/build'
-
 # Laravel
 alias sail="vendor/bin/sail"
 alias artisan="de php artisan"
@@ -79,8 +76,6 @@ alias gP="g push"
 alias lg="lazygit"
 alias ld="lazydocker"
 alias glc="git log -1 --pretty=%B"
-
-alias tg='toggl'
 
 alias cmatrix='cmatrix -ab'
 alias ff='fastfetch'
