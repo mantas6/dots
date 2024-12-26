@@ -17,6 +17,8 @@
   gpu.type = "nvidia";
   shares.client.enabled = true;
 
+  systemd.user.units."docker-compose@speedtest".enable = true;
+
   networking.hostName = "ix";
 
   system.stateVersion = "24.05";

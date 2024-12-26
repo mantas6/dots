@@ -25,6 +25,7 @@
       gcc
       lua51Packages.lua
       lua51Packages.luarocks
+      lua-language-server
       python3
       shellcheck
       ripgrep

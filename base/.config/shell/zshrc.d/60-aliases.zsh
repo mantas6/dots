@@ -46,8 +46,8 @@ alias c="de composer"
 alias s="sail"
 
 alias pc='precommit'
-alias dup='docker-compose up'
-alias dst='docker-compose stop'
+alias dup='docker compose up'
+alias dst='docker compose stop'
 
 alias g="git"
 alias gp="g pull"

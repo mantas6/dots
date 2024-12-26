@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 # Execute cmd or sh "main" docker container
 
-names=$(docker-compose ps --format '{{.Names}}')
+names=$(docker compose ps --format '{{.Names}}')
 
 name=$(echo "$names" | grep -i 'fpm\|laravel.test')
 
