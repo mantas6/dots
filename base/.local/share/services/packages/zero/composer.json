@@ -52,5 +52,5 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "bin": ["tg"]
+    "bin": ["zero"]
 }
