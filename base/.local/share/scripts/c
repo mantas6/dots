@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+if docker compose ps > /dev/null 2>&1; then
+    de composer "$@"
+else
+    composer "$@"
+fi
