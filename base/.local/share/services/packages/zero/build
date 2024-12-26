@@ -2,4 +2,6 @@
 
 cd "$(dirname "$(realpath "$0")")" || exit 1
 
+composer install
+
 ln -sv "$(pwd)"/zero "$HOME/.local/bin"
