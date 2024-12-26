@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }: {
   config = lib.mkIf (config.gpu.type == "nvidia") {
