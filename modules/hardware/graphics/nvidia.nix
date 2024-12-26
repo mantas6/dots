@@ -13,6 +13,9 @@
     };
 
     hardware.nvidia-container-toolkit.enable = true;
+    # https://github.com/NixOS/nixpkgs/issues/337873#issuecomment-2332332343
+    virtualisation.docker.daemon.settings.features.cdi = true;
+    virtualisation.docker.rootless.daemon.settings.cdi-spec-dirs = ["/var/run/cdi/"];
 
     # Load nvidia driver for Xorg and Wayland
     services.xserver.videoDrivers = ["nvidia"];
