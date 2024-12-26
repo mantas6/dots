@@ -34,8 +34,21 @@ class FzfPhp extends Command
 
         $options = array_map(fn () => str()->random(50), $options);
 
-        $reply = (new Fzf())
-            ->options($options)
+        // (new Fzf())
+        //     ->options(fn () => $options)
+        //     ->height('40%')
+        //     ->query('test')
+        //     ->border()
+        //     ->run();
+
+        echo (new Fzf())
+            ->options(fn () => $options)
+            ->command([
+                'height' => '40%',
+                'query' => 'test',
+                'border' => true,
+                'preview' => 'ls -al {}',
+            ])
             ->run();
     }
 }

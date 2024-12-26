@@ -2,17 +2,19 @@
 
 namespace App\Support;
 
+use Composer\Autoload\ClassLoader;
+use Exception;
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Process;
 
 class Fzf
 {
-    protected array $options = [];
+    protected $options = [];
     protected array $command = [];
 
     public function __construct()
     {
-       //
+        //
     }
 
     public function command(array $command): self
@@ -22,9 +24,16 @@ class Fzf
         return $this;
     }
 
-    public function options(array $options): self
+    public function options(array|callable $options): self
     {
         $this->options = $options;
+
+        return $this;
+    }
+
+    public function __call($name, $arguments): self
+    {
+        $this->command[$name] = $arguments[0] ?? true;
 
         return $this;
     }
@@ -33,21 +42,48 @@ class Fzf
     {
         $input = new InputStream();
 
+        $command = [];
+
+        foreach ($this->command as $key => $value) {
+            if ($value !== false) {
+                $command[] = "--$key";
+
+                if ($value !== true) {
+                    $command[] = $value;
+                }
+            }
+        }
+
+        $vendorPath = array_keys(ClassLoader::getRegisteredLoaders())[0];
+        $progPath = $vendorPath.'/bin/fzf';
+
+        if (!file_exists($progPath)) {
+            throw new Exception('Fzf is not installed');
+        }
+
         $process = new Process(
-            command: ['fzf', ...$this->command],
+            command: [$progPath, ...$command],
             input: $input,
             timeout: 0,
         );
 
         $process->start();
 
-        foreach ($this->options as $option) {
-            $input->write("$option\n");
-        }
+        $options = is_callable($this->options)
+            ? call_user_func($this->options)
+            : $this->options;
 
+        $input->write(implode("\n", $options));
         $input->close();
-
         $process->wait();
+
+        // echo ($process->getExitCode());
+
+        $error = $process->getErrorOutput();
+
+        if ($error) {
+            throw new \Exception($error);
+        }
 
         return $process->getOutput();
     }
