@@ -41,8 +41,7 @@ alias zf='eval "$(__fzf_cd__)"'
 # Laravel
 alias sail="vendor/bin/sail"
 alias artisan="de php artisan"
-alias composer="de composer"
-alias c="de composer"
+alias composer="c"
 alias s="sail"
 
 alias pc='precommit'
