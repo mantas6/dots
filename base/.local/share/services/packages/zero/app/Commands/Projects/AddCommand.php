@@ -7,6 +7,7 @@ use App\Project;
 use LaravelZero\Framework\Commands\Command;
 
 use function Laravel\Prompts\search;
+use function Mantas6\FzfPhp\fzf;
 
 class AddCommand extends Command
 {
@@ -35,18 +36,22 @@ class AddCommand extends Command
             ->collect()
             ->mapWithKeys(fn (array $project) => [$project['id'] => $project['name']]);
 
-        $selected = search(
-            label: 'Select project',
-            scroll: 20,
-            options: fn (string $search) =>
-                $items->filter(fn (string $name) => str($name)->contains($search, ignoreCase: true))
-                ->toArray()
+        $selected = fzf(
+            options: $items->map(fn ($name, $id) => "$id:$name")
+                ->toArray(),
+
+            arguments: [
+                'delimiter' => ':',
+                'with-nth' => '2',
+            ],
         );
 
-        $project = Project::query()
-            ->firstOrNew(['name' => $items[$selected]]);
+        $index = str($selected)->before(':')->toString();
 
-        $project->ext_id = $selected;
+        $project = Project::query()
+            ->firstOrNew(['name' => $items[$index]]);
+
+        $project->ext_id = $index;
         $project->save();
     }
 }

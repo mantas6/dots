@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
 use LaravelZero\Framework\Commands\Command;
 
+use function Mantas6\FzfPhp\fzf;
+
 class CopyCommand extends Command implements PromptsForMissingInput
 {
     /**
@@ -46,12 +48,11 @@ class CopyCommand extends Command implements PromptsForMissingInput
             ->tasks
             ->map(fn(Task $task) => $task->name);
 
-        Storage::put('tasks', $tasks->join("\n"));
+        $selected = fzf(
+            options: $tasks->toArray(),
+            arguments: ['tac' => true],
+        );
 
-        Process::pipe(function (Pipe $pipe) {
-            $pipe->command('cat ' . Storage::path('tasks'));
-            $pipe->command('fzf --tac');
-            $pipe->command('xc');
-        });
+        Process::input($selected)->run('xc');
     }
 }
