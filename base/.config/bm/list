@@ -10,6 +10,8 @@ github.com/mantas6?tab=repositories
 github.com/mantas6/dotfiles
 packagist.org/?query={}
 
+github.com/peckphp/peck
+
 chatgpt.com
 
 # Manual
@@ -22,9 +24,6 @@ search.nixos.org/options
 search.nixos.org/packages
 nixos.wiki/wiki/Configuration_Collection
 nixos.wiki/wiki/Main_Page
-
-# Nix example config
-github.com/nmasur/dotfiles/tree/master
 
 # Weather
 meteo.lt/prognozes/specialisto-komentaras
