@@ -40,7 +40,7 @@ class Fzf
 
     public function run(): string
     {
-        $input = new InputStream();
+        $input = new InputStream;
 
         $command = [];
 

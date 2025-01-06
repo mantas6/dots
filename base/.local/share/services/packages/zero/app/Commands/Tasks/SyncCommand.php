@@ -4,10 +4,7 @@ namespace App\Commands\Tasks;
 
 use App\Http\Integrations\Toggl\TogglConnector;
 use App\Project;
-use App\Task;
 use LaravelZero\Framework\Commands\Command;
-
-use function Laravel\Prompts\search;
 
 class SyncCommand extends Command
 {

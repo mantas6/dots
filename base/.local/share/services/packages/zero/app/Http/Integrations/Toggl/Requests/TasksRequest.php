@@ -15,9 +15,7 @@ class TasksRequest extends Request
     public function __construct(
         protected readonly string $workspaceId,
         protected readonly string $projectId
-    )
-    {
-    }
+    ) {}
 
     /**
      * The endpoint for the request

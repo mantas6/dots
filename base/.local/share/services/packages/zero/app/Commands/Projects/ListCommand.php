@@ -26,7 +26,7 @@ class ListCommand extends Command
      */
     public function handle()
     {
-        $connector = new TogglConnector();
+        $connector = new TogglConnector;
 
         $response = $connector->projects();
 

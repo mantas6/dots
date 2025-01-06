@@ -14,9 +14,7 @@ class ProjectsRequest extends Request
 
     public function __construct(
         protected readonly string $workspaceId,
-    )
-    {
-    }
+    ) {}
 
     /**
      * The endpoint for the request

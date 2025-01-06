@@ -5,7 +5,6 @@ namespace App\Commands;
 use App\Http\Integrations\Toggl\Requests\MeRequest;
 use App\Http\Integrations\Toggl\TogglConnector;
 use App\Token;
-use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
 use function Laravel\Prompts\text;

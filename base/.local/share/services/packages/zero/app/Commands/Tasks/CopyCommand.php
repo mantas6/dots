@@ -2,13 +2,10 @@
 
 namespace App\Commands\Tasks;
 
-use App\Http\Integrations\Toggl\TogglConnector;
 use App\Project;
 use App\Task;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
-use Illuminate\Process\Pipe;
 use Illuminate\Support\Facades\Process;
-use Illuminate\Support\Facades\Storage;
 use LaravelZero\Framework\Commands\Command;
 
 use function Mantas6\FzfPhp\fzf;
@@ -50,7 +47,7 @@ class CopyCommand extends Command implements PromptsForMissingInput
         $task = fzf(
             options: $tasks,
             arguments: ['tac' => true],
-            present: fn(Task $task) => [$task->name],
+            present: fn (Task $task) => [$task->name],
         );
 
         Process::input($task->name)->run('xc');

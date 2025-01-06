@@ -4,13 +4,11 @@ namespace App\Http\Integrations\Toggl;
 
 use App\Http\Integrations\Toggl\Requests\ProjectsRequest;
 use App\Http\Integrations\Toggl\Requests\TasksRequest;
-use App\Http\Integrations\Toggl\Resources\TogglResource;
 use App\Project;
 use App\Token;
 use Saloon\Http\Auth\BasicAuthenticator;
 use Saloon\Http\Connector;
 use Saloon\Http\Response;
-use Saloon\Traits\Body\HasJsonBody;
 use Saloon\Traits\Plugins\AcceptsJson;
 use Saloon\Traits\Plugins\AlwaysThrowOnErrors;
 
@@ -25,6 +23,7 @@ class TogglConnector extends Connector
     {
         if ($tokenString) {
             $this->token = $tokenString;
+
             return;
         }
 
