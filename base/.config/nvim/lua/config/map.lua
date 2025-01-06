@@ -18,7 +18,7 @@ vim.api.nvim_set_keymap('n', '<leader>h', ':lua ToggleHighlightSearch()<CR>', { 
 vim.api.nvim_set_keymap('n', '<leader>bf', ':LspZeroFormat<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>by', ':lua CopyCurrentBufferPath()<CR>', {})
 
-vim.api.nvim_set_keymap('n', '<leader>bm', ':!zero fmt %:p<CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>bm', ':silent w | :silent !zero fmt %:p<CR>', {})
 
 -- alias :W to :w
 vim.api.nvim_command('command W write')
