@@ -11,6 +11,7 @@ use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\CloningVisitor;
+use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 
@@ -32,6 +33,9 @@ class FormatNamespace extends Command
      */
     protected $description = 'Command description';
 
+    protected Parser $parser;
+    protected Standard $printer;
+
     protected array $autoloadPaths = [];
     protected string $basePath;
 
@@ -40,6 +44,9 @@ class FormatNamespace extends Command
      */
     public function handle()
     {
+        $this->parser = (new ParserFactory)->createForNewestSupportedVersion();
+        $this->printer = new Standard;
+
         foreach ($this->argument('paths') as $path) {
             $this->basePath = $this->resolveBasePath(realpath($path));
             $this->autoloadPaths = $this->readAutoloadPaths();
@@ -50,22 +57,19 @@ class FormatNamespace extends Command
 
     protected function formatFile(string $filePath): void
     {
-        // todo: reuse parser
-        $parser = (new ParserFactory)->createForNewestSupportedVersion();
         $code = file_get_contents($filePath);
 
         $relativePath = str_replace($this->basePath . '/', '', $filePath);
 
-        $originalAst = $parser->parse($code);
-        $originalTokens = $parser->getTokens();
+        $originalAst = $this->parser->parse($code);
+        $originalTokens = $this->parser->getTokens();
 
         $traverser = new NodeTraverser(new CloningVisitor);
         $ast = $traverser->traverse($originalAst);
 
         $this->formatAst($ast, $relativePath);
 
-        $prettyPrinter = new Standard;
-        $newCode = $prettyPrinter->printFormatPreserving($ast, $originalAst, $originalTokens);
+        $newCode = $this->printer->printFormatPreserving($ast, $originalAst, $originalTokens);
 
         file_put_contents($filePath, $newCode);
     }
