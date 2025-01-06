@@ -34,19 +34,19 @@ class AddCommand extends Command
         $items = (new TogglConnector)->projects()
             ->collect();
 
-        $project = fzf(
+        $selected = fzf(
             options: $items,
             present: fn (array $project) => [$project['name']],
         );
 
-        if ($project) {
+        if (!$selected) {
             return;
         }
 
         $project = Project::query()
-            ->firstOrNew(['name' => $project['name']]);
+            ->firstOrNew(['name' => $selected['name']]);
 
-        $project->ext_id = $project['id'];
+        $project->ext_id = $selected['id'];
         $project->save();
     }
 }
