@@ -45,14 +45,14 @@ class CopyCommand extends Command implements PromptsForMissingInput
         $tasks = Project::query()
             ->where('name', 'like', '%'.$this->argument('project-name').'%')
             ->firstOrFail()
-            ->tasks
-            ->map(fn(Task $task) => $task->name);
+            ->tasks;
 
-        $selected = fzf(
-            options: $tasks->toArray(),
+        $task = fzf(
+            options: $tasks,
             arguments: ['tac' => true],
+            present: fn(Task $task) => [$task->name],
         );
 
-        Process::input($selected)->run('xc');
+        Process::input($task->name)->run('xc');
     }
 }

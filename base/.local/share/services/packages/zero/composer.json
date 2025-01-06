@@ -20,7 +20,7 @@
         "illuminate/database": "^11.5",
         "laravel-zero/framework": "^11.0.2",
         "laravel/serializable-closure": "^2.0",
-        "mantas6/fzf-php": "^0.1.1",
+        "mantas6/fzf-php": "dev-main",
         "saloonphp/laravel-http-sender": "^3.0",
         "saloonphp/laravel-plugin": "^3.0",
         "saloonphp/saloon": "^3.0"
@@ -51,7 +51,7 @@
             "pestphp/pest-plugin": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "bin": ["zero"]
 }

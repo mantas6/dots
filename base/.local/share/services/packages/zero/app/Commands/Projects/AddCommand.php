@@ -33,25 +33,21 @@ class AddCommand extends Command
     public function handle()
     {
         $items = (new TogglConnector)->projects()
-            ->collect()
-            ->mapWithKeys(fn (array $project) => [$project['id'] => $project['name']]);
+            ->collect();
 
-        $selected = fzf(
-            options: $items->map(fn ($name, $id) => "$id:$name")
-                ->toArray(),
-
-            arguments: [
-                'delimiter' => ':',
-                'with-nth' => '2',
-            ],
+        $project = fzf(
+            options: $items,
+            present: fn (array $project) => [$project['name']],
         );
 
-        $index = str($selected)->before(':')->toString();
+        if ($project) {
+            return;
+        }
 
         $project = Project::query()
-            ->firstOrNew(['name' => $items[$index]]);
+            ->firstOrNew(['name' => $project['name']]);
 
-        $project->ext_id = $index;
+        $project->ext_id = $project['id'];
         $project->save();
     }
 }
