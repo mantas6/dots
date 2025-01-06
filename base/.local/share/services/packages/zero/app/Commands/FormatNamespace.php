@@ -2,6 +2,7 @@
 
 namespace App\Commands;
 
+use Exception;
 use Illuminate\Support\Stringable;
 use LaravelZero\Framework\Commands\Command;
 use PhpParser\Error;
@@ -48,10 +49,17 @@ class FormatNamespace extends Command
         $this->printer = new Standard;
 
         foreach ($this->argument('paths') as $path) {
-            $this->basePath = $this->resolveBasePath(realpath($path));
+            $fullPath = realpath($path);
+
+            if ($fullPath === false) {
+                $this->components->error('Path '.$path.' does not exist');
+                return 1;
+            }
+
+            $this->basePath = $this->resolveBasePath($fullPath);
             $this->autoloadPaths = $this->readAutoloadPaths();
 
-            $this->formatFile(realpath($path));
+            $this->formatFile($fullPath);
         }
     }
 
@@ -125,7 +133,7 @@ class FormatNamespace extends Command
         }
 
         if ($path === '/') {
-            return '';
+            throw new Exception('No composer.json has been found');
         }
 
         return $this->resolveBasePath(
