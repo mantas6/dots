@@ -50,6 +50,7 @@ class FormatNamespace extends Command
 
     protected function formatFile(string $filePath): void
     {
+        // todo: reuse parser
         $parser = (new ParserFactory)->createForNewestSupportedVersion();
         $code = file_get_contents($filePath);
 
