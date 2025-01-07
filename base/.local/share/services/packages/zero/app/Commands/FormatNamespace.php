@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Commands;
 
 use Exception;
@@ -50,11 +52,6 @@ class FormatNamespace extends Command
 
         foreach ($this->argument('paths') as $path) {
             $fullPath = realpath($path);
-
-            if ($fullPath === false) {
-                $this->components->error('Path '.$path.' does not exist');
-                return 1;
-            }
 
             $this->basePath = $this->resolveBasePath($fullPath);
             $this->autoloadPaths = $this->readAutoloadPaths();
