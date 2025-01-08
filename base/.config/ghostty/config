@@ -3,6 +3,9 @@ font-family-bold = AnonymicePro Nerd Font Mono Bold
 font-family-italic = AnonymicePro Nerd Font Mono Italic
 font-family-bold-italic = AnonymicePro Nerd Font Mono Bold Italic
 
-font-size = 22
+font-size = 24
 
 macos-titlebar-style = hidden
+
+keybind = super+c=copy_to_clipboard
+keybind = super+w=paste_from_clipboard
