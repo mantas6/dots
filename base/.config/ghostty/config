@@ -3,3 +3,5 @@ foreground = ffffff
 
 font-family = Anonymice Pro Nerd Font Mono
 font-size = 17
+
+macos-titlebar-style = hidden
