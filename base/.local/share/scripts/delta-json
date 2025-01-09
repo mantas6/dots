@@ -4,8 +4,8 @@
 first=$(mktemp)
 second=$(mktemp)
 
-gum write --char-limit=0 --placeholder 'first json' | jq '.' > "$first"
-gum write --char-limit=0 --placeholder 'second json' | jq '.' > "$second"
+nvim "$first"
+nvim "$second"
 
 delta "$first" "$second"
 
