@@ -8,7 +8,7 @@ if [ -d '.git' ] || [ -f 'composer.json' ]; then
     tmux new-window -n 'ex'
 
     tmux new-window -n 'git'
-    tmux send-keys 'lazygit' C-m
+    tmux send-keys 'git status' C-m
 
     tmux new-window -n 'tin'
 
