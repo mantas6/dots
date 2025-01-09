@@ -50,7 +50,11 @@ return {
     vim.keymap.set("n", "<C-e>", function() toggle_telescope(harpoon:list()) end,
       { desc = "Open harpoon window" })
 
-    vim.keymap.set("n", "<leader>bn", function() harpoon:list():prev() end)
-    vim.keymap.set("n", "<leader>bp", function() harpoon:list():next() end)
+    vim.keymap.set("n", "<leader>k", function() harpoon:list():prev() end)
+    vim.keymap.set("n", "<leader>j", function() harpoon:list():next() end)
+    -- vim.keymap.set("n", "<C-j>", function() harpoon:list():select(1) end)
+    -- vim.keymap.set("n", "<C-k>", function() harpoon:list():select(2) end)
+    -- vim.keymap.set("n", "<C-l>", function() harpoon:list():select(3) end)
+    -- vim.keymap.set("n", "<C-;>", function() harpoon:list():select(4) end)
   end
 }
