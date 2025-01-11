@@ -22,11 +22,14 @@ jobs:
 
       - uses: cachix/install-nix-action@v27
 
-      - run: |
-          nix flake update
-          nix flake check
+      - name: Update the flake
+        run: nix flake update
 
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Run flake check
+        run: nix flake check
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Bump flake.lock
           branch: main
