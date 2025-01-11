@@ -22,9 +22,9 @@ jobs:
 
       - uses: cachix/install-nix-action@v27
 
-      - run:
-        - nix flake update
-        - nix flake check
+      - run: |
+          nix flake update
+          nix flake check
 
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
