@@ -14,11 +14,11 @@
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
     nixosConfigurations.ix = nixpkgs.lib.nixosSystem {
-      modules = [./hosts/ix];
+      modules = [./nix/hosts/ix];
     };
 
     nixosConfigurations.l4 = nixpkgs-stable.lib.nixosSystem {
-      modules = [./hosts/l4];
+      modules = [./nix/hosts/l4];
     };
   };
 }
