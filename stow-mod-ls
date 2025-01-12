@@ -1,15 +1,18 @@
 #!/usr/bin/env sh
 # List stow modules for the current system
 
-mods='base'
+mods='base git'
 
 case "$(uname -n)" in
-  'example-host')
-    mods="$mods example" 
-    ;;
-  *)
-    mods="$mods test-mod" 
-    ;;
+    l4)
+        mods="base" 
+        ;;
+    itp*)
+        mods="base"
+        ;;
+    *)
+        mods="$mods test-mod" 
+        ;;
 esac
 
 echo "$mods"
