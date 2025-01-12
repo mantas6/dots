@@ -1,6 +1,3 @@
 mods/base/.config/bm/list.local
-
-mods/base/.local/share/applications/*.cache
-
 mods/base/.stow-local-ignore
 
