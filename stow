@@ -1,9 +1,9 @@
 #!/bin/sh
+# shellcheck disable=SC2046
 
 source=$(dirname "$(readlink -f "$0")")
 
 # Create base directories so that stow wouldn't link them directly
 grep -v '^\(#\|$\)' "$source/dirs.conf" | xargs -I {} mkdir -pv "$HOME/{}"
 
-stow --dir="$source" --target="$HOME" --verbose "$@" base
-# stow --dir="$source/mods" --target="$HOME" --verbose "$@" $(./stow-mods-ls)
+stow --dir="$source/mods" --target="$HOME" --verbose "$@" $(./stow-mod-ls)
