@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+# List stow modules for the current system
+
+mods='base'
+
+case "$(uname -n)" in
+  'example-host')
+    mods="$mods example" 
+    ;;
+  *)
+    mods="$mods test-mod" 
+    ;;
+esac
+
+echo "$mods"
