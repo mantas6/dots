@@ -7,7 +7,7 @@ output="$PHOTOSYNC_SITE"
 
 docker run -t \
     -v /etc/localtime:/etc/localtime \
-    -v "./albums.tag.js:/mnt/tag.js:ro" \
+    -v "./albums:/mnt/albums:ro" \
     -v "$input:/mnt/input:ro" \
     -v "$output:/mnt/output" \
     ghcr.io/thumbsup/thumbsup:2.18.0 \
