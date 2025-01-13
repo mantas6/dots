@@ -40,6 +40,42 @@ return {
             table.remove(harpoon_files.items, selected_entry.index)
             current_picker:refresh(finder())
           end)
+
+          -- map("i", "<C-a>", function()
+          --   local state = require("telescope.actions.state")
+          --   local length = harpoon:list():length()
+          --   local selection = state.get_selected_entry()
+          --
+          --   if selection.index == length then
+          --     return
+          --   end
+          --
+          --   local mark_list = harpoon:list().items
+          --
+          --   table.remove(mark_list, selection.index)
+          --   table.insert(mark_list, selection.index + 1, selection.value)
+          --   local current_picker = state.get_current_picker(prompt_bufnr)
+          --
+          --   current_picker:refresh(finder(), { reset_prompt = true })
+          -- end)
+          --
+
+          -- map("i", "<C-a>", function()
+          --   local state = require("telescope.actions.state")
+          --   local selection = state.get_selected_entry()
+          --
+          --   if selection.index == 1 then
+          --     return
+          --   end
+          --
+          --   local mark_list = harpoon:list().items
+          --   table.remove(mark_list, selection.index)
+          --   table.insert(mark_list, selection.index - 1, selection.value)
+          --   local current_picker = state.get_current_picker(prompt_bufnr)
+          --
+          --   current_picker:refresh(finder(), { reset_prompt = true })
+          -- end)
+
           return true
         end,
       }):find()
