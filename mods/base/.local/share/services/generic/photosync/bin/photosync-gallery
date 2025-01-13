@@ -12,7 +12,6 @@ docker run -t \
     ghcr.io/thumbsup/thumbsup:2.18.0 \
     thumbsup \
     --input '/mnt/input' --output '/mnt/output' \
-    --albums-from "$PHOTOSYNC_CACHE_TAG" \
     --albums-from "{YYYY}" \
     --albums-from "{YYYY}-{MM}" \
     --albums-from "Days/{YYYY}-{MM}-{DD}" \
