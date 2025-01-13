@@ -1,4 +1,5 @@
 .zcompdump
+.zcompcache
 .zsh_sessions
 
 local/*

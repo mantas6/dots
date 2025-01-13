@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 bin_dir=$(dirname "$(realpath "$0")")
 root_dir=$(dirname "$bin_dir")
