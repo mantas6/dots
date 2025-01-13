@@ -7,7 +7,7 @@ case "$(uname -n)" in
     l4)
         mods="base" 
         ;;
-    itp*)
+    ITP*)
         mods="base"
         ;;
     *)
