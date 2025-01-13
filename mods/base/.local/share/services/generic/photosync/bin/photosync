@@ -13,7 +13,8 @@ metadata=$(exiftool -DateTimeOriginal -d "%Y/%m/%d/%H/%M/%S" "$source")
 # TODO: add date time validation
 datetime=$(echo "$metadata" | grep 'Date/Time Original' | awk '{print $4}')
 
-photo_path=$(echo "$datetime" | cut --delimiter "/" --fields 1,2,3)
+date_path=$(echo "$datetime" | cut --delimiter "/" --fields 1,2,3)
+photo_path="$PHOTOSYNC_CACHE_TAG/$date_path"
 
 # Create a recursive path based on year, month and day
 mkdir -pv "$PHOTOSYNC_ORIGINALS/$photo_path"
