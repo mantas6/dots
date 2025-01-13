@@ -72,7 +72,6 @@ return {
           --   table.remove(mark_list, selection.index)
           --   table.insert(mark_list, selection.index - 1, selection.value)
           --   local current_picker = state.get_current_picker(prompt_bufnr)
-          --
           --   current_picker:refresh(finder(), { reset_prompt = true })
           -- end)
 
