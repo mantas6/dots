@@ -7,13 +7,11 @@ output="$PHOTOSYNC_SITE"
 
 docker run -t \
     -v /etc/localtime:/etc/localtime \
-    -v "./albums:/mnt/albums:ro" \
     -v "$input:/mnt/input:ro" \
     -v "$output:/mnt/output" \
     ghcr.io/thumbsup/thumbsup:2.18.0 \
     thumbsup \
     --input '/mnt/input' --output '/mnt/output' \
-    --albums-from "file:///mnt/tag.js" \
     --albums-from "{YYYY}" \
     --albums-from "{YYYY}-{MM}" \
     --albums-from "Days/{YYYY}-{MM}-{DD}" \
