@@ -14,7 +14,7 @@ git status
 git diff
 
 echo
-msg=$(gum input --placeholder 'Commit message')
+msg=$(gum input --placeholder 'Commit message' --value="$(git log -1 --pretty=%B)")
 
 git add .
 git commit -m "${msg:=Update}"
