@@ -30,5 +30,6 @@ if [ ! -f "$output_filename" ]; then
 else
     cmp "$source" "$output_filename" || exit 1
 
+    echo "$photo_path/$output_basename" >> "$PHOTOSYNC_ORIGINALS/filelist"
     photosync-cache "$source"
 fi
