@@ -11,6 +11,7 @@ font-feature = -calt
 font-size = 19
 
 macos-titlebar-style = hidden
+macos-option-as-alt = true
 
 keybind = super+c=copy_to_clipboard
 keybind = super+w=paste_from_clipboard
