@@ -11,3 +11,6 @@ fi
 
 [ -d "$HOME/Library/Application Support/Herd/bin" ] && \
     export PATH="$HOME/Library/Application Support/Herd/bin:$PATH"
+
+[ -d "$HOME/Applications/Docker.app/Contents/Resources/bin" ] && \
+    export PATH="$HOME/Applications/Docker.app/Contents/Resources/bin:$PATH"

@@ -1,13 +1,17 @@
-theme = Afterglow
+theme = Dark Modern
 
-font-family = AnonymicePro Nerd Font Mono Regular
-font-family-bold = AnonymicePro Nerd Font Mono Bold
-font-family-italic = AnonymicePro Nerd Font Mono Italic
-font-family-bold-italic = AnonymicePro Nerd Font Mono Bold Italic
+font-family = Monaco
+#font-family = AnonymicePro Nerd Font Mono Regular
+#font-family-bold = AnonymicePro Nerd Font Mono Bold
+#font-family-italic = AnonymicePro Nerd Font Mono Italic
+#font-family-bold-italic = AnonymicePro Nerd Font Mono Bold Italic
+
+font-feature = -calt
 
 font-size = 19
 
 macos-titlebar-style = hidden
+macos-option-as-alt = true
 
 keybind = super+c=copy_to_clipboard
 keybind = super+w=paste_from_clipboard

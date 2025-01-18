@@ -64,6 +64,10 @@ class FormatNamespace extends Command
     {
         $code = file_get_contents($filePath);
 
+        if (trim($code) === '') {
+            $code = file_get_contents(base_path('stubs/PhpClass.stub'));
+        }
+
         $relativePath = str_replace($this->basePath . '/', '', $filePath);
 
         $originalAst = $this->parser->parse($code);
