@@ -24,3 +24,8 @@ vim.api.nvim_set_keymap('n', '<leader>bm', ':silent w | :silent !zero fmt %:p | 
 vim.api.nvim_command('command W write')
 
 vim.api.nvim_command('command X set splitright | vsp | terminal bash %:p')
+
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
