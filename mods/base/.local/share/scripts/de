@@ -8,4 +8,10 @@ name=$(echo "$names" | grep -i 'fpm\|laravel.test')
 # Use first if no matches
 [ ! "$name" ] && name=$(echo "$names" | head -n 1)
 
-docker exec -it "$name" "${@:-bash}"
+if [ -t 0 ]; then
+    flags='-it'
+else
+    flags='-i'
+fi
+
+docker exec "$flags" "$name" "${@:-bash}"

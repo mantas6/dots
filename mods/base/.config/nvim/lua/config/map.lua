@@ -19,6 +19,8 @@ vim.api.nvim_set_keymap('n', '<leader>bf', ':LspZeroFormat<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>by', ':lua CopyCurrentBufferPath()<CR>', {})
 
 vim.api.nvim_set_keymap('n', '<leader>bm', ':silent w | :silent !zero fmt %:p | :e <CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>w', ':silent w | :silent !./tinker-autocmd <CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>W', ':silent w | !./tinker-autocmd <CR>', {})
 
 -- alias :W to :w
 vim.api.nvim_command('command W write')
