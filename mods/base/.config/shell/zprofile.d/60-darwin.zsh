@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+[ "$(uname)" != "Darwin" ] && return
+
 # Homebrew rootless
 if [ -d "$HOME/.local/brew" ]; then
     export HOMEBREW_PREFIX="$HOME/.local/brew"
@@ -14,3 +16,5 @@ fi
 
 [ -d "$HOME/Applications/Docker.app/Contents/Resources/bin" ] && \
     export PATH="$HOME/Applications/Docker.app/Contents/Resources/bin:$PATH"
+
+export DOCKER_CLI_HINTS=false
