@@ -1,9 +1,11 @@
 #!/usr/bin/env zsh
 
+[ "$(uname)" != "Darwin" ] && return
+
 # Homebrew rootless
 if [ -d "$HOME/.local/brew" ]; then
     export HOMEBREW_PREFIX="$HOME/.local/brew"
-    export HOMEBREW_MAKE_JOBS=2
+    export HOMEBREW_MAKE_JOBS=3
     export PATH="$HOMEBREW_PREFIX/bin:$PATH"
 
     eval "$(brew shellenv)"
@@ -14,3 +16,5 @@ fi
 
 [ -d "$HOME/Applications/Docker.app/Contents/Resources/bin" ] && \
     export PATH="$HOME/Applications/Docker.app/Contents/Resources/bin:$PATH"
+
+export DOCKER_CLI_HINTS=false
