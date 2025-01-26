@@ -39,11 +39,6 @@ gh repo clone mantas6/dotfiles "$HOME/Repos/dotfiles"
 cd "$HOME/Repos/dotfiles"
 ./stow
 ```
-
-### Home configuration
-
-Clone the repository and run `./stow`
-
 If stow fails, remove conflicting files (preferably to trash) and run again. Pay close attention to the output to make sure that the links that it creates make sense.
 
 ### System configuration
