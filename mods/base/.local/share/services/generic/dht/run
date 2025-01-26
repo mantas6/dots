@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+cd "$(dirname "$(realpath "$0")")" || exit 1
+
+if [ ! -d .venv ]; then
+    python3 -m venv .venv
+    . .venv/bin/activate
+    pip3 install adafruit-circuitpython-dht
+else
+    . .venv/bin/activate
+fi
+
+python loop.py
