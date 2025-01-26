@@ -9,20 +9,29 @@
 █ ███ ███ █ █
 ```
 
-## Software
-
-- `archlinux`
-- `bash`
-- `tmux`
-- `alacritty`
-- `lf` or `yazi` - not decided yet
-- `neovim`
-- `awesome`
-- `rofi` - app launcher, pass menu (`rofi-pass`), emoji picker (`rofi-emoji`)
-- `pass`
-- `stow` - dot files management
-
 ## Setup
+
+### Install core dependencies
+
+Debian
+
+```sh
+sudo apt install git stow zsh
+```
+
+Arch Linux
+
+```sh
+sudo pacman -S git stow zsh
+```
+
+### Change the shell
+
+```sh
+chsh -s /usr/bin/zsh
+```
+
+### Clone the repo and link
 
 ```sh
 mkdir "$HOME/Repos"
