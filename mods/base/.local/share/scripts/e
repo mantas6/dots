@@ -1,11 +1,8 @@
 #!/usr/bin/env sh
 # Choose tmux session
-#
-# https://github.com/charmbracelet/gum/releases
-# --no-strip-ansi
 
 session=$(
-    sesh list -i | gum filter --limit 1 --no-sort --fuzzy --placeholder 'Pick a sesh' --height 50 --prompt='⚡'
+    sesh list -i | gum filter --no-strip-ansi --limit 1 --no-sort --fuzzy --placeholder 'Pick a sesh' --height 50 --prompt='⚡'
 )
 
 [ "$session" ] && sesh connect "$session"
