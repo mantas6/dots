@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+url=$1
+
+old=$(mktemp)
+new=$(mktemp)
+
+# Baseline
+curl -s "$url" > "$new"
+curl -s "$url" > "$old"
+
+while true; do
+    curl -s "$url" > "$new"
+
+    if ! cmp -s "$old" "$new"; then
+      exit 0
+    fi
+
+    sleep 1
+done
