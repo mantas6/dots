@@ -2,7 +2,7 @@
 # Copy from clipboard
 
 if [ "$(uname)" = "Darwin" ]; then
-    cat | pbcopy
+    printf "%s" "$(cat)" | pbcopy
 else
-    cat | xclip -selection c -i
+    printf "%s" "$(cat)" | xclip -selection c -i
 fi

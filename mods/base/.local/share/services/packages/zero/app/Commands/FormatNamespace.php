@@ -5,11 +5,8 @@ declare(strict_types=1);
 namespace App\Commands;
 
 use Exception;
-use Illuminate\Support\Stringable;
 use LaravelZero\Framework\Commands\Command;
-use PhpParser\Error;
 use PhpParser\Node\Name;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\NodeTraverser;

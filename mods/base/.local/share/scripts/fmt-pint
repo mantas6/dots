@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+dir=$(dirname "$(readlink "$(which zero)")")
+
+"$dir/vendor/bin/pint" "$@"
