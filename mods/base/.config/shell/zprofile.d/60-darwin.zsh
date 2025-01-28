@@ -5,7 +5,7 @@
 # Homebrew rootless
 if [ -d "$HOME/.local/brew" ]; then
     export HOMEBREW_PREFIX="$HOME/.local/brew"
-    export HOMEBREW_MAKE_JOBS=3
+    export HOMEBREW_MAKE_JOBS=4
     export PATH="$HOMEBREW_PREFIX/bin:$PATH"
 
     eval "$(brew shellenv)"
