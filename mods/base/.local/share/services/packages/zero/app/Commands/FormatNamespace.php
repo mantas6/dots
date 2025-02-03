@@ -53,8 +53,6 @@ class FormatNamespace extends Command
             $this->basePath = $this->resolveBasePath($fullPath);
             $this->autoloadPaths = $this->readAutoloadPaths();
 
-            dd($this->autoloadPaths);
-
             $this->formatFile($fullPath);
         }
     }
