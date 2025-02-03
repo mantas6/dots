@@ -53,6 +53,8 @@ class FormatNamespace extends Command
             $this->basePath = $this->resolveBasePath($fullPath);
             $this->autoloadPaths = $this->readAutoloadPaths();
 
+            dd($this->autoloadPaths);
+
             $this->formatFile($fullPath);
         }
     }
@@ -121,7 +123,10 @@ class FormatNamespace extends Command
             true,
         );
 
-        return $composer['autoload']['psr-4'] ?? [];
+        return [
+            ...$composer['autoload']['psr-4'] ?? [],
+            ...$composer['autoload-dev']['psr-4'] ?? [],
+        ];
     }
 
     protected function resolveBasePath(string $path): string
