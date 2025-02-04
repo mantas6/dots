@@ -6,18 +6,22 @@
 
 host="$REMOTE_USER@$REMOTE_HOST"
 
-files=()
+if [ -z "$1" ]; then
+    files=()
 
-for file in $(git diff --name-only); do
-    files+=("$file")
-    # scp "$file" "$host:$REMOTE_ROOT/$file"
-done
+    for file in $(git diff --name-only); do
+        files+=("$file")
+    done
 
-for file in $(git ls-files --others --exclude-standard); do
-    files+=("$file")
-    # scp "$file" "$host:$REMOTE_ROOT/$file"
-done
+    for file in $(git ls-files --others --exclude-standard); do
+        files+=("$file")
+    done
+else
+    files=("$@")
+fi
 
 rsync -RPrzcav "${files[@]}" "$host:$REMOTE_ROOT"
 
-ssh "$host" "(cd '$REMOTE_ROOT' && php cachetool.phar opcache:reset --cli; php artisan horizon:terminate; php artisan optimize)"
+if [ -f artisan ]; then
+    ssh "$host" "(cd '$REMOTE_ROOT' && php cachetool.phar opcache:reset --cli; php artisan horizon:terminate; php artisan optimize)"
+fi
