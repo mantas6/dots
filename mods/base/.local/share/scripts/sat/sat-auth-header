@@ -1,12 +1,7 @@
 #!/usr/bin/env bash
 
-state=$(sat-state-dir)
+set -e
 
-if [ ! -f "$state/token" ]; then
-    echo 'Error: Token is not configured' >&2
-    exit 1
-fi
-
-token=$(<"$state/token")
+token=$(sat-auth-token)
 
 echo "Authorization: Bearer $token"
