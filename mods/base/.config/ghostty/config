@@ -16,3 +16,6 @@ macos-option-as-alt = true
 keybind = super+c=copy_to_clipboard
 keybind = super+w=paste_from_clipboard
 mouse-scroll-multiplier = 0.5
+
+shell-integration-features = no-cursor
+cursor-style-blink = false
