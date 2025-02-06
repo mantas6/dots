@@ -21,6 +21,7 @@ vim.api.nvim_set_keymap('n', '<leader>W', ':silent w | !./tinker-autocmd % <CR>'
 
 vim.api.nvim_set_keymap('n', '<leader>ew', ':e tinker-autocmd <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>ec', ':e composer.json <CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>ep', ':e presentation.md <CR>', {})
 
 -- alias :W to :w
 vim.api.nvim_command('command W write')
