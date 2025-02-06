@@ -1,18 +1,15 @@
 # https://learn.adafruit.com/dht-humidity-sensing-on-raspberry-pi-with-gdocs-logging/python-setup
 
-# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
-# SPDX-License-Identifier: MIT
-
 import time
 import board
 import adafruit_dht
 import subprocess
 import requests
-import json
+from requests.exceptions import (ConnectTimeout, ReadTimeout)
 import platform
 
 # Initial the dht device, with data pin connected to:
-dhtDevice = adafruit_dht.DHT22(board.D4)
+# dhtDevice = adafruit_dht.DHT22(board.D4)
 
 # you can pass DHT22 use_pulseio=False if you wouldn't like to use pulseio.
 # This may be necessary on a Linux single board computer like the Raspberry Pi,
@@ -22,42 +19,58 @@ dhtDevice = adafruit_dht.DHT22(board.D4)
 def get_env(cmd):
     result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
 
-    return result.stdout
+    result.check_returncode()
+
+    return result.stdout.strip()
+
+def send(temp):
+    try:
+        base_url = get_env("sat-base-url")
+        token = get_env("sat-auth-token")
+
+    except subprocess.CalledProcessError as e:
+        print('Configuration error: {}'.format(e.stderr))
+        return
+    
+    url = base_url + '/api/probes/measurements'
+
+    body = {
+        "code": platform.node(),
+        "value": temp,
+    }
+
+    headers = {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": f"Bearer {token}"
+    }
+
+    try:
+        response = requests.post(url, json=body, headers=headers, timeout=30)
+
+    except (ConnectTimeout, ReadTimeout):
+        print('Connection timeout')
+        return
+
+    if response.status_code != 200:
+        print("POST to {} failed, status: {}".format(url, response.status_code))
 
 while True:
     try:
-        token = get_env("sat-auth-header")
-        base_url = get_env("sat-base-url")
-
-        temperature_c = dhtDevice.temperature
-        humidity = dhtDevice.humidity
-
-        print("Temp: {:.1f} C    Humidity: {}% ".format(
-                temperature_c, humidity
-            )
-        )
-
-        url = base_url + '/api/probes/measurements'
-
-        body = {
-            "code": platform.node(),
-            "value": temperature_c,
-        }
-
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {token}"
-        }
-
-        response = requests.post(url, json=body, headers=headers)
+        # temperature_c = dhtDevice.temperature
+        temperature_c = 20.4
 
     except RuntimeError as error:
         print(error.args[0])
         time.sleep(2.0)
         continue
     except Exception as error:
-        dhtDevice.exit()
+        # dhtDevice.exit()
         raise error
+
+    print("Temp: {:.1f} C".format(temperature_c))
+
+    send(temperature_c)
 
     time.sleep(2.0)
 
