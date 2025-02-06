@@ -6,6 +6,10 @@
 import time
 import board
 import adafruit_dht
+import subprocess
+import requests
+import json
+import platform
 
 # Initial the dht device, with data pin connected to:
 dhtDevice = adafruit_dht.DHT22(board.D4)
@@ -15,20 +19,39 @@ dhtDevice = adafruit_dht.DHT22(board.D4)
 # but it will not work in CircuitPython.
 # dhtDevice = adafruit_dht.DHT22(board.D18, use_pulseio=False)
 
+def get_env(cmd):
+    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+
+    return result.stdout
+
 while True:
     try:
-        # Print the values to the serial port
+        token = get_env("sat-auth-header")
+        base_url = get_env("sat-base-url")
+
         temperature_c = dhtDevice.temperature
-        temperature_f = temperature_c * (9 / 5) + 32
         humidity = dhtDevice.humidity
-        print(
-            "Temp: {:.1f} F / {:.1f} C    Humidity: {}% ".format(
-                temperature_f, temperature_c, humidity
+
+        print("Temp: {:.1f} C    Humidity: {}% ".format(
+                temperature_c, humidity
             )
         )
 
+        url = base_url + '/api/probes/measurements'
+
+        body = {
+            "code": platform.node(),
+            "value": temperature_c,
+        }
+
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}"
+        }
+
+        response = requests.post(url, json=body, headers=headers)
+
     except RuntimeError as error:
-        # Errors happen fairly often, DHT's are hard to read, just keep going
         print(error.args[0])
         time.sleep(2.0)
         continue
@@ -37,3 +60,4 @@ while True:
         raise error
 
     time.sleep(2.0)
+

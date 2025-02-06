@@ -6,6 +6,7 @@ if [ ! -d .venv ]; then
     python3 -m venv .venv
     . .venv/bin/activate
     pip3 install adafruit-circuitpython-dht
+    pip3 install requests
 else
     . .venv/bin/activate
 fi
