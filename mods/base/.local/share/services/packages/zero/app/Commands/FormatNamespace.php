@@ -121,7 +121,10 @@ class FormatNamespace extends Command
             true,
         );
 
-        return $composer['autoload']['psr-4'] ?? [];
+        return [
+            ...$composer['autoload']['psr-4'] ?? [],
+            ...$composer['autoload-dev']['psr-4'] ?? [],
+        ];
     }
 
     protected function resolveBasePath(string $path): string
