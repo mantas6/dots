@@ -9,7 +9,7 @@ from requests.exceptions import (ConnectTimeout, ReadTimeout)
 import platform
 
 # Initial the dht device, with data pin connected to:
-# dhtDevice = adafruit_dht.DHT22(board.D4)
+dhtDevice = adafruit_dht.DHT22(board.D4)
 
 # you can pass DHT22 use_pulseio=False if you wouldn't like to use pulseio.
 # This may be necessary on a Linux single board computer like the Raspberry Pi,
@@ -57,15 +57,15 @@ def send(temp):
 
 while True:
     try:
-        # temperature_c = dhtDevice.temperature
-        temperature_c = 20.4
+        temperature_c = dhtDevice.temperature
+        # temperature_c = 20.4
 
     except RuntimeError as error:
         print(error.args[0])
         time.sleep(2.0)
         continue
     except Exception as error:
-        # dhtDevice.exit()
+        dhtDevice.exit()
         raise error
 
     print("Temp: {:.1f} C".format(temperature_c))
