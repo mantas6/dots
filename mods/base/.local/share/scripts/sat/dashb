@@ -25,7 +25,7 @@ while true; do
         clear
         echo "$text"
 
-        [ "$exit_code" != 0 ] && echo -e '\e[41;97m<!>\e[0m'
+        [ "$exit_code" != 0 ] && echo -e '\e[41;97m <!> \e[0m'
 
         last_checksum="$checksum"
     fi
