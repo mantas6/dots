@@ -183,9 +183,9 @@ swap-main:
   #   key: s
 
 # Select fullscreen layout
-# select-fullscreen-layout:
-  #   mod: mod1
-  #   key: d
+select-fullscreen-layout:
+    mod: mod2
+    key: d
 
 # Select column layout
 # select-column-layout:
