@@ -31,32 +31,6 @@ class InspireCommand extends Command
      */
     public function handle(): void
     {
-        $out = new BufferedOutput(decorated: true);
-        $table = new Table($out);
-
-        $rows = [
-            ['a' => '100', 'title' => '::Oranges', 'id' => '1', 'abc' => new TableCell('Testas', options: [
-                'style' => new TableCellStyle(['fg' => 'red']),
-            ])],
-            ['a' => '201', 'title' => '::Apples', 'id' => '2', 'abc' => ''],
-            ['a' => '300', 'title' => '::Grapefruit', 'id' => '3', 'abc' => ''],
-        ];
-
-        $table->setStyle('compact')
-            ->setRows($rows)
-            ->render();
-
-        $str = $out->fetch();
-
-        $result = fzf(
-            explode(PHP_EOL, $str),
-            [
-                'd' => '::',
-                'with-nth' => '2..',
-                'ansi' => true,
-            ],
-        );
-
-        dd($result);
+        fzf(['test1', 'test2', 'test3'], preview: fn ($input) => strtoupper($input));
     }
 }

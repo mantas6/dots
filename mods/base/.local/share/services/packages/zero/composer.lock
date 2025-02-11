@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1b063e8d2813165aa6b9773ef4a7633e",
+    "content-hash": "c0f1abce0072b0fd23e4292680a60585",
     "packages": [
         {
             "name": "brick/math",
@@ -822,16 +822,16 @@
         },
         {
             "name": "guzzlehttp/uri-template",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/uri-template.git",
-                "reference": "ecea8feef63bd4fef1f037ecb288386999ecc11c"
+                "reference": "30e286560c137526eccd4ce21b2de477ab0676d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/uri-template/zipball/ecea8feef63bd4fef1f037ecb288386999ecc11c",
-                "reference": "ecea8feef63bd4fef1f037ecb288386999ecc11c",
+                "url": "https://api.github.com/repos/guzzle/uri-template/zipball/30e286560c137526eccd4ce21b2de477ab0676d2",
+                "reference": "30e286560c137526eccd4ce21b2de477ab0676d2",
                 "shasum": ""
             },
             "require": {
@@ -888,7 +888,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/uri-template/issues",
-                "source": "https://github.com/guzzle/uri-template/tree/v1.0.3"
+                "source": "https://github.com/guzzle/uri-template/tree/v1.0.4"
             },
             "funding": [
                 {
@@ -904,11 +904,11 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-12-03T19:50:20+00:00"
+            "time": "2025-02-03T10:55:03+00:00"
         },
         {
             "name": "illuminate/bus",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/bus.git",
@@ -961,7 +961,7 @@
         },
         {
             "name": "illuminate/cache",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/cache.git",
@@ -1023,7 +1023,7 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
@@ -1079,7 +1079,7 @@
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -1125,7 +1125,7 @@
         },
         {
             "name": "illuminate/config",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/config.git",
@@ -1173,7 +1173,7 @@
         },
         {
             "name": "illuminate/console",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/console.git",
@@ -1239,7 +1239,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1290,7 +1290,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1338,7 +1338,7 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
@@ -1407,7 +1407,7 @@
         },
         {
             "name": "illuminate/events",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/events.git",
@@ -1462,7 +1462,7 @@
         },
         {
             "name": "illuminate/filesystem",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/filesystem.git",
@@ -1529,7 +1529,7 @@
         },
         {
             "name": "illuminate/http",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/http.git",
@@ -1590,7 +1590,7 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1636,7 +1636,7 @@
         },
         {
             "name": "illuminate/pipeline",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pipeline.git",
@@ -1684,7 +1684,7 @@
         },
         {
             "name": "illuminate/process",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/process.git",
@@ -1735,7 +1735,7 @@
         },
         {
             "name": "illuminate/session",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/session.git",
@@ -1792,7 +1792,7 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
@@ -1869,7 +1869,7 @@
         },
         {
             "name": "illuminate/testing",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/testing.git",
@@ -1928,7 +1928,7 @@
         },
         {
             "name": "illuminate/view",
-            "version": "v11.41.2",
+            "version": "v11.41.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/view.git",
@@ -2578,22 +2578,23 @@
         },
         {
             "name": "mantas6/fzf-php",
-            "version": "dev-main",
+            "version": "dev-live-reload",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mantas6/fzf-php.git",
-                "reference": "970380092a950e85db4c0ea28fb638a44812fb07"
+                "reference": "536480a4753e6d105a60962c0728fa758b5502d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mantas6/fzf-php/zipball/970380092a950e85db4c0ea28fb638a44812fb07",
-                "reference": "970380092a950e85db4c0ea28fb638a44812fb07",
+                "url": "https://api.github.com/repos/mantas6/fzf-php/zipball/536480a4753e6d105a60962c0728fa758b5502d0",
+                "reference": "536480a4753e6d105a60962c0728fa758b5502d0",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.3.0",
                 "symfony/console": "^7.0",
-                "symfony/process": "^7.0"
+                "symfony/process": "^7.0",
+                "symfony/string": "^7.0"
             },
             "require-dev": {
                 "laravel/pint": "^1.20.0",
@@ -2604,7 +2605,6 @@
                 "rector/rector": "^1.2.10",
                 "symfony/var-dumper": "^7.2.3"
             },
-            "default-branch": true,
             "bin": [
                 "bin/fzf-php-install",
                 "bin/fzf-php-socket"
@@ -2639,9 +2639,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mantas6/fzf-php/issues",
-                "source": "https://github.com/mantas6/fzf-php/tree/main"
+                "source": "https://github.com/mantas6/fzf-php/tree/live-reload"
             },
-            "time": "2025-01-30T12:46:01+00:00"
+            "time": "2025-02-11T10:48:58+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -7413,16 +7413,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.2",
+            "version": "2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "7d08f569e582ade182a375c366cbd896eccadd3a"
+                "reference": "8f99e18eb775dbaf6460c95fa0b65312da9c746a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/7d08f569e582ade182a375c366cbd896eccadd3a",
-                "reference": "7d08f569e582ade182a375c366cbd896eccadd3a",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8f99e18eb775dbaf6460c95fa0b65312da9c746a",
+                "reference": "8f99e18eb775dbaf6460c95fa0b65312da9c746a",
                 "shasum": ""
             },
             "require": {
@@ -7467,7 +7467,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-21T14:54:06+00:00"
+            "time": "2025-02-10T08:25:21+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -7895,21 +7895,21 @@
         },
         {
             "name": "rector/rector",
-            "version": "2.0.7",
+            "version": "2.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "e70d681f6a0c361a63e6825897cd97746436f015"
+                "reference": "4393230e478c0006795770fe74c223b5c64ed68c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/e70d681f6a0c361a63e6825897cd97746436f015",
-                "reference": "e70d681f6a0c361a63e6825897cd97746436f015",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/4393230e478c0006795770fe74c223b5c64ed68c",
+                "reference": "4393230e478c0006795770fe74c223b5c64ed68c",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4|^8.0",
-                "phpstan/phpstan": "^2.1.1"
+                "phpstan/phpstan": "^2.1.3"
             },
             "conflict": {
                 "rector/rector-doctrine": "*",
@@ -7942,7 +7942,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/2.0.7"
+                "source": "https://github.com/rectorphp/rector/tree/2.0.9"
             },
             "funding": [
                 {
@@ -7950,7 +7950,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-19T09:41:28+00:00"
+            "time": "2025-02-10T08:14:01+00:00"
         },
         {
             "name": "sebastian/cli-parser",
