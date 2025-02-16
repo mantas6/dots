@@ -59,7 +59,7 @@ $generator = new class {
                         length: rand(2, 4),
                     );
 
-                    $sentences[] = ucfirst(
+                    $sentences[] = mb_ucfirst(
                         implode(' ', $sentence)
                     );
                 }
