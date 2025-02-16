@@ -32,4 +32,4 @@ processed_count=$((end_count - start_count))
 targeted_count=$(echo "$target_files" | wc -l)
 errors_count=$((targeted_count - processed_count))
 
-photosync-notify "Processed: $processed_count, Errors: $errors_count, Total: $end_count" &
+photosync-notify "Processed: $processed_count, Errors: $errors_count, Total: $end_count"
