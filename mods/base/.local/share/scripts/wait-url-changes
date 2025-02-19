@@ -10,9 +10,7 @@ curl -s "$url" > "$new"
 curl -s "$url" > "$old"
 
 while true; do
-    proposed=$(curl -sf "$url")
-
-    [ -n "$proposed" ] && new="$proposed"
+    new=$(curl -s "$url")
 
     if ! cmp -s "$old" "$new"; then
       exit 0
