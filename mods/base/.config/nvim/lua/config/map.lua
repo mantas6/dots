@@ -25,6 +25,7 @@ vim.api.nvim_set_keymap('n', '<leader>ep', ':e presentation.md <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>ed', ':e *compose.y* <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>en', ':e .env <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>er', ':e README.md <CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>ei', ':e .gitignore <CR>', {})
 
 -- alias :W to :w
 vim.api.nvim_command('command W write')
