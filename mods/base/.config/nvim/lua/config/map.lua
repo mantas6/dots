@@ -15,7 +15,6 @@ vim.api.nvim_set_keymap('n', '<leader>yd', ':silent !dirname % | xc<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>yf', ':silent !basename % | xc<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>ya', ':silent !echo %:p | xc<CR>', {})
 
-vim.api.nvim_set_keymap('n', '<leader>bq', ':Quickmath <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>bm', ':silent w | :silent !zero fmt %:p | :e <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>w', ':silent w | :silent !./tinker-autocmd % <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>W', ':silent w | !./tinker-autocmd % <CR>', {})
