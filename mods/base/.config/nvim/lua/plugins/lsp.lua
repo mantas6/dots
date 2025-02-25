@@ -30,6 +30,7 @@ return {
         "jsonls",
         "gopls",
         "pyright",
+        "ts_ls",
       },
       handlers = {
         lsp.default_setup,
