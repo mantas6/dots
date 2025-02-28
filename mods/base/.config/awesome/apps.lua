@@ -4,10 +4,8 @@ local gears = require("gears")
 return function()
   local focused = awful.screen.focused()
 
-  local handle = io.popen("uname -n")
-  local hostname = handle:read("*a")
-  handle:close()
-
+  -- todo: fix
+  local hostname = os.getenv('HOST') or ''
   local apps = {}
 
   if string.find(hostname, '13') then
