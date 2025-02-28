@@ -28,20 +28,20 @@ return function()
         'chromium https://discord.com/channels/@me',
       }
     },
---     {
---       tag = 4,
---       exec = {
---         terminal_cmd,
--- 
---         function()
---           local client = focused.tags[1]:clients()[2]
--- 
---           if client then
---             client:toggle_tag(focused.tags[4])
---           end
---         end,
---       }
---     },
+    --     {
+    --       tag = 4,
+    --       exec = {
+    --         terminal_cmd,
+    --
+    --         function()
+    --           local client = focused.tags[1]:clients()[2]
+    --
+    --           if client then
+    --             client:toggle_tag(focused.tags[4])
+    --           end
+    --         end,
+    --       }
+    --     },
     {
       tag = 8,
       exec = {
@@ -56,6 +56,30 @@ return function()
       }
     },
   }
+
+  if os.getenv('HOST') == 'X13' then
+    apps = {
+      {
+        tag = 1,
+        exec = {
+          'sesh connect generic',
+          terminal_cmd .. ' attach-session -t generic',
+        }
+      },
+      {
+        tag = 2,
+        exec = {
+          'chromium --app=https://messenger.com',
+        }
+      },
+      {
+        tag = 3,
+        exec = {
+          'chromium --new-window https://gmail.com',
+        }
+      },
+    }
+  end
 
   local timeout = 0
 
