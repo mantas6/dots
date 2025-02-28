@@ -6,7 +6,7 @@ return function()
 
   local apps = {}
 
-  if os.getenv('HOST') == 'X13' then
+  if string.find(os.getenv('HOST') or '', '13') then
     apps = {
       {
         tag = 1,
