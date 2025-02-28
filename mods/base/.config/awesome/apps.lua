@@ -4,58 +4,7 @@ local gears = require("gears")
 return function()
   local focused = awful.screen.focused()
 
-  local apps = {
-    {
-      tag = 1,
-      exec = {
-        'chromium --new-window https://chatgpt.com',
-        'sesh connect generic',
-        terminal_cmd .. ' attach-session -t generic',
-      }
-    },
-    {
-      tag = 2,
-      exec = {
-        'chromium --app=https://messenger.com',
-        'chromium',
-      }
-    },
-    {
-      tag = 3,
-      exec = {
-        'chromium --new-window https://www.youtube.com/feed/subscriptions',
-        'chromium --new-window https://www.netflix.com/browse',
-        'chromium https://discord.com/channels/@me',
-      }
-    },
-    --     {
-    --       tag = 4,
-    --       exec = {
-    --         terminal_cmd,
-    --
-    --         function()
-    --           local client = focused.tags[1]:clients()[2]
-    --
-    --           if client then
-    --             client:toggle_tag(focused.tags[4])
-    --           end
-    --         end,
-    --       }
-    --     },
-    {
-      tag = 8,
-      exec = {
-        'chromium --new-window ' .. os.getenv('SAT_BASE_URL') .. '/resources/transactions',
-        'chromium --new-window ' .. os.getenv('SAT_BASE_URL') .. '/resources/articles',
-      }
-    },
-    {
-      tag = 9,
-      exec = {
-        'chromium --app=http://l4/' .. os.date('%Y') .. '.html',
-      }
-    },
-  }
+  local apps = {}
 
   if os.getenv('HOST') == 'X13' then
     apps = {
@@ -76,6 +25,59 @@ return function()
         tag = 3,
         exec = {
           'chromium --new-window https://gmail.com',
+        }
+      },
+    }
+  else
+    apps = {
+      {
+        tag = 1,
+        exec = {
+          'chromium --new-window https://chatgpt.com',
+          'sesh connect generic',
+          terminal_cmd .. ' attach-session -t generic',
+        }
+      },
+      {
+        tag = 2,
+        exec = {
+          'chromium --app=https://messenger.com',
+          'chromium',
+        }
+      },
+      {
+        tag = 3,
+        exec = {
+          'chromium --new-window https://www.youtube.com/feed/subscriptions',
+          'chromium --new-window https://www.netflix.com/browse',
+          'chromium https://discord.com/channels/@me',
+        }
+      },
+      --     {
+      --       tag = 4,
+      --       exec = {
+      --         terminal_cmd,
+      --
+      --         function()
+      --           local client = focused.tags[1]:clients()[2]
+      --
+      --           if client then
+      --             client:toggle_tag(focused.tags[4])
+      --           end
+      --         end,
+      --       }
+      --     },
+      {
+        tag = 8,
+        exec = {
+          'chromium --new-window ' .. os.getenv('SAT_BASE_URL') .. '/resources/transactions',
+          'chromium --new-window ' .. os.getenv('SAT_BASE_URL') .. '/resources/articles',
+        }
+      },
+      {
+        tag = 9,
+        exec = {
+          'chromium --app=http://l4/' .. os.date('%Y') .. '.html',
         }
       },
     }
