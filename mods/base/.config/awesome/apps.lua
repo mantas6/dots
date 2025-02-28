@@ -5,7 +5,8 @@ return function()
   local focused = awful.screen.focused()
 
   -- todo: fix
-  local hostname = os.getenv('HOST') or ''
+  local hostname = io.popen("uname -n"):read("*l") -- Get the hostname
+
   local apps = {}
 
   if string.find(hostname, '13') then
