@@ -4,8 +4,8 @@ local gears = require("gears")
 return function()
   local focused = awful.screen.focused()
 
-  -- todo: fix
-  local hostname = io.popen("uname -n"):read("*l") -- Get the hostname
+  local hostname = io.popen("uname -n"):read("*l")
+  local satUrl = io.popen("sat-base-url"):read("*l")
 
   local apps = {}
 
@@ -73,8 +73,8 @@ return function()
       {
         tag = 8,
         exec = {
-          'chromium --new-window ' .. os.getenv('SAT_BASE_URL') .. '/resources/transactions',
-          'chromium --new-window ' .. os.getenv('SAT_BASE_URL') .. '/resources/articles',
+          'chromium --new-window ' .. satUrl .. '/resources/transactions',
+          'chromium --new-window ' .. satUrl .. '/resources/articles',
         }
       },
       {
