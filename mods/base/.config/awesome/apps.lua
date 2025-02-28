@@ -4,9 +4,10 @@ local gears = require("gears")
 return function()
   local focused = awful.screen.focused()
 
+  local hostname = os.getenv('HOST') or ''
   local apps = {}
 
-  if string.find(os.getenv('HOST') or '', '13') then
+  if string.find(hostname, '13') then
     apps = {
       {
         tag = 1,
