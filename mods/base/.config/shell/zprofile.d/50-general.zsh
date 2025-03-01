@@ -58,4 +58,6 @@ export PATH="$PATH:$(find "$HOME"/.local/share/scripts/ -type d | paste -sd ':' 
 
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 
+[ -d "$HOME/.config/composer/vendor/bin" ] && export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+
 [ -f '/etc/profile.d/nix.sh' ] && source '/etc/profile.d/nix.sh'
