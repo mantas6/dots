@@ -74,6 +74,7 @@ alias vse="(cd $HOME/.local/share/scripts && gf)"
 alias vaw="(cd $HOME/.config/awesome && gf)"
 alias vsh="(cd $HOME/.config/shell && gf)"
 alias vrc="(cd $HOME/Repos/dotfiles && gf)"
+alias vne="(cd $HOME/.config/nvim && gf)"
 
 # Networking
 alias pingg="ping google.com"
