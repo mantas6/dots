@@ -34,6 +34,7 @@ search.nixos.org/options
 search.nixos.org/packages
 nixos.wiki/wiki/Configuration_Collection
 nixos.wiki/wiki/Main_Page
+noogle.dev
 
 # Weather
 meteo.lt/prognozes/specialisto-komentaras
@@ -46,5 +47,6 @@ www.kalendorius.today/nedarbo-dienos/2025
 
 www.autobusubilietai.lt
 
+# Art
 artvee.com
 amiaopensource.github.io/ffmprovisr
