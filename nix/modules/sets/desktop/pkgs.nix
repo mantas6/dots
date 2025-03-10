@@ -13,7 +13,7 @@
       picom
       dex
       redshift
-      unclutter
+      # unclutter
       numlockx
 
       (
