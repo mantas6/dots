@@ -31,6 +31,7 @@
 
       lazygit
       lazydocker
+      xh
 
       nixd
       alejandra
