@@ -4,23 +4,13 @@
   pkgs,
   ...
 }: {
-  config = lib.mkIf (config.gpu.type == "nvidia") {
+  config = lib.mkIf (lib.elem "nvidia" config.features) {
     nixpkgs.config.allowUnfree = true;
 
     # Enable OpenGL
     hardware.graphics = {
       enable = true;
     };
-
-    hardware.nvidia-container-toolkit.enable = true;
-
-    # https://github.com/NixOS/nixpkgs/issues/337873#issuecomment-2332332343
-    # virtualisation.docker.daemon.settings.features.cdi = true;
-    # virtualisation.docker.rootless.daemon.settings.cdi-spec-dirs = ["/var/run/cdi/"];
-
-    environment.systemPackages = with pkgs; [
-      nvidia-docker
-    ];
 
     # Load nvidia driver for Xorg and Wayland
     services.xserver.videoDrivers = ["nvidia"];

@@ -8,7 +8,7 @@
   users.users.mantas = {
     isNormalUser = true;
     password = "2";
-    extraGroups = ["wheel" "docker"];
+    extraGroups = ["wheel"];
   };
 
   environment.variables.EDITOR = "${pkgs.neovim}/bin/nvim";
