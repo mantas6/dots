@@ -12,7 +12,10 @@
 
         displayManager.startx.enable = true;
 
-        xkb.layout = "us,lt";
+        xkb = {
+          layout = "us,lt";
+          options = "ctrl:swapcaps";
+        };
       };
 
       libinput.mouse = {
