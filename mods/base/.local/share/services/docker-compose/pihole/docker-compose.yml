@@ -10,7 +10,7 @@ services:
       - "8050:80/tcp"
     environment:
       TZ: 'Europe/Vilnius'
-      WEBPASSWORD: ${WEBPASSWORD}
+      FTLCONF_webserver_api_password: ${WEBPASSWORD}
     # Volumes store your data between container upgrades
     volumes:
       - './data/etc-pihole:/etc/pihole'
