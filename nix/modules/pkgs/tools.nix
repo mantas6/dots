@@ -15,6 +15,7 @@
     trash-cli
     gh
     gum
+    glow
     fzf
     delta
     unzip
