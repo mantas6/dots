@@ -1,5 +1,5 @@
 {
-  pkgs,
+  pkgs-unstable,
   lib,
   config,
   ...
@@ -12,7 +12,7 @@
     # lua_ls fix
     programs.nix-ld.enable = true;
 
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages = with pkgs-unstable; [
       neovim
       tmux
       sesh
