@@ -23,6 +23,11 @@
     btop
     htop
 
+    zsh-autosuggestions
+    zsh-autocomplete
+    zsh-syntax-highlighting
+    zsh-fzf-tab
+
     pciutils
   ];
 
