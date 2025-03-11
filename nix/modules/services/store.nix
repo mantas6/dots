@@ -2,10 +2,10 @@
   nix = {
     settings.experimental-features = ["nix-command" "flakes"];
 
-    # optimise = {
-    #   automatic = true;
-    #   dates = ["weekly"];
-    # };
+    optimise = {
+      automatic = true;
+      dates = ["weekly"];
+    };
 
     gc = {
       automatic = true;
