@@ -17,8 +17,8 @@
       tmux
       sesh
 
-      php83
-      php83Packages.composer
+      php84
+      php84Packages.composer
       nodejs_22
       go
       gcc
