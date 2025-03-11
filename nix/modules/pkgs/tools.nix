@@ -21,7 +21,6 @@
     sysz
     htop
     btop
-    htop
 
     zsh-autosuggestions
     zsh-autocomplete

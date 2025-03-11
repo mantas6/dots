@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.desktop.enable {
+  config = lib.mkIf (lib.elem "desktop" config.features) {
     services = {
       xserver = {
         enable = true;

@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf (config.gpu.type == "amd") {
+  config = lib.mkIf (lib.elem "amd" config.features) {
     hardware.graphics = {
       enable = true;
       # enable32Bit = true;

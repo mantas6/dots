@@ -10,11 +10,7 @@
     ./pkgs.nix
   ];
 
-  options = {
-    desktop.enable = lib.mkEnableOption "Enable desktop";
-  };
-
-  config = lib.mkIf config.desktop.enable {
+  config = lib.mkIf (lib.elem "desktop" config.features) {
     hardware.bluetooth.enable = true;
 
     # location.provider = "manual";

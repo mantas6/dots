@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  config = lib.mkIf config.desktop.enable {
+  config = lib.mkIf (lib.elem "desktop" config.features) {
     fonts.packages = with pkgs; [
       nerd-fonts.anonymice
       ubuntu_font_family

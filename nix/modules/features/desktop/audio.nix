@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.desktop.enable {
+  config = lib.mkIf (lib.elem "desktop" config.features) {
     # rtkit is optional but recommended
     security.rtkit.enable = true;
     services.pipewire = {

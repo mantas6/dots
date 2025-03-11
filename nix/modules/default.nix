@@ -1,12 +1,12 @@
 {...}: {
   imports = [
-    ./hardware
     ./pkgs
     ./services
-    ./sets
+    ./features
     ./user
     ./bootloader.nix
     ./intl.nix
     ./network.nix
+    ./power.nix
   ];
 }

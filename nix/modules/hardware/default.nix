@@ -1,6 +1,0 @@
-{...}: {
-  imports = [
-    ./graphics
-    ./power.nix
-  ];
-}
