@@ -7,19 +7,17 @@
   };
 
   outputs = {
-    self,
     nixpkgs,
     nixpkgs-unstable,
     ...
   }: let
     system = "x86_64-linux";
-    lib = nixpkgs.lib;
     pkgs = nixpkgs.legacyPackages.${system};
     pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
   in {
-    formatter.x86_64-linux = pkgs.legacyPackages.x86_64-linux.alejandra;
+    formatter.x86_64-linux = pkgs.alejandra;
 
-    nixosConfigurations.ix = lib.nixosSystem {
+    nixosConfigurations.ix = nixpkgs.lib.nixosSystem {
       modules = [./nix/hosts/ix];
 
       specialArgs = {
