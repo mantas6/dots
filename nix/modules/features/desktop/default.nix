@@ -8,6 +8,7 @@
     ./fonts.nix
     ./audio.nix
     ./pkgs.nix
+    ./pass.nix
   ];
 
   config = lib.mkIf (lib.elem "desktop" config.features) {

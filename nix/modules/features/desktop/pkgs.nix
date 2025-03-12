@@ -22,10 +22,6 @@
         }
       )
 
-      pass
-      rofi-pass
-      gnupg
-
       lxappearance
       gnome-themes-extra
       pavucontrol
