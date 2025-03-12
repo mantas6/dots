@@ -2,11 +2,16 @@
   pkgs,
   lib,
   config,
+  pkgs-unstable,
   ...
 }: let
   serviceName = "tldr-update";
 in {
   config = lib.mkIf (lib.elem "develop" config.features) {
+    environment.systemPackages = with pkgs-unstable; [
+      tealdeer
+    ];
+
     systemd.user.services.${serviceName} = {
       script = "${pkgs.tealdeer}/bin/tldr -u";
 
