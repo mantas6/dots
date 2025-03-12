@@ -4,6 +4,9 @@
 mods='base git'
 
 case "$(uname -n)" in
+    amd|X13)
+        mods="$mods arch"
+        ;;
     l4)
         mods="base" 
         ;;
