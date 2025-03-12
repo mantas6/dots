@@ -18,6 +18,11 @@
     "develop"
   ];
 
+  # https://nixos.wiki/wiki/Power_Management
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="pci", DRIVER=="pcieport", ATTR{power/wakeup}="disabled"
+  '';
+
   networking.hostName = "ix";
 
   system.stateVersion = "24.05";
