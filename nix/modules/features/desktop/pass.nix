@@ -15,6 +15,7 @@
     environment.systemPackages = with pkgs; [
       pass
       rofi-pass
+      pwgen
     ];
   };
 }
