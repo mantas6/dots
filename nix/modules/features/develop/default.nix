@@ -16,6 +16,7 @@
       neovim
       tmux
       sesh
+      direnv
 
       php84
       php84Packages.composer
