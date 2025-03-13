@@ -1,6 +1,12 @@
 {lib, ...}: {
-  networking.interfaces.eth0.wakeOnLan.enable = true;
-  networking.usePredictableInterfaceNames = false;
+  networking = {
+    interfaces = {
+      eth0.wakeOnLan.enable = true;
+      eth1.wakeOnLan.enable = true;
+    };
 
-  networking.firewall.enable = lib.mkDefault false;
+    usePredictableInterfaceNames = false;
+
+    firewall.enable = lib.mkDefault false;
+  };
 }
