@@ -11,6 +11,8 @@
       enable = true;
     };
 
+    boot.kernelParams = ["module_blacklist=amdgpu"];
+
     # Load nvidia driver for Xorg and Wayland
     services.xserver.videoDrivers = ["nvidia"];
 
