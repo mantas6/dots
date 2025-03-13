@@ -5,7 +5,7 @@
     ./features
     ./user
     ./bootloader.nix
-    ./intl.nix
+    ./locale.nix
     ./network.nix
     ./power.nix
   ];
