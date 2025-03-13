@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }: {
   config = lib.mkIf (lib.elem "nvidia" config.features) {

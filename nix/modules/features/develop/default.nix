@@ -36,6 +36,7 @@
 
       nixd
       alejandra
+      deadnix
     ];
   };
 }
