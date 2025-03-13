@@ -32,17 +32,13 @@
     pciutils
   ];
 
-  environment.etc."share/zsh/zsh-autosuggestions.zsh".source
-    = "${pkgs-unstable.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh";
+  environment.etc."share/zsh/zsh-autosuggestions.zsh".source = "${pkgs-unstable.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh";
 
-  environment.etc."share/zsh/zsh-syntax-highlighting.zsh".source
-    = "${pkgs-unstable.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
+  environment.etc."share/zsh/zsh-syntax-highlighting.zsh".source = "${pkgs-unstable.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
 
-  environment.etc."share/zsh/fzf-tab.plugin.zsh".source
-    = "${pkgs-unstable.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh";
+  environment.etc."share/zsh/fzf-tab.plugin.zsh".source = "${pkgs-unstable.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh";
 
-  environment.etc."share/zsh/completions".source
-    = "${pkgs-unstable.zsh-completions}/share/zsh";
+  environment.etc."share/zsh/completions".source = "${pkgs-unstable.zsh-completions}/share/zsh";
 
   programs.nh = {
     enable = true;
