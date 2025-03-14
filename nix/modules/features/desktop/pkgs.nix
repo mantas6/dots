@@ -25,12 +25,11 @@
 
       lxappearance
       gnome-themes-extra
-      pavucontrol
+      feh
 
       alacritty
       chromium
       firefox
-      feh
     ];
   };
 }
