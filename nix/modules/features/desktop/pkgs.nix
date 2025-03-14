@@ -16,6 +16,7 @@
       unclutter
       numlockx
       xssstate
+      maim
 
       (
         rofi.override {
