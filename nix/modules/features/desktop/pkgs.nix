@@ -15,6 +15,7 @@
       redshift
       unclutter
       numlockx
+      xssstate
 
       (
         rofi.override {
