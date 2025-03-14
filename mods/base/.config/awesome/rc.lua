@@ -253,14 +253,14 @@ awful.screen.connect_for_each_screen(function(s)
   -- Add widgets to the wibox
   s.mywibox:setup {
     layout = wibox.layout.align.horizontal,
-    {     -- Left widgets
+    { -- Left widgets
       layout = wibox.layout.fixed.horizontal,
       -- mylauncher,
       s.mytaglist,
       s.mypromptbox,
     },
-    s.mytasklist,     -- Middle widget
-    {                 -- Right widgets
+    s.mytasklist, -- Middle widget
+    {             -- Right widgets
       layout = wibox.layout.fixed.horizontal,
       -- statusbar.track,
       statusbar.updates,
@@ -465,7 +465,7 @@ clientkeys = gears.table.join(
   awful.key({ modkey, "Shift" }, "o", function(c) c:move_to_screen() end,
     { description = "move to screen", group = "client" }),
   awful.key({ modkey, }, "t", function(c) c.ontop = not c.ontop end,
-    { description = "toggle keep on top", group = "client" }),
+    { description = "toggle keep on top", group = "client" })
   --    awful.key({ modkey,           }, "n",
   --        function (c)
   --            -- The client currently has the input focus, so it cannot be
@@ -473,18 +473,18 @@ clientkeys = gears.table.join(
   --            c.minimized = true
   --        end ,
   --        {description = "minimize", group = "client"}),
-  awful.key({ modkey, "Shift" }, "f",
-    function(c)
-      c.fullscreen = not c.fullscreen
-      c:raise()
-    end,
-    { description = "toggle fullscreen", group = "client" }),
-  awful.key({ modkey, }, "f",
-    function(c)
-      c.maximized = not c.maximized
-      c:raise()
-    end,
-    { description = "(un)maximize", group = "client" })
+  -- awful.key({ modkey, "Shift" }, "f",
+  --   function(c)
+  --     c.fullscreen = not c.fullscreen
+  --     c:raise()
+  --   end,
+  --   { description = "toggle fullscreen", group = "client" }),
+  -- awful.key({ modkey, }, "f",
+  --   function(c)
+  --     c.maximized = not c.maximized
+  --     c:raise()
+  --   end,
+  --   { description = "(un)maximize", group = "client" })
 --    awful.key({ modkey, "Control" }, "m",
 --        function (c)
 --            c.maximized_vertical = not c.maximized_vertical
@@ -611,8 +611,8 @@ awful.rules.rules = {
   {
     rule_any = {
       instance = {
-        "DTA",     -- Firefox addon DownThemAll.
-        "copyq",   -- Includes session name in class.
+        "DTA",   -- Firefox addon DownThemAll.
+        "copyq", -- Includes session name in class.
         "pinentry",
       },
       class = {
@@ -620,9 +620,9 @@ awful.rules.rules = {
         "Blueman-manager",
         "Gpick",
         "Kruler",
-        "MessageWin",    -- kalarm.
+        "MessageWin",  -- kalarm.
         -- "Sxiv",
-        "Tor Browser",   -- Needs a fixed window size to avoid fingerprinting by screen size.
+        "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
         "Wpa_gui",
         "veromix",
         "xtightvncviewer",
@@ -632,11 +632,11 @@ awful.rules.rules = {
       -- Note that the name property shown in xprop might be set slightly after creation of the client
       -- and the name shown there might not match defined rules here.
       name = {
-        "Event Tester",   -- xev.
+        "Event Tester", -- xev.
       },
       role = {
-        "AlarmWindow",     -- Thunderbird's calendar.
-        "ConfigManager",   -- Thunderbird's about:config.
+        "AlarmWindow",   -- Thunderbird's calendar.
+        "ConfigManager", -- Thunderbird's about:config.
         -- "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
       }
     },
@@ -689,20 +689,20 @@ client.connect_signal("request::titlebars", function(c)
   )
 
   awful.titlebar(c):setup {
-    {     -- Left
+    { -- Left
       awful.titlebar.widget.iconwidget(c),
       buttons = buttons,
       layout  = wibox.layout.fixed.horizontal
     },
-    {         -- Middle
-      {       -- Title
+    {   -- Middle
+      { -- Title
         align  = "center",
         widget = awful.titlebar.widget.titlewidget(c)
       },
       buttons = buttons,
       layout  = wibox.layout.flex.horizontal
     },
-    {     -- Right
+    { -- Right
       awful.titlebar.widget.floatingbutton(c),
       awful.titlebar.widget.maximizedbutton(c),
       awful.titlebar.widget.stickybutton(c),
