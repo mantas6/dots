@@ -53,7 +53,7 @@ return function()
         exec = {
           'chromium --new-window https://www.youtube.com/feed/subscriptions',
           'chromium --new-window https://www.netflix.com/browse',
-          'chromium https://discord.com/channels/@me',
+          'chromium',
         }
       },
       --     {
