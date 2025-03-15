@@ -3,6 +3,7 @@
   lib,
   ...
 }: let
+  # TODO: make argument as an array
   sharePkg = pkg: {
     "share/${lib.getName pkg.name}".source = "${pkg}";
   };
