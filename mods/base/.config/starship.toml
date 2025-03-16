@@ -1,4 +1,4 @@
-format = """
+format = """$line_break\
 $hostname\
 $directory\
 $git_branch\
@@ -7,6 +7,8 @@ $git_status\
 $cmd_duration\
 $line_break\
 $character"""
+
+add_newline = false
 
 [directory]
 style = "blue"
@@ -41,3 +43,6 @@ style = "yellow"
 
 [hostname]
 format = '[$hostname](bold red) '
+
+[profiles]
+transient = """$character"""
