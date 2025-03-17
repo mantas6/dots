@@ -43,6 +43,3 @@ style = "yellow"
 
 [hostname]
 format = '[$hostname](bold red) '
-
-[profiles]
-transient = """$character"""
