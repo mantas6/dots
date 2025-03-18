@@ -41,5 +41,7 @@ return {
 
     vim.keymap.set('n', '<leader>p"', builtin.registers, {})
     vim.keymap.set('n', '<leader>pq', builtin.command_history, {})
+
+    vim.keymap.set('n', '<leader>pl', builtin.lsp_document_symbols, {})
   end
 }
