@@ -8,7 +8,7 @@ zt() {
     out=$(command zt "$@") && eval "$out"
 }
 
-j() {
+f() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
 	yazi "$@" --cwd-file="$tmp"
 
