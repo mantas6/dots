@@ -4,11 +4,17 @@
   inputs = {
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     nixpkgs.url = "nixpkgs/nixos-24.11";
+
+    disko = {
+      url = "nix-community/disko";
+      follows = "nixpkgs";
+    };
   };
 
   outputs = {
     nixpkgs,
     nixpkgs-unstable,
+    disko,
     ...
   }: let
     system = "x86_64-linux";
@@ -24,5 +30,16 @@
         inherit pkgs-unstable;
       };
     };
+
+    # nixosConfigurations.a5 = nixpkgs.lib.nixosSystem {
+    #   modules = [
+    #       disko.nixosModules.disko
+    #       ./nix/hosts/a5
+    #     ];
+    #
+    #   specialArgs = {
+    #     inherit pkgs-unstable;
+    #   };
+    # };
   };
 }
