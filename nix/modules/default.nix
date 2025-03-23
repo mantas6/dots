@@ -8,6 +8,5 @@
     ./locale.nix
     ./network.nix
     ./power.nix
-    ./disks.nix
   ];
 }

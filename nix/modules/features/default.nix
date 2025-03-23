@@ -7,6 +7,7 @@
     ./develop
     ./amd.nix
     ./nvidia.nix
+    ./disks.nix
   ];
 
   options.features = lib.mkOption {
@@ -15,6 +16,7 @@
       "amd"
       "desktop"
       "develop"
+      "disks"
     ]);
 
     default = [];

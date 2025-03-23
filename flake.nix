@@ -33,11 +33,11 @@
 
     # nixosConfigurations.a5 = nixpkgs.lib.nixosSystem {
     #   modules = [
-    #       disko.nixosModules.disko
     #       ./nix/hosts/a5
     #     ];
     #
     #   specialArgs = {
+    #     inherit inputs;
     #     inherit pkgs-unstable;
     #   };
     # };
