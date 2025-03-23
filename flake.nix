@@ -14,9 +14,8 @@
   outputs = {
     nixpkgs,
     nixpkgs-unstable,
-    disko,
     ...
-  }: let
+  } @ inputs: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
     pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
@@ -27,6 +26,7 @@
       modules = [./nix/hosts/ix];
 
       specialArgs = {
+        inherit inputs;
         inherit pkgs-unstable;
       };
     };
