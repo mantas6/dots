@@ -11,7 +11,7 @@ return {
     },
   },
   keys = {
-    { '<leader>so', ':Oil<CR>' },
+    { '<leader>o', ':Oil<CR>' },
   },
   -- Optional dependencies
   -- dependencies = { { "echasnovski/mini.icons", opts = {} } },
