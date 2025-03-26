@@ -44,6 +44,7 @@ alias artisan="de php artisan"
 alias composer="c"
 alias s="sail"
 
+alias ct='a ctl'
 alias pc='precommit'
 alias dup='docker compose up'
 alias dst='docker compose stop'
