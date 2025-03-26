@@ -6,6 +6,8 @@
 
 host="$REMOTE_USER@$REMOTE_HOST"
 
+echo "Host: $host"
+
 if [ -z "$1" ]; then
     files=()
 
