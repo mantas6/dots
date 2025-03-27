@@ -12,6 +12,9 @@
 
         displayManager.startx.enable = true;
 
+        autoRepeatDelay = 250;
+        autoRepeatInterval = 5;
+
         xkb = {
           layout = "us,lt";
           options = "ctrl:swapcaps";
