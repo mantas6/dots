@@ -29,6 +29,7 @@ fi
 
 export GOPATH="$XDG_DATA_HOME"/go
 export GOMODCACHE="$XDG_CACHE_HOME"/go/mod
+export CARGO_HOME="$XDG_DATA_HOME"/cargo
 
 export ATAC_MAIN_DIR="$XDG_CONFIG_HOME/atac"
 export ATAC_KEY_BINDINGS="$XDG_CONFIG_HOME/atac/key.toml"
@@ -59,5 +60,7 @@ export PATH="$PATH:$(find "$HOME"/.local/share/scripts/ -type d | paste -sd ':' 
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 
 [ -d "$HOME/.config/composer/vendor/bin" ] && export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+[ -d "$HOME/.local/share/cargo/bin" ] && export PATH="$HOME/.local/share/cargo/bin:$PATH"
+
 
 [ -f '/etc/profile.d/nix.sh' ] && source '/etc/profile.d/nix.sh'
