@@ -34,6 +34,8 @@
       lazydocker
       xh
 
+      gnumake
+
       nixd
       alejandra
       deadnix
