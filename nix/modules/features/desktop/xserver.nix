@@ -13,7 +13,7 @@
         displayManager.startx.enable = true;
 
         autoRepeatDelay = 250;
-        autoRepeatInterval = 5;
+        autoRepeatInterval = 15;
 
         xkb = {
           layout = "us,lt";
