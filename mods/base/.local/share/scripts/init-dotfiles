@@ -2,5 +2,5 @@
 # Initialize additional packages/repositories
 
 for pkgDir in "$HOME"/.local/share/services/packages/*; do
-    (cd "$pkgDir" && ./build)
+    (cd "$pkgDir" && [ -f build ] && ./build)
 done
