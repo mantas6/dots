@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 # Initialize additional packages/repositories
 
-for pkgDir in "$HOME"/.local/share/services/packages/*; do
+for pkgDir in "$HOME"/Repos/dotfiles/lib/*; do
     (cd "$pkgDir" && [ -f build ] && ./build)
 done
