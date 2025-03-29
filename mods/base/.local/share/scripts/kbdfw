@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+set -e
+
+cd $HOME/Repos/dotfiles/lib/kbd
+
+make

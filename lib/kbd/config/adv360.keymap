@@ -32,7 +32,7 @@
         &kp TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &none                                                            &none &kp Y  &kp U  &kp I     &kp O    &kp P    &kp BSLH
         &kp ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &none           &kp RCTRL &kp LALT &kp RALT  &kp RCTRL           &none &kp H  &kp J  &kp K     &kp L    &kp SEMI &kp SQT
         &kp LSHFT &kp Z     &kp X    &kp C    &kp V      &kp B                            &kp HOME &kp PG_UP                           &kp N  &kp M  &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
-        &mo 2     &kp GRAVE &kp DEL &kp LEFT &kp RIGHT                &kp SPACE &kp BSPC   &kp LGUI  &kp RGUI &kp ENTER &kp SPACE              &kp DOWN &kp UP  &kp LBKT &kp RBKT &mo 2
+        &mo 2     &kp GRAVE &kp DEL &kp LEFT &kp RIGHT                &mt RCTRL SPACE &kp BSPC   &kp LGUI  &kp RGUI &kp ENTER &mt RCTRL SPACE              &kp DOWN &kp UP  &kp LBKT &kp RBKT &mo 2
       >;
     };
     keypad {
