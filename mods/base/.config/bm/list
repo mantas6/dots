@@ -32,6 +32,7 @@ php.net/manual-lookup.php?pattern={}&scope=quickref
 wiki.archlinux.org/index.php?search={}
 laravel.com/docs
 www.nerdfonts.com/cheat-sheet
+zmk.dev/docs/keymaps/list-of-keycodes
 
 # Nix
 search.nixos.org/options
