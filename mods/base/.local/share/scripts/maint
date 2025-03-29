@@ -4,7 +4,7 @@ wait-for-host google.com
 
 [ -x "$(command -v pass)" ] && (pass git pull; pass git push)
 
-(cd "$HOME"/Repos/dotfiles && git pull && ./stow)
+(cd "$DOTS_DIR" && git pull && ./stow)
 
 [ -x "$(command -v newsboat)" ] && echo "Syncing newsboat..." \
     && newsboat -x reload \

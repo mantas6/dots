@@ -2,6 +2,6 @@
 
 set -e
 
-cd $HOME/Repos/dotfiles/lib/kbd
+cd "$DOTS_DIR/lib/kbd"
 
 make

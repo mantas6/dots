@@ -65,8 +65,7 @@ alias q='numbat'
 alias tsr='tmux source-file ~/.config/tmux/tmux.conf'
 alias ts='tmux split-window -h \; split-window -v'
 
-# Dotfiles
-alias dlg="(cd $HOME/Repos/dotfiles && lazygit)"
+alias dlg="(cd $DOTS_DIR && lazygit)"
 
 [ "$(uname)" != 'Darwin' ] && alias cal='cal --monday'
 [ "$(uname)" = 'Darwin' ] && alias cal='cal -A 2'
@@ -76,9 +75,9 @@ alias keepon="xset s off && xset -dpms"
 alias vse="(cd $HOME/.local/share/scripts && gf)"
 alias vaw="(cd $HOME/.config/awesome && gf)"
 alias vsh="(cd $HOME/.config/shell && gf)"
-alias vrc="(cd $HOME/Repos/dotfiles && gf)"
+alias vrc="(cd $DOTS_DIR && gf)"
 alias vne="(cd $HOME/.config/nvim && gf)"
-alias vnx="(cd $HOME/Repos/dotfiles/nix && gf)"
+alias vnx="(cd $DOTS_DIR/nix && gf)"
 
 # Networking
 alias pingg="ping google.com"

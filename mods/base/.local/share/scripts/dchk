@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 # Check for changes in dotfiles repo
 
-cd "$HOME/Repos/dotfiles" || exit 1
+cd "$DOTS_DIR" || exit 1
 
 if [ -n "$(git ls-files --others --exclude-standard)" ]; then
     gum log --level=warn 'Dotfiles: There are untracked files'

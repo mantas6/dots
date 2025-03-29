@@ -3,7 +3,7 @@
 
 set -e
 
-cd "$HOME/Repos/dotfiles"
+cd "$DOTS_DIR"
 
 if [ -z "$(git status --porcelain)" ]; then
     gum log --level=info 'No changes are present'

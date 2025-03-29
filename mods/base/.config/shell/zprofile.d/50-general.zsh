@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+export DOTS_DIR="$HOME/Repos/dotfiles"
+
 # Editor
 if [ -x "$(command -v nvim)" ]; then
     export MANPAGER="nvim +Man! -c 'set nospell'"

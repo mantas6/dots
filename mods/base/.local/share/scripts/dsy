@@ -3,6 +3,6 @@
 
 set -e
 
-cd "$HOME/Repos/dotfiles"
+cd "$DOTS_DIR"
 git pull
 ./stow
