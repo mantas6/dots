@@ -72,7 +72,7 @@ alias dlg="(cd $DOTS_DIR && lazygit)"
 
 alias keepon="xset s off && xset -dpms"
 
-alias vse="(cd $HOME/.local/share/scripts && gf)"
+alias vse="(cd $DOTS_DIR/bin && gf)"
 alias vaw="(cd $HOME/.config/awesome && gf)"
 alias vsh="(cd $HOME/.config/shell && gf)"
 alias vrc="(cd $DOTS_DIR && gf)"

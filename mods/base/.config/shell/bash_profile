@@ -14,7 +14,7 @@ export DOTS_DIR="$HOME/Repos/dotfiles"
 
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 
-export PATH="$PATH:$(find "$HOME"/.local/share/scripts/ -type d | paste -sd ':' -)"
+export PATH="$PATH:$(find "$DOTS_DIR"/bin -type d | paste -sd ':' -)"
 
 [ -x "$(command -v npm)" ] && PATH="$(npm config get prefix)/bin:$PATH"
 
