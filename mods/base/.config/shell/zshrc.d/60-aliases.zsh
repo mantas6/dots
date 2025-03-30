@@ -78,6 +78,7 @@ alias vsh="(cd $HOME/.config/shell && gf)"
 alias vrc="(cd $DOTS_DIR && gf)"
 alias vne="(cd $HOME/.config/nvim && gf)"
 alias vnx="(cd $DOTS_DIR/nix && gf)"
+alias vkb="vi $DOTS_DIR/lib/kbd/config/adv360.keymap"
 
 # Networking
 alias pingg="ping google.com"
