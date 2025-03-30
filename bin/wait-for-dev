@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+stdbuf -oL -- udevadm monitor --udev -s block | while read -r -- _ _ event devpath _; do
+    if [ "$event" = add ]; then
+        devname=$(udevadm info -p /sys/"$devpath" | awk -v FS== '/DEVNAME/ {print $2}')
+
+        if lsblk -o PATH,TYPE | grep 'part' | grep -q "$devname "; then
+            echo "$devname"
+            exit 0
+        fi
+    fi
+done

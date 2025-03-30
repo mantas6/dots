@@ -7,3 +7,23 @@ cd "$DOTS_DIR/lib/kbd"
 trash -v firmware/*
 
 make
+
+exit 0
+
+cd firmware
+
+# Press Mod+macro1
+
+mount_point=$(udisksctl mount -b "$(wait-for-dev)" --no-user-interaction \
+    | grep 'Mounted' \
+    | awk '{print $4}')
+
+cp -v ./*left* "$mount_point"
+
+# Mod+macro3
+
+mount_point=$(udisksctl mount -b "$(wait-for-dev)" --no-user-interaction \
+    | grep 'Mounted' \
+    | awk '{print $4}')
+
+cp -v ./*right* "$mount_point"
