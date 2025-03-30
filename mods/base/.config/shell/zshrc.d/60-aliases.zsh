@@ -57,6 +57,7 @@ alias ld="lazydocker"
 alias glc="git log -1 --pretty=%B"
 
 alias osw="nh os switch"
+alias osc="nix flake check $DOTS_DIR"
 
 alias cmatrix='cmatrix -ab'
 alias ff='fastfetch'
