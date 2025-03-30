@@ -7,6 +7,16 @@
 #include <dt-bindings/zmk/pointing.h>
 
 / {
+    macros {
+        tpfx: tpfx {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_tap &kp RCTRL &kp SPACE>
+                ;
+        };
+    };
+
     behaviors {
       #include "macros.dtsi"
       #include "version.dtsi"
