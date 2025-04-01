@@ -38,12 +38,12 @@ alias zr='cd "$(git rev-parse --show-toplevel)"'
 alias ze='z "$(tmux display-message -p "#S")"'
 alias zf='eval "$(__fzf_cd__)"'
 
-# Laravel
 alias sail="vendor/bin/sail"
 alias artisan="de php artisan"
 alias composer="c"
 alias s="sail"
 
+alias esl='npx eslint --fix'
 alias ct='a ctl'
 alias pc='precommit'
 alias dup='docker compose up'
