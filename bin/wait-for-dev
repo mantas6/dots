@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
+# Watch for plugged in drives
+# Pass -s parameter to get first one and exit
 
 stdbuf -oL -- udevadm monitor --udev -s block | while read -r -- _ _ event devpath _; do
     if [ "$event" = add ]; then
@@ -6,7 +8,7 @@ stdbuf -oL -- udevadm monitor --udev -s block | while read -r -- _ _ event devpa
 
         if lsblk -o PATH,TYPE | grep 'part' | grep -q "$devname "; then
             echo "$devname"
-            exit 0
+            [ "$1" = '-s' ] && exit 0
         fi
     fi
 done

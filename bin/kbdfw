@@ -1,6 +1,12 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-set -e
+set -euo 'pipefail'
+
+mount-drive() {
+    udisksctl mount -b "$(wait-for-dev -s)" --no-user-interaction \
+        | grep 'Mounted' \
+        | awk '{print $4}'
+}
 
 cd "$DOTS_DIR/lib/kbd"
 
@@ -8,22 +14,24 @@ trash -v firmware/*
 
 make
 
-exit 0
-
 cd firmware
 
-# Press Mod+macro1
+echo 'Connect the left side keyboard to USB.'
 
-mount_point=$(udisksctl mount -b "$(wait-for-dev)" --no-user-interaction \
-    | grep 'Mounted' \
-    | awk '{print $4}')
+mount_point=$(mount-drive)
 
-cp -v ./*left* "$mount_point"
+echo 'Press Mod + Macro1'
 
-# Mod+macro3
+cp -v ./*left*.uf2 "$mount_point"
 
-mount_point=$(udisksctl mount -b "$(wait-for-dev)" --no-user-interaction \
-    | grep 'Mounted' \
-    | awk '{print $4}')
+echo 'Power off both keyboards (by unplugging them and making sure the switches are off).'
+echo 'Turn on the left side keyboard with the switch.'
+echo 'Connect the right side keyboard to USB to power it on.'
 
-cp -v ./*right* "$mount_point"
+mount_point=$(mount-drive)
+
+echo 'Press Mod + Macro3'
+
+cp -v ./*right*.uf2 "$mount_point"
+
+echo 'Unplug the right side keyboard and turn it back on.'
