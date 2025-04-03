@@ -44,7 +44,7 @@ alias composer="c"
 alias s="sail"
 
 alias esl='npx eslint --fix'
-alias ct='a ctl'
+alias cl='a ctl'
 alias pc='precommit'
 alias dup='docker compose up'
 alias dst='docker compose stop'
