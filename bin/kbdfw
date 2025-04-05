@@ -12,11 +12,11 @@ flash=1
 
 while getopts 'nf' opt; do
   case ${opt} in
-    n) 
+    n)
         flash=''
         ;;
-    f) 
-        build='' 
+    f)
+        build=''
         ;;
     ?)
       echo "Invalid option: -${OPTARG}."
