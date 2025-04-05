@@ -2,12 +2,6 @@
 
 set -euo 'pipefail'
 
-mount-drive() {
-    udisksctl mount -b "$(wait-for-dev -s)" --no-user-interaction \
-        | grep 'Mounted' \
-        | awk '{print $4}'
-}
-
 cd "$DOTS_DIR/lib/kbd"
 
 trash -v firmware/*

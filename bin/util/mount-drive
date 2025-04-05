@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -euo 'pipefail'
+
+udisksctl mount -b "$@" --no-user-interaction \
+    | grep 'Mounted' \
+    | awk '{print $4}'
