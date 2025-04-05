@@ -1,31 +1,64 @@
 #!/usr/bin/env bash
+# Build and flash keyboard firmware
 
 set -euo 'pipefail'
 
+info() {
+    echo -e "\e[1m>>> $1\e[0m"
+}
+
+build=1
+flash=1
+
+while getopts 'nf' opt; do
+  case ${opt} in
+    n) 
+        flash=''
+        ;;
+    f) 
+        build='' 
+        ;;
+    ?)
+      echo "Invalid option: -${OPTARG}."
+      exit 1
+      ;;
+  esac
+done
+
 cd "$DOTS_DIR/lib/kbd"
 
-trash -v firmware/*
+if [ -n "$build" ]; then
+    rm -vf firmware/*
+    make
+fi
 
-make
+[ -z "$flash" ] && exit 0
 
 cd firmware
 
-echo 'Connect the left side keyboard to USB.'
+count=$(find . -maxdepth 1 -type f -name "*.uf2" | wc -l)
 
-mount_point=$(mount-drive)
+if [ "$count" != 2 ]; then
+   echo "Error: unexpected file count" >&2
+   exit 1
+fi
 
-echo 'Press Mod + Macro1'
+info 'Connect the left side keyboard to USB.'
+info 'Press Mod + Macro1'
+
+dev_name=$(watch-for-drive -d disk -n 1)
+mount_point=$(mount-drive "$dev_name")
 
 cp -v ./*left*.uf2 "$mount_point"
 
-echo 'Power off both keyboards (by unplugging them and making sure the switches are off).'
-echo 'Turn on the left side keyboard with the switch.'
-echo 'Connect the right side keyboard to USB to power it on.'
+info 'Power off both keyboards (by unplugging them and making sure the switches are off).'
+info 'Turn on the left side keyboard with the switch.'
+info 'Connect the right side keyboard to USB to power it on.'
+info 'Press Mod + Macro3'
 
-mount_point=$(mount-drive)
-
-echo 'Press Mod + Macro3'
+dev_name=$(watch-for-drive -d disk -n 1)
+mount_point=$(mount-drive "$dev_name")
 
 cp -v ./*right*.uf2 "$mount_point"
 
-echo 'Unplug the right side keyboard and turn it back on.'
+info 'Unplug the right side keyboard and turn it back on.'

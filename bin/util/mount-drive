@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Mount a drive and return mounted directory
 
 set -euo 'pipefail'
 
