@@ -6,6 +6,10 @@
 #include <dt-bindings/zmk/backlight.h>
 #include <dt-bindings/zmk/pointing.h>
 
+&mt {
+    flavor = "balanced";
+};
+
 / {
     macros {
         tpfx: tmux_prefix {
@@ -14,6 +18,17 @@
             bindings
                 = <&macro_press &kp RCTRL>
                 , <&macro_tap &kp SPACE>
+                , <&macro_release &kp RCTRL>
+                ;
+        };
+
+        ctrl: control_plus {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings
+                = <&macro_press &kp RCTRL>
+                , <&macro_param_1to1>
+                , <&macro_tap &kp MACRO_PLACEHOLDER>
                 , <&macro_release &kp RCTRL>
                 ;
         };
@@ -68,9 +83,9 @@
       display-name = "Fn";
       bindings = <
         &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &tog 1                                           &mo 3 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12
-        &trans &trans &trans &trans &trans &trans  &kp K_PWR                                           &none &trans &kp PG_UP &trans &trans  &trans  &trans
+        &trans &trans &trans &trans &trans &trans  &kp K_PWR                                           &none &trans &kp PG_UP &trans &trans  &ctrl PG_UP  &trans
         &trans &trans &trans &kp PG_DN &trans &homend  &none        &trans &trans &trans &trans        &none &kp LEFT &kp DOWN &kp UP &kp RIGHT  &trans  &trans
-        &trans &trans &trans &trans &trans &trans                      &trans &trans                     &trans &trans &trans &trans  &trans  &trans
+        &trans &trans &trans &trans &trans &trans                      &trans &trans                     &ctrl PG_DN &trans &trans &trans  &trans  &trans
         &trans &trans &trans &trans &trans               &kp SPACE &trans &trans &trans &trans &kp SPACE              &trans &trans &trans  &trans  &trans
       >;
     };
