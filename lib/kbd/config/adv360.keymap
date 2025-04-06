@@ -22,14 +22,16 @@
                 ;
         };
 
-        ctrl: control_plus {
-            compatible = "zmk,behavior-macro-one-param";
-            #binding-cells = <1>;
+        mod: hold_mod {
+            compatible = "zmk,behavior-macro-two-param";
+            #binding-cells = <2>;
             bindings
-                = <&macro_press &kp RCTRL>
-                , <&macro_param_1to1>
+                = <&macro_param_1to1>
+                , <&macro_press &kp MACRO_PLACEHOLDER>
+                , <&macro_param_2to1>
                 , <&macro_tap &kp MACRO_PLACEHOLDER>
-                , <&macro_release &kp RCTRL>
+                , <&macro_param_1to1>
+                , <&macro_release &kp MACRO_PLACEHOLDER>
                 ;
         };
     };
@@ -64,7 +66,7 @@
       bindings = <
         &kp EQUAL &kp N1    &kp N2   &kp N3   &kp N4     &kp N5 &tog 1                                                           &mo 3 &kp N6 &kp N7 &kp N8    &kp N9   &kp N0   &kp MINUS
         &kp TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &kp N6                                                            &kp C_VOL_UP &kp Y  &kp U  &kp I     &kp O    &kp P    &kp BSLH
-        &kp ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &none           &kp RCTRL &kp LALT &kp RALT  &kp RCTRL           &kp C_VOL_DN &kp H  &kp J  &kp K     &kp L    &kp SEMI &kp SQT
+        &kp ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &none           &kp DEL &tpfx &tpfx  &kp DEL           &kp C_VOL_DN &kp H  &kp J  &kp K     &kp L    &kp SEMI &kp SQT
         &kp LSHFT &kp Z     &kp X    &kp C    &kp V      &kp B                            &kp LALT &kp RALT                           &kp N  &kp M  &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
         &mo 2     &kp GRAVE &kp DEL &kp SPACE &tpfx                &mt RCTRL SPACE &kp BSPC   &kp LGUI  &kp RGUI &kp ENTER &mt RCTRL SPACE              &tpfx &kp SPACE  &kp LBKT &kp RBKT &mo 2
       >;
@@ -83,9 +85,9 @@
       display-name = "Fn";
       bindings = <
         &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &tog 1                                           &mo 3 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12
-        &trans &trans &trans &trans &trans &trans  &kp K_PWR                                           &none &trans &kp PG_UP &trans &trans  &ctrl PG_UP  &trans
-        &trans &trans &trans &kp PG_DN &trans &homend  &none        &trans &trans &trans &trans        &none &kp LEFT &kp DOWN &kp UP &kp RIGHT  &trans  &trans
-        &trans &trans &trans &trans &trans &trans                      &trans &trans                     &ctrl PG_DN &trans &trans &trans  &trans  &trans
+        &trans &trans &hm LALT BSPC &trans &trans &trans  &kp K_PWR                                           &none &trans &kp PG_UP &trans &trans  &mod RCTRL PG_UP  &trans
+        &trans &trans &trans &kp PG_DN &hm LALT RIGHT &homend  &none        &trans &trans &trans &trans        &none &kp LEFT &kp DOWN &kp UP &kp RIGHT  &trans  &trans
+        &trans &trans &trans &trans &trans &hm LALT LEFT                      &trans &trans                     &mod RCTRL PG_DN &trans &trans &trans  &trans  &trans
         &trans &trans &trans &trans &trans               &kp SPACE &trans &trans &trans &trans &kp SPACE              &trans &trans &trans  &trans  &trans
       >;
     };
