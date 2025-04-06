@@ -1,5 +1,33 @@
 #!/usr/bin/env sh
+# Select and edit a desired file
 
-selected_file=$(fzf --preview "bat --color=always {}" --preview-window "~3")
+set -e
 
-[ -n "$selected_file" ] && "$EDITOR" "$selected_file"
+dir=.
+
+while getopts 'd:' opt; do
+  case ${opt} in
+    d)
+        dir="${OPTARG}"
+        ;;
+    ?)
+      echo "Invalid option: -${OPTARG}."
+      exit 1
+      ;;
+  esac
+done
+
+shift $((OPTIND - 1))
+query="$1"
+
+cd "$dir"
+
+files=$(find . -type f)
+
+[ -n "$query" ] && files=$(echo "$files" | grep "$query")
+
+selected=$(echo "$files" | fzf --preview "bat --color=always {}" \
+    --preview-window "~3" \
+    --select-1)
+
+[ -n "$selected" ] && "$EDITOR" "$selected"
