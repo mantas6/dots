@@ -4,11 +4,15 @@
 set -e
 
 dir=.
+files_cmd='find . -type f'
 
-while getopts 'd:' opt; do
+while getopts 'd:g' opt; do
   case ${opt} in
     d)
         dir="${OPTARG}"
+        ;;
+    g)
+        files_cmd='git ls-files --others --cached --exclude-standard'
         ;;
     ?)
       echo "Invalid option: -${OPTARG}."
@@ -22,11 +26,11 @@ query="$1"
 
 cd "$dir"
 
-files=$(find . -type f)
+files=$($files_cmd)
 
 [ -n "$query" ] && files=$(echo "$files" | grep "$query")
 
-selected=$(echo "$files" | fzf --preview "bat --color=always {}" \
+selected=$(echo "$files" | sed 's|^./||' | fzf --preview "bat --color=always {}" \
     --preview-window "~3" \
     --select-1)
 
