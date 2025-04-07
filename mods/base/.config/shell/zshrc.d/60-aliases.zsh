@@ -74,12 +74,12 @@ alias dlg="(cd $DOTS_DIR && lazygit)"
 
 alias keepon="xset s off && xset -dpms"
 
-alias vse="(cd $DOTS_DIR/bin && gf)"
-alias vaw="(cd $HOME/.config/awesome && gf)"
-alias vsh="(cd $HOME/.config/shell && gf)"
-alias vrc="(cd $DOTS_DIR && gf)"
-alias vne="(cd $HOME/.config/nvim && gf)"
-alias vnx="(cd $DOTS_DIR/nix && gf)"
+alias vse="vf -d $DOTS_DIR/bin"
+alias vaw="vf -d $HOME/.config/awesome"
+alias vsh="vf -d $HOME/.config/shell"
+alias vrc="vf -d $DOTS_DIR"
+alias vne="vf -d $HOME/.config/nvim"
+alias vnx="vf -d $DOTS_DIR/nix"
 alias vkb="vi $DOTS_DIR/lib/kbd/config/adv360.keymap"
 
 # Networking
