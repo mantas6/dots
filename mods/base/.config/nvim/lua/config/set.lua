@@ -19,3 +19,5 @@ vim.api.nvim_set_option("clipboard", "unnamedplus")
 
 vim.opt.spell = true
 vim.opt.spelllang = { 'en_us' }
+
+vim.diagnostic.config({ virtual_text = true })
