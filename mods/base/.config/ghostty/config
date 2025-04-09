@@ -8,7 +8,7 @@ font-family = Monaco
 
 font-feature = -calt
 
-font-size = 19
+font-size = 20
 
 macos-titlebar-style = hidden
 macos-option-as-alt = true
