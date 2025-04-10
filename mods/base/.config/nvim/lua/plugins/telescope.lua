@@ -15,7 +15,7 @@ return {
           additional_args = { "--hidden" }
         },
         live_grep = {
-          additional_args = { "--hidden" }
+          additional_args = { "--hidden", "--fixed-strings" }
         },
         git_files = { use_git_root = false },
         git_status = { use_git_root = false },
