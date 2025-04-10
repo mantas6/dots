@@ -6,13 +6,17 @@ set -e
 dir=.
 files_cmd='find . -type f'
 
-while getopts 'd:g' opt; do
+while getopts 'd:gh' opt; do
   case ${opt} in
     d)
         dir="${OPTARG}"
         ;;
     g)
         files_cmd='git ls-files --others --cached --exclude-standard'
+        ;;
+    h)
+        echo "$(basename "$0") [-g] [-d directory] [fragment]..."
+        exit 0
         ;;
     ?)
       echo "Invalid option: -${OPTARG}."
@@ -22,13 +26,15 @@ while getopts 'd:g' opt; do
 done
 
 shift $((OPTIND - 1))
-query="$1"
 
 cd "$dir"
 
 files=$($files_cmd)
 
-[ -n "$query" ] && files=$(echo "$files" | grep "$query")
+for fragment in "$@"
+do
+    files=$(echo "$files" | grep "$fragment")
+done
 
 selected=$(echo "$files" | sed 's|^./||' | fzf --preview "bat --color=always {}" \
     --preview-window "~3" \
