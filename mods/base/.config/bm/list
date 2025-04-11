@@ -31,6 +31,7 @@ wiki.archlinux.org/index.php?search={}
 laravel.com/docs
 www.nerdfonts.com/cheat-sheet
 zmk.dev/docs/keymaps/list-of-keycodes
+github.com/emberian/evdev/blob/main/src/scancodes.rs
 
 # Nix
 search.nixos.org/options
