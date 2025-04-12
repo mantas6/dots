@@ -30,6 +30,8 @@ php.net/manual-lookup.php?pattern={}&scope=quickref
 wiki.archlinux.org/index.php?search={}
 laravel.com/docs
 www.nerdfonts.com/cheat-sheet
+
+# KBD
 zmk.dev/docs/keymaps/list-of-keycodes
 github.com/emberian/evdev/blob/main/src/scancodes.rs
 
@@ -41,6 +43,7 @@ nixos.wiki/wiki/Main_Page
 nixos.wiki/wiki/Cheatsheet
 noogle.dev
 nixos-and-flakes.thiscute.world
+mynixos.com
 
 # Weather
 meteo.lt/prognozes/specialisto-komentaras
