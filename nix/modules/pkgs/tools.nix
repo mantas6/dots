@@ -32,6 +32,7 @@ in {
     htop
     btop
     jq
+    numbat
 
     pciutils
   ];
