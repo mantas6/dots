@@ -62,7 +62,7 @@ alias osc="nix flake check $DOTS_DIR"
 
 alias cmatrix='cmatrix -ab'
 alias ff='fastfetch'
-alias q='numbat'
+alias q='vi -c Quickmath'
 
 alias tsr='tmux source-file ~/.config/tmux/tmux.conf'
 alias ts='tmux split-window -h \; split-window -v'
