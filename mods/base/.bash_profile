@@ -1,1 +1,1 @@
-. ~/.config/shell/bash_profile
+. ~/Repos/dotfiles/sh/bash_profile

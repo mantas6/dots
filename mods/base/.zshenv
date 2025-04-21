@@ -1,1 +1,2 @@
-export ZDOTDIR="$HOME"/.config/shell
+export DOTS_DIR="$HOME/Repos/dotfiles"
+export ZDOTDIR="$DOTS_DIR/sh"
