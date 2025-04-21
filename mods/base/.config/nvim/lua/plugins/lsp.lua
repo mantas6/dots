@@ -52,7 +52,7 @@ return {
           },
           options = {
             nixos = {
-                expr = '(builtins.getFlake "/home/'..user..'/Repos/dotfiles").nixosConfigurations.'..hostname..'.options',
+                expr = '(builtins.getFlake "/home/'..user..'/.dots").nixosConfigurations.'..hostname..'.options',
             },
           --   home_manager = {
           --       expr = '(builtins.getFlake "/PATH/TO/FLAKE").homeConfigurations.CONFIGNAME.options',

@@ -1,1 +1,1 @@
-. ~/Repos/dotfiles/sh/bash_profile
+. ~/.dots/sh/bash_profile

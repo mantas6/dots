@@ -76,7 +76,7 @@ alias keepon="xset s off && xset -dpms"
 
 alias vse="vf -gd $DOTS_DIR/bin"
 alias vaw="vf -gd $HOME/.config/awesome"
-alias vsh="vf -gd $HOME/.config/shell"
+alias vsh="vf -gd $DOTS_DIR/sh"
 alias vrc="vf -gd $DOTS_DIR"
 alias vne="vf -gd $HOME/.config/nvim"
 alias vnx="vf -gd $DOTS_DIR/nix"

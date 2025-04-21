@@ -1,2 +1,2 @@
-export DOTS_DIR="$HOME/Repos/dotfiles"
+export DOTS_DIR="$HOME/.dots"
 export ZDOTDIR="$DOTS_DIR/sh"

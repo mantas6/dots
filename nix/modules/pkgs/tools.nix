@@ -45,6 +45,6 @@ in {
 
   programs.nh = {
     enable = true;
-    flake = "/home/mantas/Repos/dotfiles";
+    flake = "/home/mantas/.dots";
   };
 }
