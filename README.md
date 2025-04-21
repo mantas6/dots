@@ -50,7 +50,7 @@ git status
 
 ## Services
 
-Located in `src` directory.
+Located in `srv` directory.
 
 - Docker compose (must container `docker-compose.yml`)
 - Generic user systemd units (must contain `run` executable)
