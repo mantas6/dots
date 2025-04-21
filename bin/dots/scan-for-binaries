@@ -1,10 +1,21 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+# Check for binaries files in repo changes before committing
+
+set -o 'pipefail'
 
 cd "$(git rev-parse --show-toplevel)" || exit 1
 
-matches=$(git status --porcelain | cut -c4- | xargs file -i | grep 'charset=binary')
+files=$(git status --porcelain | cut -c4-)
+
+if [ -z "$files" ]; then
+    gum log --level=info 'Binary files detected'
+    exit 0
+fi
+
+matches=$(echo "$files" | xargs file -i | grep 'charset=binary')
 
 if [ -n "$matches" ]; then
+    gum log --level=error 'Binary files detected'
     echo "$matches"
     exit 1
 fi
