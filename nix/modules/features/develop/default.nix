@@ -36,6 +36,7 @@
 
       gnumake
       gitleaks
+      openssl
 
       nixd
       alejandra

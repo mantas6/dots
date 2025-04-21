@@ -7,7 +7,8 @@ info() {
     echo -e "\e[1m>>> $1\e[0m"
 }
 
-build=1
+sum_file="$XDG_CACHE_HOME/kbdfw_current_sum"
+force_build=''
 flash=1
 
 while getopts 'nf' opt; do
@@ -16,7 +17,7 @@ while getopts 'nf' opt; do
         flash=''
         ;;
     f)
-        build=''
+        force_build=1
         ;;
     ?)
       echo "Invalid option: -${OPTARG}."
@@ -27,9 +28,12 @@ done
 
 cd "$DOTS_DIR/lib/kbd"
 
-if [ -n "$build" ]; then
-    rm -vf firmware/*
+sum=$(git ls-files --others --cached --exclude-standard | xargs openssl dgst -sha1 | openssl dgst -sha1)
+
+if [ -n "$force_build" ] || ! echo "$sum" | cmp - "$sum_file"; then
+    rm -vf firmware/*.uf2
     make
+    echo "$sum" > "$sum_file"
 fi
 
 [ -z "$flash" ] && exit 0
