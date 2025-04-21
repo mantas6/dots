@@ -6,3 +6,4 @@ set -e
 cd "$DOTS_DIR"
 git pull
 ./stow
+init-dots

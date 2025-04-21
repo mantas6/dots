@@ -3,7 +3,7 @@
 set -e
 
 if [ -x "$(command -v gitleaks)" ]; then
-    gitleaks protect --staged 
+    gitleaks protect --staged
 else
     gum log --level=warn 'Gitleaks is not installed, skipping check'
 fi

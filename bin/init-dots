@@ -5,4 +5,4 @@ for pkgDir in "$DOTS_DIR"/lib/*; do
     (cd "$pkgDir" && [ -f build ] && ./build)
 done
 
-cp -v "$DOTS_DIR/conf/stubs/hooks/dots-pre-commit" "$DOTS_DIR/.git/hooks/pre-commit"
+cp -v "$DOTS_DIR/conf/stubs/precommit/dots" "$DOTS_DIR/.git/hooks/pre-commit"
