@@ -45,14 +45,6 @@
             "Tests\\": "tests/"
         }
     },
-    "scripts": {
-        "post-update-cmd": [
-            "./vendor/bin/fzf-php-install"
-        ],
-        "post-install-cmd": [
-            "./vendor/bin/fzf-php-install"
-        ]
-    },
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,

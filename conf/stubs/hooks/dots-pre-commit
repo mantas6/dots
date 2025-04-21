@@ -7,3 +7,5 @@ if [ -x "$(command -v gitleaks)" ]; then
 else
     gum log --level=warn 'Gitleaks is not installed, skipping check'
 fi
+
+scan-for-binaries

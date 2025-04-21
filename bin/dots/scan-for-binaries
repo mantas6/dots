@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+cd "$(git rev-parse --show-toplevel)" || exit 1
+
+matches=$(git status --porcelain | cut -c4- | xargs file -i | grep 'charset=binary')
+
+if [ -n "$matches" ]; then
+    echo "$matches"
+    exit 1
+fi
+
+exit 0
