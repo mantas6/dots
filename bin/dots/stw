@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+# shellcheck disable=SC2046
+
+set -e
+
+source=$(dirname "$(readlink -f "$0")")
+cd "$source"
+
+repo=$(git rev-parse --show-toplevel)
+
+# Create base directories so that stow wouldn't link them directly
+grep -v '^\(#\|$\)' "$repo/etc/dirs.conf" | xargs -I {} mkdir -pv "$HOME/{}"
+
+stow --dir="$repo/mods" --target="$HOME" --verbose "$@" $("$source/stw-mod-ls")
