@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 
 export DOTS_DIR="$HOME/Repos/dotfiles"
+export DOTS_EMAIL='6524518+mantas6@users.noreply.github.com'
 
 # Editor
 if [ -x "$(command -v nvim)" ]; then

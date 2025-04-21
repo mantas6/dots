@@ -10,7 +10,7 @@ fi
 
 email=$(git config get user.email)
 
-if [ "$email" != '6524518+mantas6@users.noreply.github.com' ]; then
+if [ "$email" != "$DOTS_EMAIL" ]; then
     gum log --level=error 'Git user mail is not correct'
     exit 1
 fi
