@@ -5,7 +5,7 @@ set -o 'pipefail'
 
 cd "$(git rev-parse --show-toplevel)" || exit 1
 
-files=$(git status --porcelain | cut -c4-)
+files=$(git status --porcelain --no-renames | cut -c4- | sed '/^D /d; s/^...//')
 # files=$(git ls-files --others --cached --exclude-standard)
 
 [ -z "$files" ] && exit 0

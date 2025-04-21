@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Access bookmarks and open a browser tab with an optional parameter
 
-list="$DOTS_DIR/conf/bm"
+list="$DOTS_DIR/etc/bm"
 search_cmd='fzf -i'
 input_cmd='gum input'
 
