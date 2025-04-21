@@ -59,7 +59,7 @@ git status
 
 ## Services
 
-Located in `svc` directory.
+Located in `src` directory.
 
 - Docker compose (must container `docker-compose.yml`)
 - Generic user systemd units (must contain `run` executable)
