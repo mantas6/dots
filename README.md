@@ -36,7 +36,7 @@ chsh -s /usr/bin/zsh
 ```sh
 gh repo clone mantas6/dots "$HOME/.dots"
 cd "$HOME/.dots"
-./bin/dots/stw
+./bin/dot/stw
 ```
 If stow fails, remove conflicting files (preferably to trash) and run again. Pay close attention to the output to make sure that the links that it creates make sense.
 
