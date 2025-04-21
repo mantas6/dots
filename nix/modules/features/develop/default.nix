@@ -35,6 +35,7 @@
       xh
 
       gnumake
+      gitleaks
 
       nixd
       alejandra
