@@ -54,6 +54,6 @@ Located in `srv` directory.
 
 - Docker compose (must container `docker-compose.yml`)
 - Generic user systemd units (must contain `run` executable)
-- Packages (must contain `build
+- Packages (must contain `build` executable)
 
 Use `enservice*` to enable
