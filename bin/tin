@@ -31,26 +31,7 @@ fi
 
 [ ! -f "$buffer" ] && echo '<?php' >> "$buffer"
 
-cat <<EOF > "$index"
-<?php
-
-require __DIR__.'/vendor/autoload.php';
-
-\$app = require_once __DIR__.'/bootstrap/app.php';
-
-\$kernel = \$app->make(Illuminate\Contracts\Console\Kernel::class);
-
-\$status = \$kernel->handle(
-    \$input = new Symfony\Component\Console\Input\ArgvInput,
-    new Symfony\Component\Console\Output\BufferedOutput
-);
-
-\$result = require './$(basename "$buffer")';
-
-dump(\$result);
-
-\$kernel->terminate(\$input, \$status);
-EOF
+cp "$DOTS_DIR/etc/stubs/tinker-index.php" "$index"
 
 nvim -c "set nospell | set scrollback=100000 | set splitright" \
     -c "autocmd BufWritePost * only | vsp | terminal $write_cmd" "$buffer"
