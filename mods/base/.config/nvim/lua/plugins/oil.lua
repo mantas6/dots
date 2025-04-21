@@ -3,16 +3,17 @@ return {
   ---@module 'oil'
   ---@type oil.SetupOpts
   opts = {
-    default_file_explorer = false,
+    default_file_explorer = true,
     delete_to_trash = true,
     skip_confirm_for_simple_edits = true,
     view_options = {
       show_hidden = true,
     },
   },
+  lazy = false,
   keys = {
     -- { '<leader>o', ':Oil<CR>' },
-    { '-',         ':Oil<CR>' },
+    { '-', ':Oil<CR>' },
   },
   -- Optional dependencies
   -- dependencies = { { "echasnovski/mini.icons", opts = {} } },
