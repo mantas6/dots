@@ -4,6 +4,6 @@
 source=$(dirname "$(readlink -f "$0")")
 
 # Create base directories so that stow wouldn't link them directly
-grep -v '^\(#\|$\)' "$source/dirs.conf" | xargs -I {} mkdir -pv "$HOME/{}"
+grep -v '^\(#\|$\)' "$source/etc/dirs.conf" | xargs -I {} mkdir -pv "$HOME/{}"
 
 stow --dir="$source/mods" --target="$HOME" --verbose "$@" $(./stow-mod-ls)
