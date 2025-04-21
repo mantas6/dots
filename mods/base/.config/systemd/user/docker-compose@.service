@@ -4,7 +4,7 @@ Requires=docker.service
 After=docker.service
 
 [Service]
-WorkingDirectory=%h/.local/share/services/docker-compose/%i
+WorkingDirectory=%h/.dots/srv/%i
 ExecStartPre=-/usr/bin/env docker compose pull
 ExecStart=/usr/bin/env docker compose up --remove-orphans
 ExecStop=/usr/bin/env docker compose down
