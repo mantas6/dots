@@ -15,4 +15,5 @@ if [ "$email" != "$DOTS_EMAIL" ]; then
     exit 1
 fi
 
+
 scan-for-binaries
