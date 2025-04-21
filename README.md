@@ -51,7 +51,7 @@ git pull
 
 mv ~/Repos/dotfiles ~/.dots
 cd ~/.dots
-./bin/dots/stw
+./bin/dot/stw
 
 git status
 # Move/clean unstaged files
