@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 # Access bookmarks and open a browser tab with an optional parameter
 
-state="$XDG_STATE_HOME/bm"
-mkdir -p "$state"
-touch "$state/history"
-
-list="$XDG_CONFIG_HOME/bm/list"
+list="$DOTS_DIR/conf/bm"
 search_cmd='fzf -i'
-input_cmd='fzf -i --print-query --bind tab:replace-query'
+input_cmd='gum input'
 
 show_help() {
     echo 'bm - boomarkmarks for browser'
@@ -64,11 +60,9 @@ placeholder=$(echo "$url" | grep '{}')
 
 if [ "$placeholder" ]; then
     # Prompt the user for input to replace the placeholder
-    input=$(uniq < "$state/history" | ${input_cmd[*]})
+    input=$(${input_cmd[*]})
 
     [ ! "$input" ] && exit 1
-
-    echo "$input" | grep -v '^$' >> "$state/history"
 
     # Replace the placeholder with the user input
     url="${url//\{\}/$input}"
