@@ -6,13 +6,11 @@ set -o 'pipefail'
 cd "$(git rev-parse --show-toplevel)" || exit 1
 
 files=$(git status --porcelain | cut -c4-)
+# files=$(git ls-files --others --cached --exclude-standard)
 
-if [ -z "$files" ]; then
-    gum log --level=info 'No file changes'
-    exit 0
-fi
+[ -z "$files" ] && exit 0
 
-matches=$(echo "$files" | xargs file -i | grep 'charset=binary')
+matches=$(echo "$files" | xargs file --mime | grep 'charset=binary' | grep -v 'inode/x-empty')
 
 if [ -n "$matches" ]; then
     gum log --level=error 'Binary files detected'
