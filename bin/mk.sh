@@ -2,8 +2,7 @@
 
 [ -f "$1" ] && exit 1
 
-echo '#!/usr/bin/env sh' >> "$1"
-chmod +x "$1"
+cp "$DOTS_DIR/etc/stubs/new.sh" "$1"
 
 [ "$2" = '-e' ] && nvim "$1"
 
