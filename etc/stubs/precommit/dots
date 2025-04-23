@@ -8,7 +8,7 @@ else
     gum log --level=warn 'Gitleaks is not installed, skipping check'
 fi
 
-email=$(git config get user.email)
+email=$(git config user.email)
 
 if [ "$email" != "$DOTS_EMAIL" ]; then
     gum log --level=error 'Git user mail is not correct'
