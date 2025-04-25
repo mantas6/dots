@@ -9,6 +9,8 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    xremap-flake.url = "github:xremap/nix-flake";
   };
 
   outputs = {
