@@ -53,7 +53,7 @@ info 'Press Mod + Macro1'
 dev_name=$(watch-for-drive -d disk -n 1)
 mount_point=$(mount-drive "$dev_name")
 
-if ! echo "$mount_point" | grep -q ADV360PRO1; then
+if ! echo "$mount_point" | grep -q ADV360PRO; then
    echo "Error: device name does not match" >&2
    exit 1
 fi
