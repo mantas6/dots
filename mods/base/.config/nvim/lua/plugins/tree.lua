@@ -26,6 +26,6 @@ return {
   },
 
   keys = {
-    { '<leader>s', ':Neotree reveal<CR>', desc = 'neo-tree' },
+    { '<C-t>', ':Neotree reveal<CR>', desc = 'neo-tree' },
   },
 }
