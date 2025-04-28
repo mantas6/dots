@@ -3,7 +3,6 @@
 [ -x "$(command -v starship)" ] && eval "$(starship init zsh)"
 [ -x "$(command -v fzf)" ] && eval "$(fzf --zsh)"
 
-unalias zi
 [ -x "$(command -v zoxide)" ] && eval "$(zoxide init zsh)"
 
 [ -x "$(command -v direnv)" ] && eval "$(direnv hook zsh)"

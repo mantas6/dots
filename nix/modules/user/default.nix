@@ -12,6 +12,5 @@
   };
 
   environment.variables.EDITOR = "${pkgs.neovim}/bin/nvim";
-  programs.zsh.enable = true;
   services.getty.autologinUser = "mantas";
 }
