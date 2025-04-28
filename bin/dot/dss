@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# Commit and push dotfile changes
+# Commit and push dotfiles changes
 
 set -e
 
