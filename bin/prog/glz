@@ -31,6 +31,8 @@ else
     msg=$(gum input --value="$(git log -1 --pretty=%B)")
 fi
 
+echo "$msg"
+
 [ -z "$no_add" ] && git add .
 
 git commit -m "$msg"

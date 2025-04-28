@@ -13,6 +13,7 @@
     "amd"
     "desktop"
     "develop"
+    # "disks/normal"
   ];
 
   services.xserver.dpi = 100;

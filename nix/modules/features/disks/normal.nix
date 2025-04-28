@@ -1,14 +1,9 @@
 {
   lib,
   config,
-  inputs,
   ...
 }: {
-  imports = [
-    inputs.disko.nixosModules.disko
-  ];
-
-  config = lib.mkIf (lib.elem "disks" config.features) {
+  config = lib.mkIf (lib.elem "disks/normal" config.features) {
     disko.devices = {
       disk = {
         main-disk = {

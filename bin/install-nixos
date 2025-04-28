@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -e
+
+cd "$DOTS_REPO"
+
+type="$1"
+host="$2"
+
+print_help() {
+    echo 'Error: Invalid argument' >&2
+    echo "$(basename "$0") [normal|encrypted] <hostname>" >&2
+    exit 1
+}
+
+[ -z "$host" ] && print_help
+
+case "$type" in
+    normal)
+        nix run nixpkgs#nixos-anywhere -- \
+            --flake ".#$host" \
+            --target-host "root@$host"
+        ;;
+    encrypted)
+        nix run nixpkgs#nixos-anywhere -- \
+            --disk-encryption-keys /tmp/secret.key <(pass "hosts/$host") \
+            --flake ".#$host" \
+            --target-host "root@$host"
+        ;;
+  *)
+      print_help
+    ;;
+esac

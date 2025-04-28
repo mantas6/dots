@@ -5,9 +5,9 @@
   imports = [
     ./desktop
     ./develop
+    ./disks
     ./amd.nix
     ./nvidia.nix
-    ./disks.nix
   ];
 
   options.features = lib.mkOption {
@@ -16,7 +16,9 @@
       "amd"
       "desktop"
       "develop"
-      "disks"
+
+      "disks/normal"
+      "disks/encrypted"
     ]);
 
     default = [];
