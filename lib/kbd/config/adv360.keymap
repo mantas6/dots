@@ -10,6 +10,10 @@
     flavor = "balanced";
 };
 
+&lt {
+    flavor = "balanced";
+};
+
 / {
     macros {
         tpfx: tmux_prefix {
@@ -66,7 +70,7 @@
       bindings = <
         &kp EQUAL &kp N1    &kp N2   &kp N3   &kp N4     &kp N5 &tog 1                                                           &mo 3 &kp N6 &kp N7 &kp N8    &kp N9   &kp N0   &kp MINUS
         &kp TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &kp N6                                                            &kp C_VOL_UP &kp Y  &kp U  &kp I     &kp O    &kp P    &kp BSLH
-        &kp ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &kp Y               &tpfx &kp DEL &kp DEL  &tpfx                    &kp C_VOL_DN &kp H  &kp J  &kp K     &kp L    &kp SEMI &kp SQT
+        &lt 2 ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &kp Y               &tpfx &kp DEL &kp DEL  &tpfx                    &kp C_VOL_DN &kp H  &kp J  &kp K     &kp L    &kp SEMI &lt 2 SQT
         &kp LSHFT &kp Z     &kp X    &kp C    &kp V      &kp B                            &kp LALT &kp RALT                           &kp N  &kp M  &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
         &mo 2     &kp GRAVE &kp DEL &kp SPACE &kp GRAVE      &mt RCTRL SPACE &kp BSPC   &kp LGUI  &kp RGUI &kp ENTER &mt RCTRL SPACE          &kp LBKT &kp RBKT  &kp LBKT &kp RBKT &mo 2
       >;
