@@ -4,7 +4,10 @@
   ...
 }: {
   config = lib.mkIf (lib.elem "nvidia" config.features) {
-    nixpkgs.config.allowUnfree = true;
+    nixpkgs.config.allowUnfreePredicate = pkg:
+      builtins.elem (lib.getName pkg) [
+        "nvidia-x11"
+      ];
 
     # Enable OpenGL
     hardware.graphics = {
@@ -42,7 +45,7 @@
 
       # Enable the Nvidia settings menu,
       # accessible via `nvidia-settings`.
-      nvidiaSettings = true;
+      nvidiaSettings = false;
 
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.stable;
