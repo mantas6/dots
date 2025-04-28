@@ -24,7 +24,7 @@ action='default'
 while getopts ':elrf:' opt; do
   case ${opt} in
     f)
-        list="${OPTARG}"
+        list=${OPTARG}
         [ ! -f "$list" ] && touch "$list"
         ;;
     e)
@@ -57,6 +57,10 @@ if [ "$action" = 'edit' ]; then
 
     formatted=$(sed -E 's#^(http://|https://)##; s#/$##' "$list")
     echo "$formatted" > "$list"
+
+    git add "$list" 2> /dev/null || exit 0
+
+    glz -Nnm 'Update bookmarks'
 
     exit 0
 fi

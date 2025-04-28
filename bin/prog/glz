@@ -4,14 +4,22 @@ set -e
 
 interactive=''
 no_add=''
+optional_changes=''
+msg=''
 
-while getopts ':in' opt; do
+while getopts ':inNm:' opt; do
   case ${opt} in
-    i) 
+    i)
         interactive=1
         ;;
-    n) 
+    n)
         no_add=1
+        ;;
+    N)
+        optional_changes=1
+        ;;
+    m)
+        msg=${OPTARG}
         ;;
     ?)
       echo "Invalid option: -${OPTARG}."
@@ -21,14 +29,21 @@ while getopts ':in' opt; do
 done
 
 if [ -z "$(git status --porcelain)" ]; then
+    if [ -n "$optional_changes" ]; then
+        gum log --level=info 'No changes are present'
+        exit 0
+    fi
+
     gum log --level=error 'No changes are present' >&2
     exit 1
 fi
 
-if [ -n "$interactive" ]; then
-    msg=$(git log -n 100 --pretty=%B | sed '/^\s*$/d' | fzf)
-else
-    msg=$(gum input --value="$(git log -1 --pretty=%B)")
+if [ -z "$msg" ]; then
+    if [ -n "$interactive" ]; then
+        msg=$(git log -n 100 --pretty=%B | sed '/^\s*$/d' | fzf)
+    else
+        msg=$(gum input --value="$(git log -1 --pretty=%B)")
+    fi
 fi
 
 echo "$msg"
