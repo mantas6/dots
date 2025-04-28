@@ -5,7 +5,7 @@ set -eo 'pipefail'
 
 cd "$(git rev-parse --show-toplevel)" || exit 1
 
-files=$(git status --porcelain --no-renames --untracked-files=all | grep -v '^D' | cut -c4-)
+files=$(git status --porcelain --no-renames --untracked-files=all | grep -Ev '^ D|^D' | cut -c4-)
 # files=$(git ls-files --others --cached --exclude-standard)
 
 [ -z "$files" ] && exit 0
