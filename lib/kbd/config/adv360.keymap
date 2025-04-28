@@ -40,6 +40,20 @@
                 , <&macro_release &kp MACRO_PLACEHOLDER>
                 ;
         };
+
+        wrps: wrap_around_shift {
+            compatible = "zmk,behavior-macro-two-param";
+            #binding-cells = <2>;
+            bindings
+                = <&macro_press &kp LSHFT>
+                , <&macro_param_1to1>
+                , <&macro_tap &kp MACRO_PLACEHOLDER>
+                , <&macro_param_2to1>
+                , <&macro_tap &kp MACRO_PLACEHOLDER>
+                , <&macro_release &kp LSHFT>
+                , <&macro_tap &kp LEFT>
+                ;
+        };
     };
 
     behaviors {
@@ -90,7 +104,7 @@
     fn {
       display-name = "Fn";
       bindings = <
-        &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &tog 1                                           &mo 3 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12
+        &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &tog 1                                           &mo 3 &kp F7 &kp F8 &kp F9 &wrps N9 N0 &kp F11 &kp F12
         &trans &trans &mod LALT BSPC &mod LGUI RIGHT &trans &trans  &none                                       &none &trans &kp PG_UP &mod RCTRL PG_DN &mod RCTRL PG_UP  &mod LGUI LBKT  &trans
         &trans &mod LGUI LEFT &trans &kp PG_DN &mod LALT RIGHT &homend  &none        &trans &trans &trans &trans        &none &kp LEFT &kp DOWN &kp UP &kp RIGHT  &trans  &trans
         &trans &trans &trans &trans &trans &mod LALT LEFT                      &trans &trans                     &mod LGUI RBKT &kp ENTER &trans &trans  &trans  &trans
