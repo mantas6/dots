@@ -53,6 +53,11 @@ info 'Press Mod + Macro1'
 dev_name=$(watch-for-drive -d disk -n 1)
 mount_point=$(mount-drive "$dev_name")
 
+if ! echo "$mount_point" | grep -q ADV360PRO1; then
+   echo "Error: device name does not match" >&2
+   exit 1
+fi
+
 cp -v ./*left*.uf2 "$mount_point"
 
 info 'Power off both keyboards (by unplugging them and making sure the switches are off).'
