@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 # Access bookmarks and open a browser tab with an optional parameter
 
-list="$DOTS_DIR/etc/bm"
-search_cmd='fzf -i'
-input_cmd='gum input'
-
 show_help() {
     echo 'bm - boomarkmarks for browser'
     echo
@@ -12,42 +8,58 @@ show_help() {
     echo '  -e            Edit global bookmarks list'
     echo
     echo 'Other:'
+    echo '  -f            Specify custom bookmark file'
     echo '  -l            List all bookmarks and exit'
-    echo '  --rofi        Use rofi instead of fzf for prompt'
+    echo '  -r            Use rofi instead of fzf for prompt'
     echo
-    echo '  -h, --help    Display help'
+    echo '  -h            Display help'
 }
+
+list="$DOTS_DIR/etc/bm"
+search_cmd='fzf -i'
+input_cmd='gum input'
+
+action='default'
+
+while getopts ':elrf:' opt; do
+  case ${opt} in
+    f)
+        list="${OPTARG}"
+        [ ! -f "$list" ] && touch "$list"
+        ;;
+    e)
+        action='edit'
+        ;;
+    l)
+        action='list'
+        ;;
+    r)
+        search_cmd='rofi -dmenu'
+        input_cmd=(rofi -dmenu -p '> ')
+        ;;
+    ?)
+      echo "Invalid option: -${OPTARG}."
+      show_help
+      exit 1
+      ;;
+  esac
+done
 
 items=$(grep -v '^\(#\|$\)' "$list")
 
-for p in "$@"
-do
-    case "$p" in
-        -e)
-            nvim "$list"
-            formatted=$(sed -E 's#^(http://|https://)##; s#/$##' "$list")
-            echo "$formatted" > "$list"
-            exit 0
-            ;;
-        -l)
-            echo "$items"; exit 0
-            ;;
-        --rofi)
-            search_cmd='rofi -dmenu'
-            input_cmd=(rofi -dmenu -p '> ')
-            ;;
-        -h|--help)
-            show_help
-            exit 0
-            ;;
-        *)
-            echo "Unknown option: $p" >&2
-            echo
-            show_help
-            exit 1
-            ;;
-    esac
-done
+if [ "$action" = 'list' ]; then
+    echo "$items"
+    exit 0
+fi
+
+if [ "$action" = 'edit' ]; then
+    nvim "$list"
+
+    formatted=$(sed -E 's#^(http://|https://)##; s#/$##' "$list")
+    echo "$formatted" > "$list"
+
+    exit 0
+fi
 
 # Use fzf to select one of the URLs
 url=$(printf '%s\n' "${items[@]}" | $search_cmd)
