@@ -29,6 +29,8 @@ setopt autocd
 # Load completions
 autoload -Uz compinit && compinit
 
+[ -n "$ZINIT_HOME" ] && zinit cdreplay -q
+
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
