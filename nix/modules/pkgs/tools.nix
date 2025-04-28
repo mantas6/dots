@@ -34,6 +34,8 @@ in {
     jq
     file
 
+    killall
+
     pciutils
   ];
 

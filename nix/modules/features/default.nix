@@ -8,7 +8,6 @@
     ./amd.nix
     ./nvidia.nix
     ./disks.nix
-    ./remap.nix
   ];
 
   options.features = lib.mkOption {
@@ -18,7 +17,6 @@
       "desktop"
       "develop"
       "disks"
-      "remap"
     ]);
 
     default = [];

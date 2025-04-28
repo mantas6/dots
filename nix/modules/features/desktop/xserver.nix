@@ -17,7 +17,7 @@
 
         xkb = {
           layout = "us,lt";
-          options = "ctrl:swapcaps";
+          # options = "ctrl:swapcaps";
         };
       };
 
