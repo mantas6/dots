@@ -4,19 +4,6 @@
 set -e
 
 cd "$DOTS_DIR"
-
-if [ -z "$(git status --porcelain)" ]; then
-    gum log --level=info 'No changes are present'
-    exit 0
-fi
-
-git status
 git diff
-
 echo
-msg=$(gum input --placeholder 'Commit message' --value="$(git log -1 --pretty=%B)")
-
-git add .
-git commit -m "${msg:=Update}"
-git pull --no-edit
-git push
+glz -Ns

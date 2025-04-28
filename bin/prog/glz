@@ -5,9 +5,10 @@ set -e
 interactive=''
 no_add=''
 optional_changes=''
+sync=''
 msg=''
 
-while getopts ':inNm:' opt; do
+while getopts ':inNsm:' opt; do
   case ${opt} in
     i)
         interactive=1
@@ -17,6 +18,9 @@ while getopts ':inNm:' opt; do
         ;;
     N)
         optional_changes=1
+        ;;
+    s)
+        sync=1
         ;;
     m)
         msg=${OPTARG}
@@ -42,7 +46,7 @@ if [ -z "$msg" ]; then
     if [ -n "$interactive" ]; then
         msg=$(git log -n 100 --pretty=%B | sed '/^\s*$/d' | fzf)
     else
-        msg=$(gum input --value="$(git log -1 --pretty=%B)")
+        msg=$(gum input --placeholder 'Commit message' --value="$(git log -1 --pretty=%B)")
     fi
 fi
 
@@ -51,4 +55,5 @@ echo "$msg"
 [ -z "$no_add" ] && git add .
 
 git commit -m "$msg"
+[ -n "$sync" ] && git pull --no-edit
 git push
