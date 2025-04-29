@@ -15,7 +15,6 @@
     zoxide
     starship
     eza
-    trash-cli
     gh
     gum
     glow

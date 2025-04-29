@@ -1,5 +1,4 @@
 {
-  pkgs,
   lib,
   config,
   pkgs-unstable,
@@ -13,7 +12,7 @@ in {
     ];
 
     systemd.user.services.${serviceName} = {
-      script = "${pkgs.tealdeer}/bin/tldr -u";
+      script = "${pkgs-unstable.tealdeer}/bin/tldr -u";
 
       serviceConfig = {
         Type = "oneshot";
@@ -26,7 +25,7 @@ in {
       wantedBy = ["timers.target"];
 
       timerConfig = {
-        OnCalendar = "daily";
+        OnCalendar = "weekly";
         Persistent = true;
         AccuracySec = "6h";
         RandomizedDelaySec = "1h";
