@@ -84,7 +84,7 @@ alias vnx="vf -gd $DOTS_DIR/nix"
 alias vkb="vi $DOTS_DIR/lib/kbd/config/adv360.keymap"
 
 alias ql="bm -f $XDG_CACHE_HOME/bm_ql"
-alias qla="bm -lf $XDG_CACHE_HOME/bm_ql | xargs -I {} xdg-open https://{}"
+alias qla="bm -lf $XDG_CACHE_HOME/bm_ql | xargs open-url"
 
 # Networking
 alias pingg="ping google.com"

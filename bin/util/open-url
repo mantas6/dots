@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Open URL(s) in a browser
+
+for url in "$@"; do
+    if [[ ! $url =~ ^http ]]; then
+      url="https://$url"
+    fi
+
+    if [ "$(uname)" = "Darwin" ]; then
+        open "$url"
+    else
+        xdg-open "$url" > /dev/null
+    fi
+done
