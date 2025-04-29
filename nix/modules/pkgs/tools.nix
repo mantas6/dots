@@ -30,6 +30,7 @@
     killall
 
     pciutils
+    usbutils
   ];
 
   programs.nh = {
