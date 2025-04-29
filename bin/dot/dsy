@@ -6,4 +6,7 @@ set -e
 cd "$DOTS_DIR"
 git pull
 stw
+
+[ -x "$(command -v pass)" ] && pass git pull
+
 init-dots
