@@ -7,6 +7,6 @@ cd "$DOTS_DIR"
 git pull
 stw
 
-[ -x "$(command -v pass)" ] && pass git pull
+[ -x "$(command -v pass)" ] && [ -d "$XDG_DATA_HOME/password-store" ] && pass git pull
 
 init-dots
