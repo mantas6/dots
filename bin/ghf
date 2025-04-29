@@ -2,6 +2,6 @@
 
 gh api user/starred --cache 48h --paginate --jq '.[] | "\(.full_name):\(.description)"' \
     | column -ts ':' \
-    | fzf \
+    | fzf -e -i \
     | cut -d' ' -f1 \
-    | xargs -I {} gh repo view {} --web > /dev/null
+    | xargs -I {} open-url github.com/{}
