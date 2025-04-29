@@ -31,6 +31,7 @@
 
     pciutils
     usbutils
+    lm_sensors
   ];
 
   programs.nh = {
