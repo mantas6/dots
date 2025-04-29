@@ -7,13 +7,13 @@ cd "$DOTS_REPO"
 type="$1"
 host="$2"
 
-print_help() {
+show_help() {
     echo 'Error: Invalid argument' >&2
     echo "$(basename "$0") [normal|encrypted] <hostname>" >&2
     exit 1
 }
 
-[ -z "$host" ] && print_help
+[ -z "$host" ] && show_help
 
 case "$type" in
     normal)
