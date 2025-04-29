@@ -27,6 +27,9 @@ case "$type" in
             --flake ".#$host" \
             --target-host "root@$host"
         ;;
+    local)
+        nixos-install --flake ".#$host"
+        ;;
   *)
       print_help
     ;;

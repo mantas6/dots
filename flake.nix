@@ -23,6 +23,7 @@
     pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
   in {
     formatter.x86_64-linux = pkgs.alejandra;
+    formatter.aarch64-linux = pkgs.alejandra;
 
     nixosConfigurations.ix = nixpkgs.lib.nixosSystem {
       modules = [./nix/hosts/ix];
@@ -30,6 +31,17 @@
       specialArgs = {
         inherit inputs;
         inherit pkgs-unstable;
+      };
+    };
+
+    nixosConfigurations.utm = nixpkgs.lib.nixosSystem {
+      modules = [./nix/hosts/utm];
+
+      system = "aarch64-linux";
+
+      specialArgs = {
+        pkgs-unstable = nixpkgs-unstable.legacyPackages.aarch64-linux;
+        inherit inputs;
       };
     };
 
