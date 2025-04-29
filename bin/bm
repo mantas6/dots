@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 # Access bookmarks and open a browser tab with an optional parameter
 
-set -e
-
 show_help() {
     echo 'bm - boomarkmarks for browser'
     echo
@@ -60,7 +58,7 @@ if [ "$action" = 'edit' ]; then
     formatted=$(sed -E 's#^(http://|https://)##; s#/$##' "$list")
     echo "$formatted" > "$list"
 
-    cd "$(dirname "$list")"
+    cd "$(dirname "$list")" || exit 1
     git add "$list" 2> /dev/null || exit 0
 
     glz -Nnm 'Update bookmarks'
