@@ -15,6 +15,8 @@
     "disks/normal"
   ];
 
+  services.spice-vdagentd.enable = true;
+
   networking.hostName = "utm";
 
   system.stateVersion = "24.11";

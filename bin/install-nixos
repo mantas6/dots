@@ -37,6 +37,8 @@ esac
 
 # export TMPDIR=/mnt
 #
+# mount -o remount,size=15G,noatime /nix/.rw-store
+#
 # sudo nix \
 #         --extra-experimental-features nix-command \
 #         --extra-experimental-features flakes \
