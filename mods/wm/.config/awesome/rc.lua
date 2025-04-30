@@ -263,7 +263,6 @@ awful.screen.connect_for_each_screen(function(s)
     {             -- Right widgets
       layout = wibox.layout.fixed.horizontal,
       -- statusbar.track,
-      statusbar.updates,
       statusbar.temp,
       statusbar.cpuf,
       statusbar.load,

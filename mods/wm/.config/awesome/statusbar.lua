@@ -8,7 +8,7 @@ module.keyboard = awful.widget.keyboardlayout()
 
 module.clock = wibox.widget.textclock("    %a %d %H:%M:%S", 1)
 
-module.ping = createWidget("ping -c 1 google.com | grep 'time=' | awk -F 'time=' '{print $2}'", '')
+module.ping = createWidget("status-mod ping", '')
 
 -- Battery
 
@@ -27,6 +27,8 @@ module.battery = createWidget("printf \"%s\" \"$(cat "..batteryPath.."/capacity)
         local percentNum = tonumber(percentage)
 
         if percentNum == nil then
+          params.text = ''
+          params.icon = ''
           return
         end
 
@@ -53,16 +55,10 @@ module.battery = createWidget("printf \"%s\" \"$(cat "..batteryPath.."/capacity)
 end)
 
 
-module.memory = createWidget("free -h | awk '/Mem:/ {print $3}'", '󰘚')
-module.load = createWidget("cut -d ' ' -f1 < /proc/loadavg", '')
-module.updates = createWidget("checkupdates | wc -l", '󰏗', 300)
--- module.track = createWidget("track show", '', 5)
-module.cpuf = createWidget("echo $(grep MHz /proc/cpuinfo | sed 's/.* //' | awk '{sum += $1} END {if (NR > 0) printf \"%.1f\", sum / NR / 1000}')G/$(grep MHz /proc/cpuinfo | sed 's/.* //' | sort -rn | awk 'NR==1 {printf \"%.1f\", $1 / 1000}')G", '󰓅', 3)
+module.memory = createWidget("status-mod memory", '󰘚')
+module.load = createWidget("status-mod cpu", '')
+module.cpuf = createWidget("status-mod frequency", '󰓅', 3)
 
--- module.temp = createWidget("sensors -j \"$(sensors | grep quadro)\" 2> /dev/null | jq 'to_entries | .[0].value | .\"Sensor 4\" | to_entries | .[0].value'", '󰏈', 5)
-module.temp = createWidget("fastfetch -s CPU --cpu-temp --format json | jq -r '.[0].result.temperature' | cut -d. -f1", '󰏈', 5)
-
--- cat /proc/loadavg | cut -d ' ' -f1
--- free -h | awk '/Mem:/ {print $3}'
+module.temp = createWidget("status-mod temperature", '󰏈', 5)
 
 return module
