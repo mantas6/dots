@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+id=C4:14:11:0B:E5:57
+
+expect -f - <<EOF
+    set timeout 60
+    spawn bluetoothctl
+    send -- "remove $id\r"
+    send -- "scan on\r"
+    expect "Discovery started"
+    expect "Device $id Magic Keyboard with Numeric Keypad"
+    send -- "trust $id\r"
+    expect "trust succeeded"
+    send -- "pair $id\r"
+    expect "Pairing successful"
+    send -- "connect $id\r"
+    expect "Connection successful"
+    send -- "exit\r"
+    expect eof
+EOF
