@@ -26,7 +26,11 @@ local function createWidget(command, formatter, timeout)
                         params.icon = formatter
                     end
 
-                    widget.markup = string.format('<span foreground="%s"> %s   %s</span>', params.color, params.icon, params.text)
+                    if params.text ~= '' then
+                      widget.markup = string.format('<span foreground="%s"> %s   %s</span>', params.color, params.icon, params.text)
+                    else
+                      widget.markup = ''
+                    end
                 end
             )
         end
