@@ -25,7 +25,8 @@
     linkConfig.Name = "eth99";
   };
 
-  features.docker-compose = ["test" "test2"];
+  # features.docker-compose = ["test" "test2"];
+  features.docker-compose = [];
 
   # services.xserver.dpi = 100;
 
