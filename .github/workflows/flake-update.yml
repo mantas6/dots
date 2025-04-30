@@ -28,7 +28,7 @@ jobs:
         run: nix flake update
 
       - name: Run flake check
-        run: nix flake check
+        run: nix flake check --all-systems
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5

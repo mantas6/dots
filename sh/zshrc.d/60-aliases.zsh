@@ -59,7 +59,7 @@ alias glc="git log -1 --pretty=%B"
 
 alias osw="nh os switch"
 alias osb="nh os boot"
-alias osc="nix flake check $DOTS_DIR"
+alias osc="nix flake check $DOTS_DIR --all-systems"
 
 alias cmatrix='cmatrix -ab'
 alias ff='fastfetch'
