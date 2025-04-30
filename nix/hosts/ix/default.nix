@@ -9,7 +9,7 @@
 
   disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 
-  features = [
+  features.list = [
     "amd"
     "desktop"
     "develop"
@@ -24,6 +24,8 @@
     matchConfig.PermanentMACAddress = "f8:01:b4:58:14:9f";
     linkConfig.Name = "eth99";
   };
+
+  features.docker-compose = ["test" "test2"];
 
   # services.xserver.dpi = 100;
 

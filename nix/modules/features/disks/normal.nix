@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf (lib.elem "disks/normal" config.features) {
+  config = lib.mkIf (lib.elem "disks/normal" config.features.list) {
     disko.devices = {
       disk = {
         main-disk = {

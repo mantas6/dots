@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf (lib.elem "nvidia" config.features) {
+  config = lib.mkIf (lib.elem "nvidia" config.features.list) {
     nixpkgs.config.allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) [
         "nvidia-x11"

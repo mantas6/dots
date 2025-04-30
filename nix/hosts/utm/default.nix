@@ -9,7 +9,7 @@
 
   disko.devices.disk.main-disk.device = "/dev/vda";
 
-  features = [
+  features.list = [
     "desktop"
     "develop"
     "disks/normal"

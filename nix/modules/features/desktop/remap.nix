@@ -11,7 +11,7 @@
   config = {
     services = {
       xremap = {
-        enable = lib.elem "desktop" config.features;
+        enable = lib.elem "desktop" config.features.list;
 
         withX11 = true;
         watch = true;

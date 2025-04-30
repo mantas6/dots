@@ -4,7 +4,7 @@
   pkgs-unstable,
   ...
 }: {
-  config = lib.mkIf (lib.elem "desktop" config.features) {
+  config = lib.mkIf (lib.elem "desktop" config.features.list) {
     fonts = {
       fontDir.enable = true;
       fontconfig.enable = true;

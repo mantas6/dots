@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  config = lib.mkIf (lib.elem "desktop" config.features) {
+  config = lib.mkIf (lib.elem "desktop" config.features.list) {
     programs.gnupg = {
       agent = {
         enable = true;

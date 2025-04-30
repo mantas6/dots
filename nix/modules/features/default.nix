@@ -10,7 +10,7 @@
     ./nvidia.nix
   ];
 
-  options.features = lib.mkOption {
+  options.features.list = lib.mkOption {
     type = lib.types.listOf (lib.types.enum [
       "nvidia"
       "amd"

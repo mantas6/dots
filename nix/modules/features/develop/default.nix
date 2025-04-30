@@ -8,7 +8,7 @@
     ./tldr.nix
   ];
 
-  config = lib.mkIf (lib.elem "develop" config.features) {
+  config = lib.mkIf (lib.elem "develop" config.features.list) {
     # lua_ls fix
     programs.nix-ld.enable = true;
 
