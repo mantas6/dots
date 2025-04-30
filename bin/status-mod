@@ -24,6 +24,9 @@ case "$module" in
     ping)
         ping -c 1 google.com | grep 'time=' | awk -F 'time=' '/time=/{printf("%dms\n", $2)}'
         ;;
+    disk)
+        df -h --output=pcent / | sed -n '2p' | awk '{$1=$1; print}'
+        ;;
     *)
         ;;
 esac
