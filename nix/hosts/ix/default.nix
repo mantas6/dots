@@ -16,7 +16,16 @@
     # "disks/normal"
   ];
 
-  services.xserver.dpi = 100;
+  networking.interfaces = {
+    eth0.wakeOnLan.enable = true;
+  };
+
+  systemd.network.links."10-eth99" = {
+    matchConfig.PermanentMACAddress = "f8:01:b4:58:14:9f";
+    linkConfig.Name = "eth99";
+  };
+
+  # services.xserver.dpi = 100;
 
   # https://nixos.wiki/wiki/Power_Management
   services.udev.extraRules = ''
