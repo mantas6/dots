@@ -25,7 +25,7 @@ chsh -s /usr/bin/zsh
 ### Clone the repo and link
 
 ```sh
-gh repo clone mantas6/dots "$HOME/.dots"
+git clone https://github.com/mantas6/dots.git "$HOME/.dots"
 cd "$HOME/.dots"
 ./bin/dot/stw
 ```
