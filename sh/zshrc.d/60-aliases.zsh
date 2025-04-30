@@ -75,7 +75,7 @@ alias dlg="(cd $DOTS_DIR && lazygit)"
 
 alias keepon="xset s off && xset -dpms"
 
-alias vse="vf -gd $DOTS_DIR/bin"
+alias vse="vf -gd $DOTS_DIR/bin -o '-e'"
 alias vaw="vf -gd $HOME/.config/awesome"
 alias vsh="vf -gd $DOTS_DIR/sh"
 alias vrc="vf -gd $DOTS_DIR"
