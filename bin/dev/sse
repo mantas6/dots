@@ -5,6 +5,8 @@ base="$REMOTE_ROOT"
 
 cmd="exec \$SHELL -l"
 
-[ $# != 0 ] && cmd="$*"
+if [ $# != 0 ]; then
+    cmd=$(printf "'%s' " "$@")
+fi
 
 ssh -o LogLevel=QUIET -tt "$name" "cd $base; $cmd"
