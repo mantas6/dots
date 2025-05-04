@@ -31,6 +31,8 @@
       alacritty
       chromium
       firefox
+
+      zathura
     ];
   };
 }
