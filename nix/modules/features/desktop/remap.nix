@@ -16,7 +16,7 @@
         withX11 = true;
         watch = true;
 
-        yamlConfig = ''
+        yamlConfig = /*yaml*/ ''
           modmap:
             - name: Caps swap
               remap:
