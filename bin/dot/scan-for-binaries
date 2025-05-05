@@ -3,13 +3,14 @@
 
 set -eo 'pipefail'
 
-cd "$(git rev-parse --show-toplevel)" || exit 1
+cd "$(git rev-parse --show-toplevel)"
 
 files=$(git status --porcelain --no-renames --untracked-files=all | grep -Ev '^ D|^D' | cut -c4-)
 # files=$(git ls-files --others --cached --exclude-standard)
 
 [ -z "$files" ] && exit 0
 
+# will xargs fail if file cmd fails?
 file_output=$(echo "$files" | xargs file -E --mime)
 
 set +e
