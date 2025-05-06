@@ -96,3 +96,5 @@ alias sshvm='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -A'
 alias nj="jq . | nvim -Rc 'set syntax=json | set nospell' -"
 
 alias tra="sat transactions:select"
+
+d="$HOME/Downloads"
