@@ -7,8 +7,9 @@ no_add=''
 optional_changes=''
 sync=''
 msg=''
+commit_count=100
 
-while getopts ':inNsm:' opt; do
+while getopts ':inNsam:' opt; do
   case ${opt} in
     i)
         interactive=1
@@ -21,6 +22,9 @@ while getopts ':inNsm:' opt; do
         ;;
     s)
         sync=1
+        ;;
+    a)
+        commit_count=500
         ;;
     m)
         msg=${OPTARG}
@@ -44,7 +48,7 @@ fi
 
 if [ -z "$msg" ]; then
     if [ -n "$interactive" ]; then
-        msg=$(git log -n 100 --pretty=%B | sed '/^\s*$/d' | fzf)
+        msg=$(git log -n "$commit_count" --pretty=%B | sed '/^\s*$/d' | fzf)
     else
         msg=$(gum input --placeholder 'Commit message' --value="$(git log -1 --pretty=%B)")
     fi
