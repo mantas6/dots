@@ -1,6 +1,23 @@
 #!/usr/bin/env sh
 # Execute cmd or sh "main" docker container
 
+# wip
+resolve_path=''
+
+while getopts 'p' opt; do
+  case ${opt} in
+    p)
+        resolve_path=1
+        ;;
+    ?)
+      echo "Invalid option: -${OPTARG}."
+      exit 1
+      ;;
+  esac
+done
+
+shift $((OPTIND - 1))
+
 names=$(docker compose ps --format '{{.Names}}')
 
 name=$(echo "$names" | grep -i 'fpm\|laravel.test')
