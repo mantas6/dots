@@ -16,13 +16,16 @@
     # "disks/normal"
   ];
 
-  networking.interfaces = {
-    eth0.wakeOnLan.enable = true;
-  };
+  # networking.interfaces = {
+  #   net0.wakeOnLan.enable = true;
+  # };
 
-  systemd.network.links."10-eth99" = {
-    matchConfig.PermanentMACAddress = "f8:01:b4:58:14:9f";
-    linkConfig.Name = "eth99";
+  systemd.network.links."10-net0" = {
+    matchConfig.PermanentMACAddress = "04:7c:16:4f:88:ea";
+    linkConfig = {
+      Name = "net0";
+      WakeOnLan = "magic";
+    };
   };
 
   # features.docker-compose = ["test" "test2"];
