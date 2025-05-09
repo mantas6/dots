@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+# Show menu selection
+
+cmd='fzf -i'
+
+while getopts 'g' opt; do
+  case ${opt} in
+    g)
+        if [ "$(uname)" = 'Darwin' ]; then
+            cmd='choose'
+        else
+            cmd='rofi -dmenu'
+        fi
+        ;;
+    ?)
+      echo "Invalid option: -${OPTARG}."
+      exit 1
+      ;;
+  esac
+done
+
+items=$(cat)
+
+echo "$items" | $cmd
