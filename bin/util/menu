@@ -2,15 +2,16 @@
 # Show menu selection
 
 cmd='fzf -i'
+wm_mode=''
+prompt=''
 
-while getopts 'g' opt; do
+while getopts 'gi:' opt; do
   case ${opt} in
     g)
-        if [ "$(uname)" = 'Darwin' ]; then
-            cmd='choose'
-        else
-            cmd='rofi -dmenu'
-        fi
+        wm_mode=1
+        ;;
+    i)
+        prompt=${OPTARG}
         ;;
     ?)
       echo "Invalid option: -${OPTARG}."
@@ -19,6 +20,17 @@ while getopts 'g' opt; do
   esac
 done
 
-items=$(cat)
+if [ -n "$wm_mode" ]; then
+    if [ "$(uname)" = 'Darwin' ]; then
+        cmd='choose'
+    else
+        cmd='rofi -dmenu'
+    fi
+fi
 
-echo "$items" | $cmd
+if [ -n "$prompt" ]; then
+    $cmd
+else
+    items=$(cat)
+    echo "$items" | $cmd
+fi
