@@ -121,6 +121,16 @@
         &none &none        &none        &none        &none                                       &none &kp K_PWR &none &none      &bl BL_TOG &rgb_ug RGB_TOG                                     &bl BL_INC   &bl BL_DEC   &none &none &none
       >;
     };
+    extr {
+      display-name = "Extr";
+      bindings = <
+        &none &none &none &none &none &none &none                                                                                                &none &none &none &none &none &none &none
+        &none &none        &none        &none        &none        &none        &none                                                               &none &none &none &none &none &none &none
+        &none &none        &none        &none        &none        &none        &none                   &none &none &none &none                      &none &none &none &none &none &none &none
+        &none &none        &none        &none        &none   &none                                      &none &none                                       &none &none &none &none &none &none
+        &none &none        &none        &none        &none                                       &none &none &none &none &none &none                            &none &none &none &none &none
+      >;
+    };
     extra1 { 
       display-name = "Red";    
       status = "reserved";
