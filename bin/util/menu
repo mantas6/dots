@@ -5,13 +5,13 @@ cmd='fzf -i'
 wm_mode=''
 prompt=''
 
-while getopts 'gi:' opt; do
+while getopts 'wp' opt; do
   case ${opt} in
-    g)
+    w)
         wm_mode=1
         ;;
-    i)
-        prompt=${OPTARG}
+    p)
+        prompt=1
         ;;
     ?)
       echo "Invalid option: -${OPTARG}."
@@ -19,6 +19,10 @@ while getopts 'gi:' opt; do
       ;;
   esac
 done
+
+if [ -n "$prompt" ]; then
+    cmd="gum input"
+fi
 
 if [ -n "$wm_mode" ]; then
     if [ "$(uname)" = 'Darwin' ]; then
