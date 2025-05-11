@@ -20,7 +20,7 @@ class StopCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Stop tracking';
 
     /**
      * Execute the console command.

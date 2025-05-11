@@ -19,7 +19,7 @@ class PushCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Synchronize data with remote';
 
     /**
      * Execute the console command.

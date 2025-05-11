@@ -2,6 +2,7 @@
 
 namespace App\Commands\TimeEntries;
 
+use App\TimeEntry;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
@@ -19,21 +20,28 @@ class ListCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'List time entries';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        //
-    }
+        $entries = TimeEntry::query()
+            ->whereToday()
+            ->get()
+            ->map(fn (TimeEntry $entry) => [
+                $entry->task->name,
+                $entry->started_at,
+                $entry->stopped_at,
+                $entry->started_at->diffForHumans($entry->stopped_at ?: now()),
+            ])
+            ->all();
 
-    /**
-     * Define the command's schedule.
-     */
-    public function schedule(Schedule $schedule): void
-    {
-        // $schedule->command(static::class)->everyMinute();
+        $this->table(
+            headers: [],
+            rows: $entries,
+            tableStyle: 'compact',
+        );
     }
 }

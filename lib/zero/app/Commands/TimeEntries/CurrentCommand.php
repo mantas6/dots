@@ -20,7 +20,7 @@ class CurrentCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Display current task name';
 
     /**
      * Execute the console command.

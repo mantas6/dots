@@ -14,14 +14,14 @@ class StartCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'time:start {task}';
+    protected $signature = 'time:start {task-id}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Start a timer';
 
     /**
      * Execute the console command.
@@ -44,7 +44,7 @@ class StartCommand extends Command
 
         TimeEntry::create([
             'started_at' => now(),
-            'task_id' => $this->argument('task'),
+            'task_id' => $this->argument('task-id'),
         ]);
     }
 
