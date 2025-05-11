@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
-use Mantas6\FzfPhp\FuzzyFinder;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -12,7 +12,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // FuzzyFinder::usingCommand('/usr/bin/env fzf');
+        //
     }
 
     /**
@@ -20,6 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        Model::unguard();
     }
 }

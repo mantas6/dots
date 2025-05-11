@@ -2,6 +2,7 @@
 
 namespace App\Commands\TimeEntries;
 
+use App\TimeEntry;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
@@ -26,7 +27,12 @@ class CurrentCommand extends Command
      */
     public function handle()
     {
-        //
+        $runningEntry = TimeEntry::query()
+            ->whereToday()
+            ->whereNull('stopped_at')
+            ->first();
+
+        $this->line($runningEntry->task()->name);
     }
 
     /**

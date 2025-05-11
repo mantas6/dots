@@ -2,6 +2,8 @@
 
 namespace App\Commands\TimeEntries;
 
+use App\Task;
+use App\TimeEntry;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
@@ -12,7 +14,7 @@ class StartCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'time:start';
+    protected $signature = 'time:start {task}';
 
     /**
      * The console command description.
@@ -26,7 +28,24 @@ class StartCommand extends Command
      */
     public function handle()
     {
-        //
+        $runningEntry = TimeEntry::query()
+            ->whereToday()
+            ->whereNull('stopped_at')
+            ->first();
+
+        if ($runningEntry) {
+            $runningEntry->update([
+                'stopped_at' => now(),
+            ]);
+        }
+
+        // Task::query()
+        //     ->where(
+
+        TimeEntry::create([
+            'started_at' => now(),
+            'task_id' => $this->argument('task'),
+        ]);
     }
 
     /**
