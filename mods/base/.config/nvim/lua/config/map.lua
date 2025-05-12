@@ -28,6 +28,9 @@ vim.api.nvim_set_keymap('n', '<leader>en', ':e .env <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>er', ':e README.md <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>ei', ':e .gitignore <CR>', {})
 
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
 -- alias :W to :w
 vim.api.nvim_command('command W write')
 
