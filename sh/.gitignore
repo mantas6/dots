@@ -1,6 +1,7 @@
 .zcompdump
 .zcompcache
 .zsh_sessions
+.zsh_history
 
 local/*
 
