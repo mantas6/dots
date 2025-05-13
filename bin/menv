@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+all=$(env)
+
+names=(
+    'XDG_'
+    'HOMEBREW'
+    'PATH'
+)
+
+for frag in "${names[@]}"
+do
+    filtered+=$(echo "$all" | grep "$frag")
+done
+
+echo "${filtered[*]}"
