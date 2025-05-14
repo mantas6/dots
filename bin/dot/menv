@@ -1,8 +1,28 @@
 #!/usr/bin/env bash
+# Run program in user env
+
+print_and_exit=''
+
+while getopts 'p' opt; do
+  case ${opt} in
+    p)
+        print_and_exit=1
+        ;;
+    ?)
+        echo "Invalid option: -${OPTARG}."
+        exit 1
+        ;;
+  esac
+done
 
 export DOTS_DIR="$HOME/.dots"
 
 paths=$(find "$DOTS_DIR/bin" -type d | paste -sd ':' -)
+
+if [ -n "$print_and_exit" ]; then
+    echo "$paths"
+    exit 0
+fi
 
 export PATH="$PATH:$paths"
 

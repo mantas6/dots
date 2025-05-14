@@ -55,7 +55,7 @@ export QT_QPA_PLATFORMTHEME=qt6ct
 
 [ -f "$XDG_CONFIG_HOME/shell/local/profile" ] && . "$XDG_CONFIG_HOME/shell/local/profile"
 
-export PATH="$PATH:$(find "$DOTS_DIR"/bin -type d | paste -sd ':' -)"
+export PATH="$PATH:$("$DOTS_DIR/bin/dot/menv" -p)"
 
 [ -x "$(command -v npm)" ] && PATH="$(npm config get prefix)/bin:$PATH"
 
