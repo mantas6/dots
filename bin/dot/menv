@@ -9,7 +9,6 @@ while getopts 'p' opt; do
         print_and_exit=1
         ;;
     ?)
-        echo "Invalid option: -${OPTARG}."
         exit 1
         ;;
   esac
