@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+export DOTS_DIR="$HOME/.dots"
+
+paths=$(find "$DOTS_DIR/bin" -type d | paste -sd ':' -)
+
+export PATH="$PATH:$paths"
+
+"$@"
