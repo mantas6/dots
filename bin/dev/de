@@ -1,16 +1,14 @@
 #!/usr/bin/env sh
 # Execute cmd or sh "main" docker container
 
-# wip
-resolve_path=''
+container_grep=''
 
-while getopts 'p' opt; do
+while getopts 'c:' opt; do
   case ${opt} in
-    p)
-        resolve_path=1
+    c)
+        container_grep=${OPTARG}
         ;;
     ?)
-      echo "Invalid option: -${OPTARG}."
       exit 1
       ;;
   esac
@@ -20,10 +18,13 @@ shift $((OPTIND - 1))
 
 names=$(docker compose ps --format '{{.Names}}')
 
-name=$(echo "$names" | grep -i 'fpm\|laravel.test')
+if [ -n "$container_grep" ]; then
+    name=$(echo "$names" | grep -i "$container_grep")
+else
+    name=$(echo "$names" | grep -i 'fpm\|laravel.test')
 
-# Use first if no matches
-[ ! "$name" ] && name=$(echo "$names" | head -n 1)
+    [ ! "$name" ] && name=$(echo "$names" | head -n 1)
+fi
 
 if [ -t 0 ]; then
     flags='-it'
