@@ -21,7 +21,7 @@ input_cmd='gum input'
 
 action='default'
 
-while getopts ':elrf:' opt; do
+while getopts 'elrf:' opt; do
   case ${opt} in
     f)
         list=${OPTARG}
@@ -38,7 +38,6 @@ while getopts ':elrf:' opt; do
         input_cmd=(rofi -dmenu -p '> ')
         ;;
     ?)
-      echo "Invalid option: -${OPTARG}."
       show_help
       exit 1
       ;;
