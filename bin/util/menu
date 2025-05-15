@@ -22,6 +22,7 @@ done
 
 if [ -n "$prompt" ]; then
     cmd="gum input"
+    # choose -m for prompt
 fi
 
 if [ -n "$wm_mode" ]; then
