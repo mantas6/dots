@@ -13,6 +13,7 @@
     "amd"
     "desktop"
     "develop"
+    "printing"
     # "disks/normal"
   ];
 

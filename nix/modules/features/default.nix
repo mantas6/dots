@@ -8,6 +8,7 @@
     ./disks
     ./amd.nix
     ./nvidia.nix
+    ./printing.nix
   ];
 
   options.features.list = lib.mkOption {
@@ -16,6 +17,7 @@
       "amd"
       "desktop"
       "develop"
+      "printing"
 
       "disks/normal"
       "disks/encrypted"
