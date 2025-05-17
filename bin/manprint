@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 # Print man page
 
+set -e
+
 file=$(mktemp --suffix '.html')
 
 nix run nixpkgs\#mandoc -- -T html "$1" > "$file"
