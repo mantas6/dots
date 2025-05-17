@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+# Print man page
+
+file=$(mktemp --suffix '.html')
+
+nix run nixpkgs\#mandoc -- -T html "$1" > "$file"
+xdg-open "$file"
