@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+
+$filename = $argv[1];
+$title = $argv[2];
+
+$html = file_get_contents($filename);
+
+$dom = new DOMDocument();
+
+libxml_use_internal_errors(true);
+$dom->loadHTML($html);
+libxml_clear_errors();
+
+$h1 = $dom->createElement('h1', strtoupper($title));
+$h1->setAttribute('align', 'center');
+$hr = $dom->createElement('hr');
+
+$body = $dom->getElementsByTagName('body')->item(0);
+$body->insertBefore($hr, $body->firstChild);
+$body->insertBefore($h1, $body->firstChild);
+
+file_put_contents($filename, $dom->saveHTML());

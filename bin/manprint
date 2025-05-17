@@ -6,4 +6,5 @@ set -e
 file=$(mktemp --suffix '.html')
 
 nix run nixpkgs\#mandoc -- -T html "$1" > "$file"
+add-html-title "$file" "$1"
 xdg-open "$file"
