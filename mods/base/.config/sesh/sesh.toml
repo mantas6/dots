@@ -4,3 +4,7 @@ startup_command = "start-tmux-session"
 [[session]]
 name = "generic"
 path = "~"
+
+[[session]]
+name = "large"
+path = "~"

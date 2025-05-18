@@ -59,7 +59,8 @@ return function()
       {
         tag = 4,
         exec = {
-          terminal .. '  -o font.size=50 -e tmux',
+          'sesh connect large',
+          terminal .. '  -o font.size=50 -e tmux attach-session -t large',
         }
       },
       --     {
