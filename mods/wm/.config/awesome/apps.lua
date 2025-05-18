@@ -56,6 +56,12 @@ return function()
           'chromium https://google.com',
         }
       },
+      {
+        tag = 4,
+        exec = {
+          terminal .. '  -o font.size=50 -e tmux',
+        }
+      },
       --     {
       --       tag = 4,
       --       exec = {
