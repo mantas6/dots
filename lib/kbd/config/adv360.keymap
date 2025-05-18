@@ -92,7 +92,7 @@
         &lt 4 TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &kp N6                                                            &kp C_VOL_UP &kp Y  &kp U  &kp I     &kp O    &kp P    &lt 4 BSLH
         &lt 2 ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &kp Y               &tpfx &kp DEL &kp DEL  &tpfx                    &kp C_VOL_DN &kp H  &kp J  &kp K     &kp L    &kp SEMI &lt 2 SQT
         &kp LSHFT &kp Z     &kp X    &kp C    &kp V      &kp B                            &kp LALT &kp RALT                           &kp N  &kp M  &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
-        &mo 2     &kp GRAVE &kp DEL &kp SPACE &kp GRAVE      &mt RCTRL SPACE &kp BSPC   &kp LGUI  &kp RGUI &kp ENTER &mt RCTRL SPACE          &kp LBKT &kp RBKT  &kp LBKT &kp RBKT &mo 2
+        &mo 5     &kp GRAVE &kp DEL &kp SPACE &kp GRAVE      &mt RCTRL SPACE &kp BSPC   &kp LGUI  &kp RGUI &kp ENTER &mt RCTRL SPACE          &kp LBKT &kp RBKT  &kp LBKT &kp RBKT &mo 5
       >;
     };
     keypad {
@@ -109,9 +109,9 @@
       display-name = "Fn";
       bindings = <
         &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &trans                                           &mo 3 &kp F7 &kp F8 &kp F9 &wrps N9 N0 &kp F11 &kp F12
-        &trans &trans &mod LALT BSPC &mod LGUI RIGHT &trans &trans  &none                                       &none &trans &kp PG_UP &mod RCTRL PG_DN &mod RCTRL PG_UP  &mod LGUI LBKT  &trans
+        &trans &trans &mod LALT BSPC &mod LGUI RIGHT &trans &trans  &none                                       &none &trans &kp PG_UP &none &none &none  &trans
         &trans &mod LGUI LEFT &trans &kp PG_DN &mod LALT RIGHT &homend  &none        &trans &trans &trans &trans        &none &kp LEFT &kp DOWN &kp UP &kp RIGHT  &trans  &trans
-        &trans &trans &trans &trans &trans &mod LALT LEFT                      &trans &trans                     &mod LGUI RBKT &kp ENTER &trans &trans  &trans  &trans
+        &trans &trans &trans &trans &trans &mod LALT LEFT                      &trans &trans                     &none &kp ENTER &trans &trans  &trans  &trans
         &trans &trans &trans &trans &trans               &kp SPACE &trans &trans &trans &trans &kp SPACE              &trans &trans &trans  &trans  &trans
       >;
     };
@@ -129,8 +129,18 @@
       display-name = "Extr";
       bindings = <
         &none &none &none &none &none &none &none                                                                                                &none &none &none &none &none &none &none
-        &none &none        &none        &none        &none        &none        &none                                                               &none &none &mod LGUI BSPC &msc SCRL_UP &msc SCRL_DOWN &none &none
-        &none &none        &none        &none        &none        &none        &none                   &none &none &none &none                      &none &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT &none &none
+        &none &none        &none        &none        &none        &none        &none                                                               &none &none &mod LGUI BSPC &none &none &none &none
+        &none &none        &none        &none        &none        &none        &none                   &none &none &none &none                      &none &mod LGUI RBKT &mod RCTRL PG_DN &mod RCTRL PG_UP &mod LGUI LBKT &none &none
+        &none &none        &none        &none        &none   &none                                      &none &none                                       &none &none &none &none &none &none
+        &none &none        &none        &none        &none                                       &none &none &none &none &none &none                            &none &none &none &none &none
+      >;
+    };
+    mous {
+      display-name = "Mouse";
+      bindings = <
+        &none &none &none &none &none &none &none                                                                                                &none &none &none &none &none &none &none
+        &none &none        &none        &none        &none        &none        &none                                                               &none &none &msc SCRL_DOWN &none &none &none &none
+        &none &none        &none        &msc SCRL_UP        &none        &none        &none                   &none &none &none &none                      &none &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT &none &none
         &none &none        &none        &none        &none   &none                                      &kp LALT &kp LALT                                       &mkp MCLK &mkp LCLK &none &none &none &none
         &none &none        &none        &none        &none                                       &mkp MCLK &mkp RCLK &kp LGUI &kp RGUI &mkp LCLK &kp RCTRL                            &none &none &none &none &none
       >;
