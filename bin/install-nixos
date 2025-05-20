@@ -31,7 +31,7 @@ case "$type" in
         nixos-install --flake ".#$host"
         ;;
   *)
-      print_help
+      show_help
     ;;
 esac
 
