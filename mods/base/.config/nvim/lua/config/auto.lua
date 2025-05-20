@@ -16,6 +16,12 @@ autocmd('FileType', {
     command = 'setlocal shiftwidth=2 softtabstop=2 expandtab',
 })
 
+autocmd({"BufWritePre"}, {
+    group = group,
+    pattern = "*",
+    command = [[%s/\s\+$//e]],
+})
+
 vim.filetype.add({
   pattern = {
     [".*%.blade%.php"] = "html",
