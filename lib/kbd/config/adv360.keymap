@@ -111,7 +111,7 @@
         &trans &trans &mod LALT BSPC &mod LGUI RIGHT &trans &trans  &none                                       &none &trans &kp PG_UP &none &none &none  &trans
         &trans &mod LGUI LEFT &trans &kp PG_DN &mod LALT RIGHT &homend  &none        &trans &trans &trans &trans        &none &kp LEFT &kp DOWN &kp UP &kp RIGHT  &trans  &trans
         &trans &trans &trans &trans &trans &mod LALT LEFT                      &trans &trans                     &none &kp ENTER &trans &trans  &trans  &trans
-        &trans &trans &trans &trans &trans               &kp SPACE &trans &trans &trans &trans &kp SPACE              &trans &trans &trans  &trans  &trans
+        &trans &trans &trans &trans &trans               &kp SPACE &trans &trans &trans &trans &kp SPACE              &wrps LBKT RBKT &trans &trans  &trans  &trans
       >;
     };
     mod {
