@@ -29,6 +29,7 @@
       shellcheck
       ripgrep
       fd
+      entr
 
       lazygit
       lazydocker
@@ -40,7 +41,7 @@
 
       nixd
       alejandra
-      deadnix
+      # deadnix
     ];
   };
 }
