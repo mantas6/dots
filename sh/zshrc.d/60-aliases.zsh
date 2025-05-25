@@ -5,7 +5,6 @@ alias ls='ls --color=auto -h'
 alias grep='grep --color=auto'
 alias ip='ip -color=auto'
 alias diff='diff --color=auto'
-alias tree="tree -C"
 
 # Use neovim if available
 [ -x "$(command -v nvim)" ] && alias vim="nvim" vi="nvim"
@@ -39,7 +38,7 @@ alias ze='z "$(tmux display-message -p "#S")"'
 alias zf='eval "$(__fzf_cd__)"'
 
 alias sail="vendor/bin/sail"
-alias artisan="de php artisan"
+alias artisan="a"
 alias composer="c"
 alias s="sail"
 
@@ -50,9 +49,6 @@ alias pc='precommit'
 alias dup='docker compose up'
 alias dst='docker compose stop'
 
-alias g="git"
-alias gp="g pull"
-alias gP="g push"
 alias lg="lazygit"
 alias ld="lazydocker"
 alias glc="git log -1 --pretty=%B"
@@ -88,7 +84,6 @@ alias qla="bm -lf $XDG_STATE_HOME/bm_ql | xargs open-url"
 
 # Networking
 alias pingg="ping google.com"
-alias ipa="ip a"
 
 alias sshvm='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -A'
 
