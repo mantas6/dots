@@ -19,3 +19,5 @@ mouse-scroll-multiplier = 0.5
 
 shell-integration-features = no-cursor
 cursor-style-blink = false
+
+keybind = cmd+enter=unbind
