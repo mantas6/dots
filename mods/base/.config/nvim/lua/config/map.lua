@@ -27,6 +27,7 @@ vim.api.nvim_set_keymap('n', '<leader>ed', ':e *compose.y* <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>en', ':e .env <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>er', ':e README.md <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>ei', ':e .gitignore <CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>ex', ':e .git/info/exclude <CR>', {})
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
