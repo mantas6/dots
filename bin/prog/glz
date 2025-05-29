@@ -7,9 +7,10 @@ no_add=''
 optional_changes=''
 sync=''
 msg=''
+no_ask_msg=false
 commit_count=100
 
-while getopts ':inNsam:' opt; do
+while getopts ':inNsafm:' opt; do
   case ${opt} in
     i)
         interactive=1
@@ -25,6 +26,9 @@ while getopts ':inNsam:' opt; do
         ;;
     a)
         commit_count=500
+        ;;
+    f)
+        no_ask_msg=true
         ;;
     m)
         msg=${OPTARG}
@@ -46,12 +50,18 @@ if [ -z "$(git status --porcelain)" ]; then
     exit 1
 fi
 
-if [ -z "$msg" ]; then
-    if [ -n "$interactive" ]; then
-        msg=$(git log -n "$commit_count" --pretty=%B | sed '/^\s*$/d' | fzf)
-    else
-        msg=$(gum input --placeholder 'Commit message' --value="$(git log -1 --pretty=%B)")
+last_msg=$(git log -1 --pretty=%B)
+
+if ! "$no_ask_msg"; then
+    if [ -z "$msg" ]; then
+        if [ -n "$interactive" ]; then
+            msg=$(git log -n "$commit_count" --pretty=%B | sed '/^\s*$/d' | fzf)
+        else
+            msg=$(gum input --placeholder 'Commit message' --value="$last_msg")
+        fi
     fi
+else
+    msg="$last_msg"
 fi
 
 echo "$msg"
