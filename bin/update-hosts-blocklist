@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 # Update hosts block list for dnsmasq
 
+set -e
+
 url=""
 outfile="$HOME/hosts.blocklist"
 
