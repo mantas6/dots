@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+# Update hosts block list for dnsmasq
+
+url=""
+outfile="$HOME/hosts.blocklist"
+
+tmpfile=$(mktemp)
+
+curl -fsSL "$url" -o "$tmpfile"
+
+cp -f "$tmpfile" "$outfile"
+
+rm "$tmpfile"
