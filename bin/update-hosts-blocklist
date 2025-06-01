@@ -3,7 +3,7 @@
 
 set -e
 
-url=""
+url="https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
 outfile="$HOME/hosts.blocklist"
 
 tmpfile=$(mktemp)
