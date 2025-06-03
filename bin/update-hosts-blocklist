@@ -10,6 +10,9 @@ tmpfile=$(mktemp)
 
 curl -fsSL "$url" -o "$tmpfile"
 
+# validation
+stat -f "%z" "$tmpfile"
+
 cp -f "$tmpfile" "$outfile"
 
 rm "$tmpfile"
