@@ -12,6 +12,6 @@ curl -fsSL "$url" -o "$tmpfile"
 
 chmod 644 "$tmpfile"
 
-cp -fv "$tmpfile" "$outfile"
+cp -afv "$tmpfile" "$outfile"
 
 rm "$tmpfile"
