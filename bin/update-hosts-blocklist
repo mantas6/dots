@@ -10,7 +10,7 @@ tmpfile=$(mktemp)
 
 curl -fsSL "$url" -o "$tmpfile"
 
-mkdir -p "$(dirname "$outfile")"
+chmod 644 "$tmpfile"
 
 cp -fv "$tmpfile" "$outfile"
 
