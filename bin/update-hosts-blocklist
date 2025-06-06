@@ -4,15 +4,14 @@
 set -e
 
 url="https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
-outfile="$HOME/hosts.blocklist"
+outfile="/var/lib/misc/hosts.blocklist"
 
 tmpfile=$(mktemp)
 
 curl -fsSL "$url" -o "$tmpfile"
 
-# validation
-stat -f "%z" "$tmpfile"
+mkdir -p "$(dirname "$outfile")"
 
-cp -f "$tmpfile" "$outfile"
+cp -fv "$tmpfile" "$outfile"
 
 rm "$tmpfile"
