@@ -15,3 +15,5 @@ chmod 644 "$tmpfile"
 cp -afv "$tmpfile" "$outfile"
 
 rm "$tmpfile"
+
+kill -SIGHUP "$(pgrep dnsmasq)"
