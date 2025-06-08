@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # Update hosts block list for dnsmasq
 
 set -e
@@ -9,6 +9,8 @@ outfile="/var/lib/misc/hosts.blocklist"
 tmpfile=$(mktemp)
 
 curl -fsSL "$url" -o "$tmpfile"
+
+cmp "$tmpfile" "$outfile" && exit 0
 
 chmod 644 "$tmpfile"
 
