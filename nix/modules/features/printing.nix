@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }: {
   config = lib.mkIf (lib.elem "printing" config.features.list) {
@@ -13,5 +14,9 @@
         openFirewall = true;
       };
     };
+
+    environment.systemPackages = with pkgs; [
+      mandoc
+    ];
   };
 }
