@@ -6,7 +6,7 @@ set -e
 dir=.
 files_cmd='find . -type f'
 opts="$FZF_DEFAULT_OPTS"
-preview=false
+preview_and_exit=false
 
 while getopts 'd:go:hp' opt; do
   case ${opt} in
@@ -20,7 +20,7 @@ while getopts 'd:go:hp' opt; do
         opts="$opts ${OPTARG}"
         ;;
     p)
-        preview=true
+        preview_and_exit=true
         ;;
     h)
         echo "$(basename "$0") [-g] [-d directory] [fragment]..."
@@ -50,7 +50,7 @@ selected=$(echo "$files" | sed 's|^./||' | fzf --preview "bat --color=always {}"
     --preview-window "~3" \
     --select-1)
 
-if $preview; then
+if $preview_and_exit; then
     bat "$selected"
     exit 0
 fi
