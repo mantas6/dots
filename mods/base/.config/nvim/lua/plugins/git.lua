@@ -37,12 +37,13 @@ return {
         -- Actions
         map('n', '<leader>gS', gs.stage_buffer)
         map('n', '<leader>ga', gs.stage_hunk)
-        map('n', '<leader>gu', gs.undo_stage_hunk)
-        map('n', '<leader>gD', gs.reset_buffer)
+        map('n', '<leader>gu', gs.reset_hunk)
+        map('n', '<leader>gd', gs.undo_stage_hunk)
+        map('n', '<leader>ge', gs.reset_buffer)
         map('n', '<leader>gk', gs.preview_hunk)
         map('n', '<leader>gv', ':<C-U>Gitsigns select_hunk<CR>')
 
-        map('n', '<leader>gd', gs.diffthis)
+        map('n', '<leader>gl', gs.diffthis)
         -- map('n', '<leader>gD', function() gs.diffthis('~') end)
       end
     })
