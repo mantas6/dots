@@ -23,6 +23,7 @@ return {
               "vue",
               "json",
               "twig",
+              "diff",
           },
 
           -- Install parsers synchronously (only applied to `ensure_installed`)
