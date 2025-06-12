@@ -151,7 +151,7 @@
         &mod LSHFT EQUAL &mod LSHFT N1  &mod LSHFT N2 &mod LSHFT N3 &mod LSHFT N4 &mod LSHFT N5 &none                                             &none &mod LSHFT N6 &mod LSHFT N7 &mod LSHFT N8    &mod LSHFT N9   &mod LSHFT N0   &mod LSHFT MINUS
         &kp EQUAL &kp N1   &kp N2       &kp N3       &kp N4       &kp N5       &none                   &none &none &none &none                      &none &kp N6 &kp N7 &kp N8    &kp N9   &kp N0   &kp MINUS
         &none &none        &none        &kp GRAVE        &mod LSHFT GRAVE   &none                     &kp LALT &kp LALT                                       &none &mod LSHFT LBKT  &mod LSHFT RBKT &kp LBKT  &kp RBKT &none
-        &none &none        &none        &none        &none                                       &none &kp DEL &kp LGUI &kp RGUI &none &none                            &none &none &none &none &none
+        &none &none        &none        &none        &none                                       &none &kp BSPC &kp LGUI &kp RGUI &none &none                            &none &none &none &none &none
       >;
     };
     extra1 {
