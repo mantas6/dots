@@ -89,9 +89,9 @@
       bindings = <
         &kp EQUAL &kp N1    &kp N2   &kp N3   &kp N4     &kp N5 &tog 2                                                           &mo 3 &kp N6 &kp N7 &kp N8    &kp N9   &kp N0   &kp MINUS
         &lt 4 TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &kp N6                                                            &kp C_VOL_UP &kp Y  &kp U  &kp I     &kp O    &kp P    &lt 4 BSLH
-        &lt 2 ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &kp Y               &tpfx &kp DEL &kp DEL  &tpfx                    &kp C_VOL_DN &kp H  &kp J  &kp K     &kp L    &kp SEMI &lt 2 SQT
+        &lt 2 ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &kp Y               &tpfx &lt 6 DEL &lt 6 DEL  &tpfx                    &kp C_VOL_DN &kp H  &kp J  &kp K     &kp L    &kp SEMI &lt 2 SQT
         &kp LSHFT &kp Z     &kp X    &kp C    &kp V      &kp B                            &kp LALT &kp RALT                           &kp N  &kp M  &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
-        &mo 5     &kp GRAVE &kp DEL &kp SPACE &kp GRAVE      &mt RCTRL SPACE &lt 6 BSPC   &kp LGUI  &kp RGUI &lt 6 ENTER &mt RCTRL SPACE          &kp LBKT &kp RBKT  &kp LBKT &kp RBKT &mo 5
+        &mo 5     &kp GRAVE &kp DEL &kp SPACE &kp GRAVE      &mt RCTRL SPACE &kp BSPC   &kp LGUI  &kp RGUI &kp ENTER &mt RCTRL SPACE          &kp LBKT &kp RBKT  &kp LBKT &kp RBKT &mo 5
       >;
     };
     keypad {
