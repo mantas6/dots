@@ -89,9 +89,9 @@
       bindings = <
         &kp EQUAL &kp N1    &kp N2   &kp N3   &kp N4     &kp N5 &tog 2                                                           &mo 3 &kp N6 &kp N7 &kp N8    &kp N9   &kp N0   &kp MINUS
         &lt 4 TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &kp N6                                                            &kp C_VOL_UP &kp Y  &kp U  &kp I     &kp O    &kp P    &lt 4 BSLH
-        &lt 2 ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &kp Y               &tpfx &lt 6 DEL &lt 6 DEL  &tpfx                    &kp C_VOL_DN &kp H  &kp J  &kp K     &kp L    &kp SEMI &lt 2 SQT
+        &lt 2 ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &kp Y               &tpfx &kp DEL &kp DEL  &tpfx                    &kp C_VOL_DN &kp H  &kp J  &kp K     &kp L    &kp SEMI &lt 2 SQT
         &kp LSHFT &kp Z     &kp X    &kp C    &kp V      &kp B                            &kp LALT &kp RALT                           &kp N  &kp M  &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
-        &mo 5     &kp GRAVE &kp DEL &kp SPACE &kp GRAVE      &mt RCTRL SPACE &kp BSPC   &kp LGUI  &kp RGUI &kp ENTER &mt RCTRL SPACE          &kp LBKT &kp RBKT  &kp LBKT &kp RBKT &mo 5
+        &mo 5     &kp GRAVE &kp DEL &kp SPACE &kp GRAVE      &mt RCTRL SPACE &mt 6 BSPC   &kp LGUI  &kp RGUI &mt 6 ENTER &mt RCTRL SPACE          &kp LBKT &kp RBKT  &kp LBKT &kp RBKT &mo 5
       >;
     };
     keypad {
@@ -111,7 +111,7 @@
         &trans &trans &mod LALT BSPC &mod LGUI RIGHT &trans &trans  &none                                       &none &trans &kp PG_UP &none &none &none  &trans
         &trans &mod LGUI LEFT &trans &kp PG_DN &mod LALT RIGHT &homend  &none        &trans &trans &trans &trans        &none &kp LEFT &kp DOWN &kp UP &kp RIGHT  &trans  &trans
         &trans &trans &trans &trans &trans &mod LALT LEFT                      &trans &trans                     &none &kp ENTER &trans &trans  &trans  &trans
-        &trans &trans &trans &trans &trans               &kp SPACE &trans &trans &trans &trans &kp SPACE              &wrps LBKT RBKT &trans &trans  &trans  &trans
+        &trans &trans &trans &trans &trans               &kp SPACE &kp DEL &trans &trans &kp DEL &kp SPACE              &wrps LBKT RBKT &trans &trans  &trans  &trans
       >;
     };
     mod {
@@ -150,8 +150,8 @@
         &none &none &none &none &none &none &none                                                                                                &none &none &none &none &none &none &none
         &mod LSHFT EQUAL &mod LSHFT N1  &mod LSHFT N2 &mod LSHFT N3 &mod LSHFT N4 &mod LSHFT N5 &none                                             &none &mod LSHFT N6 &mod LSHFT N7 &mod LSHFT N8    &mod LSHFT N9   &mod LSHFT N0   &mod LSHFT MINUS
         &kp EQUAL &kp N1   &kp N2       &kp N3       &kp N4       &kp N5       &none                   &none &none &none &none                      &none &kp N6 &kp N7 &kp N8    &kp N9   &kp N0   &kp MINUS
-        &none &none        &none        &kp GRAVE        &mod LSHFT GRAVE   &none                     &kp LALT &kp LALT                                       &none &kp RBKT  &kp LBKT &none &none &none
-        &none &none        &none        &none        &none                                       &none &none &kp LGUI &kp RGUI &none &none                            &none &none &none &none &none
+        &none &none        &none        &kp GRAVE        &mod LSHFT GRAVE   &none                     &kp LALT &kp LALT                                       &none &mod LSHFT LBKT  &mod LSHFT RBKT &kp LBKT  &kp RBKT &none
+        &none &none        &none        &none        &none                                       &none &kp DEL &kp LGUI &kp RGUI &none &none                            &none &none &none &none &none
       >;
     };
     extra1 {
