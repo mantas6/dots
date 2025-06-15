@@ -4,7 +4,7 @@
 
 ### Install core dependencies
 
-Debianm
+Debian
 
 ```sh
 sudo apt install git stow zsh
