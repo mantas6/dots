@@ -8,9 +8,10 @@ optional_changes=''
 sync=''
 msg=''
 no_ask_msg=false
+no_push=false
 commit_count=100
 
-while getopts ':inNsafm:' opt; do
+while getopts ':inNHsafm:' opt; do
   case ${opt} in
     i)
         interactive=1
@@ -20,6 +21,9 @@ while getopts ':inNsafm:' opt; do
         ;;
     N)
         optional_changes=1
+        ;;
+    H)
+        no_push=true
         ;;
     s)
         sync=1
@@ -70,4 +74,5 @@ echo "$msg"
 
 git commit -m "$msg"
 [ -n "$sync" ] && git pull --no-edit
-git push
+
+! $no_push && git push
