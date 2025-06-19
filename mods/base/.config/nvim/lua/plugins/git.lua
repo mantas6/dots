@@ -49,7 +49,7 @@ return {
 
         map('n', '<leader>gb', gs.blame_line)
 
-        map('n', '<leader>gl', gs.diffthis)
+        -- map('n', '<leader>gl', gs.diffthis)
         -- map('n', '<leader>gD', function() gs.diffthis('~') end)
       end
     })
