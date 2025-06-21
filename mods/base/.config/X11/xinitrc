@@ -34,7 +34,7 @@ fi
 xset -b
 
 [ -x "$(command -v unclutter )" ] && unclutter &
-[ -x "$(command -v numlockx )" ] && numlockx &
+# [ -x "$(command -v numlockx )" ] && numlockx &
 
 [ -x "$(command -v xss-lock)" ] && xss-lock i3lock &
 [ -x "$(command -v lxpolkit)" ] && lxpolkit &
