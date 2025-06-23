@@ -39,7 +39,7 @@
   # networking.interfaces.unmn0.useDHCP = false;
 
   # features.docker-compose = ["test" "test2"];
-  features.docker-compose = [];
+  features.services = ["photosync"];
 
   # services.xserver.dpi = 100;
 
