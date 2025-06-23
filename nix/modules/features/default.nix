@@ -1,5 +1,6 @@
 {
   lib,
+  config,
   ...
 }: {
   imports = [
@@ -11,20 +12,17 @@
     ./printing.nix
   ];
 
-  options.features.list = lib.mkOption {
-    type = lib.types.listOf (lib.types.enum [
-      "nvidia"
-      "amd"
-      "desktop"
-      "develop"
-      "printing"
+  options = {
+    features.listAvailable = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = "Define all available features";
+    };
 
-      "disks/normal"
-      "disks/encrypted"
-    ]);
-
-    default = [];
-
-    description = "List of globally enabled features for this host.";
+    features.list = lib.mkOption {
+      type = lib.types.listOf (lib.types.enum config.features.listAvailable);
+      default = [];
+      description = "List of globally enabled features for this host.";
+    };
   };
 }

@@ -1,6 +1,4 @@
 {
-  lib,
-  config,
   ...
 }: {
   imports = [
@@ -10,9 +8,8 @@
     ./pkgs.nix
     ./pass.nix
     ./remap.nix
+    ./comms.nix
   ];
 
-  config = lib.mkIf (lib.elem "desktop" config.features.list) {
-    hardware.bluetooth.enable = true;
-  };
+  features.listAvailable = ["desktop"];
 }
