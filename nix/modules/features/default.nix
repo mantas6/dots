@@ -7,6 +7,7 @@
     ./desktop
     ./develop
     ./disks
+    ./quirks
     ./amd.nix
     ./nvidia.nix
     ./printing.nix

@@ -14,14 +14,10 @@
     "nvidia"
     "desktop"
     "develop"
+    "quirks/amd-sleep"
   ];
 
   # services.xserver.dpi = 100;
-
-  # https://nixos.wiki/wiki/Power_Management
-  services.udev.extraRules = ''
-    ACTION=="add", SUBSYSTEM=="pci", DRIVER=="pcieport", ATTR{power/wakeup}="disabled"
-  '';
 
   networking.hostName = "a5";
 

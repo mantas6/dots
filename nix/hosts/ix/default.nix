@@ -14,6 +14,7 @@
     "desktop"
     "develop"
     "printing"
+    "quirks/amd-sleep"
     # "disks/normal"
   ];
 
@@ -42,11 +43,6 @@
   # features.services = ["photosync"];
 
   # services.xserver.dpi = 100;
-
-  # https://nixos.wiki/wiki/Power_Management
-  services.udev.extraRules = ''
-    ACTION=="add", SUBSYSTEM=="pci", DRIVER=="pcieport", ATTR{power/wakeup}="disabled"
-  '';
 
   networking.hostName = "ix";
 
