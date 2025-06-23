@@ -11,7 +11,7 @@
 
   features.list = [
     "disks/normal"
-    "amd"
+    "nvidia"
     "desktop"
     "develop"
   ];
