@@ -34,6 +34,7 @@
       lazygit
       lazydocker
       xh
+      pastel
 
       gnumake
       gitleaks
