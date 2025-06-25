@@ -18,10 +18,6 @@ in {
           openFirewall = true;
         };
       };
-
-      environment.systemPackages = with pkgs; [
-        mandoc
-      ];
     })
   ];
 }
