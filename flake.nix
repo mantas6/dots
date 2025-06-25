@@ -45,15 +45,15 @@
       };
     };
 
-    # nixosConfigurations.a5 = nixpkgs.lib.nixosSystem {
-    #   modules = [
-    #       ./nix/hosts/a5
-    #     ];
-    #
-    #   specialArgs = {
-    #     inherit inputs;
-    #     inherit pkgs-unstable;
-    #   };
-    # };
+    nixosConfigurations.amd = nixpkgs.lib.nixosSystem {
+      modules = [
+          ./nix/hosts/amd
+        ];
+
+      specialArgs = {
+        inherit inputs;
+        inherit pkgs-unstable;
+      };
+    };
   };
 }
