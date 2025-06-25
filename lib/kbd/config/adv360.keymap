@@ -57,6 +57,21 @@
                 , <&macro_release &kp LSHFT>
                 ;
         };
+
+        vline: select_whole_line {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LGUI>
+                , <&macro_tap &kp LEFT>
+                , <&macro_release &kp LGUI>
+                , <&macro_press &kp LSHFT>
+                , <&macro_press &kp LGUI>
+                , <&macro_tap &kp RIGHT>
+                , <&macro_release &kp LGUI>
+                , <&macro_release &kp LSHFT>
+                ;
+        };
     };
 
     behaviors {
@@ -110,7 +125,7 @@
         &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &trans                                           &mo 3 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12
         &trans &trans &mod LALT BSPC &mod LGUI RIGHT &trans &trans  &none                                       &none &trans &kp PG_UP &none &none &none  &trans
         &trans &mod LGUI LEFT &trans &kp PG_DN &mod LALT RIGHT &homend  &none        &trans &trans &trans &trans        &none &kp LEFT &kp DOWN &kp UP &kp RIGHT  &trans  &trans
-        &trans &trans &trans &trans &trans &mod LALT LEFT                      &trans &trans                     &none &kp ENTER &trans &trans  &trans  &trans
+        &trans &trans &trans &trans &vline &mod LALT LEFT                      &trans &trans                     &none &kp ENTER &trans &trans  &trans  &trans
         &trans &trans &trans &trans &trans               &kp RCTRL &kp BSPC &trans &trans &kp DEL &kp RCTRL              &trans &trans &trans  &trans  &trans
       >;
     };
