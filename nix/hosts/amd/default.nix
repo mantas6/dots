@@ -19,7 +19,7 @@
 
   # services.xserver.dpi = 100;
 
-  networking.hostName = "a5";
+  networking.hostName = "amd";
 
   system.stateVersion = "25.05";
 }
