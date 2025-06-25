@@ -31,6 +31,8 @@ class PrintBible extends Command
     {
         $browser = new HttpBrowser;
 
+        $this->document .= '<style>'.$this->getStyle().'</style>';
+
         foreach (range($this->argument('start-num'), $this->argument('end-num')) as $num) {
             $url = str_replace('{}', $num, $this->argument('url'));
             $browser->request('GET', $url);
@@ -42,10 +44,19 @@ class PrintBible extends Command
                         return;
                     }
 
-                    $this->document .= '<table width="100%" border="0" cellspacing="2" a=""><tbody>' . $el->html() . '</tbody></table>';
+                    $remove = '<tr align="left" valign="top"><td colspan="2" class="bibl_isnasa_vardas">Bibliografiniai duomenys:</td></tr><tr align="left" valign="top"><td colspan="2"><p>ŠVENTASIS RAŠTAS. Senasis ir Naujasis Testamentas. – Vilnius: Lietuvos Katalikų  Vyskupų Konferencija, 1998.</p> <p>© Lietuvos Vyskupų Konferencija, 1998. <a href="http://biblija.lt/index.aspx/lt_vertimai/leidimai/b_rk_k1998/">Išsamiai apie leidimą &gt;&gt;</a></p> </td> </tr>';
+
+                    $contents = str_replace($remove, '', $el->html());
+
+                    $this->document .= '<table width="100%" border="0" cellspacing="2" a=""><tbody>'.$contents.'</tbody></table>';
                 });
         }
 
         $this->line($this->document);
+    }
+
+    private function getStyle(): string
+    {
+        return file_get_contents(base_path('stubs/bible-style.css'));
     }
 }
