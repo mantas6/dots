@@ -55,5 +55,16 @@
         inherit pkgs-unstable;
       };
     };
+
+    # nixosConfigurations.l4 = nixpkgs.lib.nixosSystem {
+    #   modules = [
+    #       ./nix/hosts/l4
+    #     ];
+    #
+    #   specialArgs = {
+    #     inherit inputs;
+    #     inherit pkgs-unstable;
+    #   };
+    # };
   };
 }
