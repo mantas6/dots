@@ -1,7 +1,7 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-{...}: {
+{pkgs-unstable, ...}: {
   imports = [
     ./hardware.nix
     ../../modules
@@ -25,6 +25,11 @@
       device = "/var/lib/swapfile";
       size = 8 * 1024;
     }
+  ];
+
+  environment.systemPackages = with pkgs-unstable; [
+    exiftool
+    python3Minimal
   ];
 
   services.logind.powerKey = "poweroff";
