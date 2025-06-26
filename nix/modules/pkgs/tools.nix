@@ -26,6 +26,7 @@
     btop
     jq
     file
+
     exiftool
     python3Minimal
 
