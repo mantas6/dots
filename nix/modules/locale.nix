@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs, lib, ...}: {
   time.timeZone = "Europe/Vilnius";
   time.hardwareClockInLocalTime = true;
 
@@ -6,7 +6,8 @@
 
   console = {
     packages = with pkgs; [terminus_font];
-    font = "ter-v32n";
+    # ls -1 /etc/kbd/consolefonts | sort | less
+    font = lib.mkDefault "ter-v32n";
     keyMap = "us";
   };
 }
