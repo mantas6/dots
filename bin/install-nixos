@@ -19,14 +19,14 @@ case "$type" in
     normal)
         nix run nixpkgs#nixos-anywhere -- \
             --flake ".#$host" \
-            --generate-hardware-config nixos-generate-config nix/hosts/amd/hardware.nix \
+            --generate-hardware-config nixos-generate-config nix/hosts/"$host"/hardware.nix \
             --target-host "mantas@$host"
         ;;
     encrypted)
         nix run nixpkgs#nixos-anywhere -- \
             --flake ".#$host" \
             --disk-encryption-keys /tmp/secret.key <(pass "hosts/$host") \
-            --generate-hardware-config nixos-generate-config nix/hosts/amd/hardware.nix \
+            --generate-hardware-config nixos-generate-config nix/hosts/"$host"/hardware.nix \
             --target-host "mantas@$host"
         ;;
     local)
