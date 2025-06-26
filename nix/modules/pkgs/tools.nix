@@ -27,6 +27,7 @@
     jq
     file
     exiftool
+    python3Minimal
 
     killall
 
