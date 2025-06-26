@@ -1,3 +1,3 @@
-{
-  services.logind.powerKey = "suspend";
+{lib, ...}: {
+  services.logind.powerKey = lib.mkDefault "suspend";
 }

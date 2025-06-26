@@ -27,6 +27,8 @@
     }
   ];
 
+  services.logind.powerKey = "poweroff";
+
   console.font = "ter-120b";
 
   networking.hostName = "l4";
