@@ -1,4 +1,8 @@
-{pkgs, lib, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   time.timeZone = "Europe/Vilnius";
   time.hardwareClockInLocalTime = true;
 

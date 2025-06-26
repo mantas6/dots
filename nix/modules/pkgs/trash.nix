@@ -1,4 +1,4 @@
-{pkgs-unstable, ...}: let 
+{pkgs-unstable, ...}: let
   serviceName = "trash-empty";
 in {
   environment.systemPackages = with pkgs-unstable; [

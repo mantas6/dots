@@ -1,6 +1,4 @@
-{
-  ...
-}: {
+{...}: {
   imports = [
     ./xserver.nix
     ./fonts.nix

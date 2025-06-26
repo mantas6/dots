@@ -47,8 +47,8 @@
 
     nixosConfigurations.amd = nixpkgs.lib.nixosSystem {
       modules = [
-          ./nix/hosts/amd
-        ];
+        ./nix/hosts/amd
+      ];
 
       specialArgs = {
         inherit inputs;
@@ -58,8 +58,8 @@
 
     nixosConfigurations.l4 = nixpkgs.lib.nixosSystem {
       modules = [
-          ./nix/hosts/l4
-        ];
+        ./nix/hosts/l4
+      ];
 
       specialArgs = {
         inherit inputs;
