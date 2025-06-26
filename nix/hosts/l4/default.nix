@@ -29,7 +29,7 @@
 
   services.logind.powerKey = "poweroff";
 
-  console.font = "ter-732b";
+  console.font = "ter-732n";
 
   networking.hostName = "l4";
 
