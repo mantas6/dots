@@ -1,11 +1,16 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-repo="$HOME"/Repos/laravel-docs
+set -eo 'pipefail'
+
+repo="$HOME/Repos/laravel-docs"
 
 [ ! -d "$repo" ] && git clone https://github.com/laravel/docs "$repo"
-cd "$repo" || exit 1
+cd "$repo"
 
-git pull > /dev/null &
+git fetch --all
+git branch -a | sed 's/* //' | awk '{$1=$1};1' | sed 's#remotes/[^/]*/##' | fzf | xargs git checkout
 
-file=$(fzf --preview 'glow -s dark {}')
-sed 's/\[\([^][]*\)\]([^()]*)/\1/g' "$file" | glow -p
+file=$(mktemp --suffix=.md)
+cat ./* > "$file"
+
+nvim -R "$file"
