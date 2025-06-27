@@ -18,17 +18,7 @@
     # "disks/normal"
   ];
 
-  # networking.interfaces = {
-  #   net0.wakeOnLan.enable = true;
-  # };
-
-  systemd.network.links."10-net0" = {
-    matchConfig.PermanentMACAddress = "04:7c:16:4f:88:ea";
-    linkConfig = {
-      Name = "net0";
-      WakeOnLan = "magic";
-    };
-  };
+  features.wakeOnLanAdapterMAC =  "04:7c:16:4f:88:ea";
 
   # systemd.network.links."10-unmn0" = {
   #   matchConfig.PermanentMACAddress = "60:7d:09:a9:4a:1c";
