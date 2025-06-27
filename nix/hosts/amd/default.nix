@@ -17,6 +17,8 @@
     "quirks/amd-sleep"
   ];
 
+  features.wakeOnLanAdapterMAC =  "10:ff:e0:6d:48:60";
+
   # services.xserver.dpi = 100;
 
   networking.hostName = "amd";
