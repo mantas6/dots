@@ -11,6 +11,7 @@
     ./amd.nix
     ./nvidia.nix
     ./printing.nix
+    ./backlight.nix
   ];
 
   options = {

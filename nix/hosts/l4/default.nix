@@ -11,6 +11,7 @@
 
   features.list = [
     "disks/normal"
+    "backlight"
   ];
 
   systemd.sleep.extraConfig = ''
