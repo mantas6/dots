@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+
+set -e
+
+repo_dir="$HOME/Repos/wallpapers"
+state_dir="$HOME/.local/state/wallpaper"
+
+mkdir -pv "$state_dir"
+
+if [ ! -d "$repo_dir" ]; then
+    git clone https://github.com/mantas6/wallpapers "$repo_dir"
+fi
+
+cd "$repo_dir"
+git pull
+
+wal_file="$state_dir/current.jpg"
+
+if [ ! -f "$wal_file" ]; then
+    source=$(uname -n).jpg
+
+    [ ! -f "$source" ] && source=any.jpg
+
+    cp -v "$source" "$wal_file"
+fi
