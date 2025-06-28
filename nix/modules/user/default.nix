@@ -8,7 +8,7 @@
   users.users.mantas = {
     isNormalUser = true;
     password = "2";
-    extraGroups = ["wheel"];
+    extraGroups = ["wheel" "dialout"];
   };
 
   environment.variables.EDITOR = "${pkgs.neovim}/bin/nvim";
