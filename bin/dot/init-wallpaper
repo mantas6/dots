@@ -5,6 +5,19 @@ set -e
 repo_dir="$HOME/Repos/wallpapers"
 state_dir="$HOME/.local/state/wallpaper"
 
+force_set=false
+
+while getopts 'f' opt; do
+  case ${opt} in
+    f)
+        force_set=true
+        ;;
+    ?)
+      exit 1
+      ;;
+  esac
+done
+
 mkdir -pv "$state_dir"
 
 if [ ! -d "$repo_dir" ]; then
@@ -16,10 +29,12 @@ git pull
 
 wal_file="$state_dir/current.jpg"
 
-if [ ! -f "$wal_file" ]; then
+if [ ! -f "$wal_file" ] || $force_set; then
     source=$(uname -n).jpg
 
     [ ! -f "$source" ] && source=any.jpg
 
     cp -v "$source" "$wal_file"
+
+    feh --bg-fill --no-fehbg "$wal_file"
 fi
