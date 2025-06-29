@@ -24,6 +24,7 @@ return {
               "json",
               "twig",
               "diff",
+              "udev",
           },
 
           -- Install parsers synchronously (only applied to `ensure_installed`)
