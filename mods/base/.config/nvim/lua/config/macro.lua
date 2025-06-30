@@ -9,6 +9,7 @@ autocmd('BufEnter', {
   callback = function()
     vim.fn.setreg('l',  "oconsole.log()ha")
     vim.fn.setreg('m',  "$a() {}==")
+    vim.fn.setreg('o',  "^f}i\nO")
   end
 })
 
