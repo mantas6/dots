@@ -4,3 +4,5 @@ mods/base/.stow-local-ignore
 srv/*/data/*
 srv/*/.env
 srv/*.local
+
+.DS_Store
