@@ -1,1 +1,1 @@
-cmd - g : "${HOME}"/.dots/bin/dot/menv bm -r
+cmd - h : "${HOME}"/.dots/bin/dot/menv bm -r
