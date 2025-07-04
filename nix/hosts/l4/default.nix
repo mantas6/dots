@@ -31,6 +31,7 @@
   environment.systemPackages = with pkgs-unstable; [
     exiftool
     python3Minimal
+    openssl
   ];
 
   services.logind.powerKey = "poweroff";
