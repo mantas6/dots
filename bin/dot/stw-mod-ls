@@ -4,17 +4,20 @@
 mods='base git wm'
 
 case "$(uname -n)" in
-    amd|X13)
+    X13)
         mods="$mods arch"
         ;;
+    amd)
+        mods="$mods"
+        ;;
     l4)
-        mods="base" 
+        mods="base"
         ;;
     ITP*)
         mods="base mac"
         ;;
     *)
-        mods="$mods" 
+        mods="$mods"
         ;;
 esac
 
