@@ -34,6 +34,28 @@
     openssl
   ];
 
+  systemd.user.services.sat-backups = {
+    script = "/home/mantas/Offload/Sat/run";
+
+    serviceConfig = {
+      Type = "oneshot";
+      After = "network-online.target";
+      Wants = "network-online.target";
+    };
+  };
+
+  systemd.user.timers.sat-backups = {
+    wantedBy = ["timers.target"];
+
+    timerConfig = {
+      OnCalendar = "daily";
+      Persistent = true;
+      AccuracySec = "6h";
+      RandomizedDelaySec = "1h";
+      Unit = "sat-backups.service";
+    };
+  };
+
   services.logind.powerKey = "poweroff";
 
   console.font = "ter-732n";
