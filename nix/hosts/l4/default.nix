@@ -40,6 +40,7 @@
       openssl
       bash
       jq
+      curl
     ];
 
     serviceConfig = {
