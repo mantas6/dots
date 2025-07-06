@@ -1,7 +1,7 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-{pkgs-unstable, ...}: {
+{pkgs, ...}: {
   imports = [
     ./hardware.nix
     ../../modules
@@ -28,14 +28,19 @@
     }
   ];
 
-  environment.systemPackages = with pkgs-unstable; [
+  environment.systemPackages = with pkgs; [
     exiftool
     python3Minimal
-    openssl
   ];
 
   systemd.user.services.sat-backups = {
     script = "/home/mantas/Offload/Sat/run";
+
+    path = with pkgs; [
+      openssl
+      bash
+      jq
+    ];
 
     serviceConfig = {
       Type = "oneshot";
