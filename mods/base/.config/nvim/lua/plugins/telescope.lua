@@ -36,7 +36,7 @@ return {
     vim.keymap.set('n', '<leader>pw', builtin.grep_string, {})
 
     vim.keymap.set('n', '<leader>pb', builtin.buffers, {})
-    vim.keymap.set('n', '<leader>ph', builtin.oldfiles, {})
+    -- vim.keymap.set('n', '<leader>ph', builtin.oldfiles, {})
     vim.keymap.set('n', '<leader>ps', builtin.git_status, {})
     vim.keymap.set('n', '<leader>pr', builtin.resume, {})
 
@@ -45,5 +45,6 @@ return {
 
     vim.keymap.set('n', '<leader>pl', builtin.lsp_document_symbols, {})
     vim.keymap.set('n', '<leader>pm', builtin.marks, {})
+    vim.keymap.set('n', '<leader>ph', builtin.help_tags, { desc = 'Telescope help tags' })
   end
 }
