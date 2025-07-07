@@ -9,13 +9,16 @@ return {
     'hrsh7th/cmp-nvim-lsp',
     'L3MON4D3/LuaSnip',
   },
-  config = function ()
+  config = function()
     local lsp = require('lsp-zero')
 
     lsp.on_attach(function(client, bufnr)
       -- see :help lsp-zero-keybindings
       -- to learn the available actions
-      lsp.default_keymaps({buffer = bufnr})
+      lsp.default_keymaps({
+        buffer = bufnr,
+        exclude = { 'go' },
+      })
     end)
 
     require('mason').setup({})
@@ -52,11 +55,11 @@ return {
           },
           options = {
             nixos = {
-                expr = '(builtins.getFlake "/home/'..user..'/.dots").nixosConfigurations.'..hostname..'.options',
+              expr = '(builtins.getFlake "/home/' .. user .. '/.dots").nixosConfigurations.' .. hostname .. '.options',
             },
-          --   home_manager = {
-          --       expr = '(builtins.getFlake "/PATH/TO/FLAKE").homeConfigurations.CONFIGNAME.options',
-          --   },
+            --   home_manager = {
+            --       expr = '(builtins.getFlake "/PATH/TO/FLAKE").homeConfigurations.CONFIGNAME.options',
+            --   },
           },
         },
       },
