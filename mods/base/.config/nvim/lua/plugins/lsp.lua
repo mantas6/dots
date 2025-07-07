@@ -17,7 +17,7 @@ return {
       -- to learn the available actions
       lsp.default_keymaps({
         buffer = bufnr,
-        exclude = { 'go' },
+        exclude = { 'go', 'gi' },
       })
     end)
 
