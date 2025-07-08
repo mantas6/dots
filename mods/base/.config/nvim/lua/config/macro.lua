@@ -8,6 +8,7 @@ autocmd('BufEnter', {
   pattern = '*',
   callback = function()
     vim.fn.setreg('l',  "oconsole.log()ha")
+    vim.fn.setreg('f',  "A() => {}")
     vim.fn.setreg('m',  "$a() {}==^f}i\nO//")
     vim.fn.setreg('o',  "^f}i\nO//")
   end
