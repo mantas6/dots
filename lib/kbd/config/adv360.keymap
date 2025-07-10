@@ -145,7 +145,7 @@
         &none &none &none &none &none &none &none                                                                                                &none &none &none &none &none &none &none
         &none &none        &none        &none        &none        &none        &none                                                               &none &none &mod LGUI BSPC &none &none &none &none
         &none &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &none                   &none &none &none &none                      &none &mod LGUI LBKT &mod RCTRL PG_DN &mod RCTRL PG_UP &mod LGUI RBKT &none &none
-        &none &none        &none        &none        &none   &none                                      &none &none                                       &none &none &none &none &none &none
+        &none &none        &none        &none        &none   &stp STP_BAT                                    &none &none                                       &none &none &none &none &none &none
         &none &none        &none        &none        &none                                       &none &none &none &none &none &none                            &none &none &none &none &none
       >;
     };
