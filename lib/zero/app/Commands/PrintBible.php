@@ -44,7 +44,10 @@ class PrintBible extends Command
                         return;
                     }
 
-                    $remove = '<tr align="left" valign="top"><td colspan="2" class="bibl_isnasa_vardas">Bibliografiniai duomenys:</td></tr><tr align="left" valign="top"><td colspan="2"><p>ŠVENTASIS RAŠTAS. Senasis ir Naujasis Testamentas. – Vilnius: Lietuvos Katalikų  Vyskupų Konferencija, 1998.</p> <p>© Lietuvos Vyskupų Konferencija, 1998. <a href="http://biblija.lt/index.aspx/lt_vertimai/leidimai/b_rk_k1998/">Išsamiai apie leidimą &gt;&gt;</a></p> </td> </tr>';
+                    $remove = [
+                        '<tr align="left" valign="top"><td colspan="2" class="bibl_isnasa_vardas">Bibliografiniai duomenys:</td></tr><tr align="left" valign="top"><td colspan="2"><p>ŠVENTASIS RAŠTAS. Senasis ir Naujasis Testamentas. – Vilnius: Lietuvos Katalikų  Vyskupų Konferencija, 1998.</p> <p>© Lietuvos Vyskupų Konferencija, 1998. <a href="http://biblija.lt/index.aspx/lt_vertimai/leidimai/b_rk_k1998/">Išsamiai apie leidimą &gt;&gt;</a></p> </td> </tr>',
+                        '<tr align="left" valign="top"><td colspan="2" class="bibl_isnasa_vardas">Bibliografiniai duomenys:</td></tr><tr align="left" valign="top"><td colspan="2" class="bibl_isnasa"><p>BIBLIJA arba ŠVENTASIS RAŠTAS. Ekumeninis leidimas. – Vilnius: Lietuvos Biblijos draugija, 1999.</p><p>© Lietuvos Biblijos draugija, 1999<br> © Lietuvos Vyskupų Konferencija, 1999. <a href="http://biblija.lt/index.aspx/lt_vertimai/leidimai/b_rk_e1999/">Išsamiai apie leidimą &gt;&gt;</a></p></td></tr>',
+                    ];
 
                     $contents = str_replace($remove, '', $el->html());
 
