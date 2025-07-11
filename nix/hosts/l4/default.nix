@@ -41,6 +41,7 @@
       bash
       jq
       curl
+      coreutils-full
     ];
 
     serviceConfig = {
