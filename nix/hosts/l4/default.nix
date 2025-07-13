@@ -41,7 +41,6 @@
       bash
       jq
       curl
-      coreutils-full # awk
     ];
 
     serviceConfig = {
