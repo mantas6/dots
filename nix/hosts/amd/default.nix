@@ -11,13 +11,15 @@
 
   features.list = [
     "disks/normal"
-    "nvidia"
-    "desktop"
-    "develop"
+    # "nvidia"
+    # "desktop"
+    # "develop"
     "quirks/amd-sleep"
   ];
 
   features.wakeOnLanAdapterMAC =  "10:ff:e0:6d:48:60";
+
+  services.logind.powerKey = "poweroff";
 
   # services.xserver.dpi = 100;
 
