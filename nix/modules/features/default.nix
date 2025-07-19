@@ -13,6 +13,7 @@
     ./printing.nix
     ./backlight.nix
     ./docker.nix
+    ./router.nix
   ];
 
   options = {
