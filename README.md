@@ -1,5 +1,7 @@
 # dots
 
+dotfiles
+
 ## Setup
 
 ### Install core dependencies
