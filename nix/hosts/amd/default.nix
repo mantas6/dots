@@ -14,6 +14,7 @@
     # "nvidia"
     # "desktop"
     # "develop"
+    # "docker"
     "quirks/amd-sleep"
   ];
 

@@ -14,6 +14,7 @@
     "amd"
     "desktop"
     "develop"
+    "docker"
     "backlight"
   ];
 

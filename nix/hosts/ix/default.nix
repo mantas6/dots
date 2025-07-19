@@ -14,6 +14,7 @@
     "desktop"
     "develop"
     "printing"
+    "docker"
     "quirks/amd-sleep"
     # "disks/normal"
   ];

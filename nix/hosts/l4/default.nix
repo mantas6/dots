@@ -12,6 +12,7 @@
   features.list = [
     "disks/normal"
     "backlight"
+    "docker"
   ];
 
   systemd.sleep.extraConfig = ''

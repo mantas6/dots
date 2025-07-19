@@ -12,6 +12,7 @@
     ./nvidia.nix
     ./printing.nix
     ./backlight.nix
+    ./docker.nix
   ];
 
   options = {
