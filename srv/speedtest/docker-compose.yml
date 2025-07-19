@@ -7,7 +7,8 @@ services:
       MODE: standalone
       TELEMETRY: true
       DB_TYPE: sqlite
+      WEBPORT: 8080
     ports:
-      - "6001:80"
+      - "6001:8080"
     volumes:
       - './data:/database'
