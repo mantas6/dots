@@ -3,4 +3,11 @@
 base=$(basename "$(sat-base-url)")
 name=$(echo "$base" | cut -d'.' -f2,3)
 
-ssh -o LogLevel=QUIET -tt "$name" "cd /home/mantas/$base/current && php artisan $*"
+args=''
+
+if [ $# != 0 ]; then
+    args=$(printf "'%s' " "$@")
+fi
+
+
+ssh -o LogLevel=QUIET -tt "$name" "cd /home/mantas/$base/current && php artisan $args"
