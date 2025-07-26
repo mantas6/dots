@@ -67,6 +67,17 @@
       };
     };
 
+    # nixosConfigurations.rt = nixpkgs.lib.nixosSystem {
+    #   modules = [
+    #     ./nix/hosts/rt
+    #   ];
+    #
+    #   specialArgs = {
+    #     inherit inputs;
+    #     inherit pkgs-unstable;
+    #   };
+    # };
+
     # nixosConfigurations.X13 = nixpkgs.lib.nixosSystem {
     #   modules = [
     #     ./nix/hosts/X13
