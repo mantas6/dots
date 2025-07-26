@@ -7,7 +7,7 @@
     ../../modules
   ];
 
-  disko.devices.disk.main-disk.device = "/dev/nvme0n1";
+  disko.devices.disk.main-disk.device = "/dev/sda";
 
   features.list = [
     "disks/normal"
