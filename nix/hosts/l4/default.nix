@@ -65,8 +65,6 @@
 
   services.udisks2.enable = true;
 
-  services.logind.powerKey = "poweroff";
-
   console.font = "ter-732n";
 
   networking.hostName = "l4";

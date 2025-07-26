@@ -18,6 +18,8 @@
     "backlight"
   ];
 
+  services.logind.powerKey = "suspend";
+
   networking.hostName = "X13";
 
   system.stateVersion = "25.05";

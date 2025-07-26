@@ -20,8 +20,6 @@
 
   features.wakeOnLanAdapterMAC =  "10:ff:e0:6d:48:60";
 
-  services.logind.powerKey = "poweroff";
-
   # services.xserver.dpi = 100;
 
   networking.hostName = "amd";
