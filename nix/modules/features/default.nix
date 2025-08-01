@@ -8,6 +8,7 @@
     ./develop
     ./disks
     ./quirks
+    ./jobs
     ./amd.nix
     ./nvidia.nix
     ./printing.nix

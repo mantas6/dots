@@ -11,6 +11,7 @@
 
   features.list = [
     "disks/normal"
+    "jobs/updates"
   ];
 
   networking.hostName = "rt";
