@@ -21,6 +21,8 @@
 
   features.wakeOnLanAdapterMAC =  "04:7c:16:4f:88:ea";
 
+  services.logind.powerKey = "suspend";
+
   # systemd.network.links."10-unmn0" = {
   #   matchConfig.PermanentMACAddress = "60:7d:09:a9:4a:1c";
   #   linkConfig = {
