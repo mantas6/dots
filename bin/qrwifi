@@ -1,9 +1,7 @@
 #!/usr/bin/env sh
 
-printf '%s' 'SSID: '
-read -r ssid
+ssid='Wildcard'
 
-printf '%s' 'Password: '
-read -r password
+password=$(pass 'local/wifi')
 
 qrencode -o "$ssid.png" "WIFI:S:$ssid;T:WPA;P:$password;;"
