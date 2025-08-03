@@ -25,13 +25,13 @@ in {
           # listenAddress="::1,127.0.0.1,192.168.0.1";
           # dhcpRange="192.168.0.1,192.168.0.255,infinite";
 
-          cacheSize = 10000;
+          cache-size = 10000;
 
           local = "/lan/";
           domain = "lan";
 
-          expandHosts = true;
-          domainNeeded = true;
+          expand-hosts = true;
+          domain-needed = true;
         };
       };
     })
