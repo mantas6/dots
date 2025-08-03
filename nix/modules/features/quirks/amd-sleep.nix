@@ -16,6 +16,10 @@ in {
         ''
           ACTION=="add", SUBSYSTEM=="pci", DRIVER=="pcieport", ATTR{power/wakeup}="disabled"
         '';
+
+      boot.kernelParams = [
+        "processor.max_cstate=1"
+      ];
     })
   ];
 }
