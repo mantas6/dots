@@ -2,6 +2,6 @@
 
 ssid='Wildcard'
 
-password=$(pass 'local/wifi')
+password=$(pass 'local/wifi' | head -n 1)
 
 qrencode -o "$ssid.png" "WIFI:S:$ssid;T:WPA;P:$password;;"
