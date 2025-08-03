@@ -33,6 +33,7 @@
       firefox
 
       zathura
+      qrencode
     ];
 
     services.udisks2.enable = true;
