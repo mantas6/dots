@@ -33,9 +33,4 @@
     usbutils
     lm_sensors
   ];
-
-  programs.nh = {
-    enable = true;
-    flake = "/home/mantas/.dots";
-  };
 }
