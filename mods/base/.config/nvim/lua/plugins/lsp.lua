@@ -27,7 +27,6 @@ return {
         "intelephense",
         "bashls",
         "lua_ls",
-        "vue_ls",
         "dockerls",
         "cssls",
         "jsonls",
