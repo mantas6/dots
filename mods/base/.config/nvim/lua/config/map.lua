@@ -37,6 +37,8 @@ vim.api.nvim_command('command W write')
 
 vim.api.nvim_command('command X set splitright | vsp | terminal bash %:p')
 
+vim.keymap.set("n", "<C-f>", "<C-f>zz")
+vim.keymap.set("n", "<C-b>", "<C-b>zz")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
