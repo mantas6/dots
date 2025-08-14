@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+set -ex
+
+name='lt.utf-8.spl'
+
+cd "$HOME/.config/nvim/spell"
+
+[ -f "$name" ] && exit 0
+
+curl -fsSL "https://ftp.nluug.nl/pub/vim/runtime/spell/$name" -o "$name"
