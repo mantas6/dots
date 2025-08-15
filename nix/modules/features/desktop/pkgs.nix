@@ -29,13 +29,31 @@
       feh
 
       alacritty
-      chromium
-      firefox
 
       zathura
       qrencode
     ];
 
     services.udisks2.enable = true;
+
+    programs.chromium = {
+      enable = true;
+
+      extensions = [
+        "eimadpbcbfnmbkopoojfekhnkhdbieeh" # Dark Reader
+      ];
+
+      extraOpts = {
+        "BrowserSignin" = 0;
+        "SyncDisabled" = true;
+        "PasswordManagerEnabled" = false;
+      };
+    };
+
+    programs.firefox = {
+      enable = true;
+      policies = {};
+      preferences = {};
+    };
   };
 }
