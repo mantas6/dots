@@ -3,8 +3,10 @@
 set -ex
 
 name='lt.utf-8.spl'
+dir="$HOME/.config/nvim/spell"
 
-cd "$HOME/.config/nvim/spell"
+mkdir -p "$dir"
+cd "$dir"
 
 [ -f "$name" ] && exit 0
 
