@@ -21,3 +21,5 @@ shell-integration-features = no-cursor
 cursor-style-blink = false
 
 keybind = cmd+enter=unbind
+keybind = cmd+d=unbind
+keybind = cmd+shift+d=unbind
