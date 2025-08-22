@@ -11,6 +11,8 @@ in {
       system.autoUpgrade = {
         enable = true;
 
+        persistent = false;
+
         flake = "github:mantas6/dots";
         dates = "01:00";
 
