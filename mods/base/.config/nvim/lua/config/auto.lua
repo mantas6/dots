@@ -33,9 +33,3 @@ autocmd({"BufWritePre"}, {
     pattern = "*",
     command = [[%s/\s\+$//e]],
 })
-
-vim.filetype.add({
-  pattern = {
-    [".*%.blade%.php"] = "html",
-  },
-})
