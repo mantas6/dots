@@ -5,10 +5,9 @@
 
 interval="$1"
 shift
-cmd="$*"
 
 while true; do
-    output=$($cmd)
+    output=$("$@")
 
     level=info
     [ $? != 0 ] && level=error
