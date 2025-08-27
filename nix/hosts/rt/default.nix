@@ -12,8 +12,14 @@
   features.list = [
     "disks/normal"
     "jobs/updates"
-    "router"
+    # "router"
+    "docker"
   ];
+
+  users.users.mantas.openssh.authorizedKeys.keys = [
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCXxAEug9dQiyzstH7QUgE7/moT6fQrtXKcQBM0BKpWo05rRwArX/0GLZfy1GJn1/Kvj1YxX9+//hSZURkqLhi4Q4DWvHPDo2EH6T40Ql3P9lgt7GLTCqS60Asgml1akn4r+BSvb0uHsoAwB8zGE2QssJuxNZjl0jCNVJzTPSxUVLuv9l+hvjgFSRsSAdrC3q4VEZ1NHE6hbpS0B8Jpsu9x1zFmieLtjYBRWaycXxuGKd9T3EpKxo5nufvU187uqpcKGXS0KUtzqxgmrQVL/luGeiHrZq+nbiRXGT2F6GgIbdvrPfzxePyF3Noh1GevdL1iXJjF262kMxDM5CKu3Kj8d0D8ZqxwAfMFMgzKH6JZOyMOFmJBh28uJ+OgXKaPwMLbnx/pl6fKDRjXyjGkzaTU/6KUrH0rkovKk67IZfGssQfsJGhi3/l+dkB2aP2X0vivsB4lAo/VBaLA/UbhcakT/yuhyhp+vkfFTpns6S9gUrEYf/vDcVZwU0AIhNZc1Ek= mantas@w"
+  ];
+
 
   boot.kernelParams = [
     "console=ttyS0,115200n8"
