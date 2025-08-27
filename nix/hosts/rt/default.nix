@@ -13,7 +13,7 @@
     "disks/normal"
     "jobs/updates"
     "router"
-    "docker"
+    # "docker"
   ];
 
   users.users.mantas.openssh.authorizedKeys.keys = [
