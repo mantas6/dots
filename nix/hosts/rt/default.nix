@@ -12,7 +12,7 @@
   features.list = [
     "disks/normal"
     "jobs/updates"
-    # "router"
+    "router"
     "docker"
   ];
 
