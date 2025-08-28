@@ -36,7 +36,7 @@ return {
 
         -- Actions
         map('n', '<leader>gS', gs.stage_buffer)
-        map('n', '<leader>ga', gs.stage_hunk)
+        map('n', '<leader>go', gs.stage_hunk)
         map('n', '<leader>gu', gs.reset_hunk)
         map('n', '<leader>gd', gs.undo_stage_hunk)
         map('n', '<leader>ge', gs.reset_buffer)
