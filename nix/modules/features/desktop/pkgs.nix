@@ -32,6 +32,8 @@
 
       zathura
       qrencode
+
+      chromium
     ];
 
     services.udisks2.enable = true;
