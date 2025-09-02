@@ -42,14 +42,6 @@ alias artisan="a"
 alias composer="c"
 alias s="sail"
 
-alias esl='npx eslint --fix'
-alias cl='a ctl'
-alias fa='a ctl fa'
-alias faa='a ctl faa'
-alias pc='precommit'
-alias dup='docker compose up'
-alias dst='docker compose stop'
-
 alias lg="lazygit"
 alias ld="lazydocker"
 alias glc="git log -1 --pretty=%B"
@@ -65,19 +57,12 @@ alias q='vi -c Quickmath'
 alias tsr='tmux source-file ~/.config/tmux/tmux.conf'
 alias ts='tmux split-window -h \; split-window -v'
 
-alias dlg="(cd $DOTS_DIR && lazygit)"
-
 [ "$(uname)" != 'Darwin' ] && alias cal='cal --monday'
 [ "$(uname)" = 'Darwin' ] && alias cal='cal -A 2'
 
 alias keepon="xset s off && xset -dpms"
 
 alias vse="vf -gd $DOTS_DIR/bin -o '-e'"
-alias vaw="vf -gd $HOME/.config/awesome"
-alias vsh="vf -gd $DOTS_DIR/sh"
-alias vrc="vf -gd $DOTS_DIR"
-alias vne="vf -gd $HOME/.config/nvim"
-alias vnx="vf -gd $DOTS_DIR/nix"
 alias vkb="vi $DOTS_DIR/lib/kbd/config/adv360.keymap"
 
 alias ql="bm -f $XDG_STATE_HOME/bm_ql"
