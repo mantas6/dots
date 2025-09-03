@@ -21,6 +21,6 @@ vim.opt.ignorecase = true
 vim.api.nvim_set_option("clipboard", "unnamedplus")
 
 vim.opt.spell = true
-vim.opt.spelllang = { 'en_us' }
+vim.opt.spelllang = 'en'
 
 vim.diagnostic.config({ virtual_text = true })
