@@ -6,18 +6,20 @@ function ToggleHighlightSearch()
   end
 end
 
+function ToggleSpellLang()
+  if vim.bo.spelllang == 'en' then
+    vim.bo.spelllang = 'lt'
+    print('Spell language: Lithuanian')
+  else
+    vim.bo.spelllang = 'en'
+    print('Spell language: English')
+  end
+end
+
 -- Map <leader>h to toggle search highlighting
 vim.api.nvim_set_keymap('n', '<leader>h', ':lua ToggleHighlightSearch()<CR>', { noremap = true, silent = true })
 
-vim.keymap.set('n', '<leader>bl', function()
-  if vim.o.spelllang == 'en' then
-    vim.o.spelllang = 'lt'
-    print('Spell language: Lithuanian')
-  else
-    vim.o.spelllang = 'en'
-    print('Spell language: English')
-  end
-end, { desc = 'Toggle spelllang between en and lt' })
+vim.keymap.set('n', '<leader>bl', ':lua ToggleSpellLang() <CR>', { desc = 'Toggle spelllang between en and lt' })
 
 vim.api.nvim_set_keymap('n', '<leader>bf', ':LspZeroFormat<CR>', {})
 
