@@ -26,6 +26,7 @@ return {
               "diff",
               "udev",
               "blade",
+              "glsl",
           },
 
           -- Install parsers synchronously (only applied to `ensure_installed`)
