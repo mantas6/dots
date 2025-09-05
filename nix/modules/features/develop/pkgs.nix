@@ -35,6 +35,7 @@
       gnumake
       gitleaks
       openssl
+      parallel
 
       nixd
       alejandra
