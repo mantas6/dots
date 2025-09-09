@@ -294,7 +294,7 @@ enables-layout-hud-on-space-change: false
 use-canary-build: false
 
 # true to insert new windows into the first position and false to insert new windows into the last position (default false).
-new-windows-to-main: true
+new-windows-to-main: false
 
 # true to automatically move to a space when throwing a window to it (default true).
 follow-space-thrown-windows: true
