@@ -1,3 +1,5 @@
+apr
+apr-util
 bash
 bash-completion
 bat
@@ -54,6 +56,7 @@ libuv
 libvterm
 little-cms2
 llvm
+llvm@20
 lpeg
 lua
 luajit
@@ -74,6 +77,7 @@ oatmeal
 oniguruma
 openssl@3
 p11-kit
+parallel
 pastel
 pcre2
 pipx
@@ -87,14 +91,18 @@ readline
 ripgrep
 rtmpdump
 rust
+scons
 sesh
 shellcheck
+simdjson
 sketchybar
 skhd
 speedtest-cli
 sqlite
 starship
 stow
+subversion
+swig
 tealdeer
 telnet
 tmux
