@@ -34,6 +34,7 @@
       qrencode
 
       chromium
+      qutebrowser
     ];
 
     services.udisks2.enable = true;
