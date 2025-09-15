@@ -15,6 +15,9 @@ fi
 [ -d "$HOME/.config/herd-lite/bin" ] && \
     export PATH="$HOME/.config/herd-lite/bin:$PATH"
 
+[ -d "$HOME/.docker/bin" ] && \
+    export PATH="$HOME/.docker/bin:$PATH"
+
 [ -d "$HOME/Applications/Docker.app/Contents/Resources/bin" ] && \
     export PATH="$HOME/Applications/Docker.app/Contents/Resources/bin:$PATH"
 
