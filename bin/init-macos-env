@@ -7,3 +7,12 @@
 defaults write -g InitialKeyRepeat -int 10
 defaults write -g KeyRepeat -int 1
 # defaults write -g InitialKeyRepeat -int 15
+
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+defaults write -g NSWindowShouldDragOnGesture -bool true
+defaults write com.apple.dock expose-group-apps -bool true
+defaults write com.apple.spaces spans-displays -bool true
+
+killall SystemUIServer
+killall Dock
