@@ -13,6 +13,7 @@ defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 defaults write -g NSWindowShouldDragOnGesture -bool true
 defaults write com.apple.dock expose-group-apps -bool true
 defaults write com.apple.spaces spans-displays -bool true
+defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
 
 killall SystemUIServer
 killall Dock
