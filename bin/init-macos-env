@@ -1,15 +1,5 @@
 #!/usr/bin/env sh
-# Export all packages
-# brew list -1 --formula --installed-on-request --cask > docs/brew-packages-cask.list
 
 [ "$(uname)" != 'Darwin' ] && exit 1
 
 [ ! -x "$(command -v php)" ] && /bin/bash -c "$(curl -fsSL https://php.new/install/mac/8.4)"
-
-if [ ! -x "$(command -v brew)" ]; then
-    git clone https://github.com/Homebrew/brew "$HOME/.local/brew"
-    echo 'Restart the shell and run this cmd again'
-else
-    brew update --force --quiet
-    chmod -R go-w "$(brew --prefix)/share/zsh"
-fi

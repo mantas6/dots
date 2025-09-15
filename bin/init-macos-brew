@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+# Export all packages
+# brew list -1 --formula --installed-on-request --cask > docs/brew-packages-cask.list
+
+[ "$(uname)" != 'Darwin' ] && exit 1
+
+dir="$HOME/.local/brew"
+
+[ -x "$(command -v brew)" ] && exit 0
+[ -d "$dir" ] && exit 0
+
+git clone https://github.com/Homebrew/brew "$HOME/.local/brew"
+
+export HOMEBREW_PREFIX="$dir"
+export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
+export PATH="$HOMEBREW_PREFIX/bin:$PATH"
+
+eval "$(brew shellenv)"
+
+brew update --force --quiet
+chmod -R go-w "$(brew --prefix)/share/zsh"
+
+brew install stow
