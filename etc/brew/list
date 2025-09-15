@@ -47,7 +47,6 @@ ncurses
 neovim
 node
 numbat
-oatmeal
 openssl@3
 parallel
 pastel
@@ -62,8 +61,8 @@ ripgrep
 rust
 sesh
 shellcheck
-sketchybar
-skhd
+FelixKratz/formulae/sketchybar
+koekeishiya/formulae/skhd
 speedtest-cli
 sqlite
 starship
