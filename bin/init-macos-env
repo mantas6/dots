@@ -15,5 +15,7 @@ defaults write com.apple.dock expose-group-apps -bool true
 defaults write com.apple.spaces spans-displays -bool true
 defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
 
+defaults write com.apple.dock autohide -bool true
+
 killall SystemUIServer
 killall Dock
