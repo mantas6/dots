@@ -13,8 +13,8 @@ case "$(uname -n)" in
     l4)
         mods="base"
         ;;
-    ITP*)
-        mods="base mac"
+    IT*)
+        mods="base git mac"
         ;;
     *)
         mods="$mods"
