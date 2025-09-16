@@ -27,6 +27,7 @@ return {
               "udev",
               "blade",
               "glsl",
+              "gitcommit",
           },
 
           -- Install parsers synchronously (only applied to `ensure_installed`)
