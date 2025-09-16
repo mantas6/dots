@@ -2,7 +2,26 @@
 
 [ "$(uname)" != 'Darwin' ] && exit 1
 
-[ ! -x "$(command -v php)" ] && /bin/bash -c "$(curl -fsSL https://php.new/install/mac/8.4)"
+export XDG_CONFIG_HOME="$HOME/.config"
+
+if [ ! -x "$(command -v php)" ]; then
+    /bin/bash -c "$(curl -fsSL https://php.new/install/mac/8.4)"
+fi
+
+if [ ! -x "$(command -v node)" ]; then
+    (
+        export NVM_DIR="$HOME/.config/nvm"
+
+        git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
+
+        cd "$NVM_DIR"
+        # git checkout v0.40.3
+
+        \. "$NVM_DIR/nvm.sh"
+        nvm install node
+        nvm use node
+    )
+fi
 
 defaults write -g InitialKeyRepeat -int 15
 defaults write -g KeyRepeat -int 1
