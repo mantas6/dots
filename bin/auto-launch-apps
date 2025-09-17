@@ -7,6 +7,15 @@ await_windows() {
     done
 }
 
+workspace() {
+    aerospace workspace "$1"
+    count=$(aerospace list-windows --workspace focused --count)
+
+    [ "$count" -ne 0 ] && return 1
+
+    return 0
+}
+
 aerospace workspace 1
 open -n "$HOME/Applications/Ghostty.app"
 open -n "/Applications/Google Chrome.app"
