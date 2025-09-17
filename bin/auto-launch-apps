@@ -22,7 +22,6 @@ open -n "/Applications/Google Chrome.app"
 open -n "/Applications/Google Chrome.app"
 await_windows 2
 
-
 aerospace workspace 4
 open -n "/Applications/Google Chrome.app"
 open -n "/Applications/Google Chrome.app"
