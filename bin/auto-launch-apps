@@ -1,0 +1,34 @@
+#!/usr/bin/env sh
+
+await_windows() {
+    count=$(aerospace list-windows --workspace focused --count)
+    while [ "$count" -lt "$1" ]; do
+        sleep 0.1
+    done
+}
+
+aerospace workspace 1
+open -n "$HOME/Applications/Ghostty.app"
+open -n "/Applications/Google Chrome.app"
+await_windows 2
+
+aerospace workspace 2
+open -n "/Applications/Google Chrome.app"
+open -n "/Applications/Microsoft Teams.app"
+await_windows 2
+
+aerospace workspace 3
+open -n "/Applications/Google Chrome.app"
+open -n "/Applications/Google Chrome.app"
+await_windows 2
+
+
+aerospace workspace 4
+open -n "/Applications/Google Chrome.app"
+open -n "/Applications/Google Chrome.app"
+await_windows 2
+
+aerospace workspace 5
+open -n "/Applications/Google Chrome.app"
+open -n "/Applications/Google Chrome.app"
+await_windows 2
