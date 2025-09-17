@@ -135,9 +135,12 @@ automatically-unhide-macos-hidden-apps = true
     alt-shift-o = 'move-node-to-monitor --wrap-around next'
     alt-o = 'focus-monitor --wrap-around next'
 
-    alt-shift-r = 'reload-config'
+    alt-shift-q = 'reload-config'
 
     cmd-h = [] # Disable "hide application"
     cmd-alt-h = [] # Disable "hide others"
 
     cmd-u = 'exec-and-forget screencapture -i -c'
+
+    alt-shift-r = 'exec-and-forget open -n "/Applications/Google Chrome.app"'
+    alt-shift-e = 'exec-and-forget open -n "$HOME/Applications/Ghostty.app"'
