@@ -139,3 +139,5 @@ automatically-unhide-macos-hidden-apps = true
 
     cmd-h = [] # Disable "hide application"
     cmd-alt-h = [] # Disable "hide others"
+
+    cmd-u = 'exec-and-forget screencapture -i -c'
