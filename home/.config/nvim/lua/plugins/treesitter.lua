@@ -29,6 +29,8 @@ return {
               "glsl",
               "gitcommit",
               "python",
+              "nix",
+              "js",
           },
 
           -- Install parsers synchronously (only applied to `ensure_installed`)
