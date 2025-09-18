@@ -13,6 +13,7 @@
     "disks/normal"
     "backlight"
     "docker"
+    "services.memos"
   ];
 
   systemd.sleep.extraConfig = ''

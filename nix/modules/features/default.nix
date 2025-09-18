@@ -9,6 +9,7 @@
     ./disks
     ./quirks
     ./jobs
+    ./services
     ./amd.nix
     ./nvidia.nix
     ./printing.nix
