@@ -29,6 +29,7 @@
       feh
 
       alacritty
+      wezterm
 
       zathura
       qrencode
