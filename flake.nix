@@ -25,6 +25,14 @@
     formatter.x86_64-linux = pkgs.alejandra;
     formatter.aarch64-linux = pkgs.alejandra;
 
+    nixosConfigurations.iso = nixpkgs.lib.nixosSystem {
+      modules = [./nix/hosts/iso];
+
+      specialArgs = {
+        inherit inputs;
+      };
+    };
+
     nixosConfigurations.ix = nixpkgs.lib.nixosSystem {
       modules = [./nix/hosts/ix];
 

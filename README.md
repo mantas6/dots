@@ -4,24 +4,10 @@ dotfiles
 
 ## Setup
 
-### Install core dependencies
-
-Debian
-
-```sh
-sudo apt install git stow zsh
-```
-
-Arch Linux
-
-```sh
-sudo pacman -S git stow zsh
-```
-
 ### Change the shell
 
 ```sh
-chsh -s /usr/bin/zsh
+chsh -s $(which zsh)
 ```
 
 ### Clone the repo and link
@@ -33,12 +19,8 @@ cd "$HOME/.dots"
 ```
 If stow fails, remove conflicting files (preferably to trash) and run again. Pay close attention to the output to make sure that the links that it creates make sense.
 
-## Services
+### Create NixOS ISO
 
-Located in `srv` directory.
-
-- Docker compose (must container `docker-compose.yml`)
-- Generic user systemd units (must contain `run` executable)
-- Packages (must contain `build` executable)
-
-Use `enservice*` to enable
+```sh
+nix run nixpkgs#nixos-generators -- --format iso --flake #iso
+```

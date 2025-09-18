@@ -5,4 +5,6 @@
 /srv/*/.env
 /srv/*.local
 
+/result
+
 .DS_Store
