@@ -21,6 +21,8 @@
 
   features.wakeOnLanAdapterMAC =  "04:7c:16:4f:88:ea";
 
+  boot.loader.grub.useOSProber = true;
+
   services.logind.powerKey = "suspend";
 
   # systemd.network.links."10-unmn0" = {
