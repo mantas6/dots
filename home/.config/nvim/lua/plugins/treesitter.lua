@@ -25,7 +25,7 @@ return {
               "twig",
               "diff",
               "udev",
-              -- "blade",
+              "blade",
               "glsl",
               "gitcommit",
               "python",
