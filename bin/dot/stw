@@ -12,3 +12,8 @@ repo=$(git rev-parse --show-toplevel)
 grep -v '^\(#\|$\)' "$repo/etc/dirs.conf" | xargs -I {} mkdir -pv "$HOME/{}"
 
 stow --dir="$repo/mods" --target="$HOME" --verbose "$@" $("$source/stw-mod-ls")
+
+mods=$(cd "$repo"/bin && echo *)
+
+# shellcheck disable=SC2086
+stow --dir="$repo/bin" --target="$HOME/.local/sbin" --verbose "$@" $mods
