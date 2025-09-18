@@ -1,3 +1,8 @@
+blacklist = [
+    "__popup__",
+    "large",
+]
+
 [default_session]
 startup_command = "start-tmux-session"
 
