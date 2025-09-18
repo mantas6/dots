@@ -99,7 +99,7 @@
         &lt 4 TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &kp N6                                                            &kp C_VOL_UP &kp Y  &kp U  &kp I     &kp O    &kp P    &lt 4 BSLH
         &lt 2 ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &kp Y               &tpfx &kp DEL &kp DEL  &tpfx                    &kp C_VOL_DN &kp H  &kp J  &kp K     &kp L    &kp SEMI &lt 2 SQT
         &kp LSHFT &kp Z     &kp X    &kp C    &kp V      &kp B                            &kp LALT &kp RALT                           &kp N  &kp M  &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
-        &mo 5     &kp GRAVE &kp DEL &kp SPACE &kp GRAVE      &mt RCTRL SPACE &lt 6 BSPC   &kp LGUI  &kp RGUI &lt 6 ENTER &mt RCTRL SPACE          &kp LBKT &kp RBKT  &kp LBKT &kp RBKT &mo 5
+        &mo 5     &kp GRAVE &kp CAPS &kp SPACE &kp GRAVE      &mt RCTRL SPACE &lt 6 BSPC   &kp LGUI  &kp RGUI &lt 6 ENTER &mt RCTRL SPACE          &kp LBKT &kp RBKT  &kp LBKT &kp RBKT &mo 5
       >;
     };
     keypad {
@@ -135,9 +135,9 @@
     extr {
       display-name = "Extr";
       bindings = <
-        &none &none &none &none &none &none &none                                                                                                &none &none &none &none &none &none &none
+        &none &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &none                                                                                                &none &none &none &none &none &none &none
         &none &none        &none        &none        &none        &none        &none                                                               &none &none &mod LGUI BSPC &none &none &none &none
-        &none &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &none                   &none &none &none &none                      &none &mod LGUI LBKT &mod RCTRL PG_DN &mod RCTRL PG_UP &mod LGUI RBKT &none &none
+        &none &none &none &none &none &none &none                   &none &none &none &none                      &none &mod LGUI LBKT &mod RCTRL PG_DN &mod RCTRL PG_UP &mod LGUI RBKT &none &none
         &none &none        &none        &none        &none   &stp STP_BAT                                    &none &none                                       &none &none &none &none &none &none
         &none &none        &none        &none        &none                                       &none &none &none &none &none &none                            &none &none &none &none &none
       >;
