@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  name = "amd";
+  name = "hardware.amd";
 in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}

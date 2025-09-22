@@ -11,8 +11,8 @@
 
   features.sets = [
     "disks.normal"
-    "nvidia"
-    # "amd"
+    "hardware.nvidia"
+    # "hardware.amd"
     "desktop"
     "develop"
     "printing"

@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  name = "backlight";
+  name = "hardware.backlight";
 in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}

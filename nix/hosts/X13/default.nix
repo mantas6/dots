@@ -11,7 +11,7 @@
 
   features.sets = [
     "disks.encypted"
-    "amd"
+    "hardware.amd"
     "desktop"
     "develop"
     "docker"

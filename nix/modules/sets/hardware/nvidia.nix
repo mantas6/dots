@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  name = "nvidia";
+  name = "hardware.nvidia";
 in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}

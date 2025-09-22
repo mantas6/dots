@@ -12,7 +12,7 @@
   features.sets = [
     "disks.normal"
     "jobs.updates"
-    "backlight"
+    "hardware.backlight"
     "docker"
     "services.memos"
   ];

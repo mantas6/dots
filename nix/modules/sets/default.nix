@@ -9,11 +9,9 @@
     ./disks
     ./quirks
     ./jobs
+    ./hardware
     ./services
-    ./amd.nix
-    ./nvidia.nix
     ./printing.nix
-    ./backlight.nix
     ./docker.nix
     ./router.nix
   ];
