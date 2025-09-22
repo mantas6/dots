@@ -13,3 +13,17 @@ path = "~"
 [[session]]
 name = "large"
 path = "~"
+
+[[session]]
+name = "Downloads"
+path = "~/Downloads"
+
+[[session]]
+name = "Notes"
+path = "~"
+startup_command  = "nvim NOTES.md"
+
+[[session]]
+name = "Calculator"
+path = "~"
+startup_command  = "vi -c Quickmath"
