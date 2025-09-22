@@ -21,9 +21,16 @@
         };
       };
 
-      libinput.mouse = {
-        naturalScrolling = true;
-        accelSpeed = "-1";
+      libinput = {
+        mouse = {
+          naturalScrolling = true;
+          accelSpeed = "-1";
+        };
+
+        touchpad = {
+          naturalScrolling = true;
+          accelSpeed = "-1";
+        };
       };
     };
   };
