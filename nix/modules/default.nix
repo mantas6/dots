@@ -2,7 +2,7 @@
   imports = [
     ./pkgs
     ./services
-    ./features
+    ./sets
     ./user
     ./bootloader.nix
     ./locale.nix
