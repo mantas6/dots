@@ -31,7 +31,7 @@ in {
       # unitConfig.X-StopOnRemoval = false;
 
       after = ["network-online.target"];
-      requires = ["network-online.target"];
+      wants = ["network-online.target"];
 
       serviceConfig = {
         Type = "oneshot";
