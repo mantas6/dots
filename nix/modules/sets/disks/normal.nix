@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  name = "disks/normal";
+  name = "disks.normal";
 in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}

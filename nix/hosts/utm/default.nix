@@ -12,7 +12,7 @@
   features.sets = [
     "desktop"
     "develop"
-    "disks/normal"
+    "disks.normal"
     "docker"
   ];
 

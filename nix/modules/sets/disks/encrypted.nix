@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  name = "disks/encrypted";
+  name = "disks.encrypted";
 in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}

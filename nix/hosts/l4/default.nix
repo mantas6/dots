@@ -10,7 +10,7 @@
   disko.devices.disk.main-disk.device = "/dev/sda";
 
   features.sets = [
-    "disks/normal"
+    "disks.normal"
     "jobs/updates"
     "backlight"
     "docker"

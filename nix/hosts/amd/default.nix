@@ -10,7 +10,7 @@
   disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 
   features.sets = [
-    "disks/normal"
+    "disks.normal"
     "nvidia"
     # "amd"
     "desktop"

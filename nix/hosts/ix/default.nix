@@ -16,7 +16,7 @@
     "printing"
     "docker"
     "quirks/amd-sleep"
-    # "disks/normal"
+    # "disks.normal"
   ];
 
   features.wakeOnLanAdapterMAC =  "04:7c:16:4f:88:ea";
