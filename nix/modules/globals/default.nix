@@ -1,6 +1,6 @@
 {...}: {
   imports = [
-    ./pkgs
+    ./programs
     ./services
     ./user
     ./bootloader.nix

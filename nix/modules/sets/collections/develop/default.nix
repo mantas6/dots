@@ -1,7 +1,7 @@
 {...}: {
   imports = [
     ./tldr.nix
-    ./pkgs.nix
+    ./programs.nix
   ];
 
   features.setsAvailable = ["collections.develop"];
