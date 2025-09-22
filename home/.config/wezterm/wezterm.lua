@@ -7,6 +7,9 @@ c.disable_default_key_bindings = true
 c.disable_default_mouse_bindings = true
 c.enable_tab_bar = false
 
+c.send_composed_key_when_left_alt_is_pressed = false
+c.send_composed_key_when_right_alt_is_pressed = false
+
 c.window_padding = {
   left = 0,
   right = 0,
