@@ -29,7 +29,7 @@
 
         touchpad = {
           naturalScrolling = true;
-          accelSpeed = "-1";
+          # accelSpeed = "-1";
         };
       };
     };
