@@ -86,15 +86,15 @@
       };
     };
 
-    # nixosConfigurations.tp = nixpkgs.lib.nixosSystem {
-    #   modules = [
-    #     ./nix/hosts/tp
-    #   ];
-    #
-    #   specialArgs = {
-    #     inherit inputs;
-    #     inherit pkgs-unstable;
-    #   };
-    # };
+    nixosConfigurations.tp = nixpkgs.lib.nixosSystem {
+      modules = [
+        ./nix/hosts/tp
+      ];
+
+      specialArgs = {
+        inherit inputs;
+        inherit pkgs-unstable;
+      };
+    };
   };
 }
