@@ -9,7 +9,7 @@
 
   disko.devices.disk.main-disk.device = "/dev/sda";
 
-  features.list = [
+  features.sets = [
     "disks/normal"
     "jobs/updates"
     "backlight"

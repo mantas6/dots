@@ -6,7 +6,7 @@
 }: let
   serviceName = "tldr-update";
 in {
-  config = lib.mkIf (lib.elem "develop" config.features.list) {
+  config = lib.mkIf (lib.elem "develop" config.features.sets) {
     environment.systemPackages = with pkgs-unstable; [
       tealdeer
     ];

@@ -9,5 +9,5 @@
     ./comms.nix
   ];
 
-  features.listAvailable = ["desktop"];
+  features.setsAvailable = ["desktop"];
 }

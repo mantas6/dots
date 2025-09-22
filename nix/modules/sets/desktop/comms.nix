@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf (lib.elem "desktop" config.features.list) {
+  config = lib.mkIf (lib.elem "desktop" config.features.sets) {
     hardware.bluetooth.enable = true;
   };
 }

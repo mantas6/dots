@@ -6,8 +6,8 @@
   name = "disks/normal";
 in {
   config = lib.mkMerge [
-    {features.listAvailable = [name];}
-    (lib.mkIf (lib.elem name config.features.list) {
+    {features.setsAvailable = [name];}
+    (lib.mkIf (lib.elem name config.features.sets) {
       disko.devices = {
         disk = {
           main-disk = {

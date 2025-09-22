@@ -6,8 +6,8 @@
   name = "quirks/amd-sleep";
 in {
   config = lib.mkMerge [
-    {features.listAvailable = [name];}
-    (lib.mkIf (lib.elem name config.features.list) {
+    {features.setsAvailable = [name];}
+    (lib.mkIf (lib.elem name config.features.sets) {
       # https://nixos.wiki/wiki/Power_Management
       services.udev.extraRules =
         /*

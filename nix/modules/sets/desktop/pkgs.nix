@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  config = lib.mkIf (lib.elem "desktop" config.features.list) {
+  config = lib.mkIf (lib.elem "desktop" config.features.sets) {
     environment.systemPackages = with pkgs; [
       xorg.xinit
       xclip

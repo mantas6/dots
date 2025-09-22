@@ -6,8 +6,8 @@
   name = "services.memos";
 in {
   config = lib.mkMerge [
-    {features.listAvailable = [name];}
-    (lib.mkIf (lib.elem name config.features.list) {
+    {features.setsAvailable = [name];}
+    (lib.mkIf (lib.elem name config.features.sets) {
       # move to global place
       virtualisation.oci-containers.backend = "docker";
 

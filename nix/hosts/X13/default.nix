@@ -9,7 +9,7 @@
 
   disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 
-  features.list = [
+  features.sets = [
     "disks/encypted"
     "amd"
     "desktop"

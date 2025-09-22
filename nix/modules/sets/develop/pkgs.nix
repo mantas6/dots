@@ -4,7 +4,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf (lib.elem "develop" config.features.list) {
+  config = lib.mkIf (lib.elem "develop" config.features.sets) {
     # lua_ls fix
     programs.nix-ld.enable = true;
 
