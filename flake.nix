@@ -86,9 +86,9 @@
       };
     };
 
-    # nixosConfigurations.X13 = nixpkgs.lib.nixosSystem {
+    # nixosConfigurations.tp = nixpkgs.lib.nixosSystem {
     #   modules = [
-    #     ./nix/hosts/X13
+    #     ./nix/hosts/tp
     #   ];
     #
     #   specialArgs = {

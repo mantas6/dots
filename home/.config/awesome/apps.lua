@@ -9,7 +9,7 @@ return function()
 
   local apps = {}
 
-  if string.find(hostname, '13') then
+  if string.find(hostname, 'tp') then
     apps = {
       {
         tag = 1,

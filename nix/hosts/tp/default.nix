@@ -20,7 +20,7 @@
 
   services.logind.powerKey = "suspend";
 
-  networking.hostName = "X13";
+  networking.hostName = "tp";
 
   system.stateVersion = "25.05";
 }
