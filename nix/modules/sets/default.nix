@@ -4,14 +4,13 @@
   ...
 }: {
   imports = [
-    ./desktop
-    ./develop
     ./disks
     ./quirks
     ./jobs
     ./hardware
     ./services
     ./purposes
+    ./collections
   ];
 
   options = {
