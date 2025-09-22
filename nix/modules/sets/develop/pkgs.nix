@@ -22,6 +22,8 @@
       lua51Packages.lua
       lua51Packages.luarocks
       python3
+      exiftool
+
       shellcheck
       ripgrep
       fd
