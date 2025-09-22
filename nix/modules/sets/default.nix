@@ -11,9 +11,7 @@
     ./jobs
     ./hardware
     ./services
-    ./printing.nix
-    ./docker.nix
-    ./router.nix
+    ./purposes
   ];
 
   options = {

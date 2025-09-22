@@ -13,8 +13,8 @@
     "hardware.amd"
     "desktop"
     "develop"
-    "printing"
-    "docker"
+    "services.printing"
+    "services.docker"
     "quirks.amd-sleep"
     # "disks.normal"
   ];

@@ -14,8 +14,8 @@
     "hardware.amd"
     "desktop"
     "develop"
-    "docker"
-    "backlight"
+    "services.docker"
+    "hardware.backlight"
   ];
 
   services.logind.powerKey = "suspend";

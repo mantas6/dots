@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  name = "docker";
+  name = "services.docker";
 in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}

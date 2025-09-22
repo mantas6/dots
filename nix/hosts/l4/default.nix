@@ -13,16 +13,10 @@
     "disks.normal"
     "jobs.updates"
     "hardware.backlight"
-    "docker"
+    "services.docker"
     "services.memos"
+    "quirks.prevent-sleep"
   ];
-
-  systemd.sleep.extraConfig = ''
-    AllowSuspend=no
-    AllowHibernation=no
-    AllowHybridSleep=no
-    AllowSuspendThenHibernate=no
-  '';
 
   swapDevices = [
     {

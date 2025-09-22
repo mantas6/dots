@@ -13,7 +13,7 @@
     "desktop"
     "develop"
     "disks.normal"
-    "docker"
+    "services.docker"
   ];
 
   services.spice-vdagentd.enable = true;

@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  name = "router";
+  name = "purposes.router";
 in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}

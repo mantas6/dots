@@ -12,8 +12,8 @@
   features.sets = [
     "disks.normal"
     "jobs.updates"
-    "router"
-    # "docker"
+    "purposes.router"
+    # "services.docker"
   ];
 
   users.users.mantas.openssh.authorizedKeys.keys = [

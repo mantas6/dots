@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  name = "printing";
+  name = "services.printing";
 in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}
