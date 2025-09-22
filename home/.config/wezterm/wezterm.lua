@@ -33,4 +33,11 @@ c.keys = {
   },
 }
 
+-- wezterm start --title "My Custom Title"
+-- w.on("window-focus-changed", function(window, pane)
+--   if not window:is_focused() then
+--     window:perform_action(w.action.CloseCurrentTab { confirm = false }, pane)
+--   end
+-- end)
+
 return c
