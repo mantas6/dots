@@ -21,10 +21,10 @@ in {
     ];
 
     systemd.user.services.${serviceName} = {
-      script = "${pkgs.pass}/bin/pass git pull";
+      script = "${pkgs.gitMinimal}/bin/git pull";
 
-      path = [
-        pkgs.gitMinimal
+      path = with pkgs; [
+        gitMinimal
       ];
 
       restartIfChanged = false;
@@ -35,7 +35,7 @@ in {
 
       serviceConfig = {
         Type = "oneshot";
-        WorkingDirectory = "/home/mantas/.local/share/password-store";
+        WorkingDirectory = "%h/.local/share/password-store";
       };
     };
 
