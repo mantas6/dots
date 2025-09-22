@@ -12,8 +12,8 @@
   features.sets = [
     "disks.encypted"
     "hardware.amd"
-    "desktop"
-    "develop"
+    "collections.desktop"
+    "collections.develop"
     "services.docker"
     "hardware.backlight"
   ];

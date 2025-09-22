@@ -11,8 +11,8 @@
 
   features.sets = [
     "hardware.amd"
-    "desktop"
-    "develop"
+    "collections.desktop"
+    "collections.develop"
     "services.printing"
     "services.docker"
     "quirks.amd-sleep"

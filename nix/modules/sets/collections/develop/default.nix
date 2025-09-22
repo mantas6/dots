@@ -4,5 +4,5 @@
     ./pkgs.nix
   ];
 
-  features.setsAvailable = ["develop"];
+  features.setsAvailable = ["collections.develop"];
 }

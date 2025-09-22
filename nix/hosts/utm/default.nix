@@ -10,8 +10,8 @@
   disko.devices.disk.main-disk.device = "/dev/vda";
 
   features.sets = [
-    "desktop"
-    "develop"
+    "collections.desktop"
+    "collections.develop"
     "disks.normal"
     "services.docker"
   ];
