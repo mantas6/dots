@@ -34,6 +34,8 @@ c.keys = {
 }
 
 -- wezterm start --title "My Custom Title"
+-- wezterm start --env MY_CUSTOM_ARG="hello-world"
+-- -- local my_arg = os.getenv("MY_CUSTOM_ARG")
 -- w.on("window-focus-changed", function(window, pane)
 --   if not window:is_focused() then
 --     window:perform_action(w.action.CloseCurrentTab { confirm = false }, pane)
