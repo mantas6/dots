@@ -27,14 +27,15 @@ in {
         pkgs.gitMinimal
       ];
 
-      # restartIfChanged = false;
-      # unitConfig.X-StopOnRemoval = false;
+      restartIfChanged = false;
+      unitConfig.X-StopOnRemoval = false;
 
       after = ["network-online.target"];
       wants = ["network-online.target"];
 
       serviceConfig = {
         Type = "oneshot";
+        WorkingDirectory = "/home/mantas/.local/share/password-store";
       };
     };
 

@@ -11,6 +11,9 @@ in {
     serviceConfig = {
       Type = "oneshot";
     };
+
+    restartIfChanged = false;
+    unitConfig.X-StopOnRemoval = false;
   };
 
   systemd.user.timers.${serviceName} = {

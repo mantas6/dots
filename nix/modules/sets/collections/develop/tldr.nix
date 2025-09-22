@@ -17,6 +17,9 @@ in {
       after = ["network-online.target"];
       wants = ["network-online.target"];
 
+      restartIfChanged = false;
+      unitConfig.X-StopOnRemoval = false;
+
       serviceConfig = {
         Type = "oneshot";
       };
