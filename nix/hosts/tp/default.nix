@@ -18,6 +18,9 @@
     "hardware.backlight"
   ];
 
+  networking.networkmanager.enable = true;
+  users.users.mantas.extraGroups = [ "networkmanager" ];
+
   services.logind.powerKey = "suspend";
 
   networking.hostName = "tp";
