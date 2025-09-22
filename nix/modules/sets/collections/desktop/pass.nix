@@ -21,11 +21,16 @@ in {
     ];
 
     systemd.user.services.${serviceName} = {
-      script = "${pkgs.gitMinimal}/bin/git pull";
+      script = "${pkgs.pass}/bin/pass git pull";
 
       path = with pkgs; [
+        pass
         gitMinimal
       ];
+
+      environment = {
+        PASSWORD_STORE_DIR = "%h/.local/share/password-store";
+      };
 
       restartIfChanged = false;
       unitConfig.X-StopOnRemoval = false;
@@ -35,7 +40,6 @@ in {
 
       serviceConfig = {
         Type = "oneshot";
-        WorkingDirectory = "%h/.local/share/password-store";
       };
     };
 
