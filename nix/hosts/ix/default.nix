@@ -19,7 +19,7 @@
     # "disks.normal"
   ];
 
-  features.wakeOnLanAdapterMAC =  "04:7c:16:4f:88:ea";
+  features.wakeOnLanAdapterMAC = "04:7c:16:4f:88:ea";
 
   boot.loader.grub.useOSProber = true;
 

@@ -20,7 +20,6 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIOLvKAVZSLkt8QQ8W0ZgDs4yzwB6rFQpO0F9W68FPL6 mantas@w"
   ];
 
-
   boot.kernelParams = [
     "console=ttyS0,115200n8"
     "console=ttyS1,115200n8"
