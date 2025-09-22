@@ -15,6 +15,10 @@ name = "large"
 path = "~"
 
 [[session]]
+name = "_dots"
+path = "~/.dots"
+
+[[session]]
 name = "Downloads"
 path = "~/Downloads"
 
