@@ -11,7 +11,7 @@
 
   features.sets = [
     "disks.normal"
-    "jobs/updates"
+    "jobs.updates"
     "backlight"
     "docker"
     "services.memos"

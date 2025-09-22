@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  name = "quirks/amd-sleep";
+  name = "quirks.amd-sleep";
 in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}

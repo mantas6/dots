@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  name = "jobs/updates";
+  name = "jobs.updates";
 in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}
