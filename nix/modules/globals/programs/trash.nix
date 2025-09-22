@@ -19,8 +19,7 @@ in {
     timerConfig = {
       OnCalendar = "weekly";
       Persistent = true;
-      AccuracySec = "6h";
-      RandomizedDelaySec = "1h";
+      RandomizedDelaySec = "5m";
       Unit = "${serviceName}.service";
     };
   };

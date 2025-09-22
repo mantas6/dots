@@ -3,7 +3,9 @@
   config,
   pkgs,
   ...
-}: {
+}: let
+  serviceName = "pass-pull";
+in {
   config = lib.mkIf (lib.elem "collections.desktop" config.features.sets) {
     programs.gnupg = {
       agent = {
@@ -17,5 +19,34 @@
       rofi-pass
       pwgen
     ];
+
+    systemd.user.services.${serviceName} = {
+      script = "${pkgs.pass}/bin/pass git pull";
+
+      path = [
+        pkgs.gitMinimal
+      ];
+
+      # restartIfChanged = false;
+      # unitConfig.X-StopOnRemoval = false;
+
+      after = ["network-online.target"];
+      requires = ["network-online.target"];
+
+      serviceConfig = {
+        Type = "oneshot";
+      };
+    };
+
+    systemd.user.timers.${serviceName} = {
+      wantedBy = ["timers.target"];
+
+      timerConfig = {
+        OnCalendar = "daily";
+        Persistent = true;
+        RandomizedDelaySec = "5m";
+        Unit = "${serviceName}.service";
+      };
+    };
   };
 }

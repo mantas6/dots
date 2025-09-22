@@ -14,10 +14,11 @@ in {
     systemd.user.services.${serviceName} = {
       script = "${pkgs-unstable.tealdeer}/bin/tldr -u";
 
+      after = ["network-online.target"];
+      requires = ["network-online.target"];
+
       serviceConfig = {
         Type = "oneshot";
-        After = "network-online.target";
-        Wants = "network-online.target";
       };
     };
 
@@ -27,8 +28,7 @@ in {
       timerConfig = {
         OnCalendar = "weekly";
         Persistent = true;
-        AccuracySec = "6h";
-        RandomizedDelaySec = "1h";
+        RandomizedDelaySec = "5m";
         Unit = "${serviceName}.service";
       };
     };
