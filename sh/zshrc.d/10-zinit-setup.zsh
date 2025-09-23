@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+return
+
 [ -f /etc/NIXOS ] && return
 
 # Set the directory we want to store zinit and plugins
