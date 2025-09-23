@@ -54,7 +54,6 @@ alias cmatrix='cmatrix -ab'
 alias ff='fastfetch'
 alias q='vi -c Quickmath'
 
-alias tsr='tmux source-file ~/.config/tmux/tmux.conf'
 alias ts='tmux split-window -h \; split-window -v'
 
 [ "$(uname)" != 'Darwin' ] && alias cal='cal --monday'
