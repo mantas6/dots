@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+# Convert code file to html
+
+set -u
+
+input_file="$1"
+output_file="$input_file.html"
+
+nvim -c "TOhtml | write $output_file | qa" "$input_file"
