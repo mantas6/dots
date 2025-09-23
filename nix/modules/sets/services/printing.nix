@@ -26,12 +26,12 @@ in {
       };
 
       hardware.printers = {
-        ensureDefaultPrinter = "Brother_HL-L2445DW";
+        ensureDefaultPrinter = "L2445DW";
         ensurePrinters = [
           {
             deviceUri = "ipp://BRN94DDF82B172F/ipp";
             location = "home";
-            name = "Brother_HL-L2445DW";
+            name = "L2445DW";
             model = "everywhere";
           }
         ];
