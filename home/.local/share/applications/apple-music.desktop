@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Version=1.0
-Name=Apple Music
-Icon=chromium
-Comment=Apple music streaming service
-Exec=/usr/bin/chromium --app=https://music.apple.com
-Terminal=false

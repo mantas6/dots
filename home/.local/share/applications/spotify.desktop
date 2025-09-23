@@ -4,5 +4,5 @@ Version=1.0
 Name=Spotify
 Icon=chromium
 Comment=Spotify music streaming service
-Exec=/usr/bin/chromium --app=https://open.spotify.com/
+Exec=/usr/bin/env chromium --app=https://open.spotify.com/
 Terminal=false

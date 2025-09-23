@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Version=1.0
-Name=Skype
-Icon=chromium
-Comment=Chat with friends
-Exec=/usr/bin/chromium --app=https://web.skype.com
-Terminal=false
