@@ -4,12 +4,8 @@
 if [ -d '.git' ] || [ -f 'composer.json' ] || [ -f 'package.json' ]; then
     tmux rename-window 'vi'
     tmux send-keys 'nvim .' C-m
-
     tmux new-window -n 'ex'
-
     tmux new-window -n 'git'
-    tmux send-keys 'git status' C-m
-
     tmux new-window -n 'tin'
 
     tmux select-window -t 'vi'
