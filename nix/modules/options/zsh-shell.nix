@@ -1,4 +1,5 @@
 {
+  pkgs,
   pkgs-unstable,
   config,
   lib,
@@ -14,8 +15,10 @@
   };
 
   config = lib.mkIf (config.features.useZshShell == true) {
+    users.defaultUserShell = pkgs.zsh;
+
     programs.zsh = {
-      enable = lib.mkDefault true;
+      enable = true;
       interactiveShellInit = with pkgs-unstable; ''
         source "${zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
         source "${zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"

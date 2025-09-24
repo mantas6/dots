@@ -3,8 +3,6 @@
     ./authorized-keys.nix
   ];
 
-  users.defaultUserShell = pkgs.zsh;
-
   users.users.mantas = {
     isNormalUser = true;
     password = "2";
