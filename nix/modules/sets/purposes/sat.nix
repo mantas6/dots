@@ -21,6 +21,17 @@
     php84Extensions.zip
     php84Extensions.intl
   ];
+
+  defaultServiceOptions = {
+    path = phpEnv;
+
+    serviceConfig = {
+      User = userName;
+    };
+
+    after = ["network-online.target"];
+    wants = ["network-online.target"];
+  };
 in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}
@@ -41,50 +52,29 @@ in {
         package = pkgs.mariadb;
       };
 
-      systemd.services.sat-schedule = {
+      systemd.services.sat-schedule = defaultServiceOptions // {
         script = "php %h/Sat/current schedule:run >> /dev/null 2>&1";
-
-        path = phpEnv;
 
         serviceConfig = {
           Type = "oneshot";
-          User = userName;
         };
 
         restartIfChanged = false;
         unitConfig.X-StopOnRemoval = false;
 
-        after = ["network-online.target"];
-        wants = ["network-online.target"];
-
         startAt = "minutely";
       };
 
-      systemd.services.sat-octane = {
+      systemd.services.sat-octane = defaultServiceOptions // {
         script = "php artisan octane:start --workers=8";
-
-        path = phpEnv;
-
-        serviceConfig = {
-          User = userName;
-        };
-
-        after = ["network-online.target"];
-        wants = ["network-online.target"];
       };
 
-      systemd.services.sat-horizon = {
+      systemd.services.sat-horizon = defaultServiceOptions // {
         script = "php artisan horizon";
 
-        path = phpEnv;
-
         serviceConfig = {
-          User = userName;
           TimeoutStopSec = "3600s";
         };
-
-        after = ["network-online.target"];
-        wants = ["network-online.target"];
       };
     })
   ];
