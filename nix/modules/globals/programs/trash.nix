@@ -14,16 +14,14 @@ in {
 
     restartIfChanged = false;
     unitConfig.X-StopOnRemoval = false;
+
+    startAt = "weekly";
   };
 
   systemd.user.timers.${serviceName} = {
-    wantedBy = ["timers.target"];
-
     timerConfig = {
-      OnCalendar = "weekly";
       Persistent = true;
       RandomizedDelaySec = "5m";
-      Unit = "${serviceName}.service";
     };
   };
 }

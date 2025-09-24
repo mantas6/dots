@@ -45,17 +45,15 @@
       After = "network-online.target";
       Wants = "network-online.target";
     };
+
+    startAt = "daily";
   };
 
   systemd.user.timers.sat-backups = {
-    wantedBy = ["timers.target"];
-
     timerConfig = {
-      OnCalendar = "daily";
       Persistent = true;
       AccuracySec = "6h";
       RandomizedDelaySec = "1h";
-      Unit = "sat-backups.service";
     };
   };
 

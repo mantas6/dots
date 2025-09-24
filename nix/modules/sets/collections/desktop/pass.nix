@@ -41,16 +41,14 @@ in {
       serviceConfig = {
         Type = "oneshot";
       };
+
+      startAt = "daily";
     };
 
     systemd.user.timers.${serviceName} = {
-      wantedBy = ["timers.target"];
-
       timerConfig = {
-        OnCalendar = "daily";
         Persistent = true;
         RandomizedDelaySec = "5m";
-        Unit = "${serviceName}.service";
       };
     };
   };
