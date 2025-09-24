@@ -96,5 +96,16 @@
         inherit pkgs-unstable;
       };
     };
+
+    nixosConfigurations.pd = nixpkgs.lib.nixosSystem {
+      modules = [
+        ./nix/hosts/pd
+      ];
+
+      specialArgs = {
+        inherit inputs;
+        inherit pkgs-unstable;
+      };
+    };
   };
 }

@@ -12,7 +12,6 @@
   features.sets = [
     "disks.normal"
     "jobs.updates"
-    "purposes.router"
     # "services.docker"
   ];
 

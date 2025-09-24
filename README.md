@@ -24,3 +24,9 @@ If stow fails, remove conflicting files (preferably to trash) and run again. Pay
 ```sh
 nix run nixpkgs#nixos-generators -- --format iso --flake #iso
 ```
+
+### Deploy NixOS on the network
+
+```sh
+nixos-rebuild --flake .#host --target-host host --use-remote-sudo switch
+```
