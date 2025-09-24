@@ -27,7 +27,7 @@ in {
     (lib.mkIf (lib.elem name config.features.sets) {
       environment.systemPackages = phpEnv;
 
-      systemd.user.services.sat-schedule = {
+      systemd.services.sat-schedule = {
         script = "php %h/Sat/current schedule:run >> /dev/null 2>&1";
 
         path = phpEnv;

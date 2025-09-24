@@ -25,18 +25,6 @@
 
   services.logind.powerKey = "suspend";
 
-  # systemd.network.links."10-unmn0" = {
-  #   matchConfig.PermanentMACAddress = "60:7d:09:a9:4a:1c";
-  #   linkConfig = {
-  #     Name = "unmn0";
-  #   };
-  # };
-
-  # networking.interfaces.unmn0.useDHCP = false;
-
-  # features.docker-compose = ["test" "test2"];
-  # features.services = ["photosync"];
-
   # services.xserver.dpi = 100;
 
   networking.hostName = "ix";
