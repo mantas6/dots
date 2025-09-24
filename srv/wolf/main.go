@@ -38,30 +38,6 @@ func getMacAddressFromHostname(hostname string) (string, error) {
 	return "", fmt.Errorf("hostname not found")
 }
 
-// Function to read the IP address for a given hostname from dnsmasq leases file
-func getIPAddressFromHostname(hostname string) (string, error) {
-	file, err := os.Open(leasesFilePath)
-	if err != nil {
-		return "", fmt.Errorf("failed to open leases file: %v", err)
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
-		fields := strings.Fields(line)
-		if len(fields) >= 4 && fields[3] == hostname {
-			return fields[2], nil
-		}
-	}
-
-	if err := scanner.Err(); err != nil {
-		return "", fmt.Errorf("error reading leases file: %v", err)
-	}
-
-	return "", fmt.Errorf("hostname not found")
-}
-
 // Function to handle WOL request
 func wolHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
@@ -85,25 +61,9 @@ func wolHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Sent WOL packet to MAC address %s", macAddress)
 }
 
-// Function to handle IP resolution request
-func resolveIPHandler(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	hostname := vars["hostname"]
-
-	ipAddress, err := getIPAddressFromHostname(hostname)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
-		return
-	}
-
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "%s", ipAddress)
-}
-
 func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/wol/{hostname}", wolHandler).Methods("GET")
-    r.HandleFunc("/res/{hostname}", resolveIPHandler).Methods("GET")
 
 	fmt.Println("Starting server on :5001")
 	if err := http.ListenAndServe(":5001", r); err != nil {

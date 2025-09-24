@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-# Resolve hostname from dnsmasq leases
-
-curl -sSfL 192.168.0.1:5001/res/"$1"
