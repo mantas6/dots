@@ -7,6 +7,5 @@
     ./locale.nix
     ./network.nix
     ./power.nix
-    ./shell.nix
   ];
 }
