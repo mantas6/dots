@@ -8,17 +8,14 @@ import (
 	"os"
 	"os/exec"
 	"strings"
-	"github.com/gorilla/mux"
 )
 
-// Path to dnsmasq leases file
 const leasesFilePath = "/var/lib/misc/dnsmasq.leases"
 
-// Function to read the MAC address for a given hostname from dnsmasq leases file
 func getMacAddressFromHostname(hostname string) (string, error) {
 	file, err := os.Open(leasesFilePath)
 	if err != nil {
-		return "", fmt.Errorf("failed to open leases file: %v", err)
+		return "", fmt.Errorf("Failed to open leases file: %v", err)
 	}
 	defer file.Close()
 
@@ -32,16 +29,19 @@ func getMacAddressFromHostname(hostname string) (string, error) {
 	}
 
 	if err := scanner.Err(); err != nil {
-		return "", fmt.Errorf("error reading leases file: %v", err)
+		return "", fmt.Errorf("Error reading leases file: %v", err)
 	}
 
-	return "", fmt.Errorf("hostname not found")
+	return "", fmt.Errorf("Hostname not found")
 }
 
-// Function to handle WOL request
 func wolHandler(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	hostname := vars["hostname"]
+	path := strings.TrimPrefix(r.URL.Path, "/wol/")
+	if path == "" || strings.Contains(path, "/") {
+		http.Error(w, "Invalid hostname", http.StatusBadRequest)
+		return
+	}
+	hostname := path
 
 	macAddress, err := getMacAddressFromHostname(hostname)
 	if err != nil {
@@ -49,11 +49,10 @@ func wolHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Execute the wol command with the MAC address
 	cmd := exec.Command("wakeonlan", "-i", "192.168.0.255", macAddress)
 	err = cmd.Run()
 	if err != nil {
-		http.Error(w, fmt.Sprintf("Failed to execute wol command: %v", err), http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("Failed to execute command: %v", err), http.StatusInternalServerError)
 		return
 	}
 
@@ -62,11 +61,11 @@ func wolHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	r := mux.NewRouter()
-	r.HandleFunc("/wol/{hostname}", wolHandler).Methods("GET")
+	mux := http.NewServeMux()
+	mux.HandleFunc("/wol/", wolHandler)
 
 	fmt.Println("Starting server on :5001")
-	if err := http.ListenAndServe(":5001", r); err != nil {
+	if err := http.ListenAndServe(":5001", mux); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }
