@@ -13,7 +13,7 @@
     };
   };
 
-  config = lib.mkIf (config.features.useZshShell != null) {
+  config = lib.mkIf (config.features.useZshShell == true) {
     programs.zsh = {
       enable = lib.mkDefault true;
       interactiveShellInit = with pkgs-unstable; ''
