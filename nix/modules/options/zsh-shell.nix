@@ -14,7 +14,7 @@
     };
   };
 
-  config = lib.mkIf (config.features.useZshShell == true) {
+  config = lib.mkIf (config.features.useZshShell) {
     users.defaultUserShell = pkgs.zsh;
 
     programs.zsh = {
