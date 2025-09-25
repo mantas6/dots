@@ -6,7 +6,8 @@
     ./pkgs.nix
     ./pass.nix
     ./remap.nix
-    ./comms.nix
+    ./services.nix
+    ./browsers.nix
   ];
 
   features.setsAvailable = ["collections.desktop"];
