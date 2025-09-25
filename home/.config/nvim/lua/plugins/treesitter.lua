@@ -31,6 +31,7 @@ return {
               "python",
               "nix",
               "javascript",
+              "caddy",
           },
 
           -- Install parsers synchronously (only applied to `ensure_installed`)
