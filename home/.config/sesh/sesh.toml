@@ -13,6 +13,7 @@ path = "~"
 [[session]]
 name = "large"
 path = "~"
+startup_command = "tmux set status off"
 
 [[session]]
 name = "_dots"

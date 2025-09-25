@@ -9,8 +9,4 @@ if [ -d '.git' ] || [ -f 'composer.json' ] || [ -f 'package.json' ]; then
     tmux new-window -n 'tin'
 
     tmux select-window -t 'vi'
-elif [ "$(pwd)" = "$HOME/Downloads" ]; then
-    [ -x "$(command -v eza)" ] && eza --icons --group-directories-first -l
-elif [ "$(pwd)" = "$HOME" ]; then
-    [ -x "$(command -v fastfetch)" ] && fastfetch
 fi
