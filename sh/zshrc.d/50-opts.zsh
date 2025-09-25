@@ -41,6 +41,7 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 precmd() {
+    # next-prompt / previous-prompt
     # print -n '\033]133;A\033\\'
 
     if [[ $? -ne 0 ]]; then
