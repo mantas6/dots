@@ -41,10 +41,11 @@
       curl
     ];
 
+    after = ["network-online.target"];
+    wants = ["network-online.target"];
+
     serviceConfig = {
       Type = "oneshot";
-      After = "network-online.target";
-      Wants = "network-online.target";
     };
 
     startAt = "daily";
