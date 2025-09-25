@@ -19,11 +19,33 @@
     ...
   } @ inputs: let
     system = "x86_64-linux";
+
     pkgs = nixpkgs.legacyPackages.${system};
     pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+
+    # hosts = [
+    #   "iso"
+    #   "ix"
+    #   "amd"
+    #   "l4"
+    #   "rt"
+    #   "tp"
+    #   "pd"
+    # ];
   in {
     formatter.x86_64-linux = pkgs.alejandra;
     formatter.aarch64-linux = pkgs.alejandra;
+    # nixosConfigurations = builtins.listToAttrs (map (name: {
+    #     ${name} = {
+    #       modules = [./nix/hosts/${name}];
+    #
+    #       specialArgs = {
+    #         inherit inputs;
+    #         inherit pkgs-unstable;
+    #       };
+    #     };
+    #   })
+    #   hosts);
 
     nixosConfigurations.iso = nixpkgs.lib.nixosSystem {
       modules = [./nix/hosts/iso];
@@ -39,17 +61,6 @@
       specialArgs = {
         inherit inputs;
         inherit pkgs-unstable;
-      };
-    };
-
-    nixosConfigurations.utm = nixpkgs.lib.nixosSystem {
-      modules = [./nix/hosts/utm];
-
-      system = "aarch64-linux";
-
-      specialArgs = {
-        pkgs-unstable = nixpkgs-unstable.legacyPackages.aarch64-linux;
-        inherit inputs;
       };
     };
 
