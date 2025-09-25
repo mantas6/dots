@@ -4,5 +4,6 @@
     ./printing.nix
     ./docker.nix
     ./speedtest.nix
+    ./photosync.nix
   ];
 }
