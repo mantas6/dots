@@ -45,7 +45,7 @@ return function()
         tag = 2,
         exec = {
           'chromium --app=https://messenger.com',
-          'chromium',
+          'chromium --new-window https://meteofor.lt/weather-alytus-4152/month',
         }
       },
       {
@@ -53,7 +53,7 @@ return function()
         exec = {
           'chromium --new-window https://www.youtube.com/feed/subscriptions',
           'chromium --new-window https://www.netflix.com/browse',
-          'chromium https://www.icloud.com/reminders',
+          'chromium --new-window https://www.icloud.com/reminders',
         }
       },
       {
