@@ -16,6 +16,7 @@ startup_command = "start-tmux-session"
 [[session]]
 name = "generic"
 path = "~"
+startup_command = "tmux set status off"
 
 [[session]]
 name = "large"
@@ -40,15 +41,15 @@ name = "Calculator"
 path = "~"
 startup_command  = "vi -c Quickmath"
 
-[[window]]
-name = "vi"
-startup_script = "nvim ."
-
-[[window]]
-name = "git"
-
-[[window]]
-name = "ex"
-
-[[window]]
-name = "tin"
+# [[window]]
+# name = "vi"
+# startup_script = "nvim ."
+#
+# [[window]]
+# name = "git"
+#
+# [[window]]
+# name = "ex"
+#
+# [[window]]
+# name = "tin"
