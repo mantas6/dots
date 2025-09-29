@@ -7,7 +7,8 @@ if [ -d "$HOME/.local/brew" ]; then
     export HOMEBREW_PREFIX="$HOME/.local/brew"
     export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
     export HOMEBREW_MAKE_JOBS=4
-    export PATH="$HOMEBREW_PREFIX/bin:$PATH"
+    export HOMEBREW_DISPLAY_INSTALL_TIMES=true
+    # export PATH="$HOMEBREW_PREFIX/bin:$PATH"
 
     eval "$(brew shellenv)"
 fi
