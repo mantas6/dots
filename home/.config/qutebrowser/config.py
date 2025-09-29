@@ -12,6 +12,7 @@ c.colors.webpage.darkmode.policy.images = 'never'
 c.fonts.default_size = '16pt'
 
 c.fonts.web.size.default = 20
+c.zoom.default = 110
 
 c.tabs.padding = {'top': 5, 'bottom': 5, 'left': 9, 'right': 9}
 # c.tabs.indicator.width = 0 # no tab indicators
