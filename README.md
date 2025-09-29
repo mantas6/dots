@@ -25,6 +25,27 @@ If stow fails, remove conflicting files (preferably to trash) and run again. Pay
 nix run nixpkgs#nixos-generators -- --format iso --flake #iso
 ```
 
+### Install NixOS
+
+Normal setup:
+
+```sh
+nix run nixpkgs#nixos-anywhere -- \
+    --flake ".#__host__" \
+    --generate-hardware-config nixos-generate-config nix/hosts/__host__/hardware.nix \
+    --target-host "root@__host__"
+```
+
+Encrypted setup:
+
+```sh
+nix run nixpkgs#nixos-anywhere -- \
+    --flake ".#__host__" \
+    --disk-encryption-keys /tmp/secret.key <(pass "hosts/__host__") \
+    --generate-hardware-config nixos-generate-config nix/hosts/"__host__"/hardware.nix \
+    --target-host "root@__host__"
+```
+
 ### Deploy NixOS on the network
 
 ```sh
