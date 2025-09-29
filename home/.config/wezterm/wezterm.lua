@@ -21,6 +21,11 @@ config.font_size = 16
 config.color_scheme = 'Tokyo Night'
 config.font = wezterm.font('JetBrains Mono', {})
 
+config.enable_kitty_graphics = true
+config.max_fps = 144
+config.window_decorations = 'RESIZE'
+config.window_close_confirmation = 'NeverPrompt'
+
 config.keys = {
   {
     key = 'c',
@@ -31,6 +36,21 @@ config.keys = {
     key = 'v',
     mods = 'SUPER',
     action = action.PasteFrom 'Clipboard'
+  },
+  {
+    key = '0',
+    mods = 'SUPER',
+    action = action.ResetFontSize
+  },
+  {
+    key = '=',
+    mods = 'SUPER',
+    action = action.IncreaseFontSize
+  },
+  {
+    key = '-',
+    mods = 'SUPER',
+    action = action.DecreaseFontSize
   },
 }
 
