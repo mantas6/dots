@@ -51,3 +51,15 @@ nix run nixpkgs#nixos-anywhere -- \
 ```sh
 nixos-rebuild --flake .#__host__ --target-host root@__host__ switch
 ```
+
+## Additional
+
+### Upgrade out-dated dotfiles
+
+Run when need to migrate old version of dotfiles structure
+
+```sh
+cd "$HOME/.dots"
+./bin/dot/stw -D
+./bin/dot/stw
+```
