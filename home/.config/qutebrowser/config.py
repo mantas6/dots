@@ -9,7 +9,7 @@ c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
 c.colors.webpage.darkmode.policy.images = 'never'
 # c.set('colors.webpage.darkmode.enabled', False, 'file://*')
 
-c.fonts.default_size = '16pt'
+c.fonts.default_size = '12pt'
 
 c.fonts.web.size.default = 20
 c.zoom.default = 110
