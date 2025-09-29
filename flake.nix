@@ -22,7 +22,6 @@
 
     pkgs = nixpkgs.legacyPackages.${system};
     pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
-
     # hosts = [
     #   "iso"
     #   "ix"

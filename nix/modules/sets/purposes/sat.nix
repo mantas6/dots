@@ -1,3 +1,4 @@
+# Work-in-progress/experimentation
 {
   lib,
   config,
@@ -52,30 +53,36 @@ in {
         package = pkgs.mariadb;
       };
 
-      systemd.services.sat-schedule = defaultServiceOptions // {
-        script = "php %h/Sat/current schedule:run >> /dev/null 2>&1";
+      systemd.services.sat-schedule =
+        defaultServiceOptions
+        // {
+          script = "php %h/Sat/current schedule:run >> /dev/null 2>&1";
 
-        serviceConfig = {
-          Type = "oneshot";
+          serviceConfig = {
+            Type = "oneshot";
+          };
+
+          restartIfChanged = false;
+          unitConfig.X-StopOnRemoval = false;
+
+          startAt = "minutely";
         };
 
-        restartIfChanged = false;
-        unitConfig.X-StopOnRemoval = false;
-
-        startAt = "minutely";
-      };
-
-      systemd.services.sat-octane = defaultServiceOptions // {
-        script = "php artisan octane:start --workers=8";
-      };
-
-      systemd.services.sat-horizon = defaultServiceOptions // {
-        script = "php artisan horizon";
-
-        serviceConfig = {
-          TimeoutStopSec = "3600s";
+      systemd.services.sat-octane =
+        defaultServiceOptions
+        // {
+          script = "php artisan octane:start --workers=8";
         };
-      };
+
+      systemd.services.sat-horizon =
+        defaultServiceOptions
+        // {
+          script = "php artisan horizon";
+
+          serviceConfig = {
+            TimeoutStopSec = "3600s";
+          };
+        };
     })
   ];
 }

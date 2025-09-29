@@ -19,7 +19,7 @@
   ];
 
   networking.networkmanager.enable = true;
-  users.users.mantas.extraGroups = [ "networkmanager" ];
+  users.users.mantas.extraGroups = ["networkmanager"];
 
   services.logind.powerKey = "suspend";
 

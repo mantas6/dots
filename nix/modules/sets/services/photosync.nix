@@ -1,3 +1,4 @@
+# Work-in-progress/experimentation
 {
   lib,
   config,
@@ -6,8 +7,8 @@
   name = "services.photosync";
 
   HOME = "/home/mantas";
-  PHOTOSYNC_ORIGINALS="${HOME}/Pictures/Gallery/Originals";
-  PHOTOSYNC_SITE="${HOME}/Pictures/Gallery/Site";
+  PHOTOSYNC_ORIGINALS = "${HOME}/Pictures/Gallery/Originals";
+  PHOTOSYNC_SITE = "${HOME}/Pictures/Gallery/Site";
 in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}
@@ -22,11 +23,10 @@ in {
 
         virtualHosts = {
           "http://l4:8081" = {
-            extraConfig =
-              ''
-                root * ${PHOTOSYNC_SITE}
-                       file_server
-              '';
+            extraConfig = ''
+              root * ${PHOTOSYNC_SITE}
+                     file_server
+            '';
           };
         };
       };
