@@ -49,5 +49,5 @@ nix run nixpkgs#nixos-anywhere -- \
 ### Deploy NixOS on the network
 
 ```sh
-nixos-rebuild --flake .#host --target-host root@host switch
+nixos-rebuild --flake .#__host__ --target-host root@__host__ switch
 ```
