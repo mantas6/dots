@@ -7,9 +7,16 @@ config.load_autoconfig()
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
 c.colors.webpage.darkmode.policy.images = 'never'
+# c.set('colors.webpage.darkmode.enabled', False, 'file://*')
 
 c.fonts.default_size = '16pt'
+
+c.fonts.web.size.default = 20
 
 c.tabs.padding = {'top': 5, 'bottom': 5, 'left': 9, 'right': 9}
 # c.tabs.indicator.width = 0 # no tab indicators
 c.tabs.width = '7%'
+
+c.content.blocking.enabled = True
+# c.content.blocking.adblock.lists = [
+# ]
