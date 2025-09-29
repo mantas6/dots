@@ -61,5 +61,6 @@ Run when need to migrate old version of dotfiles structure
 ```sh
 cd "$HOME/.dots"
 ./bin/dot/stw -D
+git pull
 ./bin/dot/stw
 ```
