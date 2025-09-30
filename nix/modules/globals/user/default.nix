@@ -9,6 +9,6 @@
     extraGroups = ["wheel" "dialout"];
   };
 
-  environment.variables.EDITOR = "${pkgs.neovim}/bin/nvim";
+  environment.variables.EDITOR = "${pkgs.vim}/bin/vim";
   services.getty.autologinUser = "mantas";
 }

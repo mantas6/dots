@@ -8,6 +8,8 @@
     # lua_ls fix
     programs.nix-ld.enable = true;
 
+    environment.variables.EDITOR = lib.mkDefault "${pkgs-unstable.neovim}/bin/vim";
+
     environment.systemPackages = with pkgs-unstable; [
       neovim
       tmux
