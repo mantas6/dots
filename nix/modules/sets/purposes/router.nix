@@ -32,8 +32,8 @@ in {
 
           interface = "${lanIfName}";
 
-          listenAddress = "::1,127.0.0.1,${lanIp}";
-          dhcpRange = "${lanIp},${lanIpRangeEnd},infinite";
+          listen-address = "::1,127.0.0.1,${lanIp}";
+          dhcp-range = "${lanIp},${lanIpRangeEnd},infinite";
 
           cache-size = 10000;
 
