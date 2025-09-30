@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+# Open oneshot terminal window
+
+export WEZ_ONESHOT=1
+exec wezterm start --class oneshot "$@"
