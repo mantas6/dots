@@ -80,7 +80,7 @@ in {
         firewall.enable = false;
 
         nftables = {
-          enable = true;
+          enable = false;
 
           ruleset = ''
             table inet filter {
