@@ -55,12 +55,17 @@ config.keys = {
 }
 
 -- wezterm start --title "My Custom Title"
--- wezterm start --env MY_CUSTOM_ARG="hello-world"
--- -- local my_arg = os.getenv("MY_CUSTOM_ARG")
--- wezterm.on("window-focus-changed", function(window, pane)
---   if not window:is_focused() then
---     window:perform_action(wezterm.action.CloseCurrentTab { confirm = false }, pane)
---   end
--- end)
+-- WEZ_ONESHOT=1 wezterm start --title "Wezterm Oneshot"
+local isOneShot = os.getenv('WEZ_ONESHOT')
+print(isOneShot)
+
+if isOneShot then
+  -- config.window_class
+  wezterm.on('window-focus-changed', function(window, pane)
+    if not window:is_focused() then
+      window:perform_action(wezterm.action.CloseCurrentTab { confirm = false }, pane)
+    end
+  end)
+end
 
 return config
