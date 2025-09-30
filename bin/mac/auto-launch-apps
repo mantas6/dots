@@ -1,6 +1,15 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+
+terminal() {
+    open -n "$HOME/Applications/Ghostty.app"
+}
+
+browser() {
+    open -n "/Applications/Google Chrome.app"
+}
 
 await_windows() {
+    local count
     count=$(aerospace list-windows --workspace focused --count)
     while [ "$count" -lt "$1" ]; do
         sleep 0.1
@@ -9,6 +18,8 @@ await_windows() {
 
 workspace() {
     aerospace workspace "$1"
+
+    local count
     count=$(aerospace list-windows --workspace focused --count)
 
     [ "$count" -ne 0 ] && return 1
@@ -16,27 +27,20 @@ workspace() {
     return 0
 }
 
-aerospace workspace 1
-open -n "$HOME/Applications/Ghostty.app"
-open -n "/Applications/Google Chrome.app"
-await_windows 2
+if aerospace workspace 1; then
+    terminal
+    browser
+    await_windows 2
+fi
 
-aerospace workspace 2
-open -n "/Applications/Google Chrome.app"
-open -n "/Applications/Microsoft Teams.app"
-await_windows 2
+if aerospace workspace 2; then
+    open -n "/Applications/Microsoft Teams.app"
+    browser
+    await_windows 2
+fi
 
-aerospace workspace 3
-open -n "/Applications/Google Chrome.app"
-open -n "/Applications/Google Chrome.app"
-await_windows 2
-
-aerospace workspace 4
-open -n "/Applications/Google Chrome.app"
-open -n "/Applications/Google Chrome.app"
-await_windows 2
-
-aerospace workspace 5
-open -n "/Applications/Google Chrome.app"
-open -n "/Applications/Google Chrome.app"
-await_windows 2
+if aerospace workspace 3; then
+    browser
+    browser
+    await_windows 2
+fi
