@@ -37,6 +37,7 @@
       "http://gal".extraConfig = ''
         reverse_proxy http://localhost:8079
       '';
+
       "http://memos".extraConfig = ''
         reverse_proxy http://localhost:5230
       '';
