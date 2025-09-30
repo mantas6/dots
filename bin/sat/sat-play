@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+set -euo 'pipefail'
+
+baseurl="$(sat-base-url)/api/albums"
+state=$(sat-state-dir)
+
+open-finder() {
+    echo "$1" \
+        | column -ts $'\t' \
+        | fzf --select-1 --delimiter=" " --with-nth=2.. --accept-nth=1
+}
+
+send-request() {
+    curl -sSf "$baseurl$1" \
+        -X "${2-GET}" \
+        -H "$(sat-auth-header)" \
+        -H 'Content-Type: application/json'
+}
+
+update() {
+    send-request '/saved' \
+        | jq -r 'map(.line) | .[]' > "$state/tracks"
+}
+
+help() {
+    local prog=${0##*/}
+    echo " $prog"
+    echo " $prog <search>"
+    echo " $prog [pause|play|next|previous]"
+    echo " $prog update"
+    exit 0
+}
+
+action="${1:-}"
+
+case "$action" in
+    update)
+        update
+        ;;
+    pause|play|next|previous)
+        send-request "/control/$action" PUT
+        ;;
+    help|-h|--help)
+        help
+        ;;
+    *)
+        tracks=$(<"$state/tracks")
+
+        [ -n "$action" ] && tracks=$(echo "$tracks" | fzf --no-sort --filter="$action")
+
+        track_id=$(open-finder "$tracks")
+
+        send-request "/play/$track_id" PUT
+        ;;
+esac
+
