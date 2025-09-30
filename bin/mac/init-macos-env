@@ -10,7 +10,7 @@ fi
 
 if [ ! -x "$(command -v node)" ]; then
     (
-        export NVM_DIR="$HOME/.config/nvm"
+        export NVM_DIR="$HOME/.local/share/nvm"
 
         git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
 
