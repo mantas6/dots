@@ -44,6 +44,9 @@ precmd() {
     # next-prompt / previous-prompt
     # print -n '\033]133;A\033\\'
 
+    # echo -n "\\x1b]133;A\\x1b\\"
+    # print -Pn "\e]133;A\e\\"
+
     if [[ $? -ne 0 ]]; then
         print -n '\a'
     fi
