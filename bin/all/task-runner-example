@@ -15,7 +15,6 @@ third() {
 mapfile -t functions < <(declare -F | cut -d ' ' -f3)
 
 queue=()
-
 for arg in "$@"; do
     case "$arg" in
         all)
@@ -24,12 +23,12 @@ for arg in "$@"; do
             done
             ;;
         *)
-            for func in "${functions[@]}"; do
-                [ "$arg" = "$func" ] && queue+=("$func")
-            done
-
-            # echo "Undefined function: $arg" >&2
-            # exit 1
+            if [[ "${functions[*]}" =~ $arg ]]; then
+                queue+=("$arg")
+            else
+                echo "Undefined function: $arg" >&2
+                exit 1
+            fi
             ;;
     esac
 done
