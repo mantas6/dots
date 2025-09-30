@@ -8,9 +8,10 @@ fpath=("$(brew --prefix)/share/zsh-completions" $fpath)
 
 fzf_tab_path="$HOME/.local/state/zsh/fzf-tab"
 
-[ ! -d "$fzf_tab_path" ] && git clone https://github.com/Aloxaf/fzf-tab "$fzf_tab_path"
+if [ -d "$fzf_tab_path" ]; then
+    source "$fzf_tab_path/fzf-tab.plugin.zsh"
+fi
 
-source "$fzf_tab_path/fzf-tab.plugin.zsh"
 unset fzf_tab_path
 
 # https://github.com/Aloxaf/fzf-tab?tab=readme-ov-file#install

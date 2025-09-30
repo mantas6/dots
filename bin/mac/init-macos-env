@@ -27,6 +27,8 @@ if [ -x "$(command -v cargo)" ]; then
     cargo install carl
 fi
 
+fzf_tab_path="$HOME/.local/state/zsh/fzf-tab"
+[ ! -d "$fzf_tab_path" ] && git clone https://github.com/Aloxaf/fzf-tab "$fzf_tab_path"
 
 # https://macos-defaults.com
 
