@@ -31,6 +31,13 @@
     python3Minimal
   ];
 
+  services.caddy = {
+    enable = true;
+    virtualHosts."http://gal.l4.lan".extraConfig = ''
+      reverse_proxy http://localhost:8079
+    '';
+  };
+
   systemd.user.services.sat-backups = {
     script = "/home/mantas/Offload/Sat/run";
 

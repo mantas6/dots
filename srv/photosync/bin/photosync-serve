@@ -5,7 +5,7 @@ set -u
 originals="$PHOTOSYNC_ORIGINALS"
 site="$PHOTOSYNC_SITE"
 
-python3 -m http.server 80 --directory "$site" > /dev/null 2>&1 &
+python3 -m http.server 8079 --directory "$site" > /dev/null 2>&1 &
 gallery_pid="$!"
 
 python3 -m http.server 8080 --directory "$originals" > /dev/null 2>&1 &
