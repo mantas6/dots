@@ -96,10 +96,10 @@
       display-name = "Base";
       bindings = <
         &kp EQUAL &kp N1    &kp N2   &kp N3   &kp N4     &kp N5 &tog 2                                                           &mo 3 &kp N6 &kp N7 &kp N8    &kp N9   &kp N0   &kp MINUS
-        &lt 4 TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &kp N6                                                            &kp C_VOL_UP &kp Y  &kp U  &kp I     &kp O    &kp P    &lt 4 BSLH
-        &lt 2 ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &kp Y               &tpfx &kp DEL &kp DEL  &tpfx                    &kp C_VOL_DN &kp H  &kp J  &kp K     &kp L    &kp SEMI &lt 2 SQT
+        &lt 4 TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &none                                                            &kp C_VOL_UP &kp Y  &kp U  &kp I     &kp O    &kp P    &lt 4 BSLH
+        &lt 2 ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &none               &tpfx &kp DEL &kp DEL  &tpfx                    &kp C_VOL_DN &kp H  &kp J  &kp K     &kp L    &kp SEMI &lt 2 SQT
         &kp LSHFT &kp Z     &kp X    &kp C    &kp V      &kp B                            &kp LALT &kp RALT                           &kp N  &kp M  &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
-        &mo 5     &kp GRAVE &kp CAPS &kp SPACE &kp GRAVE      &mt RCTRL SPACE &lt 6 BSPC   &kp LGUI  &kp RGUI &lt 6 ENTER &mt RCTRL SPACE          &kp LBKT &kp RBKT  &kp LBKT &kp RBKT &mo 5
+        &mo 5     &kp GRAVE &kp CAPS &kp SPACE &kp GRAVE      &mt RCTRL SPACE &kp BSPC   &kp LGUI  &kp RGUI &kp ENTER &mt RCTRL SPACE          &kp LBKT &kp RBKT  &kp LBKT &kp RBKT &mo 5
       >;
     };
     keypad {
@@ -150,16 +150,6 @@
         &none &none        &none        &msc SCRL_UP        &none        &none        &none                   &none &none &none &none                      &none &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT &none &none
         &none &none        &none        &none        &none   &none                                      &kp LALT &kp LALT                                       &mkp MCLK &mkp LCLK &none &none &none &none
         &none &none        &none        &none        &none                                       &mkp MCLK &mkp RCLK &kp LGUI &kp RGUI &mkp LCLK &kp RCTRL                            &none &none &none &none &none
-      >;
-    };
-    num {
-      display-name = "Numbers";
-      bindings = <
-        &none &none &none &none &none &none &none                                                                                                &none &none &none &none &none &none &none
-        &mod LSHFT EQUAL &mod LSHFT N1  &mod LSHFT N2 &mod LSHFT N3 &mod LSHFT N4 &mod LSHFT N5 &none                                             &none &mod LSHFT N6 &mod LSHFT N7 &mod LSHFT N8    &mod LSHFT N9   &mod LSHFT N0   &mod LSHFT MINUS
-        &kp EQUAL &kp N1   &kp N2       &kp N3       &kp N4       &kp N5       &none                   &tpfx &none &none &tpfx                      &none &kp N6 &kp N7 &kp N8    &kp N9   &kp N0   &kp MINUS
-        &none &none        &none        &kp GRAVE        &mod LSHFT GRAVE   &none                     &kp LALT &kp LALT                                       &none &mod LSHFT LBKT  &mod LSHFT RBKT &kp LBKT  &kp RBKT &none
-        &none &none        &none        &none        &none                                       &none &kp BSPC &kp LGUI &kp RGUI &none &none                            &none &none &none &none &none
       >;
     };
     extra1 {
