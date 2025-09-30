@@ -85,10 +85,10 @@ in {
           ruleset = ''
             table inet filter {
               # enable flow offloading for better throughput
-              flowtable f {
-                hook ingress priority 0;
-                devices = { ${wanIfName}, ${lanIfName} };
-              }
+              # flowtable f {
+              #   hook ingress priority 0;
+              #   devices = { ${wanIfName}, ${lanIfName} };
+              # }
 
               chain output {
                 type filter hook output priority 100; policy accept;
@@ -111,7 +111,7 @@ in {
                 type filter hook forward priority filter; policy drop;
 
                 # enable flow offloading for better throughput
-                ip protocol { tcp, udp } flow offload @f
+                # ip protocol { tcp, udp } flow offload @f
 
                 # Allow trusted network WAN access
                 iifname {
