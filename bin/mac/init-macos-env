@@ -28,7 +28,11 @@ if [ -x "$(command -v cargo)" ]; then
 fi
 
 fzf_tab_path="$HOME/.local/state/zsh/fzf-tab"
-[ ! -d "$fzf_tab_path" ] && git clone https://github.com/Aloxaf/fzf-tab "$fzf_tab_path"
+if [ ! -d "$fzf_tab_path" ]; then
+    git clone https://github.com/Aloxaf/fzf-tab "$fzf_tab_path"
+else
+    (cd "$fzf_tab_path" && git pull)
+fi
 
 # https://macos-defaults.com
 
