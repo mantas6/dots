@@ -37,7 +37,7 @@ path = "~"
 startup_command  = "nvim NOTES.md"
 
 [[session]]
-name = "Calculator"
+name = "Calc"
 path = "~"
 startup_command  = "vi -c Quickmath"
 
