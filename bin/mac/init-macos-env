@@ -23,6 +23,11 @@ if [ ! -x "$(command -v node)" ]; then
     )
 fi
 
+if [ -x "$(command -v cargo)" ]; then
+    cargo install carl
+fi
+
+
 # https://macos-defaults.com
 
 defaults write -g InitialKeyRepeat -int 15
