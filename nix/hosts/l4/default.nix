@@ -33,9 +33,14 @@
 
   services.caddy = {
     enable = true;
-    virtualHosts."http://gal.l4.lan".extraConfig = ''
-      reverse_proxy http://localhost:8079
-    '';
+    virtualHosts = {
+      "http://gal".extraConfig = ''
+        reverse_proxy http://localhost:8079
+      '';
+      "http://memos".extraConfig = ''
+        reverse_proxy http://localhost:5230
+      '';
+    };
   };
 
   systemd.user.services.sat-backups = {
