@@ -38,6 +38,7 @@
       gitleaks
       openssl
       parallel
+      speedtest-cli
 
       nixd
       alejandra
