@@ -18,6 +18,20 @@ c.tabs.padding = {'top': 5, 'bottom': 5, 'left': 9, 'right': 9}
 # c.tabs.indicator.width = 0 # no tab indicators
 c.tabs.width = '7%'
 
+c.editor.command = [
+    'env',
+    'WEZ_ONESHOT=1',
+    'wezterm',
+    'start',
+    '--class',
+    'oneshot',
+    'nvim',
+    '-f',
+    '{file}',
+    '-c',
+    'normal {line}G{column0}l',
+]
+
 c.content.blocking.enabled = True
 # c.content.blocking.adblock.lists = [
 # ]
