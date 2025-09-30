@@ -23,6 +23,8 @@ if [ ! -x "$(command -v node)" ]; then
     )
 fi
 
+# https://macos-defaults.com
+
 defaults write -g InitialKeyRepeat -int 15
 defaults write -g KeyRepeat -int 1
 
@@ -33,7 +35,26 @@ defaults write com.apple.dock expose-group-apps -bool true
 defaults write com.apple.spaces spans-displays -bool true
 defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
 
+defaults write com.apple.dock show-recents -bool false
+
+defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+defaults write com.apple.finder ShowPathbar -bool true
+defaults write -g com.apple.sound.uiaudio.enabled -int 0
+
 defaults write com.apple.dock autohide -bool true
+# defaults write NSGlobalDomain _HIHideMenuBar -bool true
+
+# Get and set later:
+# defaults read NSGlobalDomain com.apple.mouse.scaling
+# defaults write NSGlobalDomain com.apple.mouse.scaling -float "4"
+#
+# defaults read com.apple.dock autohide-delay
+# defaults write com.apple.Dock autohide-delay -float "0.7"
+#
+# defaults read NSGlobalDomain com.apple.trackpad.scaling
+# defaults write NSGlobalDomain com.apple.trackpad.scaling -float "4"
 
 killall SystemUIServer
 killall Dock
+killall Finder
