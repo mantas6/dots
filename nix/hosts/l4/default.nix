@@ -33,6 +33,7 @@
 
   services.caddy = {
     enable = true;
+    user = "mantas";
     virtualHosts = {
       "http://gal".extraConfig = ''
         reverse_proxy http://localhost:8079
