@@ -7,6 +7,10 @@ cmd="exec \$SHELL -l"
 
 if [ $# != 0 ]; then
     cmd=$(printf "'%s' " "$@")
+else
+    if [ -n "$TMUX" ]; then
+        tmux send-keys 'export EDITOR=vim; shopt -s autocd' C-m
+    fi
 fi
 
 ssh -o LogLevel=QUIET -tt "$name" "cd $base; $cmd"
