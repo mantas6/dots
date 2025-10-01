@@ -41,6 +41,16 @@
       "http://memos".extraConfig = ''
         reverse_proxy http://localhost:5230
       '';
+
+      "http://nostalgia".extraConfig = ''
+        root    * /home/mantas/Pictures/Nostalgia/Site
+        file_server
+      '';
+
+      "http://localhost:8078".extraConfig = ''
+        root    * /home/mantas/Pictures/Nostalgia/Originals
+        file_server
+      '';
     };
   };
 
