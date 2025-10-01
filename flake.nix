@@ -45,6 +45,7 @@
     #       specialArgs = {
     #         inherit inputs;
     #         inherit pkgs-unstable;
+    #         inherit self;
     #       };
     #     };
     #   })
@@ -64,6 +65,7 @@
       specialArgs = {
         inherit inputs;
         inherit pkgs-unstable;
+        inherit self;
       };
     };
 
@@ -75,6 +77,7 @@
       specialArgs = {
         inherit inputs;
         inherit pkgs-unstable;
+        inherit self;
       };
     };
 
@@ -86,6 +89,7 @@
       specialArgs = {
         inherit inputs;
         inherit pkgs-unstable;
+        inherit self;
       };
     };
 
@@ -97,6 +101,7 @@
       specialArgs = {
         inherit inputs;
         inherit pkgs-unstable;
+        inherit self;
       };
     };
 
@@ -108,6 +113,7 @@
       specialArgs = {
         inherit inputs;
         inherit pkgs-unstable;
+        inherit self;
       };
     };
 
@@ -119,6 +125,7 @@
       specialArgs = {
         inherit inputs;
         inherit pkgs-unstable;
+        inherit self;
       };
     };
 

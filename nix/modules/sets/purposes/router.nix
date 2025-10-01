@@ -1,4 +1,6 @@
 {
+  self,
+  pkgs,
   lib,
   config,
   ...
@@ -158,6 +160,20 @@ in {
           #     }
           #   }
           # '';
+        };
+      };
+
+      systemd.services.wolf = {
+        description = "Wolf";
+        wantedBy = ["multi-user.target"];
+        after = ["network.target"];
+        serviceConfig = {
+          ExecStart = "${self.packages.${pkgs.system}.wolf}/bin/wolf";
+          Restart = "always";
+          Type = "simple";
+          DynamicUser = "yes";
+        };
+        environment = {
         };
       };
     })
