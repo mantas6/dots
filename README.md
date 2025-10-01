@@ -52,7 +52,7 @@ nix run nixpkgs#nixos-anywhere -- \
 nixos-rebuild --flake .#__host__ --target-host root@__host__ switch
 ```
 
-## Additional
+## Rescue
 
 ### Upgrade out-dated dotfiles
 
@@ -64,3 +64,34 @@ cd "$HOME/.dots"
 git pull
 ./bin/dot/stw
 ```
+
+### Reinstall bootloader for NixOS
+
+```sh
+sudo nixos-rebuild --install-bootloader switch --flake .
+```
+
+## MacOS
+
+### Setup
+
+After stowing dotfiles, install brew dependencies:
+
+```sh
+brew bundle --global
+```
+
+### Brew
+
+Update all packages:
+
+```sh
+brew bundle upgrade --global
+```
+
+Update Brewfile after setup modifications:
+
+```sh
+brew bundle dump --global --force
+```
+

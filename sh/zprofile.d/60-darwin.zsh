@@ -7,8 +7,12 @@ if [ -d "$HOME/.local/brew" ]; then
     export HOMEBREW_PREFIX="$HOME/.local/brew"
     export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
     export HOMEBREW_MAKE_JOBS=4
-    export HOMEBREW_DISPLAY_INSTALL_TIMES=true
     export PATH="$HOMEBREW_PREFIX/bin:$PATH"
+
+    export HOMEBREW_DISPLAY_INSTALL_TIMES=true
+    export HOMEBREW_NO_ANALYTICS=true
+    export HOMEBREW_BUNDLE_NO_UPGRADE=true
+    export HOMEBREW_BUNDLE_FILE_GLOBAL="$HOME/.config/homebrew/Brewfile"
 
     eval "$(brew shellenv)"
 fi
