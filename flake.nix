@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable";
     nixpkgs.url = "nixpkgs/nixos-25.05";
+    nixpkgs-go.url = "github:NixOS/nixpkgs/d1d883129b193f0b495d75c148c2c3a7d95789a0";
 
     disko = {
       url = "github:nix-community/disko";
@@ -14,14 +15,17 @@
   };
 
   outputs = {
+    self,
     nixpkgs,
     nixpkgs-unstable,
+    nixpkgs-go,
     ...
   } @ inputs: let
     system = "x86_64-linux";
 
     pkgs = nixpkgs.legacyPackages.${system};
     pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+    pkgs-go = nixpkgs-go.legacyPackages.${system};
     # hosts = [
     #   "iso"
     #   "ix"
@@ -116,6 +120,18 @@
         inherit inputs;
         inherit pkgs-unstable;
       };
+    };
+
+    packages.${system}.wolf = pkgs-go.buildGoModule {
+      pname = "wolf";
+      version = "0.1.0";
+      src = ./lib/wolf/.;
+      vendorHash = null;
+    };
+
+    apps.${system}.wolf = {
+      type = "app";
+      program = "${self.packages.${system}.wolf}/bin/wolf";
     };
   };
 }
