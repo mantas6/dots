@@ -95,11 +95,11 @@
     default_layer {
       display-name = "Base";
       bindings = <
-        &kp EQUAL &kp N1    &kp N2   &kp N3   &kp N4     &kp N5 &tog 2                                                           &mo 3 &kp N6 &kp N7 &kp N8    &kp N9   &kp N0   &kp MINUS
-        &lt 4 TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &none                                                            &kp C_VOL_UP &kp Y  &kp U  &kp I     &kp O    &kp P    &lt 4 BSLH
-        &lt 2 ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &none               &tpfx &kp DEL &kp DEL  &tpfx                    &kp C_VOL_DN &kp H  &kp J  &kp K     &kp L    &kp SEMI &lt 2 SQT
+        &kp EQUAL &kp N1    &kp N2   &kp N3   &kp N4     &kp N5 &none                                                           &mo 3 &kp N6 &kp N7 &kp N8    &kp N9   &kp N0   &kp MINUS
+        &kp TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &none                                                            &kp C_VOL_UP &kp Y  &kp U  &kp I     &kp O    &kp P    &kp BSLH
+        &kp ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &none               &kp RCTRL &tpfx &tpfx &kp RCTRL                  &kp C_VOL_DN &kp H  &kp J  &kp K     &kp L    &kp SEMI &kp SQT
         &kp LSHFT &kp Z     &kp X    &kp C    &kp V      &kp B                            &kp LALT &kp RALT                           &kp N  &kp M  &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
-        &mo 5     &kp GRAVE &kp CAPS &kp SPACE &kp GRAVE      &mt RCTRL SPACE &kp BSPC   &kp LGUI  &kp RGUI &kp ENTER &mt RCTRL SPACE          &kp LBKT &kp RBKT  &kp LBKT &kp RBKT &mo 5
+        &mo 2     &kp GRAVE &kp CAPS &kp DEL &mo 4      &kp SPACE &kp BSPC   &kp LGUI  &kp RGUI &kp ENTER &kp SPACE          &kp LBKT &kp RBKT  &kp LBKT &kp RBKT &mo 2
       >;
     };
     keypad {
@@ -118,8 +118,8 @@
         &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &trans                                           &mo 3 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12
         &trans &trans &mod LALT BSPC &mod LGUI RIGHT &trans &trans  &none                                       &none &trans &kp PG_UP &none &kp HOME &kp UP  &trans
         &trans &mod LGUI LEFT &trans &kp PG_DN &mod LALT RIGHT &kp END  &none        &trans &trans &trans &trans        &none &kp LEFT &kp DOWN &kp UP &kp RIGHT  &trans  &trans
-        &trans &trans &trans &trans &vline &mod LALT LEFT                      &trans &trans                     &kp DOWN &kp ENTER &trans &trans  &trans  &trans
-        &trans &trans &trans &trans &trans               &kp RCTRL &kp BSPC &trans &trans &kp DEL &kp RCTRL              &trans &trans &trans  &trans  &trans
+        &trans &trans &trans &stp STP_BAT &vline &mod LALT LEFT                      &trans &trans                     &kp DOWN &kp ENTER &trans &trans  &trans  &trans
+        &trans &trans &trans &trans &trans               &kp RCTRL &kp BSPC &trans &trans &kp DEL &kp RCTRL              &mod RCTRL PG_DN &mod RCTRL &trans  &trans  &trans
       >;
     };
     mod {
@@ -130,16 +130,6 @@
         &studio_unlock &none        &none        &none        &none        &none        &none                   &none &none &bt BT_CLR &none                      &stp STP_BAT &none        &none        &none        &none &none &none
         &none &none        &none        &none        &macro_ver   &none                                      &none &none                                                        &none        &none        &none        &none &none &none
         &none &none        &none        &none        &none                                       &none &kp K_PWR &none &none      &bl BL_TOG &rgb_ug RGB_TOG                                     &bl BL_INC   &bl BL_DEC   &none &none &none
-      >;
-    };
-    extr {
-      display-name = "Extr";
-      bindings = <
-        &none &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &none                                                                                                &none &none &none &none &none &none &none
-        &none &none        &none        &none        &none        &none        &none                                                               &none &none &mod LGUI BSPC &none &none &none &none
-        &none &none &none &none &none &none &none                   &none &none &none &none                      &none &mod LGUI LBKT &mod RCTRL PG_DN &mod RCTRL PG_UP &mod LGUI RBKT &none &none
-        &none &none        &none        &none        &none   &stp STP_BAT                                    &none &none                                       &none &none &none &none &none &none
-        &none &none        &none        &none        &none                                       &none &none &none &none &none &none                            &none &none &none &none &none
       >;
     };
     mous {
