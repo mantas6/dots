@@ -73,6 +73,13 @@ sudo nixos-rebuild --install-bootloader switch --flake .
 
 ## MacOS
 
+TODO, delete later:
+
+```sh
+brew pin aerospace
+brew bundle dump --global --overwrite
+```
+
 ### Setup
 
 To initialize new environment run:
@@ -110,3 +117,18 @@ Update Brewfile after setup modifications:
 brew bundle dump --global --overwrite
 ```
 
+## Misc
+
+### Stress testing
+
+Run stress test on the CPU:
+
+```sh
+nix run nixpkgs#stress-ng -- -c0
+```
+
+Monitor temperatures:
+
+```sh
+nix run nixpkgs#s-tui
+```
