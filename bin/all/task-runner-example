@@ -1,39 +1,23 @@
 #!/usr/bin/env bash
 
-first() {
+fn-first() {
     echo 'Running first'
 }
 
-second() {
+fn-second() {
     echo 'Running second'
 }
 
-third() {
+fn-third() {
     echo 'Running third'
 }
 
-mapfile -t functions < <(declare -F | cut -d ' ' -f3)
+fn-init() {
+    fn-first
+    fn-second
+    fn-third
+}
 
-queue=()
 for arg in "$@"; do
-    case "$arg" in
-        all)
-            for func in "${functions[@]}"; do
-                queue+=("$func")
-            done
-            ;;
-        *)
-            if [[ "${functions[*]}" =~ $arg ]]; then
-                queue+=("$arg")
-            else
-                echo "Undefined function: $arg" >&2
-                exit 1
-            fi
-            ;;
-    esac
-done
-
-for func in "${queue[@]}"; do
-    echo "==> $func"
-    $func
+    "fn-$arg" || exit 1
 done
