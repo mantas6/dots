@@ -12,7 +12,7 @@ chsh -s $(which zsh)
 
 ### Clone the repo and link
 
-```bash
+```sh
 git clone https://github.com/mantas6/dots.git "$HOME/.dots"
 cd "$HOME/.dots"
 ./bin/dot/stw
@@ -115,6 +115,12 @@ Update Brewfile after setup modifications:
 
 ```sh
 brew bundle dump --global --overwrite
+```
+
+Clean up removed packages:
+
+```sh
+brew bundle cleanup --global
 ```
 
 ## Misc
