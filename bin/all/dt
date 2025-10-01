@@ -1,8 +1,0 @@
-#!/usr/bin/env sh
-# Calculate total disk usage of a directory
-
-if [ $# -eq 0 ]; then
-    du -hs .
-else
-    du -hs "$@"
-fi

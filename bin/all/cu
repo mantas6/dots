@@ -1,8 +1,0 @@
-#!/usr/bin/env sh
-# Check for system updates
-
-if [ -x "$(command -v brew)" ]; then
-    brew update && brew outdated
-else
-    checkupdates
-fi 
