@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -e
+
+apps=()
+
+for app in "$HOME/Applications"/* "/Applications"/*; do
+    apps+=( "$(basename "$app")" )
+done
+
+selection=$(printf '%s\n' "${apps[@]}" | sort -u | fzf)
+
+home="$HOME/Applications/$selection"
+root="/Applications/$selection"
+
+if [ -e "$home" ]; then
+    open -n "$home"
+else
+    open -n "$root"
+fi

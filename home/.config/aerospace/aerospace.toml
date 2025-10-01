@@ -129,5 +129,7 @@ automatically-unhide-macos-hidden-apps = true
 
     cmd-u = 'exec-and-forget screencapture -i -c'
 
+    cmd-p = 'exec-and-forget oneshot app-launcher'
+
     alt-shift-r = 'exec-and-forget open -n "/Applications/Google Chrome.app"'
     alt-shift-e = 'exec-and-forget open -n "$HOME/Applications/Ghostty.app"'
