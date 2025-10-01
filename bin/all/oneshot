@@ -2,4 +2,6 @@
 # Open oneshot terminal window
 
 export WEZ_ONESHOT=1
+
+# may need --always-new-process flag
 exec wezterm start --class oneshot "$@"
