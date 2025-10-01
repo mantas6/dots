@@ -12,7 +12,7 @@ chsh -s $(which zsh)
 
 ### Clone the repo and link
 
-```sh
+```bash
 git clone https://github.com/mantas6/dots.git "$HOME/.dots"
 cd "$HOME/.dots"
 ./bin/dot/stw
@@ -75,10 +75,25 @@ sudo nixos-rebuild --install-bootloader switch --flake .
 
 ### Setup
 
-After stowing dotfiles, install brew dependencies:
+To initialize new environment run:
 
 ```sh
-brew bundle --global
+git clone https://github.com/mantas6/dots.git "$HOME/.dots"
+cd "$HOME/.dots"
+./bin/mac/rebuild-macos-env brew
+```
+
+Restart the shell and run stow:
+
+```sh
+cd "$HOME/.dots"
+./bin/dot/stw
+```
+
+Run the script again to continue setup:
+
+```sh
+rebuild-macos-env init
 ```
 
 ### Brew
@@ -92,6 +107,6 @@ brew bundle upgrade --global
 Update Brewfile after setup modifications:
 
 ```sh
-brew bundle dump --global --force
+brew bundle dump --global --overwrite
 ```
 
