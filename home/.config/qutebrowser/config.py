@@ -19,11 +19,6 @@ c.tabs.padding = {'top': 5, 'bottom': 5, 'left': 9, 'right': 9}
 c.tabs.width = '7%'
 
 c.editor.command = [
-    'env',
-    'WEZ_ONESHOT=1',
-    'wezterm',
-    'start',
-    '--class',
     'oneshot',
     'nvim',
     '-f',

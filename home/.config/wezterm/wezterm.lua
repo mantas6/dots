@@ -57,7 +57,6 @@ config.keys = {
 -- wezterm start --title "My Custom Title"
 -- WEZ_ONESHOT=1 wezterm start --title "Wezterm Oneshot"
 local isOneShot = os.getenv('WEZ_ONESHOT')
-print(isOneShot)
 
 if isOneShot then
   -- config.window_class
