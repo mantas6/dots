@@ -11,7 +11,7 @@ docker run -t \
     thumbsup \
     --input '/mnt/input' --output '/mnt/output' \
     --albums-from "{YYYY}" \
-    --albums-from "{YYYY}-{MM}" \
+    --albums-from "Months/{YYYY}-{MM}" \
     --albums-from "Days/{YYYY}-{MM}-{DD}" \
     --sort-albums-direction desc \
     --sort-media-direction desc \
