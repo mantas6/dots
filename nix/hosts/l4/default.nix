@@ -44,14 +44,39 @@
       '';
 
       "http://nostalgia".extraConfig = ''
-        root    * /home/mantas/Pictures/Nostalgia/Site
-        file_server
+        reverse_proxy http://localhost:8077
       '';
+    };
+  };
 
-      "http://localhost:8078".extraConfig = ''
-        root    * /home/mantas/Pictures/Nostalgia/Originals
-        file_server
-      '';
+  systemd.services.nostalgia-gallery = {
+    description = "Nostalgia";
+    wantedBy = ["multi-user.target"];
+    after = ["network.target"];
+    path = [pkgs.caddy];
+    script = ''
+      caddy run --config - --adapter caddyfile <<'EOF'
+        {
+          admin off
+        }
+
+        :8077 {
+          root    * /home/mantas/Pictures/Nostalgia/Site
+          file_server
+        }
+
+        :8078 {
+          root    * /home/mantas/Pictures/Nostalgia/Originals
+          file_server
+        }
+      EOF
+    '';
+    serviceConfig = {
+      User = "mantas";
+      Restart = "always";
+      Type = "simple";
+    };
+    environment = {
     };
   };
 
