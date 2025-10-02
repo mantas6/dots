@@ -18,11 +18,9 @@ c.content.headers.custom = {}
 # c.content.netrc_file = ''
 c.content.print_element_backgrounds = False
 c.new_instance_open_target = 'window'
-c.tabs.show = 'multiple'
 c.window.hide_decoration = True
 
 c.input.mouse.back_forward_buttons = False
-c.tabs.mousewheel_switching = False
 
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
@@ -35,9 +33,14 @@ c.fonts.default_size = '12pt'
 c.fonts.web.size.default = 20
 c.zoom.default = 110
 
+c.tabs.show = 'multiple'
+c.tabs.title.format = '{audio}{index}{current_title}'
 c.tabs.padding = {'top': 5, 'bottom': 5, 'left': 9, 'right': 9}
 # c.tabs.indicator.width = 0 # no tab indicators
 c.tabs.width = '7%'
+c.tabs.mousewheel_switching = False
+
+c.window.title_format = '{current_title}';
 
 c.content.mute = True
 c.content.cookies.accept = 'no-3rdparty'
@@ -49,6 +52,13 @@ c.downloads.location.prompt = False
 # Keybinds
 # config.bind('<Ctrl-v>', 'spawn mpv {url}')
 # config.unbind('<Ctrl-v>', mode='normal')
+
+config.bind('so', 'config-source')
+
+i = 1
+while i <= 9:
+    config.bind(f"<Ctrl-{i}>", f"tab-focus {i}")
+    i += 1
 
 c.url.default_page = 'https://google.com'
 c.url.start_pages = 'https://google.com'
