@@ -24,3 +24,5 @@ vim.opt.spell = true
 vim.opt.spelllang = 'en'
 
 vim.diagnostic.config({ virtual_text = true })
+
+-- vim.o.grepprg = 'set grepprg=rg --vimgrep --no-heading --smart-case'
