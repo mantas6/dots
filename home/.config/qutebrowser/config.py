@@ -8,13 +8,12 @@ config = config  # noqa: F821 pylint: disable=E0602,C0103
 # config: ConfigAPI = config  # noqa: F821 pylint: disable=E0602,C0103
 # c: ConfigContainer = c  # noqa: F821 pylint: disable=E0602,C0103
 
-config.load_autoconfig()
-
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
 c.colors.webpage.darkmode.policy.images = 'never'
 # c.set('colors.webpage.darkmode.enabled', False, 'file://*')
 
+c.fonts.default_family = '"Jetbrains Mono"'
 c.fonts.default_size = '12pt'
 
 c.fonts.web.size.default = 20
@@ -31,8 +30,20 @@ c.downloads.location.directory = '~/Downloads'
 
 c.tabs.show = 'multiple'
 
-c.url.default_page = 'https://distro.tube/'
-c.url.start_pages = 'https://distro.tube/'
+c.url.default_page = 'https://google.com'
+c.url.start_pages = 'https://google.com'
+
+c.url.searchengines = {
+    'DEFAULT': 'https://google.com/search?q={}',
+    'duck': 'https://duckduckgo.com/?q={}',
+    'am': 'https://amazon.com/s?k={}',
+    'aw': 'https://wiki.archlinux.org/?search={}',
+    're': 'https://reddit.com/r/{}',
+    'ub': 'https://urbandictionary.com/define.php?term={}',
+    'wiki': 'https://en.wikipedia.org/wiki/{}',
+    'yt': 'https://youtube.com/results?search_query={}',
+}
+
 
 c.editor.command = [
     'oneshot',
@@ -46,3 +57,7 @@ c.editor.command = [
 c.content.blocking.enabled = True
 # c.content.blocking.adblock.lists = [
 # ]
+
+config.source('theme.py')
+config.load_autoconfig()
+
