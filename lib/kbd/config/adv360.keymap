@@ -119,7 +119,7 @@
         &trans &trans &mod LALT BSPC &mod LGUI RIGHT &trans &trans  &none                                       &none &trans &kp PG_UP &none &kp HOME &kp UP  &trans
         &trans &mod LGUI LEFT &trans &kp PG_DN &mod LALT RIGHT &kp END  &none        &trans &trans &trans &trans        &none &kp LEFT &kp DOWN &kp UP &kp RIGHT  &trans  &trans
         &trans &trans &trans &stp STP_BAT &vline &mod LALT LEFT                      &trans &trans                     &kp DOWN &kp ENTER &trans &trans  &trans  &trans
-        &trans &trans &trans &trans &trans               &kp RCTRL &kp BSPC &trans &trans &kp DEL &kp RCTRL              &mod RCTRL PG_UP &mod RCTRL PG_DN &trans  &trans  &trans
+        &trans &trans &trans &bt BT_PRV &bt BT_NXT                &kp RCTRL &kp BSPC &trans &trans &kp DEL &kp RCTRL              &mod RCTRL PG_UP &mod RCTRL PG_DN &trans  &trans  &trans
       >;
     };
     mod {
