@@ -37,10 +37,11 @@ c.tabs.show = 'multiple'
 c.tabs.title.format = '{audio}{index}{current_title}'
 c.tabs.padding = {'top': 5, 'bottom': 5, 'left': 9, 'right': 9}
 # c.tabs.indicator.width = 0 # no tab indicators
-c.tabs.width = '7%'
+# c.tabs.width = '7%'
 c.tabs.mousewheel_switching = False
 
 c.window.title_format = '{current_title}';
+# c.statusbar.show = 'in-mode'
 
 c.content.mute = True
 c.content.cookies.accept = 'no-3rdparty'
