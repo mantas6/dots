@@ -2,8 +2,5 @@
 # Commit and push dotfiles changes
 
 set -e
-
 cd "$DOTS_DIR"
-git diff
-echo
-glz -Ns
+glz

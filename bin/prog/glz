@@ -2,77 +2,42 @@
 
 set -e
 
-interactive=''
-no_add=''
-optional_changes=''
-sync=''
-msg=''
-no_ask_msg=false
-no_push=false
-commit_count=100
+interactive=false
+add=true
 
-while getopts ':inNHsafm:' opt; do
+while getopts 'in' opt; do
   case ${opt} in
     i)
-        interactive=1
+        interactive=true
         ;;
     n)
-        no_add=1
-        ;;
-    N)
-        optional_changes=1
-        ;;
-    H)
-        no_push=true
-        ;;
-    s)
-        sync=1
-        ;;
-    a)
-        commit_count=500
-        ;;
-    f)
-        no_ask_msg=true
-        ;;
-    m)
-        msg=${OPTARG}
+        add=false
         ;;
     ?)
-      echo "Invalid option: -${OPTARG}."
       exit 1
       ;;
   esac
 done
 
 if [ -z "$(git status --porcelain)" ]; then
-    if [ -n "$optional_changes" ]; then
-        gum log --level=info 'No changes are present'
-        exit 0
-    fi
-
     gum log --level=error 'No changes are present' >&2
     exit 1
 fi
 
+if $add; then
+    git add .
+    git diff --staged
+fi
+
 last_msg=$(git log -1 --pretty=%B)
 
-if ! "$no_ask_msg"; then
-    if [ -z "$msg" ]; then
-        if [ -n "$interactive" ]; then
-            msg=$(git log -n "$commit_count" --pretty=%B | sed '/^\s*$/d' | fzf)
-        else
-            msg=$(gum input --placeholder 'Commit message' --value="$last_msg")
-        fi
-    fi
+if $interactive; then
+    msg=$(git log -n 100 --pretty=%B | sed '/^\s*$/d' | fzf)
 else
-    msg="$last_msg"
+    msg=$(gum input --placeholder 'Commit message' --value="$last_msg")
 fi
 
 echo "$msg"
 
-[ -z "$no_add" ] && git add .
-
 git commit -m "$msg"
-[ -n "$sync" ] && git pull --no-edit
-
-! $no_push && git push
+git push

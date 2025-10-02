@@ -60,9 +60,10 @@ if [ "$action" = 'edit' ]; then
     cd "$(dirname "$list")" || exit 1
     git add "$list" 2> /dev/null || exit 0
 
-    glz -Nnm 'Update bookmarks'
+    git commit -m 'Update bookmarks'
+    git push
 
-    exit 0
+    exit $?
 fi
 
 # Use fzf to select one of the URLs
