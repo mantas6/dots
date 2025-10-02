@@ -20,4 +20,7 @@ $body = $dom->getElementsByTagName('body')->item(0);
 $body->insertBefore($hr, $body->firstChild);
 $body->insertBefore($h1, $body->firstChild);
 
+// nvim html converter
+$body->removeAttribute('style');
+
 file_put_contents($filename, $dom->saveHTML());
