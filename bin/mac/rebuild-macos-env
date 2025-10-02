@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# Set for brew to pickup brew.env
 export XDG_CONFIG_HOME="$HOME/.config"
 
 [ "$(uname)" != 'Darwin' ] && exit 1
@@ -11,7 +12,6 @@ fn-brew() {
         git clone https://github.com/Homebrew/brew "$dir"
 
         export HOMEBREW_PREFIX="$dir"
-        export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
         export PATH="$HOMEBREW_PREFIX/bin:$PATH"
 
         eval "$(brew shellenv)"
