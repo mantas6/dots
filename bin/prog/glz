@@ -20,7 +20,7 @@ while getopts 'in' opt; do
 done
 
 if [ -z "$(git status --porcelain)" ]; then
-    exit 1
+    exit 0
 fi
 
 if $add; then
