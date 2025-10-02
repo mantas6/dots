@@ -28,5 +28,6 @@ case "$module" in
         df -h --output=pcent / | sed -n '2p' | awk '{$1=$1; print}'
         ;;
     *)
+        exit 1
         ;;
 esac
