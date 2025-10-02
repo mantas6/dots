@@ -86,7 +86,7 @@ return function()
       {
         tag = 9,
         exec = {
-          'chromium --app=http://l4/' .. os.date('%Y') .. '.html',
+          'chromium --app=http://gal/' .. os.date('%Y') .. '.html',
         }
       },
     }
