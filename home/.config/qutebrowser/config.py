@@ -2,6 +2,12 @@
 c = c  # noqa: F821 pylint: disable=E0602,C0103
 config = config  # noqa: F821 pylint: disable=E0602,C0103
 
+#  pylint: disable=C0111
+# from qutebrowser.config.configfiles import ConfigAPI  # noqa: F401
+# from qutebrowser.config.config import ConfigContainer  # noqa: F401
+# config: ConfigAPI = config  # noqa: F821 pylint: disable=E0602,C0103
+# c: ConfigContainer = c  # noqa: F821 pylint: disable=E0602,C0103
+
 config.load_autoconfig()
 
 c.colors.webpage.darkmode.enabled = True
@@ -20,6 +26,13 @@ c.tabs.width = '7%'
 
 c.content.mute = True
 c.content.cookies.accept = 'no-3rdparty'
+
+c.downloads.location.directory = '~/Downloads'
+
+c.tabs.show = 'multiple'
+
+c.url.default_page = 'https://distro.tube/'
+c.url.start_pages = 'https://distro.tube/'
 
 c.editor.command = [
     'oneshot',
