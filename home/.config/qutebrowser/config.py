@@ -8,6 +8,22 @@ config = config  # noqa: F821 pylint: disable=E0602,C0103
 # config: ConfigAPI = config  # noqa: F821 pylint: disable=E0602,C0103
 # c: ConfigContainer = c  # noqa: F821 pylint: disable=E0602,C0103
 
+c.auto_save.session = False
+c.confirm_quit = ['always']
+c.completion.cmd_history_max_items = 5000
+c.content.autoplay = False
+c.content.geolocation = False
+c.content.headers.custom = {}
+# c.content.javascript.alert = False
+# c.content.netrc_file = ''
+c.content.print_element_backgrounds = False
+c.new_instance_open_target = 'window'
+c.tabs.show = 'multiple'
+c.window.hide_decoration = True
+
+c.input.mouse.back_forward_buttons = False
+c.tabs.mousewheel_switching = False
+
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
 c.colors.webpage.darkmode.policy.images = 'never'
@@ -27,8 +43,12 @@ c.content.mute = True
 c.content.cookies.accept = 'no-3rdparty'
 
 c.downloads.location.directory = '~/Downloads'
+c.downloads.location.prompt = False
+# c.downloads.position = 'bottom'
 
-c.tabs.show = 'multiple'
+# Keybinds
+# config.bind('<Ctrl-v>', 'spawn mpv {url}')
+# config.unbind('<Ctrl-v>', mode='normal')
 
 c.url.default_page = 'https://google.com'
 c.url.start_pages = 'https://google.com'
@@ -44,6 +64,7 @@ c.url.searchengines = {
     'yt': 'https://youtube.com/results?search_query={}',
 }
 
+c.completion.open_categories = ['searchengines', 'quickmarks', 'bookmarks', 'history', 'filesystem']
 
 c.editor.command = [
     'oneshot',
@@ -53,6 +74,12 @@ c.editor.command = [
     '-c',
     'normal {line}G{column0}l',
 ]
+
+# Site configuration
+#
+# config.set('content.images', False, '*://example.com/')
+# with config.pattern('*://example.com/') as p:
+#     p.content.images = False
 
 c.content.blocking.enabled = True
 # c.content.blocking.adblock.lists = [
