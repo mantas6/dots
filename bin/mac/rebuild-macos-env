@@ -96,6 +96,9 @@ fn-misc() {
         cargo install carl
     fi
 
+    rm -rf "$HOME/.qutebrowser"
+    ln -s "$HOME/.config/qutebrowser" "$HOME/.qutebrowser"
+
     local fzf_tab_path="$HOME/.local/state/zsh/fzf-tab"
     if [ ! -d "$fzf_tab_path" ]; then
         git clone https://github.com/Aloxaf/fzf-tab "$fzf_tab_path"
