@@ -13,6 +13,7 @@ if [ -d "$HOME/.local/brew" ]; then
     # export HOMEBREW_BUNDLE_NO_UPGRADE=true
     # export HOMEBREW_BUNDLE_FILE_GLOBAL="$HOME/.config/homebrew/Brewfile"
 
+    export HOMEBREW_PREFIX="$HOME/.local/brew"
     export PATH="$HOMEBREW_PREFIX/bin:$PATH"
     eval "$(brew shellenv)"
 fi
