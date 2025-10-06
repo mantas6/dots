@@ -51,7 +51,7 @@ c.content.blocking.enabled = True
 
 c.downloads.location.directory = '~/Downloads'
 c.downloads.location.prompt = False
-# c.downloads.position = 'bottom'
+c.downloads.position = 'bottom'
 
 # Keybinds
 # config.bind('<Ctrl-v>', 'spawn mpv {url}')
