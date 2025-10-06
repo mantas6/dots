@@ -29,7 +29,7 @@ c.fonts.web.size.default = 20
 c.zoom.default = 110
 
 c.tabs.show = 'multiple'
-c.tabs.title.format = '{audio}{index} {current_title}'
+c.tabs.title.format = '{index} {current_title}'
 c.tabs.padding = {'top': 5, 'bottom': 5, 'left': 9, 'right': 9}
 # c.tabs.indicator.width = 0 # no tab indicators
 # c.tabs.width = '7%'
