@@ -73,13 +73,6 @@ sudo nixos-rebuild --install-bootloader switch --flake .
 
 ## MacOS
 
-TODO, delete later:
-
-```sh
-brew pin aerospace
-brew bundle dump --global --overwrite
-```
-
 ### Setup
 
 To initialize new environment run:
@@ -114,7 +107,7 @@ brew bundle upgrade --global
 Update Brewfile after setup modifications:
 
 ```sh
-brew bundle dump --global --overwrite
+brew bundle dump --global --force
 ```
 
 Clean up removed packages:
