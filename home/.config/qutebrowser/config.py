@@ -36,7 +36,7 @@ c.tabs.padding = {'top': 5, 'bottom': 5, 'left': 9, 'right': 9}
 c.tabs.mousewheel_switching = False
 
 c.window.title_format = '{current_title}';
-# c.statusbar.show = 'in-mode'
+c.statusbar.show = 'in-mode'
 
 c.content.mute = True
 c.content.cookies.accept = 'no-3rdparty'
