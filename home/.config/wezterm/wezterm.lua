@@ -19,7 +19,10 @@ config.window_padding = {
 
 config.font_size = 20
 config.color_scheme = 'Tokyo Night'
-config.font = wezterm.font('JetBrains Mono', {})
+config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
+config.font = wezterm.font('JetBrains Mono', {
+  -- harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
+})
 
 config.enable_kitty_graphics = true
 config.max_fps = 144
