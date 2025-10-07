@@ -9,6 +9,18 @@ return {
 
   config = function()
     require('telescope').setup({
+      defaults = {
+        sorting_strategy = 'descending',
+        borderchars = { '', '', '', '', '', '', '', '' },
+        path_displays = 'smart',
+        layout_strategy = 'horizontal',
+        layout_config = {
+          height = 100,
+          width = 400,
+          prompt_position = 'bottom',
+          preview_cutoff = 0,
+        }
+      },
       pickers = {
         find_files = { hidden = true },
         grep_string = {
