@@ -28,6 +28,7 @@ config.enable_kitty_graphics = true
 config.max_fps = 144
 config.window_decorations = 'RESIZE'
 config.window_close_confirmation = 'NeverPrompt'
+config.audible_bell = 'Disabled'
 
 config.keys = {
   {
