@@ -84,8 +84,8 @@ automatically-unhide-macos-hidden-apps = true
     alt-comma = 'layout accordion horizontal vertical'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#focus
-    alt-j = 'focus --boundaries-action wrap-around-the-workspace left'
-    alt-k = 'focus --boundaries-action wrap-around-the-workspace right'
+    alt-j = 'focus --boundaries-action wrap-around-the-workspace right'
+    alt-k = 'focus --boundaries-action wrap-around-the-workspace left'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move
     alt-shift-j = 'move left'
