@@ -21,19 +21,14 @@ vim.api.nvim_set_keymap('n', '<leader>h', ':lua ToggleHighlightSearch()<CR>', { 
 
 vim.keymap.set('n', '<leader>bl', ':lua ToggleSpellLang() <CR>', { desc = 'Toggle spelllang between en and lt' })
 
-vim.api.nvim_set_keymap('n', '<leader>bf', ':LspZeroFormat<CR>', {})
+vim.keymap.set('n', '<leader>bp', ':LspZeroFormat<CR>')
+vim.api.nvim_set_keymap('n', '<leader>bm', ':silent w | :silent !zero fmt %:p | :e <CR>', {})
 
 vim.api.nvim_set_keymap('n', '<leader>yb', ':silent !echo %:. | xc<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>yd', ':silent !dirname %:. | xc<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>yf', ':silent !basename %:. | xc<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>ya', ':silent !echo %:p | xc<CR>', {})
 
-vim.api.nvim_set_keymap('n', '<leader>bm', ':silent w | :silent !zero fmt %:p | :e <CR>', {})
-vim.api.nvim_set_keymap('n', '<leader>bp', ':silent w | :silent !npx eslint --fix %:p <CR>', {})
-vim.api.nvim_set_keymap('n', '<leader>w', ':silent w | :silent !./tinker-autocmd %:. <CR>', {})
-vim.api.nvim_set_keymap('n', '<leader>W', ':silent w | !./tinker-autocmd %:. <CR>', {})
-
-vim.api.nvim_set_keymap('n', '<leader>ew', ':e tinker-autocmd <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>ec', ':e composer.json <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>ep', ':e presentation.md <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>ed', ':e *compose.y* <CR>', {})
