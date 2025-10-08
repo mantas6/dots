@@ -12,6 +12,8 @@ autocmd('BufEnter', {
     vim.fn.setreg('f',  "A() => {}")
     vim.fn.setreg('m',  "$a() {}==@o")
     vim.fn.setreg('o',  "^f}i\nO//")
+    vim.fn.setreg('p',  "f_x~")
+    vim.fn.setreg('i',  "t-\n")
   end
 })
 
