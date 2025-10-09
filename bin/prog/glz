@@ -39,4 +39,5 @@ fi
 echo "$msg"
 
 git commit -m "$msg"
+git pull --no-edit
 git push
