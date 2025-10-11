@@ -4,5 +4,13 @@ namespace Template;
 
 class Template
 {
-    //
+    public function __construct()
+    {
+        //
+    }
+
+    public function handle(): void
+    {
+        //
+    }
 }
