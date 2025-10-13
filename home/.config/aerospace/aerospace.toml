@@ -132,6 +132,7 @@ automatically-unhide-macos-hidden-apps = true
     # cmd-u = 'exec-and-forget ~/Applications/flameshot.app/Contents/MacOS/flameshot gui'
 
     cmd-p = 'exec-and-forget app-launcher'
+    cmd-g = 'exec-and-forget bm -r'
 
     alt-shift-r = 'exec-and-forget open -n "/Applications/Google Chrome.app"'
     alt-shift-e = 'exec-and-forget open -n "$HOME/Applications/Ghostty.app"'

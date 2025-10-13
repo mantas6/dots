@@ -34,8 +34,13 @@ while getopts 'elrf:' opt; do
         action='list'
         ;;
     r)
-        search_cmd='rofi -dmenu'
-        input_cmd=(rofi -dmenu -p '> ')
+        if [ "$(uname)" = 'Darwin' ]; then
+            search_cmd='choose'
+            input_cmd=(choose)
+        else
+            search_cmd='rofi -dmenu'
+            input_cmd=(rofi -dmenu -p '> ')
+        fi
         ;;
     ?)
       show_help
