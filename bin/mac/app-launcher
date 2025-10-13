@@ -8,7 +8,7 @@ for app in "$HOME/Applications"/* "/Applications"/*; do
     apps+=( "$(basename "$app")" )
 done
 
-selection=$(printf '%s\n' "${apps[@]}" | sort -u | fzf)
+selection=$(printf '%s\n' "${apps[@]}" | sort -u | choose)
 
 home="$HOME/Applications/$selection"
 root="/Applications/$selection"
