@@ -22,7 +22,8 @@ on-focus-changed = ['move-mouse window-lazy-center']
 automatically-unhide-macos-hidden-apps = true
 
 [[on-window-detected]]
-    if.app-id = 'oneshot'
+    if.window-title-regex-substring = '^oneshot$'
+    check-further-callbacks = true
     run = 'layout floating'
 
 # exec-on-workspace-change = ['/bin/bash', '-c',
@@ -33,7 +34,7 @@ automatically-unhide-macos-hidden-apps = true
     inherit-env-vars = true
 
 [exec.env-vars]
-    PATH = '${HOME}/.local/bin:${HOME}/.local/sbin:${PATH}'
+    PATH = '${HOME}/.local/bin:${HOME}/.local/sbin:${PATH}:${HOME}/.local/brew/bin'
 
 [key-mapping]
     preset = 'qwerty'
