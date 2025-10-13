@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-set -ex
+set -e
 
 name='lt.utf-8.spl'
 dir="$HOME/.config/nvim/spell"

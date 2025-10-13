@@ -6,3 +6,5 @@ for pkgDir in "$DOTS_DIR"/lib/*; do
 done
 
 cp -v "$DOTS_DIR"/etc/stubs/git/dots/* "$DOTS_DIR/.git/hooks"
+
+init-nvim-spell
