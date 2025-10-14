@@ -52,6 +52,7 @@ fn-defaults() {
     defaults write com.apple.finder ShowPathbar -bool true
     defaults write -g com.apple.sound.uiaudio.enabled -int 0
 
+    # defaults write NSGlobalDomain CGDisableCursorLocationMagnification -bool true
     defaults write com.apple.dock autohide -bool true
     # defaults write NSGlobalDomain _HIHideMenuBar -bool true
 
