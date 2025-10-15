@@ -14,7 +14,7 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
 # https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
 
 sketchybar --bar position=top height=28 \
-    blur_radius=30 color=0xffffffff \
+    blur_radius=30 color=0x00000000 \
     padding_left=1 padding_right=1
 
 ##### Changing Defaults #####
@@ -27,8 +27,8 @@ default=(
   padding_right=5
   icon.font="AnonymicePro Nerd Font:Bold:17.0"
   label.font="AnonymicePro Nerd Font:Bold:17.0"
-  icon.color=0x40000000
-  label.color=0x40000000
+  icon.color=0xffffffff
+  label.color=0xfffffff
   icon.padding_left=4
   icon.padding_right=4
   label.padding_left=2
