@@ -18,6 +18,7 @@
     "hardware.backlight"
   ];
 
+  networking.stevenblack.enable = true;
   networking.networkmanager.enable = true;
   users.users.mantas.extraGroups = ["networkmanager"];
 
