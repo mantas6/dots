@@ -1,7 +1,7 @@
 tap "felixkratz/formulae"
 tap "koekeishiya/formulae"
 tap "nikitabobko/tap"
-tap "jsdelivr/globalping"
+
 brew "libunistring"
 brew "gettext"
 brew "ncurses"
@@ -80,7 +80,12 @@ brew "zsh-completions"
 brew "zsh-syntax-highlighting"
 brew "felixkratz/formulae/sketchybar"
 brew "koekeishiya/formulae/skhd"
+brew "go"
+brew "tree-sitter"
+
+tap "jsdelivr/globalping"
 brew "globalping"
+
 cask "aerospace"
 cask "amethyst"
 cask "flameshot"
