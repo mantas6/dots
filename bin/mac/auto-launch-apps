@@ -27,31 +27,31 @@ workspace() {
     return 0
 }
 
-if aerospace workspace 1; then
+if workspace 1; then
     terminal
     browser
     await_windows 2
 fi
 
-if aerospace workspace 2; then
+if workspace 2; then
     open -n "/Applications/Microsoft Teams.app"
     open -n "/Applications/Microsoft Outlook.app"
     await_windows 2
 fi
 
-if aerospace workspace 3; then
+if workspace 3; then
     browser
     open -n "$HOME/Applications/Zen.app"
     await_windows 2
 fi
 
-if aerospace workspace 4; then
+if workspace 4; then
     browser
     open -n "/Applications/Safari.app"
     await_windows 2
 fi
 
-if aerospace workspace 5; then
+if workspace 5; then
     browser
     open -n "/Applications/Safari.app"
     await_windows 2
