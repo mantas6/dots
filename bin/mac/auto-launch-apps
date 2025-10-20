@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 terminal() {
-    open -n "$HOME/Applications/Ghostty.app"
+    open -n "$HOME/Applications/WezTerm.app"
 }
 
 browser() {
@@ -35,12 +35,24 @@ fi
 
 if aerospace workspace 2; then
     open -n "/Applications/Microsoft Teams.app"
-    browser
+    open -n "/Applications/Microsoft Outlook.app"
     await_windows 2
 fi
 
 if aerospace workspace 3; then
     browser
+    open -n "$HOME/Applications/Zen.app"
+    await_windows 2
+fi
+
+if aerospace workspace 4; then
     browser
+    open -n "/Applications/Safari.app"
+    await_windows 2
+fi
+
+if aerospace workspace 5; then
+    browser
+    open -n "/Applications/Safari.app"
     await_windows 2
 fi
