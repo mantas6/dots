@@ -59,7 +59,8 @@ fn-defaults() {
 
     # Get and set later:
     # defaults read NSGlobalDomain com.apple.mouse.scaling
-    # defaults write NSGlobalDomain com.apple.mouse.scaling -float "4"
+    defaults write NSGlobalDomain com.apple.mouse.scaling -float "0.09"
+    defaults write NSGlobalDomain com.apple.mouse.linear -bool "false"
     #
     # defaults read com.apple.dock autohide-delay
     # defaults write com.apple.Dock autohide-delay -float "0.7"
