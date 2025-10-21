@@ -9,10 +9,11 @@ browser() {
 }
 
 await_windows() {
-    local count
-    count=$(aerospace list-windows --workspace focused --count)
+    local count=0
+
     while [ "$count" -lt "$1" ]; do
         sleep 0.1
+        count=$(aerospace list-windows --workspace focused --count)
     done
 }
 
