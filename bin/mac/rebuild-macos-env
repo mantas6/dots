@@ -55,6 +55,7 @@ fn-defaults() {
     defaults write com.apple.dock autohide -bool true
     defaults write NSGlobalDomain _HIHideMenuBar -bool true
 
+    defaults write com.apple.finder FXRemoveOldTrashItems -bool true
     defaults write NSGlobalDomain CGDisableCursorLocationMagnification -bool true
 
     # Get and set later:
