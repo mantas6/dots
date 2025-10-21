@@ -8,12 +8,13 @@ browser() {
     open -n "/Applications/Google Chrome.app"
 }
 
-await_windows() {
-    local count=0
+count_windows() {
+    aerospace list-windows --workspace focused --count
+}
 
-    while [ "$count" -lt "$1" ]; do
+await_windows() {
+    while [ "$(count_windows)" -lt "$1" ]; do
         sleep 0.1
-        count=$(aerospace list-windows --workspace focused --count)
     done
 }
 
@@ -21,7 +22,7 @@ workspace() {
     aerospace workspace "$1"
 
     local count
-    count=$(aerospace list-windows --workspace focused --count)
+    count=$(count_windows)
 
     [ "$count" -ne 0 ] && return 1
 
