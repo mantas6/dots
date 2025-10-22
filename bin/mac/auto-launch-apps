@@ -8,12 +8,12 @@ browser() {
     open -n "/Applications/Google Chrome.app"
 }
 
-count_windows() {
+count-windows() {
     aerospace list-windows --workspace focused --count
 }
 
-await_windows() {
-    while [ "$(count_windows)" -lt "$1" ]; do
+await-windows() {
+    while [ "$(count-windows)" -lt "$1" ]; do
         sleep 0.1
     done
 }
@@ -22,7 +22,7 @@ workspace() {
     aerospace workspace "$1"
 
     local count
-    count=$(count_windows)
+    count=$(count-windows)
 
     [ "$count" -ne 0 ] && return 1
 
@@ -32,29 +32,31 @@ workspace() {
 if workspace 1; then
     terminal
     browser
-    await_windows 2
+    await-windows 2
 fi
 
 if workspace 2; then
     open -n "/Applications/Microsoft Teams.app"
     open -n "/Applications/Microsoft Outlook.app"
-    await_windows 2
+    await-windows 2
 fi
 
 if workspace 3; then
     browser
     open -n "$HOME/Applications/Zen.app"
-    await_windows 2
+    await-windows 2
 fi
 
 if workspace 4; then
     browser
     open -n "/Applications/Safari.app"
-    await_windows 2
+    await-windows 2
 fi
 
 if workspace 5; then
     browser
     open -n "/Applications/Safari.app"
-    await_windows 2
+    await-windows 2
 fi
+
+aerospace workspace 1
