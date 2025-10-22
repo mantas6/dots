@@ -4,18 +4,22 @@
 
 # Homebrew rootless
 if [ -d "$HOME/.local/brew" ]; then
-    # export HOMEBREW_PREFIX="$HOME/.local/brew"
-    # export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
-    # export HOMEBREW_MAKE_JOBS=4
-    #
-    # export HOMEBREW_DISPLAY_INSTALL_TIMES=true
-    # export HOMEBREW_NO_ANALYTICS=true
-    # export HOMEBREW_BUNDLE_NO_UPGRADE=true
-    # export HOMEBREW_BUNDLE_FILE_GLOBAL="$HOME/.config/homebrew/Brewfile"
-
-    source "$HOME/.config/homebrew/brew.env"
-
     export HOMEBREW_PREFIX="$HOME/.local/brew"
+
+    export HOMEBREW_PREFIX=~/.local/brew
+    export HOMEBREW_CASK_OPTS=--appdir=~/Applications
+    export HOMEBREW_MAKE_JOBS=4
+
+    export HOMEBREW_BUNDLE_FILE_GLOBAL=~/.config/homebrew/Brewfile
+    export HOMEBREW_BUNDLE_NO_UPGRADE=true
+
+    export HOMEBREW_NO_AUTO_UPDATE=true
+    export HOMEBREW_DOWNLOAD_CONCURRENCY=5
+
+    export HOMEBREW_DISPLAY_INSTALL_TIMES=true
+    export HOMEBREW_NO_ANALYTICS=true
+    export HOMEBREW_NO_ENV_HINTS=true
+
     export PATH="$HOMEBREW_PREFIX/bin:$PATH"
     eval "$(brew shellenv)"
 fi
