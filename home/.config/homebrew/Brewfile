@@ -85,6 +85,9 @@ brew "starship"
 
 brew "choose-gui"
 
+tap "daipeihust/tap"
+brew "im-select"
+
 tap "felixkratz/formulae"
 brew "felixkratz/formulae/sketchybar"
 

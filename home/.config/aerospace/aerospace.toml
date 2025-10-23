@@ -136,5 +136,8 @@ automatically-unhide-macos-hidden-apps = true
     alt-shift-i = 'exec-and-forget auto-launch-apps'
     cmd-g = 'exec-and-forget bm -r'
 
+    cmd-b = 'exec-and-forget im-select com.apple.keylayout.ABC'
+    cmd-shift-b = 'exec-and-forget im-select com.apple.keylayout.Lithuanian'
+
     alt-shift-r = 'exec-and-forget open -n "/Applications/Google Chrome.app"'
     alt-shift-e = 'exec-and-forget open -n "$HOME/Applications/Ghostty.app"'
