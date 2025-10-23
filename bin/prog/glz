@@ -33,7 +33,7 @@ last_msg=$(git log -1 --pretty=%B)
 if $interactive; then
     msg=$(git log -n 100 --pretty=%B | sed '/^\s*$/d' | fzf)
 else
-    msg=$(gum input --placeholder 'Commit message' --value="$last_msg")
+    msg=$(gum write --height=5 --placeholder 'Commit message' --value="$last_msg")
 fi
 
 echo "$msg"
