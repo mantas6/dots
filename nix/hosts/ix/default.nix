@@ -22,6 +22,7 @@
 
   # try pkgs.linuxPackages_6_10 to prevent sleep issues
   # boot.kernelPackages = pkgs.linuxPackages_latest;
+  # https://www.reddit.com/r/Fedora/comments/1gj29ub/is_anyone_having_this_suspendwake_up_problem_as/
 
   features.wakeOnLanAdapterMAC = "04:7c:16:4f:88:ea";
 
