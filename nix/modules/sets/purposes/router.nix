@@ -32,6 +32,10 @@ in {
             "1.1.1.1"
           ];
 
+          address = [
+            "/gw/${lanIp}"
+          ];
+
           interface = "${lanIfName}";
 
           listen-address = "::1,127.0.0.1,${lanIp}";
