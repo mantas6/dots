@@ -1,7 +1,7 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-{...}: {
+{pkgs, ...}: {
   imports = [
     ./hardware.nix
     ../../modules
@@ -21,7 +21,7 @@
   ];
 
   # try pkgs.linuxPackages_6_10 to prevent sleep issues
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_10;
   # https://www.reddit.com/r/Fedora/comments/1gj29ub/is_anyone_having_this_suspendwake_up_problem_as/
   # https://www.reddit.com/r/Fedora/comments/1g7ke8e/workaround_sleep_issues_with_kernel_611/
 
