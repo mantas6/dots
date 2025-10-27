@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+set -u
+
 name="$REMOTE_USER@$REMOTE_HOST"
 base="$REMOTE_ROOT"
 
