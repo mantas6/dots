@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
 terminal() {
-    open -n "$HOME/Applications/WezTerm.app"
+    wezterm start
+}
+
+notes() {
+    sesh connect generic
+    wezterm start tmux attach-session -t Notes
 }
 
 browser() {
@@ -42,7 +47,7 @@ if workspace 2; then
 fi
 
 if workspace 3; then
-    browser
+    notes
     open -n "$HOME/Applications/Zen.app"
     await-windows 2
 fi
