@@ -13,7 +13,7 @@ if [ -d "$HOME/.local/brew" ]; then
     export HOMEBREW_BUNDLE_FILE_GLOBAL=~/.config/homebrew/Brewfile
     export HOMEBREW_BUNDLE_NO_UPGRADE=true
 
-    export HOMEBREW_NO_AUTO_UPDATE=true
+    # export HOMEBREW_NO_AUTO_UPDATE=true
     export HOMEBREW_DOWNLOAD_CONCURRENCY=5
 
     export HOMEBREW_DISPLAY_INSTALL_TIMES=true
