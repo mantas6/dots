@@ -5,7 +5,7 @@ terminal() {
 }
 
 notes() {
-    sesh connect generic
+    sesh connect Notes
     wezterm start tmux attach-session -t Notes
 }
 
