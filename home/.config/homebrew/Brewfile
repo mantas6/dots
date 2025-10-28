@@ -56,6 +56,8 @@ brew "uv"
 brew "wget"
 brew "xh"
 
+brew "coreutils"
+
 brew "go"
 brew "rust"
 
