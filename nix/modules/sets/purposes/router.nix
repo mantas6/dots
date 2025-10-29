@@ -177,6 +177,8 @@ in {
           Type = "simple";
           DynamicUser = "yes";
         };
+        # change prog?
+        path = [ pkgs.wakeonlan ];
         environment = {
         };
       };
