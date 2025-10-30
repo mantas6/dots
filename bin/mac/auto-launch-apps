@@ -4,11 +4,6 @@ terminal() {
     wezterm start
 }
 
-notes() {
-    sesh connect Notes
-    wezterm start tmux attach-session -t Notes
-}
-
 browser() {
     open -n "/Applications/Google Chrome.app"
 }
@@ -47,18 +42,12 @@ if workspace 2; then
 fi
 
 if workspace 3; then
-    notes
+    open -n "/Applications/Safari.app"
     open -n "$HOME/Applications/Zen.app"
     await-windows 2
 fi
 
 if workspace 4; then
-    browser
-    open -n "/Applications/Safari.app"
-    await-windows 2
-fi
-
-if workspace 5; then
     browser
     open -n "/Applications/Safari.app"
     await-windows 2
