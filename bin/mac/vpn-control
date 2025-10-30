@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+# FortiTray
+# FortiClientAgent
+
+osascript -e 'tell application "System Events" to tell process "FortiClientAgent" to get name of every menu item of menu 1 of menu bar item 1 of menu bar 1'

@@ -135,6 +135,7 @@ automatically-unhide-macos-hidden-apps = true
     cmd-p = 'exec-and-forget app-launcher'
     alt-shift-i = 'exec-and-forget auto-launch-apps'
     cmd-g = 'exec-and-forget bm -r'
+    alt-shift-v = 'exec-and-forget vpn-control'
 
     cmd-b = 'exec-and-forget im-select com.apple.keylayout.ABC'
     cmd-shift-b = 'exec-and-forget im-select com.apple.keylayout.Lithuanian'
