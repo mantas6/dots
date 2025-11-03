@@ -41,6 +41,7 @@ return {
     vim.keymap.set('n', '<leader>pe', builtin.git_files, {})
     vim.keymap.set('n', '<leader>pa', function() builtin.find_files({ no_ignore = true, prompt_title = 'All Files' }) end)
     vim.keymap.set('n', '<leader>pf', builtin.live_grep, {})
+    vim.keymap.set('n', '<leader>pF', ':Telescope live_grep search_dirs={""}<Left><Left>', {})
 
     vim.keymap.set('n', '<leader>pd', function()
       builtin.find_files({ cwd = utils.buffer_dir() })
