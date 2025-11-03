@@ -42,7 +42,7 @@ return {
     local user = os.getenv("USER") or os.getenv("USERNAME");
     local hostname = vim.loop.os_gethostname()
 
-    require("lspconfig").nixd.setup({
+    vim.lsp.config.nixd = {
       cmd = { "nixd" },
       settings = {
         nixd = {
@@ -62,6 +62,6 @@ return {
           },
         },
       },
-    })
+    }
   end
 }
