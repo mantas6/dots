@@ -68,6 +68,7 @@ brew "sesh"
 
 brew "eza"
 brew "jq"
+brew "yq"
 brew "tealdeer"
 brew "bat"
 brew "glow"
