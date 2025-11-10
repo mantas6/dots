@@ -10,13 +10,16 @@ import (
 	"strings"
 )
 
-const leasesFilePath = "/var/lib/misc/dnsmasq.leases"
+const leasesFilePath = "/var/lib/dnsmasq/dnsmasq.leases"
+const subnetAddress = "10.0.1.255"
+const listenAddress = ":5001"
 
 func getMacAddressFromHostname(hostname string) (string, error) {
 	file, err := os.Open(leasesFilePath)
 	if err != nil {
 		return "", fmt.Errorf("Failed to open leases file: %v", err)
 	}
+
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
@@ -36,12 +39,11 @@ func getMacAddressFromHostname(hostname string) (string, error) {
 }
 
 func wolHandler(w http.ResponseWriter, r *http.Request) {
-	path := strings.TrimPrefix(r.URL.Path, "/wol/")
-	if path == "" || strings.Contains(path, "/") {
+	hostname := strings.TrimPrefix(r.URL.Path, "/wol/")
+	if hostname == "" || strings.Contains(hostname, "/") {
 		http.Error(w, "Invalid hostname", http.StatusBadRequest)
 		return
 	}
-	hostname := path
 
 	macAddress, err := getMacAddressFromHostname(hostname)
 	if err != nil {
@@ -49,7 +51,7 @@ func wolHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	cmd := exec.Command("wakeonlan", "-i", "192.168.0.255", macAddress)
+	cmd := exec.Command("wakeonlan", "-i", subnetAddress, macAddress)
 	err = cmd.Run()
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to execute command: %v", err), http.StatusInternalServerError)
@@ -64,8 +66,8 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/wol/", wolHandler)
 
-	fmt.Println("Starting server on :5001")
-	if err := http.ListenAndServe(":5001", mux); err != nil {
+	fmt.Println("Starting server on " + listenAddress)
+	if err := http.ListenAndServe(listenAddress, mux); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }
