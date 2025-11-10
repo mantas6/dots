@@ -14,6 +14,8 @@
 
   wanIfName = "internet0";
   wanDeviceMac = "00:1b:21:f0:6c:e0";
+
+  servicesIp = "10.0.1.21"; # l4
 in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}
@@ -34,6 +36,9 @@ in {
 
           address = [
             "/gw/${lanIp}"
+            "/nostalgia/${servicesIp}"
+            "/gal/${servicesIp}"
+            "/memos/${servicesIp}"
           ];
 
           interface = "${lanIfName}";
