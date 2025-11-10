@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-
-set -e
-
-cd "$(dirname "$(realpath "$0")")"
-
-nginx -c nginx.conf -p "$(pwd)"
