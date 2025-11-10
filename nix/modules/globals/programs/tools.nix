@@ -22,6 +22,7 @@
     htop
     btop
     jq
+    yq-go
     file
 
     killall
