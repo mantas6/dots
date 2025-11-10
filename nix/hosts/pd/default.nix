@@ -15,6 +15,8 @@
     "purposes.router"
   ];
 
+  system.autoUpgrade.dates = "01:00";
+
   features.useZshShell = false;
 
   networking.hostName = "pd";

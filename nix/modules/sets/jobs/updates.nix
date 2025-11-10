@@ -14,7 +14,7 @@ in {
         persistent = false;
 
         flake = "github:mantas6/dots";
-        dates = "01:00";
+        dates = lib.mkDefault "02:00";
 
         allowReboot = true;
         rebootWindow = {
