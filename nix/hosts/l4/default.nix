@@ -28,7 +28,6 @@
 
   environment.systemPackages = with pkgs; [
     exiftool
-    python3Minimal
   ];
 
   services.caddy = {
