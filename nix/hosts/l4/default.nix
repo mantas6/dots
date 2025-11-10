@@ -49,8 +49,8 @@
     };
   };
 
-  systemd.services.nostalgia-gallery = {
-    description = "Nostalgia";
+  systemd.services.gallery = {
+    description = "Gallery";
     wantedBy = ["multi-user.target"];
     after = ["network.target"];
     path = [pkgs.caddy];
