@@ -106,14 +106,12 @@
       Type = "oneshot";
     };
 
-    startAt = "daily";
+    startAt = ["03:00" "09:00"];
   };
 
   systemd.user.timers.sat-backups = {
     timerConfig = {
       Persistent = true;
-      AccuracySec = "6h";
-      RandomizedDelaySec = "1h";
     };
   };
 
