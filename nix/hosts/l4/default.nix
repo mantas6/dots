@@ -69,6 +69,16 @@
           root    * /home/mantas/Pictures/Nostalgia/Originals
           file_server
         }
+
+        :8079 {
+          root    * /home/mantas/Pictures/Gallery/Site
+          file_server
+        }
+
+        :8080 {
+          root    * /home/mantas/Pictures/Gallery/Originals
+          file_server
+        }
       EOF
     '';
     serviceConfig = {

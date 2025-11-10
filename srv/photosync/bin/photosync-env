@@ -20,13 +20,4 @@ export PATH="$bin_dir:$PATH"
 mkdir -pv "$PHOTOSYNC_ORIGINALS"
 mkdir -pv "$PHOTOSYNC_SITE"
 
-photosync-serve &
-serve_pid="$!"
-
-cleanup() {
-    kill "$serve_pid"
-}
-
-trap cleanup EXIT
-
 "$@"
