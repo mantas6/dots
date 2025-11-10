@@ -1,7 +1,7 @@
 {
   lib,
   config,
-  pkgs-unstable,
+  pkgs,
   ...
 }: {
   config = lib.mkIf (lib.elem "collections.desktop" config.features.sets) {
@@ -9,9 +9,10 @@
       fontDir.enable = true;
       fontconfig.enable = true;
 
-      packages = with pkgs-unstable; [
+      packages = with pkgs; [
         nerd-fonts.anonymice
-        ubuntu_font_family
+        # ubuntu_font_family
+        ubuntu-classic
         noto-fonts-emoji
       ];
     };
