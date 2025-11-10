@@ -28,6 +28,8 @@
 
     serviceConfig = {
       User = userName;
+      WorkingDirectory = "%h/Sat/current";
+      Restart = "always";
     };
 
     after = ["network-online.target"];
@@ -43,7 +45,7 @@ in {
         enable = true;
 
         # Example: reverse proxy for myapp.example.com → localhost:8000
-        virtualHosts."myapp.example.com".extraConfig = ''
+        virtualHosts."http://sat".extraConfig = ''
           reverse_proxy localhost:8000
         '';
       };
@@ -56,7 +58,7 @@ in {
       systemd.services.sat-schedule =
         defaultServiceOptions
         // {
-          script = "php %h/Sat/current schedule:run >> /dev/null 2>&1";
+          script = "php artisan schedule:run >> /dev/null 2>&1";
 
           serviceConfig = {
             Type = "oneshot";
