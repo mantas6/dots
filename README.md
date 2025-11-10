@@ -4,7 +4,6 @@ dotfiles
 
 ## Setup
 
-
 ### Change the shell
 
 ```sh
