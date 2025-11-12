@@ -42,8 +42,6 @@ alias artisan="a"
 alias composer="c"
 alias s="sail"
 
-alias lg="lazygit"
-alias ld="lazydocker"
 alias glc="git log -1 --pretty=%B"
 
 alias osw="nh os switch"
