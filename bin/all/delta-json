@@ -7,6 +7,12 @@ second=$(mktemp)
 nvim "$first"
 nvim "$second"
 
+first_json=$(jq . "$first")
+second_json=$(jq . "$second")
+
+echo "$first_json" > "$first"
+echo "$second_json" > "$second"
+
 delta "$first" "$second"
 
 rm "$first" "$second"
