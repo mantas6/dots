@@ -1,2 +1,6 @@
 #!/usr/bin/env sh
 # Tmux session manager
+
+# current_session=$(tmux display-message -p '#S')
+
+tmux list-sessions -F '#{session_name}' | fzf
