@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-changes=$(git diff --name-only)
-
-[ -z "$changes" ] && exit 0
-
-echo "$changes" | fzf --keep-right --preview-window=right,80% --preview 'git diff {} | delta'
