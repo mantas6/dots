@@ -2,14 +2,10 @@
 
 set -e
 
-interactive=false
 add=true
 
 while getopts 'in' opt; do
   case ${opt} in
-    i)
-        interactive=true
-        ;;
     n)
         add=false
         ;;
@@ -30,11 +26,7 @@ fi
 
 last_msg=$(git log -1 --pretty=%B)
 
-if $interactive; then
-    msg=$(git log -n 100 --pretty=%B | sed '/^\s*$/d' | fzf)
-else
-    msg=$(gum write --show-line-numbers --height=5 --placeholder 'Commit message' --value="$last_msg")
-fi
+msg=$(gum write --show-line-numbers --height=5 --placeholder 'Commit message' --value="$last_msg")
 
 echo "$msg"
 
