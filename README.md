@@ -4,12 +4,6 @@ dotfiles
 
 ## Setup
 
-### Change the shell
-
-```sh
-chsh -s $(which zsh)
-```
-
 ### Clone the repo and link
 
 ```sh

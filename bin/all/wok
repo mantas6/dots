@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-# Get time when system was waken for sleep
-
-journalctl -n1 -u sleep.target | awk '{print $3}'

@@ -1,8 +1,0 @@
-#!/usr/bin/env sh
-
-wolf "$1" || exit 1
-echo
-
-wait-for-host "$1"
-
-ssh "$1"
