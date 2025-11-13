@@ -10,5 +10,6 @@ echo "$changes" | fzf --keep-right --no-input \
     --bind 'j:down,k:up' \
     --bind 'ctrl-d:preview-half-page-down' \
     --bind 'ctrl-u:preview-half-page-up' \
+    --layout=reverse \
     --preview-window=right,80% \
     --preview 'git diff {} | delta'
