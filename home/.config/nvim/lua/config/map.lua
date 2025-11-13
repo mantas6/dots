@@ -23,6 +23,7 @@ vim.keymap.set('n', '<leader>bl', ':lua ToggleSpellLang() <CR>', { desc = 'Toggl
 
 vim.keymap.set('n', '<leader>bp', ':LspZeroFormat<CR>')
 vim.api.nvim_set_keymap('n', '<leader>bm', ':silent w | :silent !zero fmt %:p | :e <CR>', {})
+vim.keymap.set('n', '<leader>bn', vim.lsp.buf.code_action, {})
 
 vim.api.nvim_set_keymap('n', '<leader>yb', ':silent !echo %:. | xc<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>yd', ':silent !dirname %:. | xc<CR>', {})
