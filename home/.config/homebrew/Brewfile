@@ -59,6 +59,7 @@ brew "wget"
 brew "xh"
 
 brew "coreutils"
+brew "watch"
 
 brew "go"
 brew "rust"
