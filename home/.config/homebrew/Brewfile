@@ -58,7 +58,6 @@ brew "telnet"
 brew "uv"
 brew "wget"
 brew "xh"
-brew "git-quick-stats"
 
 brew "coreutils"
 brew "watch"
