@@ -54,16 +54,17 @@ return {
     vim.keymap.set('n', '<leader>pw', builtin.grep_string, {})
 
     vim.keymap.set('n', '<leader>pb', builtin.buffers, {})
-    vim.keymap.set('n', '<leader>pz', builtin.oldfiles, {})
+    vim.keymap.set('n', '<leader>pq', builtin.oldfiles, {})
     vim.keymap.set('n', '<leader>ps', builtin.git_status, {})
     vim.keymap.set('n', '<leader>pr', builtin.resume, {})
 
     vim.keymap.set('n', '<leader>p"', builtin.registers, {})
-    vim.keymap.set('n', '<leader>pq', builtin.command_history, {})
+    vim.keymap.set('n', '<leader>p:', builtin.command_history, {})
 
     vim.keymap.set('n', '<leader>pl', builtin.lsp_document_symbols, {})
     vim.keymap.set('n', '<leader>pk', builtin.lsp_references, {})
     vim.keymap.set('n', '<leader>pm', builtin.marks, {})
+    vim.keymap.set('n', '<leader>pz', builtin.spell_suggest, {})
 
     vim.keymap.set('n', '<leader>pc', builtin.git_bcommits, {})
     vim.keymap.set('n', '<leader>ph', builtin.help_tags, { desc = 'Telescope help tags' })
