@@ -92,7 +92,7 @@ fn-node() {
 }
 
 fn-php() {
-    bash -c "$(curl -fsSL https://php.new/install/mac/8.4)"
+    bash -c "$(curl -fsSL https://php.new/install/mac/8.5)"
 }
 
 fn-misc() {
