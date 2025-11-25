@@ -16,6 +16,13 @@ function ToggleSpellLang()
   end
 end
 
+-- function ToggleVirtualText()
+--   -- local bufnr = vim.api.nvim_get_current_buf()
+--   local current = vim.diagnostic.config().virtual_text
+--   vim.diagnostic.config({ virtual_text = not current })
+-- end
+-- vim.keymap.set('n', '<leader>bv', ':lua ToggleVirtualText() <CR>', { desc = 'Toggle virtual text' })
+
 -- Map <leader>h to toggle search highlighting
 vim.api.nvim_set_keymap('n', '<leader>h', ':lua ToggleHighlightSearch()<CR>', { noremap = true, silent = true })
 
