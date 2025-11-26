@@ -48,6 +48,7 @@ alias osw="nh os switch"
 alias osb="nh os boot"
 alias osc="nix flake check $DOTS_DIR --all-systems"
 
+alias lg='lazygit'
 alias cmatrix='cmatrix -ab'
 alias ff='fastfetch'
 alias q='vi -c Quickmath'
