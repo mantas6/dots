@@ -82,19 +82,19 @@ class FormatNamespace extends Command
 
     protected function formatAst(array $ast, string $relativePath): void
     {
-        $namespace = $ast[0];
+        foreach ($ast as $item) {
+            if ($item instanceof Namespace_) {
+                $item->name->name = $this->convertPathToNamespace($relativePath);
 
-        if ($namespace instanceof Namespace_) {
-            $namespace->name->name = $this->convertPathToNamespace($relativePath);
+                foreach ($item->stmts as $stmt) {
+                    if ($stmt instanceof ClassLike) {
+                        $stmt->name->name = str($relativePath)
+                            ->afterLast('/')
+                            ->chopEnd('.php')
+                            ->value();
 
-            foreach ($namespace->stmts as $stmt) {
-                if ($stmt instanceof ClassLike) {
-                    $stmt->name->name = str($relativePath)
-                        ->afterLast('/')
-                        ->chopEnd('.php')
-                        ->value();
-
-                    break;
+                        return;
+                    }
                 }
             }
         }
