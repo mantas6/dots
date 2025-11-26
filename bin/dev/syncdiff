@@ -11,18 +11,14 @@ echo "Host: $host"
 if [ -z "$1" ]; then
     files=()
 
-    for file in $(git diff --name-only); do
-        files+=("$file")
-    done
-
-    for file in $(git ls-files --others --exclude-standard); do
+    for file in $(git diff --cached --name-only); do
         files+=("$file")
     done
 else
     files=("$@")
 fi
 
-rsync -RPrzcav "${files[@]}" "$host:$REMOTE_ROOT"
+rsync -RPrzcav --keep-dirlinks "${files[@]}" "$host:$REMOTE_ROOT"
 
 if [ -f artisan ]; then
     ssh "$host" "(cd '$REMOTE_ROOT' && php cachetool.phar opcache:reset --cli; php artisan horizon:terminate; php artisan optimize)"
