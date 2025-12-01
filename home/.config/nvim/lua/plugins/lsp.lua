@@ -42,6 +42,18 @@ return {
     local user = os.getenv("USER") or os.getenv("USERNAME");
     local hostname = vim.loop.os_gethostname()
 
+    vim.lsp.config('ts_ls', {
+      filetypes = {
+        'javascript',
+        'javascriptreact',
+        'javascript.jsx',
+        'javascript.vue',
+        'typescript',
+        'typescriptreact',
+        'typescript.tsx',
+      },
+    })
+
     -- vim.lsp.config.nixd = {
     -- require("lspconfig").nixd.setup({
     vim.lsp.config('nixd', {
