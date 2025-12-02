@@ -18,6 +18,11 @@ else
     files=("$@")
 fi
 
+if [ ${#files[@]} -eq 0 ]; then
+    echo 'E: No files to transfer'>&2
+    exit 1
+fi
+
 rsync -RPrzcav --keep-dirlinks "${files[@]}" "$host:$REMOTE_ROOT"
 
 if [ -f artisan ]; then
