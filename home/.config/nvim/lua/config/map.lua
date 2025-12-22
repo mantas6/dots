@@ -28,7 +28,7 @@ vim.api.nvim_set_keymap('n', '<leader>h', ':lua ToggleHighlightSearch()<CR>', { 
 
 vim.keymap.set('n', '<leader>bl', ':lua ToggleSpellLang() <CR>', { desc = 'Toggle spelllang between en and lt' })
 
-vim.keymap.set('n', '<leader>bp', ':LspZeroFormat<CR>')
+vim.keymap.set('n', '<leader>bp', vim.lsp.buf.format)
 vim.api.nvim_set_keymap('n', '<leader>bm', ':silent w | :silent !zero fmt %:p <CR>', {})
 vim.keymap.set('n', '<leader>bn', vim.lsp.buf.code_action, {})
 
