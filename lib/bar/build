@@ -1,0 +1,5 @@
+#!/bin/sh
+
+[ ! -x "$(command -v go)" ] && exit 0
+
+##
