@@ -36,6 +36,8 @@ in {
 
           address = [
             "/gw/${lanIp}"
+            "/${config.networking.hostName}/${lanIp}"
+
             "/nostalgia/${servicesIp}"
             "/gal/${servicesIp}"
             "/memos/${servicesIp}"
@@ -183,7 +185,7 @@ in {
           DynamicUser = "yes";
         };
         # change prog?
-        path = [ pkgs.wakeonlan ];
+        path = [pkgs.wakeonlan];
         environment = {
         };
       };
