@@ -14,6 +14,10 @@ type Metric struct {
 	Result json.RawMessage `json:"result"`
 }
 
+type KernelResult struct {
+	Release string `json:"release"`
+}
+
 type MemoryResult struct {
 	Total int64 `json:"total"`
 	Used  int64 `json:"used"`
@@ -60,7 +64,16 @@ func memoryUsage(parts *[]string, res json.RawMessage) {
 	}
 
 	usageGb := float64(mem.Used) / 1024 / 1024 / 1024
-	*parts = append(*parts, fmt.Sprintf("󰘚 %.1fGB", usageGb))
+	*parts = append(*parts, fmt.Sprintf("󰘚 %.1fG", usageGb))
+}
+
+func kernelVersion(parts *[]string, res json.RawMessage) {
+	var p KernelResult
+	if err := json.Unmarshal(res, &p); err != nil {
+		return
+	}
+
+	*parts = append(*parts, fmt.Sprintf(" %s", p.Release))
 }
 
 func main() {
@@ -96,6 +109,8 @@ func main() {
 			cpuUsage(&parts, res)
 		case "CPU":
 			cpuTemp(&parts, res)
+		case "Kernel":
+			kernelVersion(&parts, res)
 		}
 	}
 

@@ -62,4 +62,9 @@ module.cpuf = createWidget("status-mod frequency", '󰓅', 3)
 module.temp = createWidget("status-mod temperature", '󰏈', 5)
 module.disk = createWidget("status-mod disk", '', 60)
 
+module.bar = createWidget("bar", function (params)
+  params.text = string.gsub(params.text, ' ', '   ')
+  params.icon = ''
+end, 3)
+
 return module
