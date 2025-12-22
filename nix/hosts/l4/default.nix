@@ -19,12 +19,7 @@
     "quirks.prevent-sleep"
   ];
 
-  swapDevices = [
-    {
-      device = "/var/lib/swapfile";
-      size = 8 * 1024;
-    }
-  ];
+  features.swapSizeInGB = 8.0;
 
   environment.systemPackages = with pkgs; [
     exiftool
