@@ -62,6 +62,7 @@ export PATH="$PATH:$HOME/.local/sbin"
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 
 [ -d "$HOME/.config/composer/vendor/bin" ] && export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+[ -d "$DOTS_DIR/vendor/bin" ] && export PATH="$DOTS_DIR/vendor/bin:$PATH"
 [ -d "$HOME/.local/share/cargo/bin" ] && export PATH="$HOME/.local/share/cargo/bin:$PATH"
 
 

@@ -6,5 +6,6 @@
 /srv/*.local
 
 /result
+/vendor
 
 .DS_Store

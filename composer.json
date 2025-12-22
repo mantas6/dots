@@ -1,0 +1,8 @@
+{
+    "name": "mantas/dots",
+    "require": {
+        "nikic/php-parser": "^5.7",
+        "illuminate/support": "^12.43",
+        "carbon-cli/carbon-cli": "^1.3"
+    }
+}
