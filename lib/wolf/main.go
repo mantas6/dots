@@ -8,11 +8,12 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"flag"
 )
 
 const leasesFilePath = "/var/lib/dnsmasq/dnsmasq.leases"
-const subnetAddress = "10.0.1.255"
-const listenAddress = ":5001"
+var subnetAddress = flag.String("a", "10.0.1.255", "Subnet address")
+var listenAddress = flag.String("i", ":5001", "Listen on address")
 
 func getMacAddressFromHostname(hostname string) (string, error) {
 	file, err := os.Open(leasesFilePath)
@@ -51,7 +52,7 @@ func wolHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	cmd := exec.Command("wakeonlan", "-i", subnetAddress, macAddress)
+	cmd := exec.Command("wakeonlan", "-i", *subnetAddress, macAddress)
 	err = cmd.Run()
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Failed to execute command: %v", err), http.StatusInternalServerError)
@@ -63,11 +64,13 @@ func wolHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	flag.Parse()
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/wol/", wolHandler)
 
-	fmt.Println("Starting server on " + listenAddress)
-	if err := http.ListenAndServe(listenAddress, mux); err != nil {
+	fmt.Println("Starting server on " + *listenAddress)
+	if err := http.ListenAndServe(*listenAddress, mux); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }

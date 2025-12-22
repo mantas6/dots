@@ -78,6 +78,10 @@ in {
         "net.ipv6.conf.all.forwarding" = true;
       };
 
+      services.openssh.settings = {
+        ListenAddress = lanIp;
+      };
+
       networking = {
         interfaces = {
           "${lanIfName}" = {
@@ -179,7 +183,7 @@ in {
         wantedBy = ["multi-user.target"];
         after = ["network.target"];
         serviceConfig = {
-          ExecStart = "${self.packages.${pkgs.system}.wolf}/bin/wolf";
+          ExecStart = "${self.packages.${pkgs.system}.wolf}/bin/wolf -i ${lanIp}:5001 -a ${lanIpRangeEnd}";
           Restart = "always";
           Type = "simple";
           DynamicUser = "yes";
