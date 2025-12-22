@@ -7,5 +7,9 @@ do
 
     [ -f "$XDG_STATE_HOME/.inhibit-suspend" ] && continue
 
-    [ "$(xssstate -s)" = "on" ] && systemctl suspend
+    [ "$(playerctl status)" = 'Playing' ] && continue
+
+    [ "$(xssstate -s)" != 'on' ] && continue
+
+    systemctl suspend
 done
