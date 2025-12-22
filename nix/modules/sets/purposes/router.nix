@@ -1,6 +1,7 @@
 {
   self,
   pkgs,
+  pkgs-unstable,
   lib,
   config,
   ...
@@ -20,7 +21,10 @@ in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}
     (lib.mkIf (lib.elem name config.features.sets) {
-      networking.stevenblack.enable = true;
+      networking.stevenblack = {
+        enable = true;
+        package = pkgs-unstable.stevenblack-blocklist;
+      };
 
       services.dnsmasq = {
         enable = true;
