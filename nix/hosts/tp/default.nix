@@ -22,7 +22,7 @@
   networking.networkmanager.enable = true;
   users.users.mantas.extraGroups = ["networkmanager"];
 
-  services.logind.powerKey = "suspend";
+  services.logind.settings.Login.HandlePowerKey = "suspend";
 
   networking.hostName = "tp";
 

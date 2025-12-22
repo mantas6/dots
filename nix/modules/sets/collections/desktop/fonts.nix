@@ -13,7 +13,7 @@
         nerd-fonts.anonymice
         # ubuntu_font_family
         ubuntu-classic
-        noto-fonts-emoji
+        noto-fonts-color-emoji
       ];
     };
   };

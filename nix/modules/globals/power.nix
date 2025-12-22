@@ -1,3 +1,3 @@
 {lib, ...}: {
-  services.logind.powerKey = lib.mkDefault "poweroff";
+  services.logind.settings.Login.HandlePowerKey = lib.mkDefault "poweroff";
 }

@@ -29,7 +29,7 @@
 
   boot.loader.grub.useOSProber = true;
 
-  services.logind.powerKey = "suspend";
+  services.logind.settings.Login.HandlePowerKey = "suspend";
 
   # services.xserver.dpi = 100;
 
