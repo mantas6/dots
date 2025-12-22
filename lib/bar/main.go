@@ -27,6 +27,10 @@ type CpuResult struct {
 	Temperature float64 `json:"temperature"`
 }
 
+type UptimeResult struct {
+	Uptime int64 `json:"uptime"`
+}
+
 func cpuUsage(parts *[]string, res json.RawMessage) {
 	var usages []float64
 	if err := json.Unmarshal(res, &usages); err != nil {
@@ -44,7 +48,7 @@ func cpuUsage(parts *[]string, res json.RawMessage) {
 	}
 
 	avg := sum / float64(len(usages))
-	*parts = append(*parts, fmt.Sprintf(" %.1f%%/%.1f%%", avg, max))
+	*parts = append(*parts, fmt.Sprintf(" %2.0f%%/%2.0f%%", avg, max))
 }
 
 func cpuTemp(parts *[]string, res json.RawMessage) {
@@ -74,6 +78,29 @@ func kernelVersion(parts *[]string, res json.RawMessage) {
 	}
 
 	*parts = append(*parts, fmt.Sprintf(" %s", p.Release))
+}
+
+func uptime(parts *[]string, res json.RawMessage) {
+	var p UptimeResult
+	if err := json.Unmarshal(res, &p); err != nil {
+		return
+	}
+
+	time := p.Uptime / 1000 / 60
+	unit := "m"
+
+	if (time > 60) {
+		time /= 60
+		unit = "h"
+
+		if (time > 24) {
+			time /= 24
+			unit = "d"
+		}
+	}
+
+
+	*parts = append(*parts, fmt.Sprintf("󰐦 %v%s", time, unit))
 }
 
 func main() {
@@ -111,6 +138,8 @@ func main() {
 			cpuTemp(&parts, res)
 		case "Kernel":
 			kernelVersion(&parts, res)
+		case "Uptime":
+			uptime(&parts, res)
 		}
 	}
 
