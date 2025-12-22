@@ -18,7 +18,7 @@
 
       php84
       php84Packages.composer
-      nodejs_22
+      nodejs_24
       go
       gcc
       lua51Packages.lua
