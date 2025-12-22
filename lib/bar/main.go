@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math"
 	"os/exec"
 	"strings"
 )
@@ -18,12 +19,56 @@ type MemoryResult struct {
 	Used  int64 `json:"used"`
 }
 
+type CpuResult struct {
+	Temperature float64 `json:"temperature"`
+}
+
+func cpuUsage(parts *[]string, res json.RawMessage) {
+	var usages []float64
+	if err := json.Unmarshal(res, &usages); err != nil {
+		return
+	}
+
+	sum := 0.0
+	max := 0.0
+
+	for _, v := range usages {
+		sum += v
+		if v >= max {
+			max = v
+		}
+	}
+
+	avg := sum / float64(len(usages))
+	*parts = append(*parts, fmt.Sprintf(" %.1f%%/%.1f%%", avg, max))
+}
+
+func cpuTemp(parts *[]string, res json.RawMessage) {
+	var cpu CpuResult
+	if err := json.Unmarshal(res, &cpu); err != nil {
+		return
+	}
+
+	temp := math.Round(cpu.Temperature)
+	*parts = append(*parts, fmt.Sprintf("󰏈 %.0fC", temp))
+}
+
+func memoryUsage(parts *[]string, res json.RawMessage) {
+	var mem MemoryResult
+	if err := json.Unmarshal(res, &mem); err != nil {
+		return
+	}
+
+	usageGb := float64(mem.Used) / 1024 / 1024 / 1024
+	*parts = append(*parts, fmt.Sprintf("󰘚 %.1fGB", usageGb))
+}
+
 func main() {
 	cmd := exec.Command(
 		"fastfetch",
 		"--format", "json",
-		"-s",
-		"memory:cpuusage",
+		"-c",
+		"bar.jsonc",
 	)
 
 	out, err := cmd.Output()
@@ -42,33 +87,15 @@ func main() {
 	var parts []string
 
 	for _, m := range metrics {
+		res := m.Result
+
 		switch m.Type {
 		case "Memory":
-			var mem MemoryResult
-			if json.Unmarshal(m.Result, &mem); err != nil {
-				log.Fatalf("Err: %v", err)
-			}
-			usageGb := float64(mem.Used) / 1024 / 1024 / 1024
-			parts = append(parts, fmt.Sprintf("󰘚 %.1fGB", usageGb))
+			memoryUsage(&parts, res)
 		case "CPUUsage":
-			var cpu []float64
-			if json.Unmarshal(m.Result, &cpu); err != nil {
-				log.Fatalf("Err: %v", err)
-			}
-
-			sum := 0.0
-			max := 0.0
-
-			for _, v := range cpu {
-				sum += v
-				if v >= max {
-					max = v
-				}
-			}
-
-			avg := sum / float64(len(cpu))
-			parts = append(parts, fmt.Sprintf(" %.1f%%/%.1f%%", avg, max))
-
+			cpuUsage(&parts, res)
+		case "CPU":
+			cpuTemp(&parts, res)
 		}
 	}
 
