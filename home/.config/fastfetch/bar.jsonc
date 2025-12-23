@@ -9,6 +9,7 @@
             "type": "cpu",
             "showPeCoreCount": true,
             "temp": true
-        }
+        },
+        "battery"
     ]
 }
