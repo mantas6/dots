@@ -114,10 +114,17 @@ func clock(parts *[]string) {
 }
 
 func battery(parts *[]string, res json.RawMessage) {
-	var p BatteryResult
+	var raw []json.RawMessage
+	if err := json.Unmarshal(res, &raw); err != nil {
+		return
+	}
 
-	if err := json.Unmarshal(res, &p); err != nil {
-		fmt.Println(err)
+	if len(raw) == 0 {
+		return
+	}
+
+	var p BatteryResult
+	if err := json.Unmarshal(raw[0], &p); err != nil {
 		return
 	}
 
