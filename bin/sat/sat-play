@@ -27,19 +27,28 @@ help() {
     local prog=${0##*/}
     echo " $prog"
     echo " $prog <search>"
-    echo " $prog [pause|play|next|previous]"
-    echo " $prog update"
+    echo " $prog -[s|p|f|b]"
+    echo " $prog -u"
     exit 0
 }
 
 action="${1:-}"
 
 case "$action" in
-    update)
+    -u)
         update
         ;;
-    pause|play|next|previous)
-        send-request "/control/$action" PUT
+    -s)
+        send-request "/control/pause" PUT
+        ;;
+    -p)
+        send-request "/control/play" PUT
+        ;;
+    -f)
+        send-request "/control/next" PUT
+        ;;
+    -b)
+        send-request "/control/previous" PUT
         ;;
     help|-h|--help)
         help
