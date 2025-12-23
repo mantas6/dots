@@ -4,6 +4,7 @@
         "uptime",
         "kernel",
         "memory",
+        "disk",
         "cpuusage",
         {
             "type": "cpu",

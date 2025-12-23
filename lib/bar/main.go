@@ -37,6 +37,16 @@ type BatteryResult struct {
 	Status   string  `json:"status"`
 }
 
+type DiskBytesResult struct {
+	Used  int64 `json:"used"`
+	Total int64 `json:"total"`
+}
+
+type DiskResult struct {
+	Mountpoint string          `json:"mountpoint"`
+	Bytes      DiskBytesResult `json:"bytes"`
+}
+
 func cpuUsage(parts *[]string, res json.RawMessage) {
 	var usages []float64
 	if err := json.Unmarshal(res, &usages); err != nil {
@@ -150,6 +160,27 @@ func battery(parts *[]string, res json.RawMessage) {
 	*parts = append(*parts, fmt.Sprintf("%v %.0f%%", icon, p.Capacity))
 }
 
+func diskUsage(parts *[]string, res json.RawMessage) {
+	var raw []json.RawMessage
+	if err := json.Unmarshal(res, &raw); err != nil {
+		return
+	}
+
+	for _, disk := range raw {
+		var p DiskResult
+		if err := json.Unmarshal(disk, &p); err != nil {
+			return
+		}
+
+		if p.Mountpoint != "/" {
+			return
+		}
+
+		usagePercent := float64(p.Bytes.Used) / float64(p.Bytes.Total) * 100
+		*parts = append(*parts, fmt.Sprintf(" %.0f%%", usagePercent))
+	}
+}
+
 func main() {
 	cmd := exec.Command(
 		"fastfetch",
@@ -189,6 +220,8 @@ func main() {
 			uptime(parts, res)
 		case "Battery":
 			battery(parts, res)
+		case "Disk":
+			diskUsage(parts, res)
 		}
 	}
 
