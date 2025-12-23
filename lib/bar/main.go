@@ -128,25 +128,23 @@ func battery(parts *[]string, res json.RawMessage) {
 		return
 	}
 
-	icon := ""
+	icon := ""
 
 	switch {
 	case strings.Contains(p.Status, "Charging"):
 		icon = "󱐋"
 	case strings.Contains(p.Status, "AC Connected"):
 		icon = ""
+	case p.Capacity > 80:
+		icon = ""
+	case p.Capacity > 60:
+		icon = ""
+	case p.Capacity > 40:
+		icon = ""
+	case p.Capacity > 20:
+		icon = ""
 	default:
-		if p.Capacity > 80 {
-			icon = ""
-		} else if p.Capacity > 60 {
-			icon = ""
-		} else if p.Capacity > 40 {
-			icon = ""
-		} else if p.Capacity > 20 {
-			icon = ""
-		} else {
-			icon = ""
-		}
+		icon = ""
 	}
 
 	*parts = append(*parts, fmt.Sprintf("%v %.0f%%", icon, p.Capacity))
