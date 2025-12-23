@@ -128,13 +128,13 @@ func battery(parts *[]string, res json.RawMessage) {
 		return
 	}
 
-	icon := ""
+	icon := ""
 
-	switch p.Status {
-	case "AC Connected":
-		icon = ""
-	case "Charging":
+	switch {
+	case strings.Contains(p.Status, "Charging"):
 		icon = "󱐋"
+	case strings.Contains(p.Status, "AC Connected"):
+		icon = ""
 	default:
 		if p.Capacity > 80 {
 			icon = ""
