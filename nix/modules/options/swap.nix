@@ -7,9 +7,9 @@
 in {
   options = {
     features.swapSizeInGB = lib.mkOption {
-      type = lib.types.nullOr lib.types.float;
+      type = lib.types.nullOr lib.types.int;
       default = null;
-      example = 1.5;
+      example = 2;
       description = "Swapfile size in GB";
     };
   };
@@ -17,7 +17,7 @@ in {
     swapDevices = [
       {
         device = "/var/lib/swapfile";
-        size = builtins.floor(size * 1024.0);
+        size = size * 1024;
       }
     ];
   };

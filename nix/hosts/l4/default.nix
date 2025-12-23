@@ -19,7 +19,7 @@
     "quirks.prevent-sleep"
   ];
 
-  features.swapSizeInGB = 8.0;
+  features.swapSizeInGB = 8;
 
   environment.systemPackages = with pkgs; [
     exiftool

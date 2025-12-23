@@ -18,7 +18,7 @@
   system.autoUpgrade.dates = "01:00";
 
   features.useZshShell = false;
-  features.swapSizeInGB = 2.0;
+  features.swapSizeInGB = 2;
 
   networking.hostName = "pd";
 
