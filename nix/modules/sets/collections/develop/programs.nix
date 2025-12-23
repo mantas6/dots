@@ -3,7 +3,11 @@
   lib,
   config,
   ...
-}: {
+}: let
+  php = pkgs-unstable.php84.buildEnv {
+    extraConfig = "memory_limit = 2G";
+  };
+in {
   config = lib.mkIf (lib.elem "collections.develop" config.features.sets) {
     # lua_ls fix
     programs.nix-ld.enable = true;
@@ -16,8 +20,9 @@
       sesh
       direnv
 
-      php84
+      php
       php84Packages.composer
+
       nodejs_24
       go
       gcc
