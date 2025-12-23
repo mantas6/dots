@@ -6,6 +6,7 @@ import (
 	"log"
 	"math"
 	"os/exec"
+	"regexp"
 	"strings"
 	"time"
 )
@@ -45,6 +46,25 @@ type DiskBytesResult struct {
 type DiskResult struct {
 	Mountpoint string          `json:"mountpoint"`
 	Bytes      DiskBytesResult `json:"bytes"`
+}
+
+func getPingInterval() string {
+	cmd := exec.Command("ping", "-c", "1", "-W", "1", "google.com")
+
+	out, err := cmd.Output()
+
+	if err != nil {
+		return "-"
+	}
+
+	re := regexp.MustCompile(`time=([\d.]+) ms`)
+	match := re.FindStringSubmatch(string(out))
+
+	if len(match) < 2 {
+		return "-"
+	}
+
+	return strings.Split(match[1], ".")[0] + "ms"
 }
 
 func cpuUsage(parts *[]string, res json.RawMessage) {
@@ -181,6 +201,12 @@ func diskUsage(parts *[]string, res json.RawMessage) {
 	}
 }
 
+func networkPing(parts *[]string) {
+	time := getPingInterval()
+
+	*parts = append(*parts, fmt.Sprintf(" %v", time))
+}
+
 func main() {
 	cmd := exec.Command(
 		"fastfetch",
@@ -225,6 +251,7 @@ func main() {
 		}
 	}
 
+	networkPing(parts)
 	clock(parts)
 
 	fmt.Println(strings.Join(*parts, " "))

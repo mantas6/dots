@@ -269,7 +269,7 @@ awful.screen.connect_for_each_screen(function(s)
       -- statusbar.load,
       -- statusbar.disk,
       -- statusbar.memory,
-      statusbar.ping,
+      -- statusbar.ping,
       -- statusbar.battery,
       -- statusbar.clock,
       -- statusbar.keyboard,
