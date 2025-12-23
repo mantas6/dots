@@ -7,6 +7,7 @@ return {
     null_ls.setup({
       sources = {
         null_ls.builtins.diagnostics.phpstan,
+        null_ls.builtins.formatting.pint,
       },
     })
   end,
