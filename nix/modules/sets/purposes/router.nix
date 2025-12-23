@@ -17,6 +17,7 @@
   wanDeviceMac = "00:1b:21:f0:6c:e0";
 
   servicesIp = "10.0.1.21"; # l4
+  wolPort = 5001;
 in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}
@@ -99,86 +100,22 @@ in {
           };
         };
 
-        nat.enable = false;
-        firewall.enable = false;
-
-        nftables = {
+        nat = {
           enable = true;
-          # enable = false;
+          internalInterfaces = [lanIfName];
+          externalInterface = wanIfName;
+        };
 
-          ruleset = ''
-            table ip nat {
-              chain prerouting {
-                type nat hook prerouting priority filter; policy accept;
-              }
+        firewall = {
+          enable = true;
+          allowPing = false;
 
-              # Setup NAT masquerading on the ${wanIfName} interface
-              chain postrouting {
-                type nat hook postrouting priority filter; policy accept;
-                oifname "${wanIfName}" masquerade
-              }
-            }
-          '';
+          interfaces.${wanIfName}.allowedTCPPorts = [];
 
-          # ruleset = ''
-          #   table inet filter {
-          #     # enable flow offloading for better throughput
-          #     # flowtable f {
-          #     #   hook ingress priority 0;
-          #     #   devices = { ${wanIfName}, ${lanIfName} };
-          #     # }
-          #
-          #     chain output {
-          #       type filter hook output priority 100; policy accept;
-          #     }
-          #
-          #     chain input {
-          #       type filter hook input priority filter; policy drop;
-          #
-          #       # Allow trusted networks to access the router
-          #       iifname {
-          #         "${lanIfName}",
-          #       } counter accept
-          #
-          #       # Allow returning traffic from ${wanIfName} and drop everthing else
-          #       iifname "${wanIfName}" ct state { established, related } counter accept
-          #       iifname "${wanIfName}" drop
-          #     }
-          #
-          #     chain forward {
-          #       type filter hook forward priority filter; policy drop;
-          #
-          #       # enable flow offloading for better throughput
-          #       # ip protocol { tcp, udp } flow offload @f
-          #
-          #       # Allow trusted network WAN access
-          #       iifname {
-          #               "${lanIfName}",
-          #       } oifname {
-          #               "${wanIfName}",
-          #       } counter accept comment "Allow trusted LAN to WAN"
-          #
-          #       # Allow established WAN to return
-          #       iifname {
-          #               "${wanIfName}",
-          #       } oifname {
-          #               "${lanIfName}",
-          #       } ct state established,related counter accept comment "Allow established back to LANs"
-          #     }
-          #   }
-          #
-          #   table ip nat {
-          #     chain prerouting {
-          #       type nat hook prerouting priority filter; policy accept;
-          #     }
-          #
-          #     # Setup NAT masquerading on the ${wanIfName} interface
-          #     chain postrouting {
-          #       type nat hook postrouting priority filter; policy accept;
-          #       oifname "${wanIfName}" masquerade
-          #     }
-          #   }
-          # '';
+          interfaces.${lanIfName} = {
+            allowedTCPPorts = [22 53 wolPort];
+            allowedUDPPorts = [53 67 68];
+          };
         };
       };
 
@@ -187,7 +124,7 @@ in {
         wantedBy = ["multi-user.target"];
         after = ["network.target"];
         serviceConfig = {
-          ExecStart = "${self.packages.${pkgs.system}.wolf}/bin/wolf -i ${lanIp}:5001 -a ${lanIpRangeEnd}";
+          ExecStart = "${self.packages.${pkgs.system}.wolf}/bin/wolf -i ${lanIp}:${toString wolPort} -a ${lanIpRangeEnd}";
           Restart = "always";
           Type = "simple";
           DynamicUser = "yes";
