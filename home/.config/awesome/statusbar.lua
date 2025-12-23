@@ -55,11 +55,8 @@ module.battery = createWidget("printf \"%s\" \"$(cat "..batteryPath.."/capacity)
 end)
 
 
-module.memory = createWidget("status-mod memory", '󰘚')
-module.load = createWidget("status-mod cpu", '')
 module.cpuf = createWidget("status-mod frequency", '󰓅', 3)
 
-module.temp = createWidget("status-mod temperature", '󰏈', 5)
 module.disk = createWidget("status-mod disk", '', 60)
 
 module.bar = createWidget("bar", function (params)
