@@ -117,6 +117,7 @@ func battery(parts *[]string, res json.RawMessage) {
 	var p BatteryResult
 
 	if err := json.Unmarshal(res, &p); err != nil {
+		fmt.Println(err)
 		return
 	}
 
