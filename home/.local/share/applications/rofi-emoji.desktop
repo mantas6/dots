@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Application
-Version=1.0
-Name=Emoji Picker
-Comment=Emoji, icon picker
-Exec=/usr/bin/rofi -show emoji
-Terminal=false

@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Version=1.0
-Name=Maps
-Icon=firefox
-Comment=Explore maps
-Exec=/usr/bin/firefox --kiosk https://maps.google.com
-Terminal=false

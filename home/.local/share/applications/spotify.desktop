@@ -2,7 +2,7 @@
 Type=Application
 Version=1.0
 Name=Spotify
-Icon=chromium
+Icon=firefox
 Comment=Spotify music streaming service
-Exec=/usr/bin/env firefox --app=https://open.spotify.com/
+Exec=/usr/bin/env firefox https://open.spotify.com
 Terminal=false
