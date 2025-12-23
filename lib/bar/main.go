@@ -149,7 +149,7 @@ func battery(parts *[]string, res json.RawMessage) {
 		}
 	}
 
-	*parts = append(*parts, fmt.Sprintf("%v %.0f", icon, p.Capacity))
+	*parts = append(*parts, fmt.Sprintf("%v %.0f%%", icon, p.Capacity))
 }
 
 func main() {
