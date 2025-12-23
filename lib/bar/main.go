@@ -7,6 +7,7 @@ import (
 	"math"
 	"os/exec"
 	"strings"
+	"time"
 )
 
 type Metric struct {
@@ -103,6 +104,11 @@ func uptime(parts *[]string, res json.RawMessage) {
 	*parts = append(*parts, fmt.Sprintf("󰐦 %v%s", time, unit))
 }
 
+func clock(parts *[]string) {
+	s := time.Now().Format(time.TimeOnly)
+	*parts = append(*parts, fmt.Sprintf(" %v", s))
+}
+
 func main() {
 	cmd := exec.Command(
 		"fastfetch",
@@ -124,24 +130,26 @@ func main() {
 		log.Fatalf("Failed to parse JSON: %v", err)
 	}
 
-	var parts []string
+	parts := new([]string)
 
 	for _, m := range metrics {
 		res := m.Result
 
 		switch m.Type {
 		case "Memory":
-			memoryUsage(&parts, res)
+			memoryUsage(parts, res)
 		case "CPUUsage":
-			cpuUsage(&parts, res)
+			cpuUsage(parts, res)
 		case "CPU":
-			cpuTemp(&parts, res)
+			cpuTemp(parts, res)
 		case "Kernel":
-			kernelVersion(&parts, res)
+			kernelVersion(parts, res)
 		case "Uptime":
-			uptime(&parts, res)
+			uptime(parts, res)
 		}
 	}
 
-	fmt.Println(strings.Join(parts, " "))
+	clock(parts)
+
+	fmt.Println(strings.Join(*parts, " "))
 }

@@ -271,7 +271,7 @@ awful.screen.connect_for_each_screen(function(s)
       -- statusbar.memory,
       statusbar.ping,
       statusbar.battery,
-      statusbar.clock,
+      -- statusbar.clock,
       statusbar.keyboard,
       s.mylayoutbox,
     },
