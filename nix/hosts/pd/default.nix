@@ -15,10 +15,12 @@
     "purposes.router"
   ];
 
-  system.autoUpgrade.dates = "01:00";
+  features.swapSizeInGB = 2;
+  powerManagement.powertop.enable = true;
 
   features.useZshShell = false;
-  features.swapSizeInGB = 2;
+
+  system.autoUpgrade.dates = "01:00";
 
   networking.hostName = "pd";
 

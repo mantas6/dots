@@ -20,6 +20,7 @@
   ];
 
   features.swapSizeInGB = 8;
+  powerManagement.powertop.enable = true;
 
   environment.systemPackages = with pkgs; [
     exiftool
