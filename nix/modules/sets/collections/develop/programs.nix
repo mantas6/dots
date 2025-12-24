@@ -4,7 +4,7 @@
   config,
   ...
 }: let
-  php = pkgs-unstable.php84.buildEnv {
+  phpConfigured = pkgs-unstable.php84.buildEnv {
     extraConfig = "memory_limit = 2G";
   };
 in {
@@ -20,7 +20,7 @@ in {
       sesh
       direnv
 
-      php
+      phpConfigured
       php84Packages.composer
 
       nodejs_24
