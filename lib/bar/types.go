@@ -18,6 +18,11 @@ type MemoryResult struct {
 	Used  int64 `json:"used"`
 }
 
+type SwapResult struct {
+	Total int64 `json:"total"`
+	Used  int64 `json:"used"`
+}
+
 type CpuResult struct {
 	Temperature float64 `json:"temperature"`
 }

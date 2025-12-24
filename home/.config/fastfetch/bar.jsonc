@@ -4,6 +4,7 @@
         "uptime",
         "kernel",
         "memory",
+        "swap",
         "disk",
         "cpuusage",
         {

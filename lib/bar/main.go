@@ -32,6 +32,8 @@ func main() {
 			volume(parts, res)
 		case "Bluetooth":
 			bluetoothBattery(parts, res)
+		case "Swap":
+			swapUsage(parts, res)
 		}
 	}
 

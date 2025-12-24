@@ -48,6 +48,30 @@ func memoryUsage(parts *[]string, res json.RawMessage) {
 	*parts = append(*parts, fmt.Sprintf("󰘚 %.1fG", usageGb))
 }
 
+func swapUsage(parts *[]string, res json.RawMessage) {
+	var raw []json.RawMessage
+	if err := json.Unmarshal(res, &raw); err != nil {
+		return
+	}
+
+	if len(raw) == 0 {
+		return
+	}
+
+	var totalUsed int64 = 0
+
+	for _, dev := range raw {
+		var p SwapResult
+		if err := json.Unmarshal(dev, &p); err != nil {
+			continue
+		}
+
+		totalUsed += p.Used
+	}
+
+	*parts = append(*parts, fmt.Sprintf(" %v%%", totalUsed))
+}
+
 func kernelVersion(parts *[]string, res json.RawMessage) {
 	var p KernelResult
 	if err := json.Unmarshal(res, &p); err != nil {
