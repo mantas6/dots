@@ -79,8 +79,8 @@ return function()
       {
         tag = 8,
         exec = {
-          'chromium --new-window ' .. satUrl .. '/resources/transactions',
-          'chromium --new-window ' .. satUrl .. '/resources/articles',
+          'chromium --new-window ' .. satUrl .. '/Kd4z7q/resources/transactions',
+          'chromium --new-window ' .. satUrl .. '/Kd4z7q/resources/articles',
         }
       },
       {
