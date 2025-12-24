@@ -11,6 +11,7 @@
             "showPeCoreCount": true,
             "temp": true
         },
-        "battery"
+        "battery",
+        "sound"
     ]
 }

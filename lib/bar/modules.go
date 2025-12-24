@@ -130,15 +130,16 @@ func diskUsage(parts *[]string, res json.RawMessage) {
 	for _, disk := range raw {
 		var p DiskResult
 		if err := json.Unmarshal(disk, &p); err != nil {
-			return
+			continue
 		}
 
 		if p.Mountpoint != "/" {
-			return
+			continue
 		}
 
 		usagePercent := float64(p.Bytes.Used) / float64(p.Bytes.Total) * 100
 		*parts = append(*parts, fmt.Sprintf(" %.0f%%", usagePercent))
+		return
 	}
 }
 
@@ -148,3 +149,23 @@ func networkPing(parts *[]string) {
 	*parts = append(*parts, fmt.Sprintf(" %v", time))
 }
 
+func volume(parts *[]string, res json.RawMessage) {
+	var raw []json.RawMessage
+	if err := json.Unmarshal(res, &raw); err != nil {
+		return
+	}
+
+	for _, dev := range raw {
+		var p SoundResult
+		if err := json.Unmarshal(dev, &p); err != nil {
+			continue
+		}
+
+		if !p.Active || !p.Main {
+			continue
+		}
+
+		*parts = append(*parts, fmt.Sprintf("󰕾 %v%%", p.Volume))
+		return
+	}
+}

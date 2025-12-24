@@ -40,3 +40,9 @@ type DiskResult struct {
 	Mountpoint string          `json:"mountpoint"`
 	Bytes      DiskBytesResult `json:"bytes"`
 }
+
+type SoundResult struct {
+	Active bool `json:"active"`
+	Main   bool `json:"main"`
+	Volume int  `json:"volume"`
+}

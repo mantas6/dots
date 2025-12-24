@@ -28,6 +28,8 @@ func main() {
 			battery(parts, res)
 		case "Disk":
 			diskUsage(parts, res)
+		case "Sound":
+			volume(parts, res)
 		}
 	}
 
