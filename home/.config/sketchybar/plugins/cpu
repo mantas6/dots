@@ -1,7 +1,0 @@
-#!/bin/sh
-
-export PATH="$HOME/.local/bin:$PATH"
-
-cpu=$(fastfetch -s cpuusage --format json  | jq '.[0].result[]' | awk '{sum+=$1} END { print int(sum/NR)}')
-
-sketchybar --set "$NAME" icon="" label="$cpu%"

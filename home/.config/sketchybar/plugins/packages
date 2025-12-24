@@ -1,9 +1,0 @@
-#!/bin/sh
-
-export HOMEBREW_PREFIX="$HOME/.local/brew"
-
-brew update > /dev/null
-
-value=$(brew outdated -q | wc -l | tr -d '[:space:]')
-
-sketchybar --set "$NAME" icon="󰏗" label="$value"

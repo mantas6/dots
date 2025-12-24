@@ -1,7 +1,0 @@
-#!/bin/sh
-
-export PATH="$HOME/.local/bin:$PATH"
-
-mem=$(memory_pressure | awk '/percentage/{print $5}')
-
-sketchybar --set "$NAME" icon="" label="${mem}"
