@@ -1,0 +1,244 @@
+body {  border-top-width: 0px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt; }
+
+td,th,caption,form,input,select { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt}
+p { font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 8.5pt}
+
+form { margin-top: 0px ; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px}
+
+a:link {  text-decoration: none; color: #5F7CC9}
+a:visited {  text-decoration: none; color: #5F7CC9}
+a:active {  text-decoration: none; color: #CC0000}
+a:hover {  text-decoration: underline; color: #5F7CC9}
+
+
+/* dales */
+
+.text_bible { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; text-indent: 20px; margin-top: 0px; padding-top: 0px; margin-bottom: 0px; padding-bottom: 0px}
+a.text_bible:link { text-decoration: none; color: #5F7CC9 }
+a.text_bible:visited {  text-decoration: none; color: #6F530B}
+a.text_bible:active {  text-decoration: none; color: #CC0000}
+a.text_bible:hover {  text-decoration: underline; color: #666666}
+
+.v10 {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 7.5pt}
+
+.input1{ background:#FFFFFF; color:#000000; font-size:7.5pt; font-family: Verdana, Arial, Helvetica; border:1 solid #888888;}
+
+
+.title1 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13pt; color: FFC200}
+/*.title2 { font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt; color: #D97F13; font-weight: bold}*/
+.title2 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10.5pt; color: #F2B700; font-weight: bold}
+.title3 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt; color: #305987; font-weight: bold}
+.title31 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt; color: #305987; font-weight: bold; font-style: italic}
+
+/* tables */
+
+caption { font-weight: bold; text-align: left; }
+.atable { width: 99%; border:0px }
+.atable1 { width: 99%; border:0px }
+.atable2 { width: 99%; border:0px }
+.atable th { background: #6998CA; color: white; font-weight: normal; text-align: left; padding: 2 px}
+.atable1 th { background: #6998CA; color: white; font-weight: normal; text-align: left; padding: 2 px}
+.atable2 th { background: #6998CA; color: white; font-weight: bold; text-align: center; padding: 2px }
+.atable td { padding: 1px; padding-left: 10px; }
+.atable1 td { padding: 2 px; padding-left: 2 px; }
+.atable2 td { padding: 1px; padding-left: 10px; }
+.alt_row	 { background: #F9F4F1 }
+
+/* text www */
+
+.text { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px}
+.text_bold { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt; font-weight: bold}
+.text_title { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9.5pt; color: FFC200; font-weight: bold}
+.text_title_max { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt; color: #FFC200; font-weight: bold}
+.text_title_min { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt; color: #FFC200; font-weight: bold}
+
+
+/* text bible */
+
+.bibl { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9.5pt; text-indent: 20px; margin-top: 0px; padding-top: 0px; margin-bottom: 0px; padding-bottom: 0px}
+.bibl_ivad { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt}
+.bibl_vertimas { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10.5pt; color: #305987; font-weight: bold}
+.bibl_testamentas { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt; color: #305987; font-weight: bold}
+.bibl_rinkinys { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt; color: #C69709; font-weight: bold; font-style: italic; text-transform: uppercase}
+.bibl_knyga_turinys { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt; color: #305987; font-weight: bold}
+.bibl_knyga { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11.5pt; font-weight: bold; text-transform: uppercase}
+.bibl_kn_turinys { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt; color: #305987; font-weight: bold}
+.bibl_kn { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9.5pt; font-weight: bold}
+.bibl_metmuo { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9.5pt; font-weight: bold}
+.bibl_tema { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9.5pt; font-style: italic; font-weight: bold}
+.bibl_isnasa { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt}
+.bibl_isnasa_vardas { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt; color: #305987; font-weight: bold; text-transform: uppercase}
+.bibl_f1 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt; color: #305987; font-weight: bold}
+.bibl_f2 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt; color: #000000; font-weight: bold}
+/*paralelines vietos shaltinis*/
+.bibl_pv_pr { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt; font-weight: bold}
+/*paralelines vietos adresai*/
+.bibl_pv_add { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt}
+/*paralelines vietos pavadinimas puslapyje*/
+.bibl_pvietos_vardas { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt; color: #305987; font-weight: bold; text-transform: uppercase}
+
+/*.biblija { border-bottom: 1px dotted  #FFC81F; text-transform: uppercase; }*/
+.biblija { border-bottom: 1px solid  #FFC81F; text-transform: uppercase; }
+/*.biblija { border-left: 1px solid  #FFC81F; border-right: 1px solid  #FFC81F; text-transform: uppercase; }*/
+
+/* text size */
+
+.small { font-size: 7.5pt }
+
+
+
+/* search */
+
+.search_input { width: 200px }
+.search_checkbox {  margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px}
+.search_small{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 7.5pt }
+.search_table{ background-color: #f8f8f8 }
+
+.search_verse_text{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8.5pt }
+
+
+/* left menu */
+
+.menu_cell { font-size: 7.5pt; ; font-weight: normal}
+.menu_cell_hint { font-size: 7.5pt; width:10px; vertical-align: top;}
+
+.left_menu_cell_bg { cursor: hand; background-color: #fafafa; }
+.left_menu_cell_bg_active { cursor: hand; background-color: #FFC81F; }
+.left_menu_cell_bg_subactive { cursor: hand; background-color: #FFC81F; }
+
+.left_menu_cell { font-size: 7.5pt; ; font-weight: normal; padding-left: 10px}
+.left_menu_subcell { font-size: 7.5pt; ; font-weight: normal; padding-left: 18px; color: #404040;}
+.left_menu_link { font-size: 7.5pt; ; font-weight: normal}
+a.left_menu_link:link { text-decoration: none; color: #000000; }
+a.left_menu_link:visited {  text-decoration: none; color: #000000; }
+a.left_menu_link:active {  text-decoration: none; color: #000000; }
+a.left_menu_link:hover {  text-decoration: none; color: #000000; }
+/* .menu {  font-size: 7.5pt; line-height: 1.5em; } */
+
+
+/* top links */
+
+.top_links {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 7.5pt; color: #8F8B8A; }
+a.top_links:link { text-decoration: none; color: #8F8B8A; }
+a.top_links:visited {  text-decoration: none; color: #8F8B8A; }
+a.top_links:active {  text-decoration: none; color: #000000; }
+a.top_links:hover {  text-decoration: underline; color: #000000; }
+
+
+/* top menu */
+
+.top_menu_text { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 7.5pt; }
+
+.top_menu_link { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 7.5pt; }
+a.top_menu_link:link { text-decoration: none; color: #000000 }
+a.top_menu_link:visited {  text-decoration: none; color: #000000}
+a.top_menu_link:active {  text-decoration: none; color: #000000}
+a.top_menu_link:hover {  text-decoration: none; color: #ffffff}
+
+
+/* bottom links */
+
+.bottom_links {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 7.5pt; color: #C9C1B3; }
+a.bottom_links:link { text-decoration: none; color: #C9C1B3; }
+a.bottom_links:visited {  text-decoration: none; color: #C9C1B3; }
+a.bottom_links:active {  text-decoration: none; color: #000000; }
+a.bottom_links:hover {  text-decoration: underline; color: #000000; }
+
+
+/* subscribe */
+.subscribe_title {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 7.5pt; font-weight: bold }
+.subscribe_input { width: 120px }
+.subscribe_link {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 7.5pt; font-weight: normal; }
+a.subscribe_link:link { color: #C9C1B3; text-decoration: none;}
+a.subscribe_link:visited { color: #C9C1B3; text-decoration: none;}
+a.subscribe_link:active { color: #C9C1B3; text-decoration: underline;}
+a.subscribe_link:hover{ color: #000000; text-decoration: underline;}
+
+.unnamed1 {  background-attachment: fixed; background-image: url(pix/edge-lenkimas2-bottom.gif); background-repeat: repeat-x; background-position: top}
+.skaitymas_nav_table {  background-color: #BDD1E8}
+.info_table1 { background-color: #DFEAF4}
+
+
+
+
+/* error */
+
+.error { text-align: left; margin: 20px; margin-left: 40px; }
+.error h4 {  font-size: 11pt; }
+
+
+
+/* turinys */
+
+.turinys ul { margin-left: 15px; margin-top: 0px; margin-bottom: 0px; padding: 0px }
+.turinys ul ul { margin-left: 27px; margin-top: 0px; margin-bottom: 0px; padding: 0px }
+.turinys ul ul ul{ margin-left: 38px; margin-top: 0px; margin-bottom: 0px; padding: 0px }
+.turinys p { margin: 0px; padding: 0px }
+
+
+
+/* search results */
+
+
+
+/* #resnav a { border: #f0f0f0 solid 1px; color:#000000; text-decoration: none; padding-left: 2px; padding-right: 2px;  }
+#resnav a:hover { border: #FFC81F solid 1px; color:#000000; background: #FFC81F; text-decoration: none; padding-left: 2px; padding-right: 2px;  } */
+/*#resnav a { border: white 1px solid; color:#000000; text-decoration: none; padding: 1px 2px 1px 2px;  }
+#resnav a:hover { border: black 1px solid; color:#000000; background: #FFC81F; text-decoration: none; padding: 1px 2px 1px 2px; } */
+#resnav a:hover { outline-color: #FFC81F outline-width: 1px; outline-style: solid; text-decoration: none;} 
+
+#navatgal img { background-image: url(../pix/nav/but-atgal.gif); vertical-align: top; }
+#navatgal:hover img { background-image: url(../pix/nav/but-atgal-over.gif); }
+
+#navtoliau img { background-image: url(../pix/nav/but-toliau.gif); vertical-align: top; }
+#navtoliau:hover img { background-image: url(../pix/nav/but-toliau-over.gif); }
+
+
+/* #sk_head { background: #F7F3F2 }; */
+#sk_head { background: #C0D6EE; padding: 1px 5px 1px 5px; };
+#sk_head th { font-weight: normal; text-align: left; }
+#sk_head td {  };
+
+/*#results_apimtis { background: #F7F3F2; };
+#results_rasta { background: #F7F3F2; };*/
+
+/*#results_head { background: #F7F3F2; padding: 1px 5px 1px 5px; margin-bottom: 15px; };
+#results_head_b { background: #F7F3F2; padding: 1px 5px 1px 5px; margin-top: 15px; };
+#results_title { font-weight: bold; }
+
+#results_apimtis { background: white; border-bottom: #F7F3F2 1px solid; };
+#results_rasta { background: white; border-bottom: #F7F3F2 1px solid; };
+*/
+
+#results_head { background: #F7F3F2; padding: 1px 5px 1px 5px; margin-bottom: 15px; };
+#results_head_b { background: #F7F3F2; padding: 1px 5px 1px 5px; margin-top: 15px; };
+#results_title { font-weight: bold; }
+
+/*#results_apimtis { background: white; border-bottom: #F7F3F2 1px solid; };
+#results_rasta { background: white; border-bottom: #F7F3F2 1px solid; };*/
+
+/*#sk_head { background-attachment: fixed; background-image: url(../pix/main/edge-lenkimas2-top.gif); background-repeat: repeat-x; background-position: top; }*/
+
+
+
+
+.Print { display: none; }
+
+/* PRINT */
+
+@media print{
+
+#Table1 { width: 100% }
+#Table1 td table { width: 100% }
+
+
+
+#PrintTitle { font-family: "Helvetica", "arial", sans-serif; font-size: 25pt; font-weight: normal; }
+#PrintSub { font-family: "Helvetica", "arial", sans-serif; font-size: 9pt; font-weight: bold; letter-spacing: -0.05em; }
+.noprint, #PanelArea, #BottomLinks, #ToolbarArea, #MenuArea, #HeaderArea, #divSearchBig, #divReadText, .clBar, .clLevel0,.clLevel0over,.clLevel0active, .clLevel0border, .clLevel1,.clLevel1over,.clLevel1border { display: none; }
+.Print { display: block; }
+
+}
+
+
+
