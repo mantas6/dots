@@ -46,3 +46,8 @@ type SoundResult struct {
 	Main   bool `json:"main"`
 	Volume int  `json:"volume"`
 }
+
+type BluetoothResult struct {
+	Connected bool `json:"connected"`
+	Battery   int  `json:"battery"`
+}

@@ -169,3 +169,24 @@ func volume(parts *[]string, res json.RawMessage) {
 		return
 	}
 }
+
+func bluetoothBattery(parts *[]string, res json.RawMessage) {
+	var raw []json.RawMessage
+	if err := json.Unmarshal(res, &raw); err != nil {
+		return
+	}
+
+	for _, dev := range raw {
+		var p BluetoothResult
+		if err := json.Unmarshal(dev, &p); err != nil {
+			continue
+		}
+
+		if !p.Connected || p.Battery == 0 {
+			continue
+		}
+
+		*parts = append(*parts, fmt.Sprintf("󰂳 %v%%", p.Battery))
+		return
+	}
+}

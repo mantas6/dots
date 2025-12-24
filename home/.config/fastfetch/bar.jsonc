@@ -12,6 +12,7 @@
             "temp": true
         },
         "battery",
+        "bluetooth",
         "sound"
     ]
 }
