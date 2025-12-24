@@ -1,0 +1,4 @@
+flake.lock
+composer.lock
+package.lock
+phpstan-baseline.neon
