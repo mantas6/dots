@@ -1,8 +1,0 @@
-#!/bin/sh
-
-cd "$(dirname "$(realpath "$0")")" || exit 1
-[ ! -x "$(command -v composer)" ] && exit 0
-
-composer install
-
-ln -sfv "$(pwd)"/zero "$HOME/.local/bin"

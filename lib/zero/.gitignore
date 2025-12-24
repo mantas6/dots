@@ -1,8 +1,0 @@
-/vendor
-/builds
-/.idea
-/.vscode
-/.vagrant
-.phpunit.result.cache
-/database/database.sqlite
-.tinker-*.php
