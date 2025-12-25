@@ -26,9 +26,9 @@ update() {
 help() {
     local prog=${0##*/}
     echo " $prog"
-    echo " $prog <search>"
-    echo " $prog -[s|p|f|b]"
-    echo " $prog -u"
+    echo " $prog <search>   search and play track/album"
+    echo " $prog -[s|p|f|b] control playback"
+    echo " $prog -u         update track database"
     exit 0
 }
 
