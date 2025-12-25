@@ -22,6 +22,7 @@ in {
 
       phpConfigured
       phpConfigured.packages.composer
+      sqlite
 
       nodejs_24
       go
