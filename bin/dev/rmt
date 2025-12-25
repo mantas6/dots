@@ -2,20 +2,22 @@
 # Override remote variable for different env
 
 if [ $# -lt 2 ]; then
-    echo 'Error: Env name and cmd need to be provided' >&2
+    echo 'Usage: rmt <env-name> [CMD]' >&2
     exit 1
 fi
 
 name=${1^^}
+shift
 
-user="REMOTE_${name}_USER":
-host="REMOTE_${name}_HOST":
-root="REMOTE_${name}_ROOT":
+user="REMOTE_${name}_USER"
+host="REMOTE_${name}_HOST"
+root="REMOTE_${name}_ROOT"
 
 export REMOTE_USER=${!user}
 export REMOTE_HOST=${!host}
 export REMOTE_ROOT=${!root}
 
-gum confirm --no-show-help 'Run cmd in production?' || exit 1
+printf '%s' "Confirm running cmd in $name environment..."
+read -r || exit 1
 
-"$@"
+exec "$@"
