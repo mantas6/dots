@@ -26,7 +26,7 @@ while getopts 'nf' opt; do
   esac
 done
 
-cd "$DOTS_DIR/lib/kbd"
+cd "$DOTS_DIR/opt/kbd"
 
 sum=$(git ls-files --others --cached --exclude-standard | xargs openssl dgst -sha1 | openssl dgst -sha1)
 

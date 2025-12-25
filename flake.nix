@@ -136,7 +136,7 @@
     packages.${system}.wolf = pkgs-go.buildGoModule {
       pname = "wolf";
       version = "0.1.0";
-      src = ./lib/wolf/.;
+      src = ./opt/wolf/.;
       vendorHash = null;
     };
 

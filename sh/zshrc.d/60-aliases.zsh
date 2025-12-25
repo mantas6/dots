@@ -60,9 +60,6 @@ alias ts='tmux split-window -h \; split-window -v'
 
 alias keepon="xset s off && xset -dpms"
 
-alias vse="vf -gd $DOTS_DIR/bin -o '-e'"
-alias vkb="vi $DOTS_DIR/lib/kbd/config/adv360.keymap"
-
 alias ql="bm -f $XDG_STATE_HOME/bm_ql"
 alias qla="bm -lf $XDG_STATE_HOME/bm_ql | xargs open-url"
 

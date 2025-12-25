@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 # Initialize additional packages/repositories
 
-for pkgDir in "$DOTS_DIR"/lib/*; do
+for pkgDir in "$DOTS_DIR"/opt/*; do
     (cd "$pkgDir" && [ -f build ] && ./build)
 done
 
