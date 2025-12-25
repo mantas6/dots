@@ -11,6 +11,7 @@
     ./services
     ./purposes
     ./collections
+    ./progs
   ];
 
   options = {
