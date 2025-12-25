@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Check for binaries files in repo changes before committing
 
+set -x
 set -eo 'pipefail'
 
 cd "$(git rev-parse --show-toplevel)"
