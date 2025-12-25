@@ -21,7 +21,7 @@ in {
       direnv
 
       phpConfigured
-      php84Packages.composer
+      phpConfigured.packages.composer
 
       nodejs_24
       go
