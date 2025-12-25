@@ -23,15 +23,36 @@ end
 -- end
 -- vim.keymap.set('n', '<leader>bv', ':lua ToggleVirtualText() <CR>', { desc = 'Toggle virtual text' })
 
--- Map <leader>h to toggle search highlighting
 vim.api.nvim_set_keymap('n', '<leader>h', ':lua ToggleHighlightSearch()<CR>', { noremap = true, silent = true })
 
 vim.keymap.set('n', '<leader>bl', ':lua ToggleSpellLang() <CR>', { desc = 'Toggle spelllang between en and lt' })
 
-vim.keymap.set('n', '<leader>br', vim.lsp.buf.rename)
-vim.keymap.set('n', '<leader>bp', vim.lsp.buf.format)
-vim.api.nvim_set_keymap('n', '<leader>bm', ':silent w | :silent !php-fmt-ns %:p <CR>', {})
-vim.keymap.set('n', '<leader>bn', vim.lsp.buf.code_action, {})
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('configured-lsp-attach', { clear = true }),
+  callback = function(args)
+    local ft = vim.bo[args.buf].filetype
+
+    if ft == 'php' then
+      vim.keymap.set('n', '<leader>bm', ':silent w | :silent !php-fmt-ns %:p <CR>', { buffer = args.buf })
+    end
+    vim.keymap.set('n', '<leader>br', vim.lsp.buf.rename, { buffer = args.buf })
+    vim.keymap.set('n', '<leader>bn', vim.lsp.buf.code_action, { buffer = args.buf })
+
+    vim.keymap.set('n', '<leader>bp', function()
+      vim.lsp.buf.format({
+        filter = function(client)
+          if ft == 'php' then
+            return client.name == 'null-ls'
+          else
+            return true
+          end
+        end,
+        bufnr = args.buf,
+      });
+    end, { buffer = args.buf })
+  end,
+})
+
 
 vim.api.nvim_set_keymap('n', '<leader>yb', ':silent !echo %:. | xc<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>yd', ':silent !dirname %:. | xc<CR>', {})
