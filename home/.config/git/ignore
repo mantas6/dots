@@ -1,3 +1,5 @@
 /.tinker-*.php
 /out*
 .null-ls_*
+
+PRESENTATION.md
