@@ -26,5 +26,21 @@
         fpath=("${zsh-completions}/share/zsh/site-functions" $fpath)
       '';
     };
+
+    environment.systemPackages = with pkgs-unstable; [
+      zoxide
+      starship
+      eza
+
+      gum
+      glow
+      fzf
+      delta
+      bat
+
+      stow
+      jq
+      yq-go
+    ];
   };
 }
