@@ -8,5 +8,10 @@ if [ -d '.git' ] || [ -f 'composer.json' ] || [ -f 'package.json' ]; then
     tmux new-window -n 'git'
     tmux new-window -n 'tin'
 
+    if [ -n "$ADDITIONAL_WINDOW_CMD" ]; then
+        tmux new-window
+        tmux send-keys "$ADDITIONAL_WINDOW_CMD" C-m
+    fi
+
     tmux select-window -t 'vi'
 fi
