@@ -51,27 +51,9 @@
     #   })
     #   hosts);
 
-    nixosConfigurations.iso = nixpkgs.lib.nixosSystem {
-      modules = [./nix/hosts/iso];
-
-      specialArgs = {
-        inherit inputs;
-      };
-    };
-
     nixosConfigurations.ix = nixpkgs.lib.nixosSystem {
-      modules = [./nix/hosts/ix];
-
-      specialArgs = {
-        inherit inputs;
-        inherit pkgs-unstable;
-        inherit self;
-      };
-    };
-
-    nixosConfigurations.amd = nixpkgs.lib.nixosSystem {
       modules = [
-        ./nix/hosts/amd
+        ./nix/hosts/ix
       ];
 
       specialArgs = {
@@ -84,18 +66,6 @@
     nixosConfigurations.l4 = nixpkgs.lib.nixosSystem {
       modules = [
         ./nix/hosts/l4
-      ];
-
-      specialArgs = {
-        inherit inputs;
-        inherit pkgs-unstable;
-        inherit self;
-      };
-    };
-
-    nixosConfigurations.rt = nixpkgs.lib.nixosSystem {
-      modules = [
-        ./nix/hosts/rt
       ];
 
       specialArgs = {
@@ -126,6 +96,40 @@
         inherit inputs;
         inherit pkgs-unstable;
         inherit self;
+      };
+    };
+
+    nixosConfigurations.amd = nixpkgs.lib.nixosSystem {
+      modules = [
+        ./nix/hosts/amd
+      ];
+
+      specialArgs = {
+        inherit inputs;
+        inherit pkgs-unstable;
+        inherit self;
+      };
+    };
+
+    nixosConfigurations.rt = nixpkgs.lib.nixosSystem {
+      modules = [
+        ./nix/hosts/rt
+      ];
+
+      specialArgs = {
+        inherit inputs;
+        inherit pkgs-unstable;
+        inherit self;
+      };
+    };
+
+    nixosConfigurations.iso = nixpkgs.lib.nixosSystem {
+      modules = [
+        ./nix/hosts/iso
+      ];
+
+      specialArgs = {
+        inherit inputs;
       };
     };
 
