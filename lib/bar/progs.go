@@ -5,6 +5,7 @@ import (
 	"os/exec"
 	"regexp"
 	"strings"
+	"time"
 )
 
 func getFastfetchData() (metrics []Metric) {
@@ -31,11 +32,16 @@ func getFastfetchData() (metrics []Metric) {
 }
 
 func getPingInterval() string {
+	start := time.Now()
 	cmd := exec.Command("ping", "-c", "1", "-W", "1", "google.com")
 
 	out, err := cmd.Output()
 
 	if err != nil {
+		if time.Since(start).Milliseconds() > 1000 {
+			return "!"
+		}
+
 		return "-"
 	}
 
