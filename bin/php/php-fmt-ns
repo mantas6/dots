@@ -124,4 +124,7 @@ $prog = new class {
     }
 };
 
-$prog->handle($argv);
+$paths = $argv;
+array_shift($paths);
+
+$prog->handle($paths);
