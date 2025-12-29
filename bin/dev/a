@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 # Run artisan commands
 
-de php artisan "$@"
+exec de php artisan "$@"

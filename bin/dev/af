@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-# Interactively search artisan commands
-
-set -eo 'pipefail'
-selected=$(a list --raw | fzf | awk '{print $1}')
-
-set -x
-a "$selected"

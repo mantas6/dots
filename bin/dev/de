@@ -16,4 +16,4 @@ else
     flags='-i'
 fi
 
-docker exec "$flags" "$name" "${@:-bash}"
+exec docker exec "$flags" "$name" "${@:-bash}"
