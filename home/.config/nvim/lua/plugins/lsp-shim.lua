@@ -8,6 +8,7 @@ return {
       sources = {
         null_ls.builtins.diagnostics.phpstan,
         null_ls.builtins.formatting.pint,
+        null_ls.builtins.formatting.shfmt,
       },
     })
   end,

@@ -33,6 +33,7 @@ in {
       exiftool
 
       shellcheck
+      shfmt
       ripgrep
       fd
       entr

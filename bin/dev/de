@@ -1,30 +1,14 @@
 #!/usr/bin/env sh
 # Execute cmd or sh "main" docker container
 
-container_grep=''
-
-while getopts 'c:' opt; do
-  case ${opt} in
-    c)
-        container_grep=${OPTARG}
-        ;;
-    ?)
-      exit 1
-      ;;
-  esac
-done
-
-shift $((OPTIND - 1))
+if ! docker compose ps >/dev/null 2>&1; then
+    exec "$@"
+fi
 
 names=$(docker compose ps --format '{{.Names}}')
+name=$(echo "$names" | grep -i 'fpm\|laravel.test')
 
-if [ -n "$container_grep" ]; then
-    name=$(echo "$names" | grep -i "$container_grep")
-else
-    name=$(echo "$names" | grep -i 'fpm\|laravel.test')
-
-    [ ! "$name" ] && name=$(echo "$names" | head -n 1)
-fi
+[ ! "$name" ] && name=$(echo "$names" | head -n 1)
 
 if [ -t 0 ]; then
     flags='-it'
