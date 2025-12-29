@@ -9,7 +9,7 @@ in {
     {features.setsAvailable = [name];}
     (lib.mkIf (lib.elem name config.features.sets) {
       virtualisation.oci-containers.containers = {
-        memos = {
+        speedtest = {
           image = "ghcr.io/librespeed/speedtest:5.4.1";
           user = "1000";
           ports = ["0.0.0.0:6001:8080"];
