@@ -171,6 +171,35 @@ func networkPing(parts *[]string, networkTime string) {
 	*parts = append(*parts, fmt.Sprintf(" %v", networkTime))
 }
 
+func networkIO(parts *[]string, res json.RawMessage) {
+	var raw []json.RawMessage
+	if err := json.Unmarshal(res, &raw); err != nil {
+		return
+	}
+
+	for _, dev := range raw {
+		var p NetworkIOResult
+		if err := json.Unmarshal(dev, &p); err != nil {
+			continue
+		}
+
+		if !p.DefaultRoute {
+			continue
+		}
+
+		icon := "󰛴"
+		bytes := p.RxBytes
+
+		if p.TxBytes > p.RxBytes {
+			icon = "󰛶"
+			bytes = p.TxBytes
+		}
+
+		*parts = append(*parts, fmt.Sprintf("%s %v", icon, formatBytes(bytes)))
+		return
+	}
+}
+
 func volume(parts *[]string, res json.RawMessage) {
 	var raw []json.RawMessage
 	if err := json.Unmarshal(res, &raw); err != nil {

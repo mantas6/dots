@@ -15,6 +15,7 @@
     "hardware.backlight"
     "services.docker"
     "services.memos"
+    "services.speedtest"
     # "services.photosync"
     "quirks.prevent-sleep"
   ];

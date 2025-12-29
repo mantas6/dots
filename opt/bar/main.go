@@ -45,6 +45,8 @@ func main() {
 			bluetoothBattery(parts, res)
 		case "Swap":
 			swapUsage(parts, res)
+		case "NetIO":
+			networkIO(parts, res)
 		}
 	}
 

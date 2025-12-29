@@ -56,3 +56,10 @@ type BluetoothResult struct {
 	Connected bool `json:"connected"`
 	Battery   int  `json:"battery"`
 }
+
+type NetworkIOResult struct {
+	DefaultRoute bool  `json:"defaultRoute"`
+	TxBytes      int64 `json:"txBytes"`
+	RxBytes      int64 `json:"rxBytes"`
+}
+

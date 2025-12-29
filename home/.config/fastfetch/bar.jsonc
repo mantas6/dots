@@ -12,7 +12,7 @@
             "showPeCoreCount": true,
             "temp": true
         },
-        // "netio",
+        "netio",
         // "diskio",
         "battery",
         "bluetooth",
