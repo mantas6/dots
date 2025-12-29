@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-require getenv('DOTS_DIR') . '/vendor/autoload.php';
+require getenv('COMPOSER_HOME') . '/vendor/autoload.php';
 
 use Symfony\Component\BrowserKit\HttpBrowser;
 use Symfony\Component\DomCrawler\Crawler;

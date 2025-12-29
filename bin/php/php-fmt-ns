@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-require getenv('DOTS_DIR') . '/vendor/autoload.php';
+require getenv('COMPOSER_HOME') . '/vendor/autoload.php';
 
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Namespace_;

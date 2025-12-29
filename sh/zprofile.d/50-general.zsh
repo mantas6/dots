@@ -48,8 +48,6 @@ export NBRC_PATH="$HOME/.config/nb/nbrc"
 export NB_DIR="$XDG_DATA_HOME/nb"
 export NB_HIST="$XDG_STATE_HOME/nb/history"
 
-export OLLAMA_HOST='amd:11434'
-
 export MOZ_USE_XINPUT2=1
 export QT_QPA_PLATFORMTHEME=qt6ct
 
@@ -61,8 +59,9 @@ export PATH="$PATH:$HOME/.local/sbin"
 
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 
-[ -d "$HOME/.config/composer/vendor/bin" ] && export PATH="$HOME/.config/composer/vendor/bin:$PATH"
-[ -d "$DOTS_DIR/vendor/bin" ] && export PATH="$DOTS_DIR/vendor/bin:$PATH"
+export COMPOSER_HOME="$HOME/.config/composer"
+[ -d "$HOME/.config/composer/vendor/bin" ] && export PATH="$COMPOSER_HOME/vendor/bin:$PATH"
+
 [ -d "$HOME/.local/share/cargo/bin" ] && export PATH="$HOME/.local/share/cargo/bin:$PATH"
 
 
