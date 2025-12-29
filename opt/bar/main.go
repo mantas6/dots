@@ -8,10 +8,20 @@ import (
 func main() {
 	parts := new([]string)
 
-	metrics := getFastfetchData()
-	networkTime := getNetworkTime()
+	metrics := make(chan []Metric)
+	networkTime := make(chan string)
 
-	for _, m := range metrics {
+	go func() {
+		r := getFastfetchData()
+		metrics <- r
+	}()
+
+	go func() {
+		r := getNetworkTime()
+		networkTime <- r
+	}()
+
+	for _, m := range <-metrics {
 		res := m.Result
 
 		switch m.Type {
@@ -38,7 +48,7 @@ func main() {
 		}
 	}
 
-	networkPing(parts, networkTime)
+	networkPing(parts, <-networkTime)
 	clock(parts)
 
 	fmt.Println(strings.Join(*parts, " "))
