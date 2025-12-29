@@ -90,8 +90,8 @@ $prog = new class {
         }
 
         return $str->chopEnd('.php')
-            ->beforeLast('/')
             ->replace('/', '\\')
+            ->beforeLast('\\')
             ->value();
     }
 
