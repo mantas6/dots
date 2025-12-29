@@ -13,6 +13,7 @@ in {
         natron
         ffmpeg-full
         kdePackages.kdenlive
+        audacity
       ];
     })
   ];
