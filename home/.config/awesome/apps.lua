@@ -51,7 +51,7 @@ return function()
       {
         tag = 3,
         exec = {
-          'chromium --new-window https://www.youtube.com/feed/subscriptions',
+          'firefox --new-window https://www.youtube.com/feed/subscriptions',
           'chromium --new-window https://www.icloud.com/reminders',
         }
       },
