@@ -31,7 +31,7 @@ func getFastfetchData() (metrics []Metric) {
 	return
 }
 
-func getPingInterval() string {
+func getNetworkTime() string {
 	start := time.Now()
 	cmd := exec.Command("ping", "-c", "1", "-W", "1", "google.com")
 

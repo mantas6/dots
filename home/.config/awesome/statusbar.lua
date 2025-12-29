@@ -9,6 +9,6 @@ module.keyboard = awful.widget.keyboardlayout()
 module.bar = createWidget("bar", function (params)
   params.text = string.gsub(params.text, ' ', '   ')
   params.icon = ''
-end, 3)
+end, 2)
 
 return module

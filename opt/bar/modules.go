@@ -167,10 +167,8 @@ func diskUsage(parts *[]string, res json.RawMessage) {
 	}
 }
 
-func networkPing(parts *[]string) {
-	time := getPingInterval()
-
-	*parts = append(*parts, fmt.Sprintf(" %v", time))
+func networkPing(parts *[]string, networkTime string) {
+	*parts = append(*parts, fmt.Sprintf(" %v", networkTimeMs))
 }
 
 func volume(parts *[]string, res json.RawMessage) {

@@ -110,3 +110,5 @@ cask "ghostty"
 cask "qutebrowser"
 cask "wezterm"
 cask "gimp"
+
+cask "font-jetbrains-mono-nerd-font"

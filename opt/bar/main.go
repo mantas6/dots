@@ -9,6 +9,7 @@ func main() {
 	parts := new([]string)
 
 	metrics := getFastfetchData()
+	networkTime := getNetworkTime()
 
 	for _, m := range metrics {
 		res := m.Result
@@ -37,7 +38,7 @@ func main() {
 		}
 	}
 
-	networkPing(parts)
+	networkPing(parts, networkTime)
 	clock(parts)
 
 	fmt.Println(strings.Join(*parts, " "))

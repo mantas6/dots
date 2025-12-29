@@ -25,8 +25,8 @@ sketchybar --bar position=top height=28 \
 default=(
   padding_left=5
   padding_right=5
-  icon.font="AnonymicePro Nerd Font:Bold:17.0"
-  label.font="AnonymicePro Nerd Font:Bold:17.0"
+  icon.font="JetBrains Mono Nerd:Bold:17.0"
+  label.font="JetBrains Mono Nerd:Bold:17.0"
   icon.color=0xffffffff
   label.color=0xffffffff
   icon.padding_left=4
@@ -53,7 +53,7 @@ for sid in $(aerospace list-workspaces --all); do
 done
 
 sketchybar --add item bar right \
-           --set bar update_freq=3 script="$PLUGIN_DIR/bar"
+           --set bar update_freq=2 script="$PLUGIN_DIR/bar"
 
 sketchybar --hotload true
 
