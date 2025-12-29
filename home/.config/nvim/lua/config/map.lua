@@ -38,7 +38,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<leader>br', vim.lsp.buf.rename, { buffer = args.buf })
     vim.keymap.set('n', '<leader>bn', vim.lsp.buf.code_action, { buffer = args.buf })
 
-    vim.keymap.set('n', '<leader>bp', function()
+    local function format_buffer()
       vim.lsp.buf.format({
         filter = function(client)
           if ft == 'php' then
@@ -49,7 +49,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
         end,
         bufnr = args.buf,
       });
-    end, { buffer = args.buf })
+    end
+
+    vim.keymap.set('n', '<leader>bp', format_buffer, { buffer = args.buf })
+    vim.keymap.set('n', '<leader>f', format_buffer, { buffer = args.buf })
   end,
 })
 
