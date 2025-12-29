@@ -200,6 +200,31 @@ func networkIO(parts *[]string, res json.RawMessage) {
 	}
 }
 
+func diskIO(parts *[]string, res json.RawMessage) {
+	var raw []json.RawMessage
+	if err := json.Unmarshal(res, &raw); err != nil {
+		return
+	}
+
+	for _, dev := range raw {
+		var p DiskIOResult
+		if err := json.Unmarshal(dev, &p); err != nil {
+			continue
+		}
+
+		icon := ""
+		bytes := p.BytesRead
+
+		if p.BytesWritten > p.BytesRead {
+			icon = ""
+			bytes = p.BytesWritten
+		}
+
+		*parts = append(*parts, fmt.Sprintf("%s %vM", icon, bytes / 1024 / 1024))
+		return
+	}
+}
+
 func volume(parts *[]string, res json.RawMessage) {
 	var raw []json.RawMessage
 	if err := json.Unmarshal(res, &raw); err != nil {

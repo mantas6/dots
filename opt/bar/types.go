@@ -63,3 +63,7 @@ type NetworkIOResult struct {
 	RxBytes      int64 `json:"rxBytes"`
 }
 
+type DiskIOResult struct {
+	BytesRead    int64 `json:"bytesRead"`
+	BytesWritten int64 `json:"bytesWritten"`
+}

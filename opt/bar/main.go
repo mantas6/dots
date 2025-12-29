@@ -47,6 +47,8 @@ func main() {
 			swapUsage(parts, res)
 		case "NetIO":
 			networkIO(parts, res)
+		case "DiskIO":
+			diskIO(parts, res)
 		}
 	}
 

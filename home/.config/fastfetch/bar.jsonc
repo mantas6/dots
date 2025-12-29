@@ -6,13 +6,13 @@
         "memory",
         "swap",
         "disk",
+        "diskio",
         "cpuusage",
         {
             "type": "cpu",
             "showPeCoreCount": true,
             "temp": true
         },
-        // "diskio",
         "battery",
         "bluetooth",
         "sound",
