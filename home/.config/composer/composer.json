@@ -1,5 +1,9 @@
 {
+    "$schema": "https://getcomposer.org/schema.json",
     "name": "mantas/dots",
+    "version": "1.0.0",
+    "description": "Dotfiles",
+    "license": "MIT",
     "require": {
         "nikic/php-parser": "^5.7",
         "illuminate/support": "^12.43",
@@ -8,5 +12,9 @@
         "symfony/http-client": "^8.0",
         "symfony/css-selector": "^8.0",
         "laravel/pint": "^1.26"
+    },
+    "config": {
+        "use-parent-dir": true,
+        "store-auths": true
     }
 }
