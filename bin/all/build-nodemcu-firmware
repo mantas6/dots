@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+# https://hub.docker.com/r/marcelstoer/nodemcu-build/
 
 set -e
 
