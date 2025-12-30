@@ -7,10 +7,10 @@ url="$(sat-base-url)"/api/journals/articles
 current="$1"
 
 if [ -f "$current"/id ]; then
-	method=PUT
-	url="$url/$(<"$current/id")"
+    method=PUT
+    url="$url/$(<"$current/id")"
 else
-	method=POST
+    method=POST
 fi
 
 cp "$current"/contents.md "$(mktemp -p "$current" 'XXXXXXX.md')"
@@ -19,12 +19,12 @@ markdown=$(<"$current"/contents.md)
 json=$(jq -n --arg k "contents" --arg v "$markdown" '{$k: $v}')
 
 response=$(
-	curl -sSfX "$method" \
-		-H "$(sat-auth-header)" \
-		-H 'Content-Type: application/json' \
-		-H 'Accept: application/json' \
-		-d "$json" \
-		"$url"
+    curl -sSfX "$method" \
+        -H "$(sat-auth-header)" \
+        -H 'Content-Type: application/json' \
+        -H 'Accept: application/json' \
+        -d "$json" \
+        "$url"
 )
 
 rm -f "$state/list"

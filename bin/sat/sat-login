@@ -7,8 +7,8 @@ state=$(sat-state-dir)
 [ ! -d "$state" ] && mkdir -pv "$state"
 
 if [ ! -f "$state/url" ]; then
-	base_url=$(gum input --placeholder 'Base url' --no-show-help)
-	echo "$base_url" >"$state/url"
+    base_url=$(gum input --placeholder 'Base url' --no-show-help)
+    echo "$base_url" >"$state/url"
 fi
 
 [ -f "$state/token" ] && gum log --level warn 'Token is already defined'

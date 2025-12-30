@@ -3,8 +3,8 @@
 state=$(sat-state-dir)
 
 if [ ! -f "$state/token" ]; then
-	echo 'Error: Token is not configured' >&2
-	exit 1
+    echo 'Error: Token is not configured' >&2
+    exit 1
 fi
 
 token=$(<"$state/token")

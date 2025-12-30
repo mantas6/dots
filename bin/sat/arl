@@ -6,15 +6,15 @@ baseurl="$(sat-base-url)"/api/journals/articles
 state=$(sat-state-dir)
 
 options=$(curl -sSfH "$(sat-auth-header)" "$baseurl" |
-	jq -r 'map((.id | tostring) + "\t" + .title + "\t" + (.word_count | tostring) + "w\t" + .created_at + "\t" + .journal.title) | .[]')
+    jq -r 'map((.id | tostring) + "\t" + .title + "\t" + (.word_count | tostring) + "w\t" + .created_at + "\t" + .journal.title) | .[]')
 
 options="$options$(printf '\n0\tNew')"
 
 id=$(echo "$options" |
-	tac |
-	column -ts $'\t' |
-	fzf --delimiter="\t" |
-	awk '{print $1}')
+    tac |
+    column -ts $'\t' |
+    fzf --delimiter="\t" |
+    awk '{print $1}')
 
 mkdir -p "$state/tmp"
 
@@ -22,14 +22,16 @@ current=$(mktemp -dp "$state/tmp" 'XXXXXXXXXX')
 file="$current"/contents.md
 
 if [ "$id" != 0 ]; then
-	contents=$(curl -sSfH "$(sat-auth-header)" "$baseurl/$id" | jq -r '.contents')
+    contents=$(curl -sSfH "$(sat-auth-header)" "$baseurl/$id" | jq -r '.contents')
 
-	echo "$id" >"$current"/id
-	echo "$contents" >"$file"
+    echo "$id" >"$current"/id
+    echo "$contents" >"$file"
 fi
 
 nvim -c "set nospell | autocmd BufWritePost * !bash -c 'arw $current'" "$file"
 
 if [ -f "$file" ] && [ "$id" = 0 ]; then
-	ara "$(<"$current/id")"
+    ara "$(<"$current/id")"
 fi
+
+find "$state/tmp" -mtime +30 -print

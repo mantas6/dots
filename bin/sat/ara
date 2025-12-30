@@ -10,13 +10,13 @@ id="$1"
 journals_filename="$state/journals"
 
 if [ ! -f "$journals_filename" ]; then
-	journals=$(
-		curl -sSf \
-			-H "$(sat-auth-header)" \
-			"$(sat-base-url)/api/journals"
-	)
+    journals=$(
+        curl -sSf \
+            -H "$(sat-auth-header)" \
+            "$(sat-base-url)/api/journals"
+    )
 
-	echo "$journals" | jq -r 'map(.title) | .[]' >"$journals_filename"
+    echo "$journals" | jq -r 'map(.title) | .[]' >"$journals_filename"
 fi
 
 journal="$(fzf <"$journals_filename")"
@@ -24,8 +24,8 @@ journal="$(fzf <"$journals_filename")"
 json=$(jq -n --arg k "journal" --arg v "$journal" '{$k: $v}')
 
 curl -sSfX 'PUT' \
-	-H "$(sat-auth-header)" \
-	-H 'Content-Type: application/json' \
-	-H 'Accept: application/json' \
-	-d "$json" \
-	"$baseurl/$id" >/dev/null
+    -H "$(sat-auth-header)" \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d "$json" \
+    "$baseurl/$id" >/dev/null

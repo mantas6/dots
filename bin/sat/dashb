@@ -9,27 +9,27 @@ text=''
 exit_code=0
 
 while true; do
-	received=$(
-		curl -sSf \
-			-H "$(sat-auth-header)" \
-			"$(sat-base-url)/api/dash" \
-			2>/dev/null
-	)
+    received=$(
+        curl -sSf \
+            -H "$(sat-auth-header)" \
+            "$(sat-base-url)/api/dash" \
+            2>/dev/null
+    )
 
-	exit_code=$?
+    exit_code=$?
 
-	checksum=$(echo "$received" | md5sum)
+    checksum=$(echo "$received" | md5sum)
 
-	if [ "$checksum" != "$last_checksum" ]; then
-		[ -n "$received" ] && text="$received"
+    if [ "$checksum" != "$last_checksum" ]; then
+        [ -n "$received" ] && text="$received"
 
-		clear
-		echo "$text"
+        clear
+        echo "$text"
 
-		[ "$exit_code" != 0 ] && echo -e '\e[41;97m <!> \e[0m'
+        [ "$exit_code" != 0 ] && echo -e '\e[41;97m <!> \e[0m'
 
-		last_checksum="$checksum"
-	fi
+        last_checksum="$checksum"
+    fi
 
-	([ "$timeout" != 0 ] && sleep "$timeout") || exit 0
+    ([ "$timeout" != 0 ] && sleep "$timeout") || exit 0
 done

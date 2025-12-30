@@ -6,9 +6,9 @@ message="$1"
 expire='+2 days'
 
 curl -fsSLX POST \
-	-d "message=$message" \
-	-d "expire=$expire" \
-	-H "$(sat-auth-header)" \
-	"$(sat-base-url)/api/notify"
+    -d "message=$message" \
+    -d "expire=$expire" \
+    -H "$(sat-auth-header)" \
+    "$(sat-base-url)/api/notify"
 
 exit 0
