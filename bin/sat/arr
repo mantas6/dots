@@ -6,23 +6,23 @@ baseurl="$(sat-base-url)"/api/journals/articles
 state=$(sat-state-dir)
 
 if [ ! -f "$state/list" ]; then
-    echo 'Fetching articles list...'
+	echo 'Fetching articles list...'
 
-    options=$(curl -sSf "$baseurl?all=1" \
-        -H "$(sat-auth-header)" \
-        -H 'Content-Type: application/json' \
-        | jq -r 'map((.id | tostring) + "\t" + .title + "\t" + (.word_count | tostring) + "w\t" + .created_at + "\t" + .journal.title) | .[]')
+	options=$(curl -sSf "$baseurl?all=1" \
+		-H "$(sat-auth-header)" \
+		-H 'Content-Type: application/json' |
+		jq -r 'map((.id | tostring) + "\t" + .title + "\t" + (.word_count | tostring) + "w\t" + .created_at + "\t" + .journal.title) | .[]')
 
-    echo "$options" > "$state/list"
+	echo "$options" >"$state/list"
 else
-    options=$(<"$state/list")
+	options=$(<"$state/list")
 fi
 
-id=$(echo "$options" \
-    | tac \
-    | column -ts $'\t' \
-    | fzf  --delimiter="\t" \
-    | awk '{print $1}')
+id=$(echo "$options" |
+	tac |
+	column -ts $'\t' |
+	fzf --delimiter="\t" |
+	awk '{print $1}')
 
 contents=$(curl -sSfH "$(sat-auth-header)" "$baseurl/$id" | jq -r '.contents')
 

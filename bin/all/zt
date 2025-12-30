@@ -8,11 +8,11 @@ dirs=()
 
 # Loop until the root directory is reached
 while [ "$dir" != "/" ]; do
-    # Check if the .zt file exists in the current directory
-    [ -f "$dir/.zt" ] && dirs+=("$dir")
+	# Check if the .zt file exists in the current directory
+	[ -f "$dir/.zt" ] && dirs+=("$dir")
 
-    # Move to the parent directory
-    dir=$(dirname "$dir")
+	# Move to the parent directory
+	dir=$(dirname "$dir")
 done
 
 [ -z "${dirs[0]}" ] && exit 1
@@ -20,25 +20,25 @@ done
 [ -z "$1" ] && echo "builtin cd -- ${dirs[0]}" && exit 0
 
 case "$1" in
-    '-r')
-        echo "builtin cd -- ${dirs[-1]}"
-        ;;
-    '-i')
-        paths=$(find "${dirs[-1]}" -type f -name '.zt')
+'-r')
+	echo "builtin cd -- ${dirs[-1]}"
+	;;
+'-i')
+	paths=$(find "${dirs[-1]}" -type f -name '.zt')
 
-        options=''
+	options=''
 
-        for path in $paths; do
-            contents=$(cat "$path")
-            base=$(basename "$(dirname "$path")")
-            contents="${contents//\{\}/$base}"
-            options+="$base: $contents"$'\n'
-        done
+	for path in $paths; do
+		contents=$(cat "$path")
+		base=$(basename "$(dirname "$path")")
+		contents="${contents//\{\}/$base}"
+		options+="$base: $contents"$'\n'
+	done
 
-        echo "$options" | fzf
-        ;;
-    *)
-        echo "Usage: $0 {start|stop|restart}"
-        exit 1
-        ;;
+	echo "$options" | fzf
+	;;
+*)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+	;;
 esac

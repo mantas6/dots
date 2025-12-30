@@ -5,29 +5,29 @@ set -eo 'pipefail'
 module="$1"
 
 case "$module" in
-    cpu)
-        value=$(fastfetch -s cpuusage --format json  | jq '.[0].result[]' | awk '{sum+=$1} END { print int(sum/NR)}')
-        echo "$value"%
-        ;;
-    frequency)
-        min=$(grep MHz /proc/cpuinfo | sed 's/.* //' | awk '{sum += $1} END {if (NR > 0) printf "%.1f", sum / NR / 1000}')
-        max=$(grep MHz /proc/cpuinfo | sed 's/.* //' | sort -rn | awk 'NR==1 {printf "%.1f", $1 / 1000}')
-        echo "$min"G/"$max"G
-        ;;
-    temperature)
-        value=$(fastfetch -s CPU --cpu-temp --format json | jq -r '.[0].result.temperature' | cut -d. -f1)
-        echo "$value"C
-        ;;
-    memory)
-        free -h | awk '/Mem:/ {print $3}'
-        ;;
-    ping)
-        ping -c 1 google.com | grep 'time=' | awk -F 'time=' '/time=/{printf("%dms\n", $2)}'
-        ;;
-    disk)
-        df -h --output=pcent / | sed -n '2p' | awk '{$1=$1; print}'
-        ;;
-    *)
-        exit 1
-        ;;
+cpu)
+	value=$(fastfetch -s cpuusage --format json | jq '.[0].result[]' | awk '{sum+=$1} END { print int(sum/NR)}')
+	echo "$value"%
+	;;
+frequency)
+	min=$(grep MHz /proc/cpuinfo | sed 's/.* //' | awk '{sum += $1} END {if (NR > 0) printf "%.1f", sum / NR / 1000}')
+	max=$(grep MHz /proc/cpuinfo | sed 's/.* //' | sort -rn | awk 'NR==1 {printf "%.1f", $1 / 1000}')
+	echo "$min"G/"$max"G
+	;;
+temperature)
+	value=$(fastfetch -s CPU --cpu-temp --format json | jq -r '.[0].result.temperature' | cut -d. -f1)
+	echo "$value"C
+	;;
+memory)
+	free -h | awk '/Mem:/ {print $3}'
+	;;
+ping)
+	ping -c 1 google.com | grep 'time=' | awk -F 'time=' '/time=/{printf("%dms\n", $2)}'
+	;;
+disk)
+	df -h --output=pcent / | sed -n '2p' | awk '{$1=$1; print}'
+	;;
+*)
+	exit 1
+	;;
 esac

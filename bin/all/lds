@@ -11,6 +11,6 @@ git fetch --all
 git branch -a | sed 's/* //' | awk '{$1=$1};1' | sed 's#remotes/[^/]*/##' | fzf | xargs git checkout
 
 file=$(mktemp --suffix=.md)
-cat ./* > "$file"
+cat ./* >"$file"
 
 nvim -R "$file"

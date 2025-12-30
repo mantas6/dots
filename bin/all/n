@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 if [ $# -eq 0 ]; then
-    "$EDITOR" .
+	"$EDITOR" .
 else
-    "$EDITOR" "$@"
+	"$EDITOR" "$@"
 fi

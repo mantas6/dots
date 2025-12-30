@@ -6,14 +6,14 @@ set -e
 remote=$(git config --get remote.origin.url)
 #
 if [[ "$remote" =~ ^git@([^:]+):(.+)\.git$ ]]; then
-  host="${BASH_REMATCH[1]}"
-  repo="${BASH_REMATCH[2]}"
-  url="https://$host/$repo"
+	host="${BASH_REMATCH[1]}"
+	repo="${BASH_REMATCH[2]}"
+	url="https://$host/$repo"
 elif [[ "$remote" =~ ^https?:// ]]; then
-  url="${remote%.git}"
+	url="${remote%.git}"
 else
-  echo "Unsupported remote URL format: $remote"
-  exit 1
+	echo "Unsupported remote URL format: $remote"
+	exit 1
 fi
 
 open-url "$url"

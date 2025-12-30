@@ -20,9 +20,9 @@ matches=$(echo "$file_output" | grep 'charset=binary' | grep -v 'inode/x-empty')
 set -e
 
 if [ -n "$matches" ]; then
-    gum log --level=error 'Binary files detected'
-    echo "$matches"
-    exit 1
+	gum log --level=error 'Binary files detected'
+	echo "$matches"
+	exit 1
 fi
 
 gum log --level=info 'No binary files detected'

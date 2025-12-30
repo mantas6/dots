@@ -4,19 +4,19 @@ input="$HOME/Pictures/Nostalgia/Originals"
 output="$HOME/Pictures/Nostalgia/Site"
 
 docker run -t \
-    -v /etc/localtime:/etc/localtime \
-    -v "$input:/mnt/input:ro" \
-    -v "$output:/mnt/output" \
-    ghcr.io/thumbsup/thumbsup:2.18.0 \
-    thumbsup \
-    --input '/mnt/input' --output '/mnt/output' \
-    --albums-from "{YYYY}" \
-    --albums-from "Months/{YYYY}-{MM}" \
-    --albums-from "Days/{YYYY}-{MM}-{DD}" \
-    --sort-albums-direction desc \
-    --sort-media-direction desc \
-    --thumb-size 240 \
-    --large-size 1512 \
-    --embed-exif \
-    --photo-download link \
-    --link-prefix "http://$(uname -n):8078/"
+	-v /etc/localtime:/etc/localtime \
+	-v "$input:/mnt/input:ro" \
+	-v "$output:/mnt/output" \
+	ghcr.io/thumbsup/thumbsup:2.18.0 \
+	thumbsup \
+	--input '/mnt/input' --output '/mnt/output' \
+	--albums-from "{YYYY}" \
+	--albums-from "Months/{YYYY}-{MM}" \
+	--albums-from "Days/{YYYY}-{MM}-{DD}" \
+	--sort-albums-direction desc \
+	--sort-media-direction desc \
+	--thumb-size 240 \
+	--large-size 1512 \
+	--embed-exif \
+	--photo-download link \
+	--link-prefix "http://$(uname -n):8078/"

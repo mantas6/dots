@@ -3,14 +3,14 @@
 filename="/$(uname -n)_$(date +%y%m%d%H%M).tar.gz"
 
 sudo tar czf "$filename" \
-    --exclude="$filename" \
-    --exclude=/dev \
-    --exclude=/mnt \
-    --exclude=/proc \
-    --exclude=/sys \
-    --exclude=/tmp \
-    --exclude=/media \
-    --exclude=/lost+found \
-    --exclude=/run \
-    --exclude=/swapfile \
-    /
+	--exclude="$filename" \
+	--exclude=/dev \
+	--exclude=/mnt \
+	--exclude=/proc \
+	--exclude=/sys \
+	--exclude=/tmp \
+	--exclude=/media \
+	--exclude=/lost+found \
+	--exclude=/run \
+	--exclude=/swapfile \
+	/

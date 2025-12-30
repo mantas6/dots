@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-gh api user/starred --cache 48h --paginate --jq '.[] | "\(.full_name):\(.description)"' \
-    | column -ts ':' \
-    | fzf -e -i \
-    | cut -d' ' -f1 \
-    | xargs -I {} open-url github.com/{}
+gh api user/starred --cache 48h --paginate --jq '.[] | "\(.full_name):\(.description)"' |
+	column -ts ':' |
+	fzf -e -i |
+	cut -d' ' -f1 |
+	xargs -I {} open-url github.com/{}

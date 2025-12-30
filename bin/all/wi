@@ -2,13 +2,13 @@
 # Interactively rerun cmds
 
 while true; do
-    gum confirm --no-show-help --affirmative 'Run' --negative 'Exit' "Run $*" || exit 0
+	gum confirm --no-show-help --affirmative 'Run' --negative 'Exit' "Run $*" || exit 0
 
-    "$@"
+	"$@"
 
-    level=info
-    exit_code=$?
-    [ $exit_code != 0 ] && level=error
+	level=info
+	exit_code=$?
+	[ $exit_code != 0 ] && level=error
 
-    gum log --level "$level" --time TimeOnly "Exited $exit_code"
+	gum log --level "$level" --time TimeOnly "Exited $exit_code"
 done

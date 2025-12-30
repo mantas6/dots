@@ -7,35 +7,35 @@ count=''
 dev_type="part"
 
 while getopts 'n:d:' opt; do
-  case ${opt} in
-    n) 
-        count="${OPTARG}"
-        ;;
-    d) 
-        dev_type="${OPTARG}"
-        ;;
-    ?)
-      echo "Invalid option: -${OPTARG}."
-      exit 1
-      ;;
-  esac
+	case ${opt} in
+	n)
+		count="${OPTARG}"
+		;;
+	d)
+		dev_type="${OPTARG}"
+		;;
+	?)
+		echo "Invalid option: -${OPTARG}."
+		exit 1
+		;;
+	esac
 done
 
 stdbuf -oL -- udevadm monitor --udev -s block | while read -r -- _ _ event devpath _; do
-    if [ "$event" = add ]; then
-        devname=$(udevadm info -p /sys/"$devpath" | awk -v FS== '/DEVNAME/ {print $2}')
+	if [ "$event" = add ]; then
+		devname=$(udevadm info -p /sys/"$devpath" | awk -v FS== '/DEVNAME/ {print $2}')
 
-        if lsblk -o PATH,TYPE | grep "$dev_type" | grep -q "$devname "; then
-            echo "$devname"
+		if lsblk -o PATH,TYPE | grep "$dev_type" | grep -q "$devname "; then
+			echo "$devname"
 
-            if [ -n "$count" ]; then
-                count=$((count-1))
+			if [ -n "$count" ]; then
+				count=$((count - 1))
 
-                if [ "$count" = 0 ]; then
-                    pkill -P $$ udevadm
-                    exit 0
-                fi
-            fi
-        fi
-    fi
+				if [ "$count" = 0 ]; then
+					pkill -P $$ udevadm
+					exit 0
+				fi
+			fi
+		fi
+	fi
 done

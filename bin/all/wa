@@ -7,11 +7,11 @@ interval="$1"
 shift
 
 while true; do
-    output=$("$@")
+	output=$("$@")
 
-    level=info
-    [ $? != 0 ] && level=error
+	level=info
+	[ $? != 0 ] && level=error
 
-    gum log --level "$level" --time TimeOnly "$output"
-    sleep "$interval"
+	gum log --level "$level" --time TimeOnly "$output"
+	sleep "$interval"
 done

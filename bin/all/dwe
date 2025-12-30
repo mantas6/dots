@@ -7,7 +7,7 @@ port=$(docker compose ps --format json | jq -r '.Publishers | add | .PublishedPo
 url="http://localhost:$port"
 
 if [ -x "$(command -v xdg-open)" ]; then
-    xdg-open "$url"
+	xdg-open "$url"
 else
-    open "$url"
+	open "$url"
 fi

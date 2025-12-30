@@ -1,23 +1,23 @@
 #!/usr/bin/env bash
 
 fn-first() {
-    echo 'Running first'
+	echo 'Running first'
 }
 
 fn-second() {
-    echo 'Running second'
+	echo 'Running second'
 }
 
 fn-third() {
-    echo 'Running third'
+	echo 'Running third'
 }
 
 fn-init() {
-    fn-first
-    fn-second
-    fn-third
+	fn-first
+	fn-second
+	fn-third
 }
 
 for arg in "$@"; do
-    "fn-$arg" || exit 1
+	"fn-$arg" || exit 1
 done

@@ -1,15 +1,14 @@
 #!/usr/bin/env sh
 # Automatically suspend if screen is off
 
-while :
-do
-    sleep 60
+while :; do
+	sleep 60
 
-    [ -f "$XDG_STATE_HOME/.inhibit-suspend" ] && continue
+	[ -f "$XDG_STATE_HOME/.inhibit-suspend" ] && continue
 
-    [ "$(playerctl status)" = 'Playing' ] && continue
+	[ "$(playerctl status)" = 'Playing' ] && continue
 
-    [ "$(xssstate -s)" != 'on' ] && continue
+	[ "$(xssstate -s)" != 'on' ] && continue
 
-    systemctl suspend
+	systemctl suspend
 done

@@ -9,22 +9,22 @@ host="$REMOTE_USER@$REMOTE_HOST"
 echo "Host: $host"
 
 if [ -z "$1" ]; then
-    files=()
+	files=()
 
-    for file in $(git diff --cached --name-only); do
-        files+=("$file")
-    done
+	for file in $(git diff --cached --name-only); do
+		files+=("$file")
+	done
 else
-    files=("$@")
+	files=("$@")
 fi
 
 if [ ${#files[@]} -eq 0 ]; then
-    echo 'E: No files to transfer'>&2
-    exit 1
+	echo 'E: No files to transfer' >&2
+	exit 1
 fi
 
 rsync -RPrzcav --keep-dirlinks "${files[@]}" "$host:$REMOTE_ROOT"
 
 if [ -f artisan ]; then
-    ssh "$host" "(cd '$REMOTE_ROOT' && php cachetool.phar opcache:reset --cli; php artisan horizon:terminate; php artisan optimize)"
+	ssh "$host" "(cd '$REMOTE_ROOT' && php cachetool.phar opcache:reset --cli; php artisan horizon:terminate; php artisan optimize)"
 fi

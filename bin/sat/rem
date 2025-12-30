@@ -4,12 +4,15 @@ quoted=()
 
 # Loop through the arguments array and add quotes around each argument
 for arg in "$@"; do
-    quoted+=("\"$arg\"")
+	quoted+=("\"$arg\"")
 done
 
 # Join the quoted arguments into a single string
-args=$(IFS=" "; echo "${quoted[*]}")
+args=$(
+	IFS=" "
+	echo "${quoted[*]}"
+)
 
 curl -sSfLX POST \
-    -H "$(sat-auth-header)" \
-    "$(sat-base-url)/api/rem" -d "args=$args --ansi"
+	-H "$(sat-auth-header)" \
+	"$(sat-base-url)/api/rem" -d "args=$args --ansi"

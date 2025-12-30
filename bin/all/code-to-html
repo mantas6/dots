@@ -7,8 +7,8 @@ input_file="$1"
 output_file="$input_file.html"
 
 if [ -f "$output_file" ]; then
-    echo "File exists $output_file" >&2
-    exit 1
+	echo "File exists $output_file" >&2
+	exit 1
 fi
 
 nvim -c "TOhtml | write $output_file | qa" "$input_file"

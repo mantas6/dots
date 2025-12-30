@@ -8,13 +8,13 @@ upper=65
 lower=45
 
 set-limit() {
-    echo "Setting thresholds ($lower-$upper) for $1"
-    echo "$upper" > "$1/charge_stop_threshold"
-    echo "$lower" > "$1/charge_start_threshold"
+	echo "Setting thresholds ($lower-$upper) for $1"
+	echo "$upper" >"$1/charge_stop_threshold"
+	echo "$lower" >"$1/charge_start_threshold"
 }
 
 show-usage() {
-    cat << EOF
+	cat <<EOF
 Usage: battery-limit [ACTION] [MIN-THRESHOLD?] [MAX-THRESHOLD?]
 
 Options:
@@ -24,16 +24,24 @@ Options:
     -s, --set      set custom charging preset, threshold need to be specified with MIN-THRESHOLD and MAX-THRESHOLD
 EOF
 
-    exit 0
+	exit 0
 }
 
 case "$1" in
-    -r | --reset) upper=100; lower=0;;
-    -w | --wide) upper=80; lower=50;;
-    -s | --set) upper=$3; lower=$2;;
-    -h | --help) show-usage;;
+-r | --reset)
+	upper=100
+	lower=0
+	;;
+-w | --wide)
+	upper=80
+	lower=50
+	;;
+-s | --set)
+	upper=$3
+	lower=$2
+	;;
+-h | --help) show-usage ;;
 esac
-
 
 [ -d "$bat0" ] && set-limit "$bat0"
 [ -d "$bat1" ] && set-limit "$bat1"

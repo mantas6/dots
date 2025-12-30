@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-if docker compose ps > /dev/null 2>&1; then
-    exec de composer "$@"
+if docker compose ps >/dev/null 2>&1; then
+	exec de composer "$@"
 else
-    exec composer "$@"
+	exec composer "$@"
 fi

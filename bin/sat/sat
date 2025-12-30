@@ -6,8 +6,7 @@ name=$(echo "$base" | cut -d'.' -f2,3)
 args=''
 
 if [ $# != 0 ]; then
-    args=$(printf "'%s' " "$@")
+	args=$(printf "'%s' " "$@")
 fi
-
 
 ssh -o LogLevel=QUIET -tt "$name" "cd /home/mantas/$base/current && php artisan $args"
