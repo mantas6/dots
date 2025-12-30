@@ -25,7 +25,7 @@ func cpuUsage(parts *[]string, res json.RawMessage) {
 	}
 
 	avg := sum / float64(len(usages))
-	*parts = append(*parts, fmt.Sprintf(" %2.0f%%/%2.0f%%", avg, max))
+	*parts = append(*parts, fmt.Sprintf(" %02.0f%%|%02.0f%%", avg, max))
 }
 
 func cpuTemp(parts *[]string, res json.RawMessage) {
