@@ -40,13 +40,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     local function format_buffer()
       vim.lsp.buf.format({
-        filter = function(client)
-          if ft == 'php' then
-            return client.name == 'null-ls'
-          else
-            return true
-          end
-        end,
+        -- filter = function(client)
+        --   if ft == 'php' then
+        --     return client.name == 'null-ls'
+        --   else
+        --     return true
+        --   end
+        -- end,
         bufnr = args.buf,
       });
     end
