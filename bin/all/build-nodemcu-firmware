@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+
+set -e
+
+repo_dir='nodemcu-firmware'
+cd "$HOME/Repos"
+
+docker pull marcelstoer/nodemcu-build
+npm install nodemcu-tool -g
+
+if [ ! -d "$repo_dir" ]; then
+    git clone --recurse-submodules https://github.com/nodemcu/nodemcu-firmware.git "$repo_dir"
+    echo 'Add configuration and run this script again'
+    exit 0
+fi
+
+cd "$repo_dir"
+
+docker run --rm -ti -v "$(pwd)":/opt/nodemcu-firmware marcelstoer/nodemcu-build build
+
+# git checkout dev-esp32
+# git submodule update --recursive
+
+# docker run --rm -ti -v "$(pwd)":/opt/nodemcu-firmware marcelstoer/nodemcu-build configure-esp32
