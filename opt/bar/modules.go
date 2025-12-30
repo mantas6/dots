@@ -220,7 +220,7 @@ func diskIO(parts *[]string, res json.RawMessage) {
 			bytes = p.BytesWritten
 		}
 
-		*parts = append(*parts, fmt.Sprintf("%s %vM", icon, bytes / 1024 / 1024))
+		*parts = append(*parts, fmt.Sprintf("%s %vM", icon, bytes/1024/1024))
 		return
 	}
 }
@@ -263,6 +263,18 @@ func bluetoothBattery(parts *[]string, res json.RawMessage) {
 		}
 
 		*parts = append(*parts, fmt.Sprintf("󰂳 %v%%", p.Battery))
+		return
+	}
+}
+
+func dns(parts *[]string, res json.RawMessage) {
+	var addresses []string
+	if err := json.Unmarshal(res, &addresses); err != nil {
+		return
+	}
+
+	for _, address := range addresses {
+		*parts = append(*parts, fmt.Sprintf("󰒍 %v", address))
 		return
 	}
 }

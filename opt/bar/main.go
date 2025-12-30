@@ -49,6 +49,8 @@ func main() {
 			networkIO(parts, res)
 		case "DiskIO":
 			diskIO(parts, res)
+		case "DNS":
+			dns(parts, res)
 		}
 	}
 
