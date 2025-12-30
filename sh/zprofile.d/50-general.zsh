@@ -58,6 +58,7 @@ export PATH="$PATH:$HOME/.local/sbin"
 [ -x "$(command -v npm)" ] && PATH="$(npm config get prefix)/bin:$PATH"
 
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
+[ -d "$HOME/Repos/private/bin" ] && export PATH="$HOME/Repos/private/bin:$PATH"
 
 export COMPOSER_HOME="$HOME/.config/composer"
 [ -d "$HOME/.config/composer/vendor/bin" ] && export PATH="$COMPOSER_HOME/vendor/bin:$PATH"
