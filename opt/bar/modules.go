@@ -212,11 +212,11 @@ func diskIO(parts *[]string, res json.RawMessage) {
 			continue
 		}
 
-		icon := ""
+		icon := "󰪩"
 		bytes := p.BytesRead
 
 		if p.BytesWritten > p.BytesRead {
-			icon = ""
+			icon = "󰮆"
 			bytes = p.BytesWritten
 		}
 
