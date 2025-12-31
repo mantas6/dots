@@ -15,10 +15,20 @@ vim.o.expandtab = true
 vim.o.undofile = true
 vim.o.swapfile = false
 
-vim.opt.hlsearch = false
-vim.opt.ignorecase = true
+vim.o.hlsearch = false
+vim.o.ignorecase = true
+vim.o.smartcase = true
+-- vim.o.inccommand = 'split'
 
-vim.api.nvim_set_option("clipboard", "unnamedplus")
+vim.schedule(function()
+  vim.o.clipboard = 'unnamedplus'
+end)
+
+vim.o.updatetime = 250
+vim.o.timeoutlen = 300
+
+vim.o.list = true
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 vim.opt.spell = true
 vim.opt.spelllang = 'en'
