@@ -11,9 +11,15 @@ return {
         stop_after_first = false,
       },
       formatters_by_ft = {
-        php = { 'pint' },
+        php = { 'php-fmt-ns', 'pint' },
         sh = { 'shfmt' },
         bash = { 'shfmt' },
+      },
+      formatters = {
+        ['php-fmt-ns'] = {
+          command = 'php-fmt-ns',
+          args = { '--stdin', '$FILENAME' },
+        },
       },
     })
   end,
