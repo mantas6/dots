@@ -15,36 +15,53 @@ use PhpParser\PrettyPrinter\Standard;
 
 $prog = new class
 {
-    protected Parser $parser;
+    private Parser $parser;
 
-    protected Standard $printer;
+    private Standard $printer;
 
-    protected array $autoloadPaths = [];
+    private array $autoloadPaths = [];
 
-    protected string $basePath;
+    private string $basePath;
 
-    /**
-     * Execute the console command.
-     */
-    public function handle(array $paths)
+    public function __construct()
     {
         $this->parser = (new ParserFactory)->createForNewestSupportedVersion();
         $this->printer = new Standard;
+    }
 
+    public function processFilePaths(array $paths): void
+    {
         foreach ($paths as $path) {
             $fullPath = realpath($path);
+            $this->setupPaths($fullPath);
 
-            $this->basePath = $this->resolveBasePath($fullPath);
-            $this->autoloadPaths = $this->readAutoloadPaths();
+            $code = file_get_contents($fullPath);
 
-            $this->formatFile($fullPath);
+            $code = $this->format($code, $fullPath);
+
+            file_put_contents($fullPath, $code);
         }
     }
 
-    protected function formatFile(string $filePath): void
+    public function processStdin(string $path): void
     {
-        $code = file_get_contents($filePath);
+        $fullPath = realpath($path);
+        $this->setupPaths($fullPath);
 
+        $code = stream_get_contents(STDIN);
+        $code = $this->format($code, $fullPath);
+
+        echo $code;
+    }
+
+    private function setupPaths(string $fullPath): void
+    {
+        $this->basePath = $this->resolveBasePath($fullPath);
+        $this->autoloadPaths = $this->readAutoloadPaths();
+    }
+
+    private function format(string $code, string $filePath): string
+    {
         if (trim($code) === '') {
             $code = file_get_contents(getenv('DOTS_DIR').'/etc/stubs/PhpClass.stub');
         }
@@ -59,12 +76,10 @@ $prog = new class
 
         $this->formatAst($ast, $relativePath);
 
-        $newCode = $this->printer->printFormatPreserving($ast, $originalAst, $originalTokens);
-
-        file_put_contents($filePath, $newCode);
+        return $this->printer->printFormatPreserving($ast, $originalAst, $originalTokens);
     }
 
-    protected function formatAst(array $ast, string $relativePath): void
+    private function formatAst(array $ast, string $relativePath): void
     {
         foreach ($ast as $item) {
             if ($item instanceof Namespace_) {
@@ -84,7 +99,7 @@ $prog = new class
         }
     }
 
-    protected function convertPathToNamespace(string $relativePath): string
+    private function convertPathToNamespace(string $relativePath): string
     {
         $str = str($relativePath);
 
@@ -98,7 +113,7 @@ $prog = new class
             ->value();
     }
 
-    protected function readAutoloadPaths(): array
+    private function readAutoloadPaths(): array
     {
         $composer = json_decode(
             file_get_contents($this->basePath.'/composer.json'),
@@ -111,7 +126,7 @@ $prog = new class
         ];
     }
 
-    protected function resolveBasePath(string $path): string
+    private function resolveBasePath(string $path): string
     {
         if (file_exists("$path/composer.json")) {
             return $path;
@@ -127,7 +142,12 @@ $prog = new class
     }
 };
 
-$paths = $argv;
-array_shift($paths);
+$params = $argv;
+array_shift($params);
 
-$prog->handle($paths);
+if (count($params) && $params[0] === '--stdin') {
+    $prog->processStdin($params[1]);
+} else {
+    $prog->processFilePaths($params);
+}
+
