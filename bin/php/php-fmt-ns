@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-require getenv('COMPOSER_HOME') . '/vendor/autoload.php';
+require getenv('COMPOSER_HOME').'/vendor/autoload.php';
 
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Namespace_;
@@ -13,11 +13,14 @@ use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 
-$prog = new class {
+$prog = new class
+{
     protected Parser $parser;
+
     protected Standard $printer;
 
     protected array $autoloadPaths = [];
+
     protected string $basePath;
 
     /**
@@ -43,10 +46,10 @@ $prog = new class {
         $code = file_get_contents($filePath);
 
         if (trim($code) === '') {
-            $code = file_get_contents(getenv('DOTS_DIR') . '/etc/stubs/PhpClass.stub');
+            $code = file_get_contents(getenv('DOTS_DIR').'/etc/stubs/PhpClass.stub');
         }
 
-        $relativePath = str_replace($this->basePath . '/', '', $filePath);
+        $relativePath = str_replace($this->basePath.'/', '', $filePath);
 
         $originalAst = $this->parser->parse($code);
         $originalTokens = $this->parser->getTokens();
@@ -98,7 +101,7 @@ $prog = new class {
     protected function readAutoloadPaths(): array
     {
         $composer = json_decode(
-            file_get_contents($this->basePath . '/composer.json'),
+            file_get_contents($this->basePath.'/composer.json'),
             true,
         );
 
