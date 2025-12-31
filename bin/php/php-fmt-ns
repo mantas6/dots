@@ -150,4 +150,3 @@ if (count($params) && $params[0] === '--stdin') {
 } else {
     $prog->processFilePaths($params);
 }
-
