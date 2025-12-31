@@ -1,5 +1,6 @@
 /.tinker-*.php
 /out*
 .null-ls_*
+.conform.*
 
 PRESENTATION.md

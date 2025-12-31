@@ -38,24 +38,23 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<leader>br', vim.lsp.buf.rename, { buffer = args.buf })
     vim.keymap.set('n', '<leader>bn', vim.lsp.buf.code_action, { buffer = args.buf })
 
-    local function format_buffer()
-      vim.lsp.buf.format({
-        -- filter = function(client)
-        --   if ft == 'php' then
-        --     return client.name == 'null-ls'
-        --   else
-        --     return true
-        --   end
-        -- end,
-        bufnr = args.buf,
-      });
-    end
-
-    vim.keymap.set('n', '<leader>bp', format_buffer, { buffer = args.buf })
-    vim.keymap.set('n', '<leader>f', format_buffer, { buffer = args.buf })
+    -- local function format_buffer()
+    --   vim.lsp.buf.format({
+    --     bufnr = args.buf,
+    --   });
+    -- end
+    --
+    -- vim.keymap.set('n', '<leader>bp', format_buffer, { buffer = args.buf })
+    -- vim.keymap.set('n', '<leader>f', format_buffer, { buffer = args.buf })
   end,
 })
 
+local function format_buffer()
+  require('conform').format()
+end
+
+vim.keymap.set('n', '<leader>bp', format_buffer)
+vim.keymap.set('n', '<leader>f', format_buffer)
 
 vim.api.nvim_set_keymap('n', '<leader>yb', ':silent !echo %:. | xc<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>yd', ':silent !dirname %:. | xc<CR>', {})
