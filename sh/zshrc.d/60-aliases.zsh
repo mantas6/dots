@@ -43,6 +43,7 @@ alias composer="c"
 alias s="sail"
 
 alias glc="git log -1 --pretty=%B"
+alias g='git status'
 
 alias osw="nh os switch"
 alias osb="nh os boot"
@@ -74,3 +75,4 @@ alias nj="jq . | nvim -Rc 'set syntax=json | set nospell' -"
 alias tra="sat transactions:select"
 
 d="$HOME/Downloads"
+hash -d d="$HOME/Downloads"
