@@ -34,6 +34,7 @@ in {
 
       shellcheck
       shfmt
+      prettier
       ripgrep
       fd
       entr

@@ -14,6 +14,8 @@ return {
         php = { 'php-fmt-ns', 'pint' },
         sh = { 'shfmt' },
         bash = { 'shfmt' },
+        go = {},
+        markdown = { 'prettier' },
       },
       formatters = {
         ['php-fmt-ns'] = {
