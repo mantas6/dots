@@ -55,6 +55,13 @@ end
 
 vim.keymap.set('n', '<leader>bp', format_buffer)
 vim.keymap.set('n', '<leader>f', format_buffer)
+vim.keymap.set('n', '<leader>bf', function()
+  require('conform').format({
+    lsp_format = 'never',
+    formatters = { 'rector' },
+    async = true,
+  })
+end)
 
 vim.api.nvim_set_keymap('n', '<leader>yb', ':silent !echo %:. | xc<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>yd', ':silent !dirname %:. | xc<CR>', {})
