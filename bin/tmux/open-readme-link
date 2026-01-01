@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-url=$(grep -oE 'https?://[^)[:space:]]+' README.md | cut -d' ' -f1 | fzf-tmux -p 60%,50%)
+url=$(grep -oE 'https?://[^)[:space:]]+' README.md | fzf-tmux -p 60%,50%)
 
 [ -z "$url" ] && exit 0
 
