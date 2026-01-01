@@ -63,7 +63,6 @@ vim.api.nvim_set_keymap('n', '<leader>ya', ':silent !echo %:p | xc<CR>', {})
 
 vim.api.nvim_set_keymap('n', '<leader>ec', ':e composer.json <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>ep', ':e PRESENTATION.md <CR>', {})
-vim.api.nvim_set_keymap('n', '<leader>el', ':e LINKS.md <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>ed', ':e *compose.y* <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>en', ':e .env <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>er', ':e README.md <CR>', {})

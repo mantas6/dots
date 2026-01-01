@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-url=$(grep '^http' LINKS.md | cut -d' ' -f1 | fzf-tmux -p 60%,50%)
-
-[ -z "$url" ] && exit 0
-
-open-url "$url"
