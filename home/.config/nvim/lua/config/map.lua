@@ -55,7 +55,7 @@ end
 
 vim.keymap.set('n', '<leader>bp', format_buffer)
 vim.keymap.set('n', '<leader>f', format_buffer)
-vim.keymap.set('n', '<leader>bf', function()
+vim.keymap.set('n', '<leader>bR', function()
   require('conform').format({
     lsp_format = 'never',
     formatters = { 'rector' },
