@@ -2,16 +2,21 @@
 # Tmux session start hook - ran after new session creation
 
 if [ -d '.git' ] || [ -f 'composer.json' ] || [ -f 'package.json' ]; then
-	tmux rename-window 'vi'
-	tmux send-keys 'nvim .' C-m
-	tmux new-window -n 'ex'
-	tmux new-window -n 'git'
-	tmux new-window -n 'tin'
+    tmux rename-window 'vi'
+    tmux send-keys 'nvim .' C-m
+    tmux new-window -n 'ex'
 
-	if [ -n "$ADDITIONAL_WINDOW_CMD" ]; then
-		tmux new-window
-		tmux send-keys "$ADDITIONAL_WINDOW_CMD" C-m
-	fi
+    if [ -n "$ADDITIONAL_CMD" ]; then
+        tmux send-keys "$ADDITIONAL_CMD" C-m
+    fi
 
-	tmux select-window -t 'vi'
+    tmux new-window -n 'git'
+    tmux new-window -n 'tin'
+
+    if [ -n "$ADDITIONAL_WINDOW_CMD" ]; then
+        tmux new-window
+        tmux send-keys "$ADDITIONAL_WINDOW_CMD" C-m
+    fi
+
+    tmux select-window -t 'vi'
 fi
