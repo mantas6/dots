@@ -11,7 +11,6 @@ return {
               "vimdoc",
               "query",
               "php",
-              "javascript",
               "css",
               "scss",
               "bash",
