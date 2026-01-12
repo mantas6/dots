@@ -30,7 +30,7 @@ brew "luv"
 brew "msgpack"
 
 brew "caddy"
-# brew "redis"
+brew "redis"
 
 brew "ncdu"
 brew "lazydocker"
