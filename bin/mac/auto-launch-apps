@@ -1,56 +1,61 @@
 #!/usr/bin/env bash
 
 terminal() {
-	wezterm start
+    wezterm start
 }
 
 browser() {
-	open -n "/Applications/Google Chrome.app"
+    local app='Applications/Google Chrome.app'
+    if [ -d "$HOME/$app" ]; then
+        open -n "$HOME/Applications/Google Chrome.app"
+    else
+        open -n "/$app"
+    fi
 }
 
 count-windows() {
-	aerospace list-windows --workspace focused --count
+    aerospace list-windows --workspace focused --count
 }
 
 await-windows() {
-	while [ "$(count-windows)" -lt "$1" ]; do
-		sleep 0.1
-	done
+    while [ "$(count-windows)" -lt "$1" ]; do
+        sleep 0.1
+    done
 }
 
 workspace() {
-	aerospace workspace "$1"
+    aerospace workspace "$1"
 
-	local count
-	count=$(count-windows)
+    local count
+    count=$(count-windows)
 
-	[ "$count" -ne 0 ] && return 1
+    [ "$count" -ne 0 ] && return 1
 
-	return 0
+    return 0
 }
 
 if workspace 1; then
-	terminal
-	browser
-	await-windows 2
+    terminal
+    browser
+    await-windows 2
 fi
 
 if workspace 2; then
-	open -n "/Applications/Microsoft Teams.app"
-	open -n "/Applications/Microsoft Outlook.app"
-	await-windows 2
+    open -n "/Applications/Microsoft Teams.app"
+    open -n "/Applications/Microsoft Outlook.app"
+    await-windows 2
 fi
 
 if workspace 3; then
-	open -n "/Applications/Safari.app"
-	open -n "$HOME/Applications/Zen.app"
-	await-windows 2
+    open -n "/Applications/Safari.app"
+    open -n "$HOME/Applications/Zen.app"
+    await-windows 2
 fi
 
 if workspace 4; then
-	browser
-	open -n "/Applications/Safari.app"
-	await-windows 2
+    browser
+    open -n "/Applications/Safari.app"
+    await-windows 2
 fi
 
 aerospace workspace 1
