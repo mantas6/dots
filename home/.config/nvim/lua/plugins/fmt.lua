@@ -20,6 +20,7 @@ return {
         bash = { 'shfmt' },
         go = {},
         markdown = { 'prettier' },
+        html = { 'prettier' },
       },
 
       formatters = {
