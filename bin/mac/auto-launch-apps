@@ -6,8 +6,8 @@ terminal() {
 
 browser() {
     local app='Applications/Google Chrome.app'
-    if [ -d "$HOME/$app" ]; then
-        open -n "$HOME/Applications/Google Chrome.app"
+    if [ -e "$HOME/$app" ]; then
+        open -n "$HOME/$app"
     else
         open -n "/$app"
     fi
