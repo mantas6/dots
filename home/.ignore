@@ -2,3 +2,6 @@ flake.lock
 composer.lock
 package.lock
 phpstan-baseline.neon
+
+phpcs.xml
+phpmd.xml
