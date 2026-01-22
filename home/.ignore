@@ -5,3 +5,4 @@ phpstan-baseline.neon
 
 phpcs.xml
 phpmd.xml
+phpmd.baseline.xml
