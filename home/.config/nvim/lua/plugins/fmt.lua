@@ -21,6 +21,7 @@ return {
         go = {},
         markdown = { 'prettier' },
         html = { 'prettier' },
+        blade = { 'prettier' },
       },
 
       formatters = {
