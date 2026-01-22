@@ -39,6 +39,9 @@ brew "htop"
 brew "yazi"
 brew "lf"
 
+# tap "anomalyco/tap"
+# brew "opencode"
+
 brew "neovim"
 brew "tree-sitter"
 brew "ripgrep"
