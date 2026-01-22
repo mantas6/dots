@@ -37,6 +37,11 @@ path = "~"
 startup_command  = "nvim NOTES.md"
 
 [[session]]
+name = "LLM"
+path = "~/.dots/opt/llm"
+startup_command  = "opencode"
+
+[[session]]
 name = "Calc"
 path = "~"
 startup_command  = "vi -c Quickmath"
