@@ -1,5 +1,6 @@
 {
     "$schema": "https://opencode.ai/config.json",
+    "theme": "tokyonight",
     "autoupdate": "notify",
     "default_agent": "plan",
     "enabled_providers": [
