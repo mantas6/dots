@@ -67,6 +67,7 @@ brew "xh"
 
 brew "coreutils"
 brew "watch"
+brew "git-lfs"
 
 brew "go"
 brew "rust"
