@@ -1,6 +1,27 @@
 {
     "$schema": "https://opencode.ai/config.json",
+    "autoupdate": "notify",
+    "default_agent": "plan",
+    "enabled_providers": [
+        "anthropic"
+    ],
     "permission": {
-        "bash": "ask"
+        "bash": {
+            "*": "ask",
+            "external_diretory": "ask",
+        }
+    },
+    "keybinds": {
+        "app_exit": "none",
+        "editor_open": "<leader>ctrl+e",
+        "input_submit": "return,ctrl+m",
+        "input_delete_to_line_start": "none",
+        "messages_page_up": "pageup,ctrl+b",
+        "messages_page_down": "pagedown,ctrl+f",
+        "messages_half_page_up": "ctrl+u",
+        "messages_half_page_down": "ctrl+d",
+        "messages_last": "ctrl+g,end",
+        "messages_first": "ctrl+o,home",
+        "input_delete": "delete,shift+delete",
     }
 }

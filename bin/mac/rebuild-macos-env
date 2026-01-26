@@ -88,7 +88,9 @@ fn-node() {
             nvm install node
             nvm use node
         )
-    else
+    fi
+
+    if [ -x "$(command -v npm)" ]; then
         npm i -g opencode-ai
     fi
 }

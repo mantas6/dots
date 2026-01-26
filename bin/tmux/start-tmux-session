@@ -13,6 +13,9 @@ if [ -d '.git' ] || [ -f 'composer.json' ] || [ -f 'package.json' ]; then
     tmux new-window -n 'git'
     tmux new-window -n 'tin'
 
+    tmux new-window -n 'llm'
+    tmux send-keys 'opencode' C-m
+
     if [ -n "$ADDITIONAL_WINDOW_CMD" ]; then
         tmux new-window
         tmux send-keys "$ADDITIONAL_WINDOW_CMD" C-m
