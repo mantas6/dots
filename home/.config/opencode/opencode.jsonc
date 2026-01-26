@@ -3,9 +3,9 @@
     "theme": "tokyonight",
     "autoupdate": "notify",
     "default_agent": "plan",
-    "enabled_providers": [
-        "anthropic"
-    ],
+    // "enabled_providers": [
+    //     "anthropic"
+    // ],
     "permission": {
         "bash": {
             "*": "ask",
