@@ -12,7 +12,7 @@
         },
         "external_diretory": {
             "*": "deny",
-            "~/Repos/*": "allow",
+            "~/Repos/*": "ask",
         },
     },
     "keybinds": {
