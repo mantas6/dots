@@ -9,8 +9,11 @@
     "permission": {
         "bash": {
             "*": "allow",
-            "external_diretory": "ask",
-        }
+        },
+        "external_diretory": {
+            "*": "deny",
+            "~/Repos/*": "allow",
+        },
     },
     "keybinds": {
         "app_exit": "none",
