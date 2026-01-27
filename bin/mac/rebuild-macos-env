@@ -25,6 +25,7 @@ fn-brew() {
         exit 0
     else
         brew bundle --global
+        brew bundle upgrade --global
     fi
 }
 
@@ -117,18 +118,11 @@ fn-misc() {
 
 fn-init() {
     fn-brew
+    tldr -u
     fn-node
     fn-php
     fn-misc
     fn-defaults
-}
-
-fn-update() {
-    fn-defaults
-    tldr -u
-    fn-node
-    fn-php
-    brew bundle upgrade --global
 }
 
 for arg in "$@"; do
