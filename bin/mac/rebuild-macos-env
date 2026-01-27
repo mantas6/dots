@@ -75,20 +75,20 @@ fn-defaults() {
 }
 
 fn-node() {
-    if [ ! -x "$(command -v nvm)" ]; then
-        (
-            export NVM_DIR="$HOME/.local/share/nvm"
+    (
+        export NVM_DIR="$HOME/.local/share/nvm"
 
+        if [ ! -d "$NVM_DIR" ]; then
             git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
+        fi
 
-            cd "$NVM_DIR" || exit 1
-            # git checkout v0.40.3
+        cd "$NVM_DIR" || exit 1
+        # git checkout v0.40.3
 
-            \. "$NVM_DIR/nvm.sh"
-            nvm install node
-            nvm use node
-        )
-    fi
+        \. "$NVM_DIR/nvm.sh"
+        nvm install node
+        nvm use node
+    )
 
     if [ -x "$(command -v npm)" ]; then
         npm i -g opencode-ai
@@ -121,6 +121,14 @@ fn-init() {
     fn-php
     fn-misc
     fn-defaults
+}
+
+fn-update() {
+    fn-defaults
+    tldr -u
+    fn-node
+    fn-php
+    brew bundle upgrade --global
 }
 
 for arg in "$@"; do
