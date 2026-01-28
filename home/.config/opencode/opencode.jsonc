@@ -13,10 +13,11 @@
         "external_diretory": {
             "*": "deny",
             "~/Repos/*": "ask",
+            "~/Downloads/*": "ask",
         },
     },
     "keybinds": {
-        "app_exit": "none",
+        "app_exit": "<leader>q",
         "editor_open": "<leader>ctrl+e",
         "input_submit": "return,ctrl+m",
         "input_delete_to_line_start": "none",
@@ -26,6 +27,8 @@
         "messages_half_page_down": "ctrl+d",
         "messages_last": "ctrl+g,end",
         "messages_first": "ctrl+o,home",
+        "messages_next": "<leader>]",
+        "messages_previous": "<leader>[",
         "input_delete": "delete,shift+delete",
     }
 }
