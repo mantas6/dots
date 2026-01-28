@@ -116,4 +116,6 @@ cask "qutebrowser"
 cask "wezterm"
 cask "gimp"
 
+cask "claude-code"
+
 cask "font-jetbrains-mono-nerd-font"
