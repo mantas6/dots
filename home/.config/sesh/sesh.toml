@@ -39,7 +39,7 @@ startup_command  = "nvim NOTES.md"
 [[session]]
 name = "llm"
 path = "~/.dots/opt/llm"
-startup_command  = "opencode"
+startup_command  = "ai"
 
 [[session]]
 name = "Calc"

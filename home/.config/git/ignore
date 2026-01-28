@@ -4,3 +4,5 @@
 .conform.*
 
 PRESENTATION.md
+
+**/.claude/settings.local.json
