@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-# exec opencode
-exec claude
+exec opencode
+# exec claude

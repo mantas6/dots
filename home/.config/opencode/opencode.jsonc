@@ -14,6 +14,9 @@
     //         "prompt": "You are Claude Code, Anthropic's official CLI for Claude."
     //     }
     // },
+    "plugin": [
+        "opencode-anthropic-auth@latest"
+    ],
     "permission": {
         "bash": {
             "*": "allow",
