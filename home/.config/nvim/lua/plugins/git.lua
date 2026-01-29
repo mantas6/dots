@@ -40,7 +40,7 @@ return {
         map('n', '<leader>gu', gs.reset_hunk)
         map('n', '<leader>gd', gs.undo_stage_hunk)
         map('n', '<leader>ge', gs.reset_buffer)
-        map('n', '<leader>gk', gs.preview_hunk)
+        map('n', '<leader>gl', gs.preview_hunk)
         map('n', '<leader>gv', ':<C-U>Gitsigns select_hunk<CR>')
 
         map('n', '<leader>gB', function()
