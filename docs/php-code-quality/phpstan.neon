@@ -1,0 +1,30 @@
+includes:
+    - phpstan-baseline.neon
+    - vendor/nesbot/carbon/extension.neon
+
+parameters:
+    paths:
+        - app
+        - bootstrap/app.php
+        - config
+        - database
+        - public
+        - routes
+
+    level: 5
+
+    reportUnmatchedIgnoredErrors: false
+
+    polluteScopeWithLoopInitialAssignments: false
+    polluteScopeWithAlwaysIterableForeach: false
+    checkDynamicProperties: true
+    checkExplicitMixedMissingReturn: true
+    checkFunctionNameCase: true
+    checkInternalClassCaseSensitivity: true
+    reportMaybesInMethodSignatures: true
+    reportStaticMethodSignatures: true
+    reportMaybesInPropertyPhpDocTypes: true
+    reportWrongPhpDocTypeInVarTag: true
+    # polluteScopeWithBlock: false
+    # checkStrictPrintfPlaceholderTypes: true
+
