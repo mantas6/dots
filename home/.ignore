@@ -3,6 +3,8 @@ composer.lock
 package.lock
 phpstan-baseline.neon
 
+package-lock.json
+
 phpcs.xml
 phpmd.xml
 phpmd.baseline.xml
