@@ -49,5 +49,6 @@
         "history_next": "ctrl+n",
         "command_list": "<leader>p",
         "input_delete": "delete,shift+delete",
+        "session_list": "<leader>e",
     }
 }
