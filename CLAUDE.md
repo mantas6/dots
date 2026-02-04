@@ -36,3 +36,12 @@ The `stw` script:
 ## Nix Hosts
 
 Defined in `flake.nix`: ix, l4, tp, pd, amd, rt, iso (installer)
+
+## Bash/Shell Script Conventions
+
+- Shebang: `#!/usr/bin/env bash` (or `#!/usr/bin/env sh` for POSIX)
+- Optional one-line comment on line 2 describing the script's purpose
+- Keep scripts direct and concise, minimal boilerplate
+- Prefer shorthand conditionals for simple single-action checks: `[[ condition ]] && action`
+- Use full `if...then...fi` for multi-statement blocks
+- Always use `shfmt` for formatting
