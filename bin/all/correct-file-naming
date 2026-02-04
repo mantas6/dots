@@ -20,6 +20,11 @@ for dir in "$@"; do
         if $dry_run; then
             echo "$path -> $parent/$newname"
         else
+            if [[ -e "$parent/$newname" ]]; then
+                echo "Error: target exists: $parent/$newname" >&2
+                exit 1
+            fi
+
             mv -v "$path" "$parent/$newname"
         fi
     done
