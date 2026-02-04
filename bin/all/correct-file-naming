@@ -1,13 +1,6 @@
 #!/usr/bin/env bash
 # Rename files/folders: spaces to underscores, uppercase to lowercase
 
-dry_run=false
-
-if [[ "$1" == "-n" || "$1" == "--dry-run" ]]; then
-    dry_run=true
-    shift
-fi
-
 for dir in "$@"; do
     find "$dir" -depth ! -path "*/.*" | while IFS= read -r path; do
         parent=$(dirname "$path")
@@ -17,15 +10,6 @@ for dir in "$@"; do
 
         [[ "$name" == "$newname" ]] && continue
 
-        if $dry_run; then
-            echo "$path -> $parent/$newname"
-        else
-            if [[ -e "$parent/$newname" ]]; then
-                echo "Error: target exists: $parent/$newname" >&2
-                exit 1
-            fi
-
-            mv -v "$path" "$parent/$newname"
-        fi
+        mv -v "$path" "$parent/$newname"
     done
 done
