@@ -47,6 +47,7 @@ brew "tree-sitter"
 brew "ripgrep"
 brew "fd"
 brew "entr"
+brew "colima"
 
 brew "parallel"
 brew "pastel"
