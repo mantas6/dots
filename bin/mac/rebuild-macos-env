@@ -70,6 +70,12 @@ fn-defaults() {
     # defaults read NSGlobalDomain com.apple.trackpad.scaling
     # defaults write NSGlobalDomain com.apple.trackpad.scaling -float "4"
 
+    # Disable the notification badge on System Settings in the Dock
+    defaults write com.apple.systempreferences AttentionPrefBundleIDs 0
+
+    # Disable Software Update notifications specifically
+    defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 0
+
     killall SystemUIServer
     killall Dock
     killall Finder
