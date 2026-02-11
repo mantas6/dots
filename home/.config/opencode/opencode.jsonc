@@ -18,6 +18,12 @@
         "opencode-anthropic-auth@latest"
     ],
     "permission": {
+        "read": {
+            "*": "allow",
+            "*.env": "deny",
+            "*.env.*": "deny",
+            "*.env.example": "allow"
+        },
         "bash": {
             "*": "allow",
             "git push*": "deny",
@@ -50,5 +56,13 @@
         "command_list": "<leader>p",
         "input_delete": "delete,shift+delete",
         // "session_list": "<leader>e",
-    }
+    },
+    "mcp": {
+        "sentry": {
+            "enabled": false,
+            "type": "remote",
+            "url": "https://mcp.sentry.dev/mcp",
+            "oauth": {}
+        }
+    },
 }
