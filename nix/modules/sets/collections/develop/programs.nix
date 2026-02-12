@@ -43,6 +43,7 @@ in {
       lazydocker
       xh
       pastel
+      opencode
 
       gnumake
       gitleaks
