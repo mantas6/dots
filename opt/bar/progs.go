@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"os/exec"
 	"regexp"
@@ -32,13 +33,15 @@ func getFastfetchData() (metrics []Metric) {
 }
 
 func getNetworkTime() string {
-	start := time.Now()
-	cmd := exec.Command("ping", "-c", "1", "-W", "1", "google.com")
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancel()
+
+	cmd := exec.CommandContext(ctx, "ping", "-c", "1", "google.com")
 
 	out, err := cmd.Output()
 
 	if err != nil {
-		if time.Since(start).Milliseconds() > 1000 {
+		if ctx.Err() == context.DeadlineExceeded {
 			return "!"
 		}
 
