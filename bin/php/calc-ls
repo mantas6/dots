@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+$prog = new class
+{
+    public function handle(): void
+    {
+        //
+    }
+};
+
+$prog->handle();
