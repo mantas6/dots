@@ -38,7 +38,7 @@ startup_command  = "nvim NOTES.md"
 
 [[session]]
 name = "llm"
-path = "~/.dots/opt/llm"
+path = "~/.local/state/tmux-sessions/llm"
 startup_command  = "ai"
 
 # [[window]]

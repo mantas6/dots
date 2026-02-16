@@ -1,4 +1,10 @@
 #!/usr/bin/env sh
 
+if [ "$(pwd)" = "$HOME/.local/state/tmux-sessions/llm" ]; then
+    if [ ! -d .git ]; then
+        git init
+    fi
+fi
+
 exec opencode --continue
 # exec claude --continue
