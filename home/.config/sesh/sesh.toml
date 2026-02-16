@@ -41,11 +41,6 @@ name = "llm"
 path = "~/.dots/opt/llm"
 startup_command  = "ai"
 
-[[session]]
-name = "Calc"
-path = "~"
-startup_command  = "vi -c Quickmath"
-
 # [[window]]
 # name = "vi"
 # startup_script = "nvim ."
