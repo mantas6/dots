@@ -5,7 +5,4 @@ return {
       -- add any options here
     }
   },
-  {
-    'jbyuki/quickmath.nvim',
-  },
 }
