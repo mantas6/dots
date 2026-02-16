@@ -66,6 +66,11 @@ in {
         '';
       };
 
+      services.redis.servers.sat = {
+        enable = true;
+        port = 6379;
+      };
+
       services.mysql = {
         enable = true;
         package = pkgs.mariadb;
