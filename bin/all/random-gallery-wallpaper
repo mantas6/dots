@@ -11,8 +11,8 @@ mkdir -p "$workdir"
 curl -fo "$workdir/pending.jpg" "$host/$file"
 
 if [ "$(uname)" = 'Darwin' ]; then
-	osascript -e 'tell application "Finder" to set desktop picture to POSIX file "'"$workdir"/pending.jpg'"'
+    osascript -e 'tell application "Finder" to set desktop picture to POSIX file "'"$workdir"/pending.jpg'"'
 else
-	feh --bg-fill --no-fehbg "$workdir/pending.jpg"
-	cp -f "$workdir/pending.jpg" "$workdir/current.jpg"
+    feh --bg-fill --no-fehbg "$workdir/pending.jpg"
+    cp -f "$workdir/pending.jpg" "$workdir/current.jpg"
 fi

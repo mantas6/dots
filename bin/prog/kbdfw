@@ -4,7 +4,7 @@
 set -euo 'pipefail'
 
 info() {
-	echo -e "\e[1m>>> $1\e[0m"
+    echo -e "\e[1m>>> $1\e[0m"
 }
 
 sum_file="$XDG_CACHE_HOME/kbdfw_current_sum"
@@ -12,18 +12,18 @@ force_build=''
 flash=1
 
 while getopts 'nf' opt; do
-	case ${opt} in
-	n)
-		flash=''
-		;;
-	f)
-		force_build=1
-		;;
-	?)
-		echo "Invalid option: -${OPTARG}."
-		exit 1
-		;;
-	esac
+    case ${opt} in
+    n)
+        flash=''
+        ;;
+    f)
+        force_build=1
+        ;;
+    ?)
+        echo "Invalid option: -${OPTARG}."
+        exit 1
+        ;;
+    esac
 done
 
 cd "$DOTS_DIR/opt/kbd"
@@ -31,9 +31,9 @@ cd "$DOTS_DIR/opt/kbd"
 sum=$(git ls-files --others --cached --exclude-standard | xargs openssl dgst -sha1 | openssl dgst -sha1)
 
 if [ -n "$force_build" ] || ! echo "$sum" | cmp - "$sum_file"; then
-	rm -vf firmware/*.uf2
-	make
-	echo "$sum" >"$sum_file"
+    rm -vf firmware/*.uf2
+    make
+    echo "$sum" >"$sum_file"
 fi
 
 [ -z "$flash" ] && exit 0
@@ -43,8 +43,8 @@ cd firmware
 count=$(find . -maxdepth 1 -type f -name "*.uf2" | wc -l)
 
 if [ "$count" != 2 ]; then
-	echo "Error: unexpected file count" >&2
-	exit 1
+    echo "Error: unexpected file count" >&2
+    exit 1
 fi
 
 info 'Connect the left side keyboard to USB.'
@@ -54,8 +54,8 @@ dev_name=$(watch-for-drive -d disk -n 1)
 mount_point=$(mount-drive "$dev_name")
 
 if ! echo "$mount_point" | grep -q ADV360PRO; then
-	echo "Error: device name does not match" >&2
-	exit 1
+    echo "Error: device name does not match" >&2
+    exit 1
 fi
 
 cp -v ./*left*.uf2 "$mount_point"

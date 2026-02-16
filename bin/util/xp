@@ -2,7 +2,7 @@
 # Paste from clipboard
 
 if [ "$(uname)" = "Darwin" ]; then
-	pbpaste
+    pbpaste
 else
-	xclip -selection c -o
+    xclip -selection c -o
 fi

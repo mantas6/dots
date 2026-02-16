@@ -5,23 +5,23 @@ set -e
 add=true
 
 while getopts 'in' opt; do
-	case ${opt} in
-	n)
-		add=false
-		;;
-	?)
-		exit 1
-		;;
-	esac
+    case ${opt} in
+    n)
+        add=false
+        ;;
+    ?)
+        exit 1
+        ;;
+    esac
 done
 
 if [ -z "$(git status --porcelain)" ]; then
-	exit 0
+    exit 0
 fi
 
 if $add; then
-	git add .
-	git diff --staged
+    git add .
+    git diff --staged
 fi
 
 last_msg=$(git log -1 --pretty=%B)

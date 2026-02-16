@@ -5,10 +5,10 @@ export REMOTE_USER="$REMOTE_PROD_USER"
 export REMOTE_HOST="$REMOTE_PROD_HOST"
 
 if [ "$1" = '-f' ]; then
-	shift
-	export REMOTE_ROOT="$REMOTE_PROD_ROOT"
+    shift
+    export REMOTE_ROOT="$REMOTE_PROD_ROOT"
 else
-	export REMOTE_ROOT="${REMOTE_STG_ROOT:-"$REMOTE_PROD_ROOT"}"
+    export REMOTE_ROOT="${REMOTE_STG_ROOT:-"$REMOTE_PROD_ROOT"}"
 fi
 
 gum confirm --no-show-help 'Run cmd in production?' || exit 1

@@ -2,17 +2,17 @@
 # Access bookmarks and open a browser tab with an optional parameter
 
 show_help() {
-	echo 'bm - boomarkmarks for browser'
-	echo
-	echo 'Editing:'
-	echo '  -e            Edit global bookmarks list'
-	echo
-	echo 'Other:'
-	echo '  -f            Specify custom bookmark file'
-	echo '  -l            List all bookmarks and exit'
-	echo '  -r            Use rofi instead of fzf for prompt'
-	echo
-	echo '  -h            Display help'
+    echo 'bm - boomarkmarks for browser'
+    echo
+    echo 'Editing:'
+    echo '  -e            Edit global bookmarks list'
+    echo
+    echo 'Other:'
+    echo '  -f            Specify custom bookmark file'
+    echo '  -l            List all bookmarks and exit'
+    echo '  -r            Use rofi instead of fzf for prompt'
+    echo
+    echo '  -h            Display help'
 }
 
 list="$DOTS_DIR/etc/bm"
@@ -22,53 +22,53 @@ input_cmd='gum input'
 action='default'
 
 while getopts 'elrf:' opt; do
-	case ${opt} in
-	f)
-		list=${OPTARG}
-		[ ! -f "$list" ] && touch "$list"
-		;;
-	e)
-		action='edit'
-		;;
-	l)
-		action='list'
-		;;
-	r)
-		if [ "$(uname)" = 'Darwin' ]; then
-			search_cmd='choose'
-			input_cmd=(choose)
-		else
-			search_cmd='rofi -dmenu'
-			input_cmd=(rofi -dmenu -p '> ')
-		fi
-		;;
-	?)
-		show_help
-		exit 1
-		;;
-	esac
+    case ${opt} in
+    f)
+        list=${OPTARG}
+        [ ! -f "$list" ] && touch "$list"
+        ;;
+    e)
+        action='edit'
+        ;;
+    l)
+        action='list'
+        ;;
+    r)
+        if [ "$(uname)" = 'Darwin' ]; then
+            search_cmd='choose'
+            input_cmd=(choose)
+        else
+            search_cmd='rofi -dmenu'
+            input_cmd=(rofi -dmenu -p '> ')
+        fi
+        ;;
+    ?)
+        show_help
+        exit 1
+        ;;
+    esac
 done
 
 items=$(grep -v '^\(#\|$\)' "$list")
 
 if [ "$action" = 'list' ]; then
-	echo "$items"
-	exit 0
+    echo "$items"
+    exit 0
 fi
 
 if [ "$action" = 'edit' ]; then
-	nvim "$list"
+    nvim "$list"
 
-	formatted=$(sed -E 's#^(http://|https://)##; s#/$##' "$list")
-	echo "$formatted" >"$list"
+    formatted=$(sed -E 's#^(http://|https://)##; s#/$##' "$list")
+    echo "$formatted" >"$list"
 
-	cd "$(dirname "$list")" || exit 1
-	git add "$list" 2>/dev/null || exit 0
+    cd "$(dirname "$list")" || exit 1
+    git add "$list" 2>/dev/null || exit 0
 
-	git commit -m 'Update bookmarks'
-	git push
+    git commit -m 'Update bookmarks'
+    git push
 
-	exit $?
+    exit $?
 fi
 
 # Use fzf to select one of the URLs
@@ -81,13 +81,13 @@ url=$(printf '%s\n' "${items[@]}" | $search_cmd)
 placeholder=$(echo "$url" | grep '{}')
 
 if [ "$placeholder" ]; then
-	# Prompt the user for input to replace the placeholder
-	input=$(${input_cmd[*]})
+    # Prompt the user for input to replace the placeholder
+    input=$(${input_cmd[*]})
 
-	[ ! "$input" ] && exit 1
+    [ ! "$input" ] && exit 1
 
-	# Replace the placeholder with the user input
-	url="${url//\{\}/$input}"
+    # Replace the placeholder with the user input
+    url="${url//\{\}/$input}"
 fi
 
 open-url "$url"

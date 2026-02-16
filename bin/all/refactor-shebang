@@ -3,17 +3,17 @@
 dir=${1:-'.'}
 
 find "$dir" -type f | while IFS= read -r file; do
-	grep -q '#!/bin/bash' "$file" || continue
-	echo "Processing file: $file"
+    grep -q '#!/bin/bash' "$file" || continue
+    echo "Processing file: $file"
 
-	contents=$(sed '1s|^#!/bin/bash|#!/usr/bin/env bash|' "$file")
-	echo "$contents" >"$file"
+    contents=$(sed '1s|^#!/bin/bash|#!/usr/bin/env bash|' "$file")
+    echo "$contents" >"$file"
 done
 
 find "$dir" -type f | while IFS= read -r file; do
-	grep -q '#!/bin/sh' "$file" || continue
-	echo "Processing file: $file"
+    grep -q '#!/bin/sh' "$file" || continue
+    echo "Processing file: $file"
 
-	contents=$(sed '1s|^#!/bin/sh|#!/usr/bin/env sh|' "$file")
-	echo "$contents" >"$file"
+    contents=$(sed '1s|^#!/bin/sh|#!/usr/bin/env sh|' "$file")
+    echo "$contents" >"$file"
 done

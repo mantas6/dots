@@ -2,7 +2,7 @@
 # Execute cmd or sh "main" docker container
 
 if ! docker compose ps >/dev/null 2>&1; then
-	exec "$@"
+    exec "$@"
 fi
 
 names=$(docker compose ps --format '{{.Names}}')
@@ -11,9 +11,9 @@ name=$(echo "$names" | grep -i 'fpm\|laravel.test')
 [ ! "$name" ] && name=$(echo "$names" | head -n 1)
 
 if [ -t 0 ]; then
-	flags='-it'
+    flags='-it'
 else
-	flags='-i'
+    flags='-i'
 fi
 
 exec docker exec "$flags" "$name" "${@:-bash}"

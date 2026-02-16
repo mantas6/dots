@@ -2,8 +2,8 @@
 # Override remote variable for different env
 
 if [ $# -lt 2 ]; then
-	echo 'Usage: rmt <env-name> [CMD]' >&2
-	exit 1
+    echo 'Usage: rmt <env-name> [CMD]' >&2
+    exit 1
 fi
 
 name=${1^^}

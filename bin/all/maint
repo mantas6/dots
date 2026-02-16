@@ -3,15 +3,15 @@
 wait-for-host google.com
 
 [ -x "$(command -v pass)" ] && (
-	pass git pull
-	pass git push
+    pass git pull
+    pass git push
 )
 
 dsy
 
 [ -x "$(command -v newsboat)" ] && echo "Syncing newsboat..." &&
-	newsboat -x reload &&
-	newsboat -x print-unread
+    newsboat -x reload &&
+    newsboat -x print-unread
 
 echo "Clearing trash..."
 trash-empty -vf 90

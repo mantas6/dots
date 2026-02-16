@@ -5,7 +5,7 @@ set -e
 apps=()
 
 for app in "$HOME/Applications"/*.app "/Applications"/*.app; do
-	apps+=("$(basename "$app")")
+    apps+=("$(basename "$app")")
 done
 
 selection=$(printf '%s\n' "${apps[@]}" | sort -u | choose)
@@ -14,7 +14,7 @@ home="$HOME/Applications/$selection"
 root="/Applications/$selection"
 
 if [ -e "$home" ]; then
-	open -n "$home"
+    open -n "$home"
 else
-	open -n "$root"
+    open -n "$root"
 fi

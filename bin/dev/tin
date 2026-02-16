@@ -4,27 +4,27 @@
 # cd "$(git rev-parse --show-toplevel)" || exit 1
 
 if [ ! -f composer.json ]; then
-	gum log --level=error 'Current directory is not an PHP application' >&2
-	exit 1
+    gum log --level=error 'Current directory is not an PHP application' >&2
+    exit 1
 fi
 
 index="$(pwd)/.tinker-index.php"
 buffer="$(pwd)/.tinker-buffer.php"
 
 if docker compose ps >/dev/null 2>&1; then
-	exec_cmd='de php'
+    exec_cmd='de php'
 else
-	exec_cmd='php'
+    exec_cmd='php'
 fi
 
 write_cmd="$exec_cmd $(basename "$index")"
 
 # Evaluate in remote host
 if [ "$1" = '-x' ]; then
-	host="$REMOTE_USER@$REMOTE_HOST"
-	rsync -av "$index" "$buffer" "$host:$REMOTE_ROOT"
-	ssh -tt "$host" "cd $REMOTE_ROOT && php .tinker-index.php"
-	exit 0
+    host="$REMOTE_USER@$REMOTE_HOST"
+    rsync -av "$index" "$buffer" "$host:$REMOTE_ROOT"
+    ssh -tt "$host" "cd $REMOTE_ROOT && php .tinker-index.php"
+    exit 0
 fi
 
 [ "$1" = '-r' ] && write_cmd='tin -x'
@@ -34,6 +34,6 @@ fi
 cp "$DOTS_DIR/etc/stubs/tinker-index.php" "$index"
 
 nvim -c "set nospell | set scrollback=100000 | set splitright" \
-	-c "autocmd BufWritePost * only | vsp | terminal $write_cmd" "$buffer"
+    -c "autocmd BufWritePost * only | vsp | terminal $write_cmd" "$buffer"
 
 rm "$index"

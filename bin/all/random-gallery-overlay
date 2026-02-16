@@ -27,22 +27,22 @@ Screen
 ColorBurn'
 
 bake() {
-	# -paint 6
-	magick "$workdir/a.jpg" "$workdir/b.jpg" \
-		-geometry +0+0 \
-		-compose "$1" \
-		-composite "$workdir/out.jpg"
+    # -paint 6
+    magick "$workdir/a.jpg" "$workdir/b.jpg" \
+        -geometry +0+0 \
+        -compose "$1" \
+        -composite "$workdir/out.jpg"
 
-	feh --fullscreen "$workdir/out.jpg"
+    feh --fullscreen "$workdir/out.jpg"
 }
 
 bake 'Multiply'
 selected=''
 
 while true; do
-	selected=$(printf '%s\n' "$filters" | fzf --query="$selected")
+    selected=$(printf '%s\n' "$filters" | fzf --query="$selected")
 
-	[ "$selected" = '' ] && exit 0
+    [ "$selected" = '' ] && exit 0
 
-	bake "$selected"
+    bake "$selected"
 done

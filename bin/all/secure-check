@@ -6,15 +6,15 @@
 ssh_port="${2:-22}"
 
 ssh_result=$(timeout 5 ssh "$1" -p "$ssh_port" \
-	-o LogLevel=ERROR \
-	-o PubkeyAuthentication=no \
-	-o StrictHostKeyChecking=no \
-	-o UserKnownHostsFile=/dev/null 2>&1)
+    -o LogLevel=ERROR \
+    -o PubkeyAuthentication=no \
+    -o StrictHostKeyChecking=no \
+    -o UserKnownHostsFile=/dev/null 2>&1)
 
 if [[ "$ssh_result" =~ "Permission denied" ]]; then
-	echo -e "SSH \e[32mOK\e[0m $ssh_result"
-	exit 0
+    echo -e "SSH \e[32mOK\e[0m $ssh_result"
+    exit 0
 else
-	echo -e "SSH attempt assertion \e[31mfailed\e[0m $ssh_result"
-	exit 1
+    echo -e "SSH attempt assertion \e[31mfailed\e[0m $ssh_result"
+    exit 1
 fi

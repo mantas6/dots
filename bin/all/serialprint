@@ -9,7 +9,7 @@ stty -F "$device" 115200 || echo "Failed to set baud rate"
 url='itp90015:8170/toPrint'
 
 while true; do
-	wait-url-changes "$url"
+    wait-url-changes "$url"
 
-	curl -so "$device" "$url"
+    curl -so "$device" "$url"
 done
