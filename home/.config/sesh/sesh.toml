@@ -40,6 +40,12 @@ name = "llm"
 path = "~/.local/state/tmux-sessions/llm"
 startup_command  = "ai"
 
+[[session]]
+name = "calc"
+path = "~/.local/state/tmux-sessions/calc"
+startup_command  = "nvim main.calc.php"
+
+
 # [[window]]
 # name = "vi"
 # startup_script = "nvim ."

@@ -1,14 +1,144 @@
 #!/usr/bin/env php
 <?php
+# eval each statement in a php file and output diagnostics as json
 
 declare(strict_types=1);
 
-$prog = new class
-{
-    public function handle(): void
-    {
-        $code = stream_get_contents(STDIN);
-    }
-};
+$code = stream_get_contents(STDIN);
 
-$prog->handle();
+// strip php tags without shifting line numbers (preserve newline count)
+$code = preg_replace_callback('/<\?php\s*/', function ($m) {
+    return str_repeat("\n", substr_count($m[0], "\n"));
+}, $code);
+$code = preg_replace_callback('/\s*\?>/', function ($m) {
+    return str_repeat("\n", substr_count($m[0], "\n"));
+}, $code);
+
+$lines = explode("\n", $code);
+$diagnostics = [];
+
+// walk through lines, accumulate statements split by ;
+// track which line each statement ends on
+$buffer = '';
+$vars = [];
+
+foreach ($lines as $i => $line) {
+    $lineNum = $i + 1;
+    $trimmed = trim($line);
+
+    if ($trimmed === '' || str_starts_with($trimmed, '//') || str_starts_with($trimmed, '#')) {
+        continue;
+    }
+
+    // accumulate multi-line statements
+    $buffer .= ($buffer !== '' ? "\n" : '') . $line;
+
+    // check if the buffer contains complete statement(s)
+    if (!str_contains($buffer, ';')) {
+        continue;
+    }
+
+    $parts = explode(';', $buffer);
+    $buffer = array_pop($parts); // leftover after last ;
+
+    foreach ($parts as $part) {
+        $stmt = trim($part);
+
+        if ($stmt === '') {
+            continue;
+        }
+
+        $result = evalStmt($stmt, $vars);
+
+        if ($result !== null) {
+            $diagnostics[] = [
+                'line' => $lineNum,
+                'message' => formatValue($result),
+            ];
+        }
+    }
+}
+
+echo json_encode($diagnostics);
+
+function evalStmt(string $stmt, array &$vars): mixed
+{
+    // build variable extraction: bring $vars into eval scope
+    $__vars =& $vars;
+
+    try {
+        ob_start();
+
+        // wrap in a closure that has access to vars by reference
+        $__result = (function () use (&$__vars, $stmt) {
+            extract($__vars, EXTR_REFS);
+
+            $__r = eval("return ($stmt);");
+
+            // capture any new/changed variables back
+            $__defined = get_defined_vars();
+            unset($__defined['__vars'], $__defined['__r'], $__defined['stmt'], $__defined['__result']);
+
+            foreach ($__defined as $k => $v) {
+                $__vars[$k] = $v;
+            }
+
+            return $__r;
+        })();
+
+        ob_end_clean();
+
+        return $__result;
+    } catch (\Throwable) {
+        ob_end_clean();
+
+        // try as a plain statement (e.g. assignment that can't be returned)
+        try {
+            ob_start();
+
+            $__result = (function () use (&$__vars, $stmt) {
+                extract($__vars, EXTR_REFS);
+
+                eval("$stmt;");
+
+                $__defined = get_defined_vars();
+                unset($__defined['__vars'], $__defined['stmt'], $__defined['__result']);
+
+                foreach ($__defined as $k => $v) {
+                    $__vars[$k] = $v;
+                }
+
+                return null;
+            })();
+
+            ob_end_clean();
+
+            return $__result;
+        } catch (\Throwable) {
+            ob_end_clean();
+
+            return null;
+        }
+    }
+}
+
+function formatValue(mixed $value): string
+{
+    if (is_string($value)) {
+        return "\"$value\"";
+    }
+
+    if (is_bool($value)) {
+        return $value ? 'true' : 'false';
+    }
+
+    if (is_null($value)) {
+        return 'null';
+    }
+
+    if (is_array($value)) {
+        return json_encode($value);
+    }
+
+    return (string) $value;
+}
