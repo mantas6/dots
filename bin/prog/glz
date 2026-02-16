@@ -1,8 +1,14 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 set -e
 
+root=$(git rev-parse --git-dir)
+msg_file="$root/glz-message"
+
 add=true
+
+last_msg=
+[ -f "$msg_file" ] && last_msg=$(<"$msg_file")
 
 while getopts 'in' opt; do
     case ${opt} in
@@ -24,13 +30,12 @@ if $add; then
     git diff --staged
 fi
 
-last_msg=$(git log -1 --pretty=%B)
-
 msg=$(gum write --show-line-numbers --height=5 --placeholder 'Commit message' --value="$last_msg")
 
 echo "$msg"
 
 git commit -m "$msg"
+printf '%s' "$msg" >"$msg_file"
 
 if git ls-remote --exit-code --heads origin "$(git branch --show-current)" >/dev/null 2>&1; then
     git pull --no-edit
