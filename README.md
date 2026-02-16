@@ -99,12 +99,6 @@ Update all packages:
 brew bundle upgrade --global
 ```
 
-Update Brewfile after setup modifications:
-
-```sh
-brew bundle dump --global --force
-```
-
 Clean up removed packages:
 
 ```sh
