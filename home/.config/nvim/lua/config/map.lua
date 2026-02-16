@@ -64,6 +64,7 @@ vim.keymap.set('n', '<leader>f', format_buffer)
 -- end)
 
 vim.api.nvim_set_keymap('n', '<leader>yb', ':silent !echo %:. | xc<CR>', {})
+vim.api.nvim_set_keymap('n', '<C-y>', ':silent !echo %:. | xc<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>yd', ':silent !dirname %:. | xc<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>yf', ':silent !basename %:. | xc<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>ya', ':silent !echo %:p | xc<CR>', {})
