@@ -45,3 +45,7 @@ Defined in `flake.nix`: ix, l4, tp, pd, amd, rt, iso (installer)
 - Prefer shorthand conditionals for simple single-action checks: `[[ condition ]] && action`
 - Use full `if...then...fi` for multi-statement blocks
 - Always use `shfmt` for formatting
+
+## Verification
+
+- After changing any Nix files (`nix/`, `flake.nix`, `flake.lock`), run `nix flake check` to validate the configuration
