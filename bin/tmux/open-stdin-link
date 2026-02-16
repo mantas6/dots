@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+input=$(cat)
+url=$(echo "$input" | grep -oE 'https?://[^)[:space:]]+' | fzf-tmux -p 60%,50%)
+
+[ -z "$url" ] && exit 0
+
+open-url "$url"
