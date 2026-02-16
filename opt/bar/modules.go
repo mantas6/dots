@@ -69,7 +69,8 @@ func swapUsage(parts *[]string, res json.RawMessage) {
 		totalUsed += p.Used
 	}
 
-	*parts = append(*parts, fmt.Sprintf(" %v%%", totalUsed))
+	usageGb := float64(totalUsed) / 1024 / 1024 / 1024
+	*parts = append(*parts, fmt.Sprintf(" %.1fG", usageGb))
 }
 
 func kernelVersion(parts *[]string, res json.RawMessage) {
