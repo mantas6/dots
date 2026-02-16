@@ -57,8 +57,12 @@ in {
         enable = true;
 
         # Example: reverse proxy for myapp.example.com → localhost:8000
-        virtualHosts."http://sat".extraConfig = ''
-          reverse_proxy localhost:8000
+        virtualHosts."http://localhost:8080".extraConfig = ''
+          reverse_proxy localhost:8000 {
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+          }
         '';
       };
 
