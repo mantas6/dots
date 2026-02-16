@@ -13,10 +13,10 @@
             "temp": true
         },
         "disk",
-        "diskio",
+        // "diskio",
         "battery",
         "bluetooth",
-        "sound",
-        "netio"
+        "sound"
+        // "netio"
     ]
 }
