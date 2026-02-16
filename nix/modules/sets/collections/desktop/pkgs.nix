@@ -24,6 +24,8 @@
         }
       )
 
+      gimp
+
       lxappearance
       gnome-themes-extra
       feh
