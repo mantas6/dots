@@ -4,7 +4,7 @@
   config,
   ...
 }: let
-  phpConfigured = pkgs-unstable.php84.buildEnv {
+  phpConfigured = pkgs-unstable.php85.buildEnv {
     extraConfig = "memory_limit = 2G";
   };
 in {
