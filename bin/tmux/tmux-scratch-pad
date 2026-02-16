@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-
-if [ "$(tmux display-message -p -F "#{session_name}")" = "__popup__" ]; then
-	tmux detach-client
-else
-	tmux display-popup -E "tmux attach -t __popup__ || tmux new -s __popup__"
-fi

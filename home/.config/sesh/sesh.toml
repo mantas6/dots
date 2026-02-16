@@ -1,5 +1,4 @@
 blacklist = [
-    "__popup__",
     "large",
 ]
 
