@@ -7,7 +7,7 @@ $prog = new class
 {
     public function handle(): void
     {
-        //
+        $code = stream_get_contents(STDIN);
     }
 };
 
