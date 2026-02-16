@@ -47,7 +47,10 @@ brew "tree-sitter"
 brew "ripgrep"
 brew "fd"
 brew "entr"
-brew "colima"
+
+# brew "lima"
+# brew "docker"
+# brew "docker-compose"
 
 brew "parallel"
 brew "pastel"

@@ -38,3 +38,5 @@ export NVM_DIR="$HOME/.local/share/nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 export DOCKER_CLI_HINTS=false
+
+export LIMA_HOME="$HOME/.local/share/lima"
