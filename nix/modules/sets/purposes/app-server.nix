@@ -19,7 +19,7 @@
         pdo_mysql
         pdo_sqlite
         mbstring
-        xml
+        # xml
         bcmath
         curl
         zip
