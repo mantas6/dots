@@ -34,4 +34,4 @@ if [ -f "$file" ] && [ "$id" = 0 ]; then
     ara "$(<"$current/id")"
 fi
 
-find "$state/tmp" -mtime +30 -print
+find "$state/tmp" -mtime +30 -delete
