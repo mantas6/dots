@@ -28,8 +28,6 @@
    terminal_output serial
     ";
 
-  features.useZshShell = false;
-
   networking.hostName = "rt";
 
   system.stateVersion = "25.05";
