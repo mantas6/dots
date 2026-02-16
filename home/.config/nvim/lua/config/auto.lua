@@ -29,6 +29,7 @@ autocmd('FileType', {
     'vue',
     'nix',
     'ts',
+    'markdown',
     'javascript',
     'javascriptreact',
     'javascript.jsx',
