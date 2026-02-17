@@ -34,9 +34,11 @@ return {
 
     null_ls.setup({
       sources = {
-        null_ls.builtins.diagnostics.phpstan,
-        -- null_ls.builtins.formatting.pint,
-        -- null_ls.builtins.formatting.shfmt,
+        null_ls.builtins.diagnostics.phpstan.with({
+          condition = function(utils)
+            return utils.root_has_file({ 'phpstan.neon', 'phpstan.neon.dist', 'phpstan.dist.neon' })
+          end
+        }),
         calc_ls,
       },
     })
