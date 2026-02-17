@@ -20,8 +20,12 @@
     # "disks.normal"
   ];
 
+  # Hibernation
+  boot.kernelParams = ["resume_offset=149282816"];
+  boot.resumeDevice = "/dev/disk/by-uuid/50c2c21f-5bf5-45a0-978b-941d00d2079e";
   features.swapSizeInGB = 36;
   services.logind.settings.Login.HandlePowerKey = "hibernate";
+  # powerManagement.enable = true;
 
   # try pkgs.linuxPackages_6_10 to prevent sleep issues
   # boot.kernelPackages = pkgs.linuxPackages_6_10;
