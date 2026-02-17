@@ -1,0 +1,407 @@
+#!/usr/bin/env php
+<?php
+/**
+ * GTFS Departures Lookup — CLI Tool
+ *
+ * Usage:
+ *   php departures.php <stop_name>
+ *   php departures.php <stop_name> --limit=20
+ *   php departures.php <stop_name> --time=14:30
+ *
+ * Reads GTFS .txt files from the current directory and displays
+ * upcoming departures from stops matching the given name.
+ */
+
+// ── Config ──────────────────────────────────────────────────────────
+
+$gtfsUrl = 'https://www.stops.lt/vilnius/vilnius/gtfs.zip';
+$defaultLimit = 10;
+
+// ── Parse CLI arguments ─────────────────────────────────────────────
+
+if ($argc < 2) {
+    fwrite(STDERR, "Usage: php departures.php <stop_name> [--dir=TEXT] [--limit=N] [--time=HH:MM]\n");
+    fwrite(STDERR, "  --dir=TEXT     Filter stops by direction (matches stop_desc, e.g. \"centro\")\n");
+    fwrite(STDERR, "  --limit=N      Number of departures to show (default: $defaultLimit)\n");
+    fwrite(STDERR, "  --time=HH:MM   Query a specific time instead of now\n");
+    exit(1);
+}
+
+$searchTerm = null;
+$limit = $defaultLimit;
+$queryTime = null;
+$dirFilter = null;
+
+for ($i = 1; $i < $argc; $i++) {
+    if (str_starts_with($argv[$i], '--limit=')) {
+        $limit = (int) substr($argv[$i], 8);
+    } elseif (str_starts_with($argv[$i], '--time=')) {
+        $queryTime = substr($argv[$i], 7);
+    } elseif (str_starts_with($argv[$i], '--dir=')) {
+        $dirFilter = substr($argv[$i], 6);
+    } else {
+        $searchTerm = $argv[$i];
+    }
+}
+
+if ($searchTerm === null) {
+    fwrite(STDERR, "Error: No stop name provided.\n");
+    exit(1);
+}
+
+// ── Download and extract GTFS data ───────────────────────────────────
+
+$dataDir = rtrim(shell_exec('mktemp -d'), "\n");
+if (!$dataDir || !is_dir($dataDir)) {
+    fwrite(STDERR, "Error: Failed to create temp directory.\n");
+    exit(1);
+}
+
+// Register cleanup to remove temp dir on exit
+register_shutdown_function(function () use ($dataDir) {
+    if (is_dir($dataDir)) {
+        $files = glob("$dataDir/*");
+        foreach ($files as $f) {
+            unlink($f);
+        }
+        rmdir($dataDir);
+    }
+});
+
+$zipPath = "$dataDir/gtfs.zip";
+
+fprintf(STDERR, "Downloading GTFS data from %s...\n", $gtfsUrl);
+
+$ch = curl_init($gtfsUrl);
+$fp = fopen($zipPath, 'w');
+curl_setopt_array($ch, [
+    CURLOPT_FILE            => $fp,
+    CURLOPT_FOLLOWLOCATION  => true,
+    CURLOPT_TIMEOUT         => 60,
+    CURLOPT_FAILONERROR     => true,
+]);
+$success = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$error = curl_error($ch);
+fclose($fp);
+
+if (!$success) {
+    fwrite(STDERR, "Error: Failed to download GTFS data (HTTP $httpCode): $error\n");
+    exit(1);
+}
+
+$zipSize = filesize($zipPath);
+fprintf(STDERR, "Downloaded %.1f MB. Extracting...\n", $zipSize / 1048576);
+
+$zip = new ZipArchive();
+if ($zip->open($zipPath) !== true) {
+    fwrite(STDERR, "Error: Failed to open ZIP archive.\n");
+    exit(1);
+}
+$zip->extractTo($dataDir);
+$zip->close();
+unlink($zipPath);
+
+// Verify required files exist
+$requiredFiles = ['stops.txt', 'stop_times.txt', 'trips.txt', 'routes.txt', 'calendar.txt', 'calendar_dates.txt'];
+foreach ($requiredFiles as $rf) {
+    if (!file_exists("$dataDir/$rf")) {
+        fwrite(STDERR, "Error: Required GTFS file '$rf' not found in archive.\n");
+        exit(1);
+    }
+}
+
+fprintf(STDERR, "GTFS data ready.\n\n");
+
+// ── Determine query time ────────────────────────────────────────────
+
+$tz = new DateTimeZone('Europe/Vilnius');
+$now = new DateTime('now', $tz);
+$today = $now->format('Ymd');
+$dayOfWeek = strtolower($now->format('l')); // e.g. "monday"
+
+if ($queryTime !== null) {
+    if (!preg_match('/^\d{1,2}:\d{2}$/', $queryTime)) {
+        fwrite(STDERR, "Error: Invalid time format. Use HH:MM.\n");
+        exit(1);
+    }
+    $querySeconds = timeToSeconds($queryTime . ':00');
+} else {
+    $querySeconds = timeToSeconds($now->format('H:i:s'));
+}
+
+// ── Helper: convert HH:MM:SS (GTFS, can be >23) to seconds ─────────
+
+function timeToSeconds(string $time): int {
+    $parts = explode(':', $time);
+    return (int)$parts[0] * 3600 + (int)$parts[1] * 60 + (int)$parts[2];
+}
+
+function secondsToTime(int $seconds): string {
+    $h = intdiv($seconds, 3600);
+    $m = intdiv($seconds % 3600, 60);
+    // Normalize hours past midnight for display
+    $displayH = $h % 24;
+    return sprintf('%02d:%02d', $displayH, $m);
+}
+
+/**
+ * Open a GTFS CSV file, read the header, strip BOM, and return
+ * [$fileHandle, $columnMap].
+ */
+function openGtfsCsv(string $path): array {
+    $fh = fopen($path, 'r');
+    if ($fh === false) {
+        fwrite(STDERR, "Error: Cannot open $path\n");
+        exit(1);
+    }
+    $header = fgetcsv($fh, 0, ',', '"', '');
+    // Strip UTF-8 BOM from first column if present
+    if ($header && str_starts_with($header[0], "\xEF\xBB\xBF")) {
+        $header[0] = substr($header[0], 3);
+    }
+    return [$fh, array_flip($header)];
+}
+
+/**
+ * Read next CSV row (PHP 8.4+ compatible).
+ */
+function readGtfsRow($fh): array|false {
+    return fgetcsv($fh, 0, ',', '"', '');
+}
+
+// ── Step 1: Find matching stops ─────────────────────────────────────
+
+fprintf(STDERR, "Searching for stops matching \"%s\"...\n", $searchTerm);
+
+$stops = []; // stop_id => ['name' => ..., 'desc' => ...]
+$matchingStopIds = []; // stop_id => ['name' => ..., 'desc' => ...]
+
+[$fh, $colMap] = openGtfsCsv("$dataDir/stops.txt");
+
+while (($row = readGtfsRow($fh)) !== false) {
+    $stopId = $row[$colMap['stop_id']];
+    $stopName = $row[$colMap['stop_name']];
+    $stopDesc = trim($row[$colMap['stop_desc']] ?? '');
+    $stops[$stopId] = ['name' => $stopName, 'desc' => $stopDesc];
+
+    if (mb_stripos($stopName, $searchTerm) !== false) {
+        $matchingStopIds[$stopId] = ['name' => $stopName, 'desc' => $stopDesc];
+    }
+}
+fclose($fh);
+
+if (empty($matchingStopIds)) {
+    fwrite(STDERR, "No stops found matching \"$searchTerm\".\n");
+    exit(1);
+}
+
+// Apply --dir filter if provided
+if ($dirFilter !== null) {
+    $matchingStopIds = array_filter(
+        $matchingStopIds,
+        fn($stop) => mb_stripos($stop['desc'], $dirFilter) !== false
+    );
+    if (empty($matchingStopIds)) {
+        fwrite(STDERR, "No stops matching \"$searchTerm\" with direction \"$dirFilter\".\n");
+        exit(1);
+    }
+}
+
+fprintf(STDERR, "Found %d matching stop(s):\n", count($matchingStopIds));
+foreach ($matchingStopIds as $id => $stop) {
+    $desc = $stop['desc'] !== '' ? " ({$stop['desc']})" : '';
+    fprintf(STDERR, "  #%-6s %s%s\n", $id, $stop['name'], $desc);
+}
+fprintf(STDERR, "\n");
+
+// ── Step 2: Determine active service IDs for today ──────────────────
+
+$activeServices = [];
+
+// 2a. calendar.txt — regular schedules
+[$fh, $colMap] = openGtfsCsv("$dataDir/calendar.txt");
+
+while (($row = readGtfsRow($fh)) !== false) {
+    $serviceId = $row[$colMap['service_id']];
+    $startDate = $row[$colMap['start_date']];
+    $endDate = $row[$colMap['end_date']];
+    $dayFlag = (int) $row[$colMap[$dayOfWeek]];
+
+    if ($dayFlag === 1 && $today >= $startDate && $today <= $endDate) {
+        $activeServices[$serviceId] = true;
+    }
+}
+fclose($fh);
+
+// 2b. calendar_dates.txt — exceptions
+[$fh, $colMap] = openGtfsCsv("$dataDir/calendar_dates.txt");
+
+while (($row = readGtfsRow($fh)) !== false) {
+    $serviceId = $row[$colMap['service_id']];
+    $date = $row[$colMap['date']];
+    $exceptionType = (int) $row[$colMap['exception_type']];
+
+    if ($date === $today) {
+        if ($exceptionType === 1) {
+            // Service added for this date
+            $activeServices[$serviceId] = true;
+        } elseif ($exceptionType === 2) {
+            // Service removed for this date
+            unset($activeServices[$serviceId]);
+        }
+    }
+}
+fclose($fh);
+
+if (empty($activeServices)) {
+    fwrite(STDERR, "No active services found for today ($today, $dayOfWeek).\n");
+    exit(1);
+}
+
+fprintf(STDERR, "Active services today: %d\n", count($activeServices));
+
+// ── Step 3: Load trips (filtered by active services) ────────────────
+
+$trips = []; // trip_id => ['route_id' => ..., 'headsign' => ..., 'direction' => ...]
+
+[$fh, $colMap] = openGtfsCsv("$dataDir/trips.txt");
+
+while (($row = readGtfsRow($fh)) !== false) {
+    $serviceId = $row[$colMap['service_id']];
+    if (!isset($activeServices[$serviceId])) {
+        continue;
+    }
+
+    $tripId = $row[$colMap['trip_id']];
+    $trips[$tripId] = [
+        'route_id'  => $row[$colMap['route_id']],
+        'headsign'  => $row[$colMap['trip_headsign']],
+        'direction' => $row[$colMap['direction_name']] ?? '',
+    ];
+}
+fclose($fh);
+
+fprintf(STDERR, "Active trips today: %d\n", count($trips));
+
+// ── Step 4: Load routes ─────────────────────────────────────────────
+
+$routes = []; // route_id => route_short_name
+
+[$fh, $colMap] = openGtfsCsv("$dataDir/routes.txt");
+
+while (($row = readGtfsRow($fh)) !== false) {
+    $routeId = $row[$colMap['route_id']];
+    $routes[$routeId] = $row[$colMap['route_short_name']];
+}
+fclose($fh);
+
+// ── Step 5: Scan stop_times.txt for matching departures ─────────────
+
+fprintf(STDERR, "Scanning stop times...\n");
+
+$departures = []; // [ ['time' => seconds, 'route' => ..., 'headsign' => ..., 'stop_id' => ...], ... ]
+
+[$fh, $colMap] = openGtfsCsv("$dataDir/stop_times.txt");
+
+while (($row = readGtfsRow($fh)) !== false) {
+    $stopId = $row[$colMap['stop_id']];
+
+    // Quick filter: is this one of our stops?
+    if (!isset($matchingStopIds[$stopId])) {
+        continue;
+    }
+
+    $tripId = $row[$colMap['trip_id']];
+
+    // Is this trip active today?
+    if (!isset($trips[$tripId])) {
+        continue;
+    }
+
+    $departureTime = $row[$colMap['departure_time']];
+    $depSeconds = timeToSeconds($departureTime);
+
+    // Only future departures
+    if ($depSeconds < $querySeconds) {
+        continue;
+    }
+
+    $trip = $trips[$tripId];
+    $routeName = $routes[$trip['route_id']] ?? $trip['route_id'];
+
+    $stop = $matchingStopIds[$stopId];
+    $departures[] = [
+        'time_seconds' => $depSeconds,
+        'time_display' => secondsToTime($depSeconds),
+        'route'        => $routeName,
+        'headsign'     => $trip['headsign'],
+        'stop_id'      => $stopId,
+        'stop_name'    => $stop['name'],
+        'stop_desc'    => $stop['desc'],
+    ];
+}
+fclose($fh);
+
+// ── Step 6: Sort and display ────────────────────────────────────────
+
+usort($departures, fn($a, $b) => $a['time_seconds'] - $b['time_seconds']);
+$departures = array_slice($departures, 0, $limit);
+
+if (empty($departures)) {
+    echo "No upcoming departures found.\n";
+    exit(0);
+}
+
+// Calculate column widths
+$routeWidth = max(5, ...array_map(fn($d) => mb_strlen($d['route']), $departures));
+$headsignWidth = max(9, ...array_map(fn($d) => mb_strlen($d['headsign']), $departures));
+
+// Show stop direction column when multiple stops matched (differentiates same-name stops)
+$showDirCol = count($matchingStopIds) > 1;
+if ($showDirCol) {
+    $dirWidth = max(9, ...array_map(fn($d) => mb_strlen($d['stop_desc'] ?: $d['stop_name']), $departures));
+}
+
+// Header
+$queryTimeDisplay = $queryTime ?? $now->format('H:i');
+echo "\n";
+if ($showDirCol) {
+    echo "Departures matching \"$searchTerm\" after $queryTimeDisplay\n";
+} else {
+    $stopEntry = reset($matchingStopIds);
+    $stopIdEntry = array_key_first($matchingStopIds);
+    $descSuffix = $stopEntry['desc'] !== '' ? " ({$stopEntry['desc']})" : '';
+    echo "Departures from {$stopEntry['name']}$descSuffix (#$stopIdEntry) after $queryTimeDisplay\n";
+}
+
+// Table
+$fmt = "  %-5s  %-{$routeWidth}s  %-{$headsignWidth}s";
+if ($showDirCol) {
+    $fmt .= "  %-{$dirWidth}s";
+}
+$fmt .= "\n";
+
+$sep = "  " . str_repeat('─', 5) . "  " . str_repeat('─', $routeWidth) . "  " . str_repeat('─', $headsignWidth);
+if ($showDirCol) {
+    $sep .= "  " . str_repeat('─', $dirWidth);
+}
+
+echo $sep . "\n";
+if ($showDirCol) {
+    printf($fmt, 'Time', 'Route', 'Headsign', 'Stop dir.');
+} else {
+    printf($fmt, 'Time', 'Route', 'Direction');
+}
+echo $sep . "\n";
+
+foreach ($departures as $dep) {
+    if ($showDirCol) {
+        printf($fmt, $dep['time_display'], $dep['route'], $dep['headsign'], $dep['stop_desc'] ?: $dep['stop_name']);
+    } else {
+        printf($fmt, $dep['time_display'], $dep['route'], $dep['headsign']);
+    }
+}
+
+echo $sep . "\n";
+printf("  Showing %d of %d upcoming departure(s)\n\n", count($departures), count($departures));
