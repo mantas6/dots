@@ -3,7 +3,7 @@
 set -e
 
 root=$(git rev-parse --git-dir)
-msg_file="$root/glz-message"
+msg_file="$root/glz-msg"
 
 add=true
 
