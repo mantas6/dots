@@ -35,6 +35,8 @@
   ];
 
   defaultServiceOptions = {
+    enable = true;
+
     path = phpEnv;
 
     serviceConfig = {
@@ -69,11 +71,6 @@ in {
       services.redis.servers.main = {
         enable = true;
         port = 6379;
-      };
-
-      services.mysql = {
-        enable = true;
-        package = pkgs.mariadb;
       };
 
       systemd.services.sat-schedule =
