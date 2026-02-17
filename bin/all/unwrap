@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-# Move all files to parent dir
-
-shopt -s dotglob
-mv -v ./* ../
