@@ -122,6 +122,20 @@ fn-misc() {
     fi
 }
 
+fn-docker() {
+    limactl create --name=default \
+        --cpus=8 \
+        --memory=8 \
+        --disk=80 \
+        template://docker
+
+    # docker context create lima-{{.Name}} --docker "host=unix://{{.Dir}}/sock/docker.sock"
+    # docker context use lima-{{.Name}}
+
+    limactl start default
+    limactl start-at-login default
+}
+
 fn-init() {
     fn-brew
     tldr -u
@@ -129,6 +143,7 @@ fn-init() {
     fn-php
     fn-misc
     fn-defaults
+    # fn-docker
 }
 
 for arg in "$@"; do

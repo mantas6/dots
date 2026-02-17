@@ -40,3 +40,6 @@ export NVM_DIR="$HOME/.local/share/nvm"
 export DOCKER_CLI_HINTS=false
 
 export LIMA_HOME="$HOME/.local/share/lima"
+
+# export DOCKER_CONFIG="$XDG_CONFIG_HOME/docker-darwin"
+# export DOCKER_HOST=$(limactl list docker --format 'unix://{{.Dir}}/sock/docker.sock')
