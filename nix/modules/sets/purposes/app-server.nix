@@ -34,17 +34,19 @@
     phpConfigured.packages.composer
   ];
 
+  defaultServiceConfig = {
+    User = userName;
+    WorkingDirectory = "%h/Sat/current";
+    Restart = "always";
+    RestartSec = 1;
+  };
+
   defaultServiceOptions = {
     enable = true;
 
     path = phpEnv;
 
-    serviceConfig = {
-      User = userName;
-      WorkingDirectory = "%h/Sat/current";
-      Restart = "always";
-      RestartSec = 1;
-    };
+    serviceConfig = defaultServiceConfig;
 
     after = ["network-online.target"];
     wants = ["network-online.target"];
@@ -79,7 +81,7 @@ in {
           script = "php artisan schedule:run >> /dev/null 2>&1";
 
           serviceConfig =
-            defaultServiceOptions.serviceConfig
+            defaultServiceConfig
             // {
               Type = "oneshot";
             };
@@ -102,7 +104,7 @@ in {
           script = "php artisan horizon";
 
           serviceConfig =
-            defaultServiceOptions.serviceConfig
+            defaultServiceConfig
             // {
               TimeoutStopSec = "3600s";
             };
