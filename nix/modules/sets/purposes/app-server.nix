@@ -85,6 +85,7 @@ in {
             defaultServiceConfig
             // {
               Type = "oneshot";
+              Restart = "no";
             };
 
           restartIfChanged = false;
