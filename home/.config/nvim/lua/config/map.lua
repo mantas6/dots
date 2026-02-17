@@ -110,4 +110,4 @@ vim.keymap.set('n', '<leader>-', function() add_bible_text('word') end, { norema
 vim.keymap.set('n', '<leader>_', function() add_bible_text('random') end, { noremap = true, silent = true })
 
 -- Agents
-vim.api.nvim_set_keymap('n', '<leader>qt', ':norm OAGENT: <CR>:norm Vgc<CR>:startinsert!<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>q', ':norm OAGENT: <CR>:norm Vgc<CR>:startinsert!<CR>', { noremap = true })
