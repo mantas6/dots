@@ -66,7 +66,7 @@ in {
         '';
       };
 
-      services.redis.servers.sat = {
+      services.redis.servers.main = {
         enable = true;
         port = 6379;
       };
