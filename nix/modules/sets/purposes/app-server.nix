@@ -78,9 +78,11 @@ in {
         // {
           script = "php artisan schedule:run >> /dev/null 2>&1";
 
-          serviceConfig = {
-            Type = "oneshot";
-          };
+          serviceConfig =
+            defaultServiceOptions.serviceConfig
+            // {
+              Type = "oneshot";
+            };
 
           restartIfChanged = false;
           unitConfig.X-StopOnRemoval = false;
@@ -99,9 +101,11 @@ in {
         // {
           script = "php artisan horizon";
 
-          serviceConfig = {
-            TimeoutStopSec = "3600s";
-          };
+          serviceConfig =
+            defaultServiceOptions.serviceConfig
+            // {
+              TimeoutStopSec = "3600s";
+            };
         };
     })
   ];
