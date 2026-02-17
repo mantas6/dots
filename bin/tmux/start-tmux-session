@@ -13,8 +13,8 @@ if [ -d '.git' ] || [ -f 'composer.json' ] || [ -f 'package.json' ]; then
     tmux new-window -n 'git'
     tmux new-window -n 'tin'
 
-    tmux new-window -n 'llm'
-    tmux send-keys 'ai' C-m
+    tmux new-window -n 'llm' ai
+    # tmux send-keys 'ai' C-m
 
     if [ -n "$ADDITIONAL_WINDOW_CMD" ]; then
         tmux new-window
