@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-if [ "$(pwd)" = "$HOME/.local/state/tmux-sessions/llm" ]; then
+if [ "$(pwd)" = "$HOME/.local/state/sessions/llm" ]; then
     if [ ! -d .git ]; then
         git init
     fi

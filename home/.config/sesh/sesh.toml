@@ -37,12 +37,12 @@ startup_command  = "nvim NOTES.md"
 
 [[session]]
 name = "llm"
-path = "~/.local/state/tmux-sessions/llm"
+path = "~/.local/state/sessions/llm"
 startup_command  = "ai"
 
 [[session]]
 name = "calc"
-path = "~/.local/state/tmux-sessions/calc"
+path = "~/.local/state/sessions/calc"
 startup_command  = "nvim main.calc.php"
 
 
