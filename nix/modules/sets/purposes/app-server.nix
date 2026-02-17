@@ -36,7 +36,7 @@
 
   defaultServiceConfig = {
     User = userName;
-    WorkingDirectory = "%h/Sat/current";
+    WorkingDirectory = "/home/${userName}/Sat/current";
     Restart = "always";
     RestartSec = 1;
   };
