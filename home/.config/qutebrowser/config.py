@@ -39,7 +39,7 @@ c.window.title_format = '{current_title}';
 c.statusbar.show = 'in-mode'
 
 c.content.mute = True
-c.content.cookies.accept = 'no-3rdparty'
+# c.content.cookies.accept = 'no-3rdparty'
 c.content.notifications.enabled = False
 c.content.autoplay = False
 c.content.geolocation = False
@@ -52,6 +52,11 @@ c.content.blocking.enabled = True
 c.downloads.location.directory = '~/Downloads'
 c.downloads.location.prompt = False
 c.downloads.position = 'bottom'
+
+# Loading insecure content
+# config.set("content.tls.certificate_errors", "load-insecurely", "*://localhost:*")
+# config.set("content.tls.certificate_errors", "load-insecurely", "*://127.0.0.1:*")
+# c.qt.args = ["allow-running-insecure-content"]
 
 # Keybinds
 # config.bind('<Ctrl-v>', 'spawn mpv {url}')

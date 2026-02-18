@@ -113,6 +113,8 @@ brew "felixkratz/formulae/sketchybar"
 tap "jsdelivr/globalping"
 brew "globalping"
 
+# cask "ngrok"
+
 cask "aerospace"
 cask "amethyst"
 cask "flameshot"
