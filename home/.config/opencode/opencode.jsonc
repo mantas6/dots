@@ -3,6 +3,7 @@
     "theme": "tokyonight",
     "autoupdate": "notify",
     "default_agent": "plan",
+    "model": "claude-opus-4-6",
     // "enabled_providers": [
     //     "anthropic"
     // ],
