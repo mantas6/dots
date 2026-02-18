@@ -114,6 +114,7 @@ tap "jsdelivr/globalping"
 brew "globalping"
 
 # cask "ngrok"
+brew "cloudflared"
 
 cask "aerospace"
 cask "amethyst"
