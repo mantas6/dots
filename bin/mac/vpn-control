@@ -1,6 +1,33 @@
 #!/usr/bin/env sh
+# Toggle FortiClient VPN connection via menu bar extra
 
-# FortiTray
-# FortiClientAgent
+proc="FortiTray"
 
-osascript -e 'tell application "System Events" to tell process "FortiClientAgent" to get name of every menu item of menu 1 of menu bar item 1 of menu bar 1'
+items=$(osascript -e "
+tell application \"System Events\"
+  tell process \"$proc\"
+    get name of every menu item of menu 1 of menu bar item 1 of menu bar 2
+  end tell
+end tell
+" 2>&1) || {
+	echo "error: could not read menu items — check Accessibility permissions"
+	exit 1
+}
+
+if echo "$items" | grep -qi "disconnect"; then
+	action="Disconnect"
+elif echo "$items" | grep -qi "connect"; then
+	action="Connect"
+else
+	echo "error: could not determine VPN state from menu items: $items"
+	exit 1
+fi
+
+echo "$action..."
+osascript -e "
+tell application \"System Events\"
+  tell process \"$proc\"
+    click menu item \"$action\" of menu 1 of menu bar item 1 of menu bar 2
+  end tell
+end tell
+"
