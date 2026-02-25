@@ -3,7 +3,7 @@
     "theme": "tokyonight",
     "autoupdate": "notify",
     "default_agent": "plan",
-    "model": "claude-opus-4-6",
+    "model": "anthropic/claude-opus-4-6",
     // "enabled_providers": [
     //     "anthropic"
     // ],
@@ -36,7 +36,7 @@
         },
         "external_diretory": {
             "*": "deny",
-            "~/Repos/*": "ask",
+            "~/Repos/*": "allow",
             "~/Downloads/*": "ask",
         },
     },
