@@ -1,7 +1,7 @@
 {
-    "model": "opus",
-    "permissions": {
-        "defaultMode": "acceptEdits"
-    },
-    "promptSuggestionEnabled": false
+  "permissions": {
+    "defaultMode": "acceptEdits"
+  },
+  "model": "opus",
+  "promptSuggestionEnabled": false
 }
