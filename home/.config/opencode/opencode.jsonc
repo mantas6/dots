@@ -1,6 +1,5 @@
 {
     "$schema": "https://opencode.ai/config.json",
-    "theme": "tokyonight",
     "autoupdate": "notify",
     "default_agent": "plan",
     "model": "anthropic/claude-opus-4-6",
@@ -39,25 +38,6 @@
             "~/Repos/*": "allow",
             "~/Downloads/*": "ask",
         },
-    },
-    "keybinds": {
-        "app_exit": "<leader>q",
-        "editor_open": "<leader>ctrl+e",
-        "input_submit": "return,ctrl+m",
-        "input_delete_to_line_start": "none",
-        "messages_page_up": "pageup,ctrl+b",
-        "messages_page_down": "pagedown,ctrl+f",
-        "messages_half_page_up": "ctrl+u",
-        "messages_half_page_down": "ctrl+d",
-        "messages_last": "ctrl+g,end",
-        "messages_first": "ctrl+o,home",
-        // "messages_next": "ctrl+]",
-        // "messages_previous": "ctrl+[",
-        "history_previous": "ctrl+p",
-        "history_next": "ctrl+n",
-        "command_list": "<leader>p",
-        "input_delete": "delete,shift+delete",
-        // "session_list": "<leader>e",
     },
     "mcp": {
         "sentry": {
