@@ -1,0 +1,1 @@
+- Always format new PHP files with globally installed `pint`
