@@ -1,6 +1,11 @@
 {
   "permissions": {
-    "defaultMode": "acceptEdits"
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Bash(*)",
+      "Edit(*)",
+      "Write(*)"
+    ]
   },
   "model": "opus",
   "promptSuggestionEnabled": false
