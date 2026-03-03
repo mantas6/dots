@@ -15,7 +15,7 @@
     //     }
     // },
     "plugin": [
-        "opencode-anthropic-auth@latest"
+        // "opencode-anthropic-auth@latest"
     ],
     "permission": {
         "read": {
