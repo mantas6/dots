@@ -6,6 +6,10 @@
       "Edit(*)",
       "Write(*)",
       "Read(~/Repos/**)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)"
     ]
   },
   "model": "opus",
