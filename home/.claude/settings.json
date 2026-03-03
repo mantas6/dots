@@ -4,7 +4,8 @@
     "allow": [
       "Bash(*)",
       "Edit(*)",
-      "Write(*)"
+      "Write(*)",
+      "Read(~/Repos/**)"
     ]
   },
   "model": "opus",
