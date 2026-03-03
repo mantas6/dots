@@ -6,6 +6,10 @@ This file provides guidance to AI coding agents when working with code in this r
 
 This is a dotfiles repository that manages configuration for both NixOS Linux systems and macOS. It uses GNU Stow for symlink management.
 
+## Scope
+
+Only read and modify files within this repository. Never read or write files directly in the user's home directory (`~`). All dotfile changes must be made inside the repo (e.g. `home/`, `bin/`) and deployed via stow.
+
 ## Repository Structure
 
 - `home/` - Dotfiles stowed to `$HOME` (contains `.config/` for XDG configs)
