@@ -6,5 +6,5 @@ if [ "$(pwd)" = "$HOME/.local/state/sessions/llm" ]; then
     fi
 fi
 
-# exec opencode --continue
-exec claude --continue
+exec opencode --continue
+# exec claude --continue
