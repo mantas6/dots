@@ -1,21 +1,25 @@
 {
-  "permissions": {
-    "defaultMode": "acceptEdits",
-    "allow": [
-      "Bash(*)",
-      "Edit(*)",
-      "Write(*)",
-      "Read(~/Repos/**)"
-    ],
-    "deny": [
-      "Read(./.env)",
-      "Read(./.env.*)"
-    ]
-  },
-  "model": "opus",
-  "promptSuggestionEnabled": false,
-  "statusLine": {
-    "type": "command",
-    "command": "jq -r '\"Context: \\(.context_window.used_percentage // 0)% used\"'"
-  }
+    "$schema": "https://json.schemastore.org/claude-code-settings.json",
+    "permissions": {
+        "defaultMode": "acceptEdits",
+        "allow": [
+            "Bash(*)",
+            "Edit(*)",
+            "Write(*)",
+            "Read(~/Repos/**)",
+            "WebSearch(*)",
+            "WebFetch(*)"
+        ],
+        "deny": [
+            "Read(./.env)",
+            "Read(./.env.*)"
+        ]
+    },
+    "effortLevel": "high",
+    "model": "opus",
+    "promptSuggestionEnabled": false,
+    "statusLine": {
+        "type": "command",
+        "command": "jq -r '\"Context: \\(.context_window.used_percentage // 0)% used\"'"
+    }
 }
