@@ -22,6 +22,7 @@ return {
         markdown = { 'prettier' },
         html = { 'prettier' },
         blade = { 'prettier' },
+        lua = { 'stylua' },
       },
 
       formatters = {

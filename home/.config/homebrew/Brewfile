@@ -63,6 +63,8 @@ brew "python@3.12"
 brew "shellcheck"
 brew "shfmt"
 brew "prettier"
+brew "stylua"
+
 brew "speedtest-cli"
 brew "telnet"
 brew "uv"

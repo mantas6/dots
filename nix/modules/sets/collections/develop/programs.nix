@@ -51,6 +51,7 @@ in {
       shellcheck
       shfmt
       prettier
+      stylua
       ripgrep
       fd
       entr
