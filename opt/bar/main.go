@@ -1,11 +1,18 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"strings"
 )
 
+var gap string
+
 func main() {
+	padding := flag.Int("p", 1, "number of spaces between elements")
+	flag.Parse()
+
+	gap = strings.Repeat(" ", *padding)
 	parts := new([]string)
 
 	metrics := make(chan []Metric)
@@ -57,5 +64,5 @@ func main() {
 	networkPing(parts, <-networkTime)
 	clock(parts)
 
-	fmt.Println(strings.Join(*parts, " "))
+	fmt.Println(strings.Join(*parts, gap))
 }

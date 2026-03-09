@@ -25,7 +25,7 @@ func cpuUsage(parts *[]string, res json.RawMessage) {
 	}
 
 	avg := sum / float64(len(usages))
-	*parts = append(*parts, fmt.Sprintf(" %02.0f%%|%02.0f%%", avg, max))
+	*parts = append(*parts, fmt.Sprintf(""+gap+"%02.0f%%|%02.0f%%", avg, max))
 }
 
 func cpuTemp(parts *[]string, res json.RawMessage) {
@@ -35,7 +35,7 @@ func cpuTemp(parts *[]string, res json.RawMessage) {
 	}
 
 	temp := math.Round(cpu.Temperature)
-	*parts = append(*parts, fmt.Sprintf("󰏈 %.0fC", temp))
+	*parts = append(*parts, fmt.Sprintf("󰏈"+gap+"%.0fC", temp))
 }
 
 func memoryUsage(parts *[]string, res json.RawMessage) {
@@ -45,7 +45,7 @@ func memoryUsage(parts *[]string, res json.RawMessage) {
 	}
 
 	usageGb := float64(mem.Used) / 1024 / 1024 / 1024
-	*parts = append(*parts, fmt.Sprintf("󰘚 %.1fG", usageGb))
+	*parts = append(*parts, fmt.Sprintf("󰘚"+gap+"%.1fG", usageGb))
 }
 
 func swapUsage(parts *[]string, res json.RawMessage) {
@@ -70,7 +70,7 @@ func swapUsage(parts *[]string, res json.RawMessage) {
 	}
 
 	usageGb := float64(totalUsed) / 1024 / 1024 / 1024
-	*parts = append(*parts, fmt.Sprintf(" %.1fG", usageGb))
+	*parts = append(*parts, fmt.Sprintf(""+gap+"%.1fG", usageGb))
 }
 
 func kernelVersion(parts *[]string, res json.RawMessage) {
@@ -79,7 +79,7 @@ func kernelVersion(parts *[]string, res json.RawMessage) {
 		return
 	}
 
-	*parts = append(*parts, fmt.Sprintf(" %s", p.Release))
+	*parts = append(*parts, fmt.Sprintf(""+gap+"%s", p.Release))
 }
 
 func uptime(parts *[]string, res json.RawMessage) {
@@ -101,12 +101,12 @@ func uptime(parts *[]string, res json.RawMessage) {
 		}
 	}
 
-	*parts = append(*parts, fmt.Sprintf("󰐦 %v%s", time, unit))
+	*parts = append(*parts, fmt.Sprintf("󰐦"+gap+"%v%s", time, unit))
 }
 
 func clock(parts *[]string) {
 	s := time.Now().Format(time.TimeOnly)
-	*parts = append(*parts, fmt.Sprintf(" %v", s))
+	*parts = append(*parts, fmt.Sprintf(""+gap+"%v", s))
 }
 
 func battery(parts *[]string, res json.RawMessage) {
@@ -143,7 +143,7 @@ func battery(parts *[]string, res json.RawMessage) {
 		icon = ""
 	}
 
-	*parts = append(*parts, fmt.Sprintf("%v %.0f%%", icon, p.Capacity))
+	*parts = append(*parts, fmt.Sprintf("%v"+gap+"%.0f%%", icon, p.Capacity))
 }
 
 func diskUsage(parts *[]string, res json.RawMessage) {
@@ -163,13 +163,13 @@ func diskUsage(parts *[]string, res json.RawMessage) {
 		}
 
 		usagePercent := float64(p.Bytes.Used) / float64(p.Bytes.Total) * 100
-		*parts = append(*parts, fmt.Sprintf(" %.0f%%", usagePercent))
+		*parts = append(*parts, fmt.Sprintf(""+gap+"%.0f%%", usagePercent))
 		return
 	}
 }
 
 func networkPing(parts *[]string, networkTime string) {
-	*parts = append(*parts, fmt.Sprintf(" %v", networkTime))
+	*parts = append(*parts, fmt.Sprintf(""+gap+"%v", networkTime))
 }
 
 func networkIO(parts *[]string, res json.RawMessage) {
@@ -196,7 +196,7 @@ func networkIO(parts *[]string, res json.RawMessage) {
 			bytes = p.TxBytes
 		}
 
-		*parts = append(*parts, fmt.Sprintf("%s %v", icon, formatBytes(bytes)))
+		*parts = append(*parts, fmt.Sprintf("%s"+gap+"%v", icon, formatBytes(bytes)))
 		return
 	}
 }
@@ -221,7 +221,7 @@ func diskIO(parts *[]string, res json.RawMessage) {
 			bytes = p.BytesWritten
 		}
 
-		*parts = append(*parts, fmt.Sprintf("%s %vM", icon, bytes/1024/1024))
+		*parts = append(*parts, fmt.Sprintf("%s"+gap+"%vM", icon, bytes/1024/1024))
 		return
 	}
 }
@@ -242,7 +242,7 @@ func volume(parts *[]string, res json.RawMessage) {
 			continue
 		}
 
-		*parts = append(*parts, fmt.Sprintf("󰕾 %v%%", p.Volume))
+		*parts = append(*parts, fmt.Sprintf("󰕾"+gap+"%v%%", p.Volume))
 		return
 	}
 }
@@ -263,7 +263,7 @@ func bluetoothBattery(parts *[]string, res json.RawMessage) {
 			continue
 		}
 
-		*parts = append(*parts, fmt.Sprintf("󰂳 %v%%", p.Battery))
+		*parts = append(*parts, fmt.Sprintf("󰂳"+gap+"%v%%", p.Battery))
 		return
 	}
 }
@@ -275,7 +275,7 @@ func dns(parts *[]string, res json.RawMessage) {
 	}
 
 	for _, address := range addresses {
-		*parts = append(*parts, fmt.Sprintf("󰒍 %v", address))
+		*parts = append(*parts, fmt.Sprintf("󰒍"+gap+"%v", address))
 		return
 	}
 }
