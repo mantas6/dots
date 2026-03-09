@@ -26,112 +26,20 @@
     pkgs = nixpkgs.legacyPackages.${system};
     pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
     pkgs-go = nixpkgs-go.legacyPackages.${system};
-    # hosts = [
-    #   "iso"
-    #   "ix"
-    #   "amd"
-    #   "l4"
-    #   "rt"
-    #   "tp"
-    #   "pd"
-    # ];
+    hosts = ["ix" "l4" "tp" "pd" "amd" "rt" "iso"];
   in {
     formatter.x86_64-linux = pkgs.alejandra;
     formatter.aarch64-linux = pkgs.alejandra;
-    # nixosConfigurations = builtins.listToAttrs (map (name: {
-    #     ${name} = {
-    #       modules = [./nix/hosts/${name}];
-    #
-    #       specialArgs = {
-    #         inherit inputs;
-    #         inherit pkgs-unstable;
-    #         inherit self;
-    #       };
-    #     };
-    #   })
-    #   hosts);
 
-    nixosConfigurations.ix = nixpkgs.lib.nixosSystem {
-      modules = [
-        ./nix/hosts/ix
-      ];
+    nixosConfigurations = builtins.listToAttrs (map (name: {
+        inherit name;
+        value = nixpkgs.lib.nixosSystem {
+          modules = [./nix/hosts/${name}];
 
-      specialArgs = {
-        inherit inputs;
-        inherit pkgs-unstable;
-        inherit self;
-      };
-    };
-
-    nixosConfigurations.l4 = nixpkgs.lib.nixosSystem {
-      modules = [
-        ./nix/hosts/l4
-      ];
-
-      specialArgs = {
-        inherit inputs;
-        inherit pkgs-unstable;
-        inherit self;
-      };
-    };
-
-    nixosConfigurations.tp = nixpkgs.lib.nixosSystem {
-      modules = [
-        ./nix/hosts/tp
-      ];
-
-      specialArgs = {
-        inherit inputs;
-        inherit pkgs-unstable;
-        inherit self;
-      };
-    };
-
-    nixosConfigurations.pd = nixpkgs.lib.nixosSystem {
-      modules = [
-        ./nix/hosts/pd
-      ];
-
-      specialArgs = {
-        inherit inputs;
-        inherit pkgs-unstable;
-        inherit self;
-      };
-    };
-
-    nixosConfigurations.amd = nixpkgs.lib.nixosSystem {
-      modules = [
-        ./nix/hosts/amd
-      ];
-
-      specialArgs = {
-        inherit inputs;
-        inherit pkgs-unstable;
-        inherit self;
-      };
-    };
-
-    nixosConfigurations.rt = nixpkgs.lib.nixosSystem {
-      modules = [
-        ./nix/hosts/rt
-      ];
-
-      specialArgs = {
-        inherit inputs;
-        inherit pkgs-unstable;
-        inherit self;
-      };
-    };
-
-    nixosConfigurations.iso = nixpkgs.lib.nixosSystem {
-      modules = [
-        ./nix/hosts/iso
-      ];
-
-      specialArgs = {
-        inherit inputs;
-      };
-    };
+          specialArgs = {inherit inputs pkgs-unstable self;};
+        };
+      })
+      hosts);
 
     packages.${system}.wolf = pkgs-go.buildGoModule {
       pname = "wolf";
