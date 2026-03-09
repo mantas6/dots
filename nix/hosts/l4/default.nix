@@ -18,6 +18,7 @@
     "services.speedtest"
     # "services.photosync"
     "quirks.prevent-sleep"
+    "services.sat-backups"
   ];
 
   features.swapSizeInGB = 8;
@@ -83,32 +84,6 @@
       Type = "simple";
     };
     environment = {
-    };
-  };
-
-  systemd.user.services.sat-backups = {
-    script = "/home/mantas/Offload/Sat/run";
-
-    path = with pkgs; [
-      openssl
-      bash
-      jq
-      curl
-    ];
-
-    after = ["network-online.target"];
-    wants = ["network-online.target"];
-
-    serviceConfig = {
-      Type = "oneshot";
-    };
-
-    startAt = ["03:00" "09:00"];
-  };
-
-  systemd.user.timers.sat-backups = {
-    timerConfig = {
-      Persistent = true;
     };
   };
 

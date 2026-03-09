@@ -5,5 +5,6 @@
     ./docker.nix
     ./speedtest.nix
     ./photosync.nix
+    ./sat-backups.nix
   ];
 }

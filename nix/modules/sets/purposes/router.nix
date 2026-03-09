@@ -88,7 +88,18 @@ in {
       };
 
       networking = {
+        dhcpcd = {
+          wait = "background";
+          extraConfig = ''
+            allowinterfaces ${wanIfName}
+          '';
+        };
+
         interfaces = {
+          "${wanIfName}" = {
+            useDHCP = true;
+          };
+
           "${lanIfName}" = {
             useDHCP = false;
             ipv4.addresses = [

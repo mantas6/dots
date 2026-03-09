@@ -13,6 +13,7 @@
     "disks.normal"
     "jobs.updates"
     "purposes.router"
+    "services.sat-backups"
   ];
 
   features.swapSizeInGB = 2;
