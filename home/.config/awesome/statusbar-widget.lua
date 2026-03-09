@@ -1,43 +1,39 @@
-local awful = require("awful")
-local wibox = require("wibox")
-local gears = require("gears")
+local awful = require('awful')
+local wibox = require('wibox')
+local gears = require('gears')
 
 local function createWidget(command, formatter, timeout)
-    local widget = wibox.widget.textbox();
-    timeout = timeout or 5
+  local widget = wibox.widget.textbox()
+  timeout = timeout or 5
 
-    gears.timer {
-        timeout   = timeout,
-        call_now  = true,
-        autostart = true,
-        callback  = function()
-            awful.spawn.easy_async(
-            {"sh", "-c", command},
-                function(out, _err, _reason, exitCode)
-                    local params = {
-                        color = '#c0c0c0',
-                        icon = '󰕟',
-                        text = exitCode == 0 and out or '-',
-                    }
+  gears.timer({
+    timeout = timeout,
+    call_now = true,
+    autostart = true,
+    callback = function()
+      awful.spawn.easy_async({ 'sh', '-c', command }, function(out, _err, _reason, exitCode)
+        local params = {
+          color = '#c0c0c0',
+          icon = '󰕟',
+          text = exitCode == 0 and out or '-',
+        }
 
-                    if type(formatter) == 'function' then
-                        formatter(params)
-                    else
-                        params.icon = formatter
-                    end
-
-                    if params.text ~= '' then
-                      widget.markup = string.format('<span foreground="%s"> %s   %s</span>', params.color, params.icon, params.text)
-                    else
-                      widget.markup = ''
-                    end
-                end
-            )
+        if type(formatter) == 'function' then
+          formatter(params)
+        else
+          params.icon = formatter
         end
-    }
 
-    return widget
+        if params.text ~= '' then
+          widget.markup = string.format('<span foreground="%s"> %s   %s</span>', params.color, params.icon, params.text)
+        else
+          widget.markup = ''
+        end
+      end)
+    end,
+  })
+
+  return widget
 end
 
 return createWidget
-

@@ -24,22 +24,22 @@ return {
     require('mason').setup({})
     require('mason-lspconfig').setup({
       ensure_installed = {
-        "intelephense",
-        "bashls",
-        "lua_ls",
-        "dockerls",
-        "cssls",
-        "jsonls",
-        "gopls",
-        "pyright",
-        "ts_ls",
+        'intelephense',
+        'bashls',
+        'lua_ls',
+        'dockerls',
+        'cssls',
+        'jsonls',
+        'gopls',
+        'pyright',
+        'ts_ls',
       },
       handlers = {
         lsp.default_setup,
       },
     })
 
-    local user = os.getenv("USER") or os.getenv("USERNAME");
+    local user = os.getenv('USER') or os.getenv('USERNAME')
     local hostname = vim.loop.os_gethostname()
 
     vim.lsp.config('ts_ls', {
@@ -57,14 +57,14 @@ return {
     -- vim.lsp.config.nixd = {
     -- require("lspconfig").nixd.setup({
     vim.lsp.config('nixd', {
-      cmd = { "nixd" },
+      cmd = { 'nixd' },
       settings = {
         nixd = {
           nixpkgs = {
-            expr = "import <nixpkgs> { }",
+            expr = 'import <nixpkgs> { }',
           },
           formatting = {
-            command = { "alejandra" }, -- or nixfmt or nixpkgs-fmt
+            command = { 'alejandra' }, -- or nixfmt or nixpkgs-fmt
           },
           options = {
             nixos = {
@@ -78,6 +78,6 @@ return {
       },
     })
 
-    vim.lsp.enable({"nixd"})
-  end
+    vim.lsp.enable({ 'nixd' })
+  end,
 }

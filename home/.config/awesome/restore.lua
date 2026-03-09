@@ -1,8 +1,8 @@
 -- Save and restore tags, when monitor setup is changed
-local naughty = require("naughty")
-local awful = require("awful")
+local naughty = require('naughty')
+local awful = require('awful')
 
-tag.connect_signal("request::screen", function(t)
+tag.connect_signal('request::screen', function(t)
   local fallback_tag = nil
 
   -- find tag with same name on any other screen

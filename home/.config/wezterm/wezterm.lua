@@ -1,4 +1,4 @@
-local wezterm = require 'wezterm'
+local wezterm = require('wezterm')
 
 local config = wezterm.config_builder()
 local action = wezterm.action
@@ -34,27 +34,27 @@ config.keys = {
   {
     key = 'c',
     mods = 'SUPER',
-    action = action.CopyTo 'Clipboard'
+    action = action.CopyTo('Clipboard'),
   },
   {
     key = 'v',
     mods = 'SUPER',
-    action = action.PasteFrom 'Clipboard'
+    action = action.PasteFrom('Clipboard'),
   },
   {
     key = '0',
     mods = 'SUPER',
-    action = action.ResetFontSize
+    action = action.ResetFontSize,
   },
   {
     key = '=',
     mods = 'SUPER',
-    action = action.IncreaseFontSize
+    action = action.IncreaseFontSize,
   },
   {
     key = '-',
     mods = 'SUPER',
-    action = action.DecreaseFontSize
+    action = action.DecreaseFontSize,
   },
 }
 
@@ -66,7 +66,7 @@ if isOneShot then
   -- config.window_class
   wezterm.on('window-focus-changed', function(window, pane)
     if not window:is_focused() then
-      window:perform_action(wezterm.action.CloseCurrentTab { confirm = false }, pane)
+      window:perform_action(wezterm.action.CloseCurrentTab({ confirm = false }), pane)
     end
   end)
 end

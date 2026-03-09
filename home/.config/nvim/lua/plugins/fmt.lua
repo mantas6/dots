@@ -2,7 +2,7 @@ return {
   'stevearc/conform.nvim',
 
   config = function()
-    require("conform").setup({
+    require('conform').setup({
       notify_on_error = false,
       notify_no_formatters = false,
 

@@ -20,7 +20,7 @@ autocmd('BufEnter', {
   callback = function()
     vim.opt.autoindent = true
     vim.opt.smartindent = true
-  end
+  end,
 })
 
 autocmd('FileType', {
@@ -41,8 +41,8 @@ autocmd('FileType', {
   command = 'setlocal shiftwidth=2 softtabstop=2 expandtab',
 })
 
-autocmd({ "BufWritePre" }, {
+autocmd({ 'BufWritePre' }, {
   group = group,
-  pattern = "*",
+  pattern = '*',
   command = [[%s/\s\+$//e]],
 })

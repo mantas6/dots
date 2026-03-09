@@ -2,20 +2,20 @@ return {
   'nvimtools/none-ls.nvim',
 
   config = function()
-    local null_ls = require("null-ls")
-    local h = require("null-ls.helpers")
+    local null_ls = require('null-ls')
+    local h = require('null-ls.helpers')
 
     local calc_ls = h.make_builtin({
-      name = "calc-ls",
+      name = 'calc-ls',
       method = null_ls.methods.DIAGNOSTICS,
-      filetypes = { "php" },
+      filetypes = { 'php' },
       generator_opts = {
-        command = "calc-ls",
+        command = 'calc-ls',
         args = {},
         to_stdin = true,
-        format = "json",
+        format = 'json',
         runtime_condition = function(params)
-          return params.bufname:match("%.calc%.php$") ~= nil
+          return params.bufname:match('%.calc%.php$') ~= nil
         end,
         on_output = function(params)
           local diags = {}
@@ -23,7 +23,7 @@ return {
             table.insert(diags, {
               row = item.line,
               message = item.message,
-              severity = h.diagnostics.severities["hint"],
+              severity = h.diagnostics.severities['hint'],
             })
           end
           return diags
@@ -37,7 +37,7 @@ return {
         null_ls.builtins.diagnostics.phpstan.with({
           condition = function(utils)
             return utils.root_has_file({ 'phpstan.neon', 'phpstan.neon.dist', 'phpstan.dist.neon' })
-          end
+          end,
         }),
         calc_ls,
       },

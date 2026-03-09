@@ -1,11 +1,11 @@
-local awful = require("awful")
-local gears = require("gears")
+local awful = require('awful')
+local gears = require('gears')
 
 return function()
   local focused = awful.screen.focused()
 
-  local hostname = io.popen("uname -n"):read("*l")
-  local satUrl = io.popen("sat-base-url"):read("*l")
+  local hostname = io.popen('uname -n'):read('*l')
+  local satUrl = io.popen('sat-base-url'):read('*l')
 
   local apps = {}
 
@@ -16,19 +16,19 @@ return function()
         exec = {
           'sesh connect generic',
           terminal_cmd .. ' attach-session -t generic',
-        }
+        },
       },
       {
         tag = 2,
         exec = {
           'chromium --app=https://messenger.com',
-        }
+        },
       },
       {
         tag = 3,
         exec = {
           'chromium --new-window https://gmail.com',
-        }
+        },
       },
     }
   else
@@ -39,28 +39,28 @@ return function()
           'chromium --new-window https://chatgpt.com',
           'sesh connect generic',
           terminal_cmd .. ' attach-session -t generic',
-        }
+        },
       },
       {
         tag = 2,
         exec = {
           'chromium --app=https://messenger.com',
           'chromium --new-window https://meteofor.lt/weather-alytus-4152/month',
-        }
+        },
       },
       {
         tag = 3,
         exec = {
           'firefox --new-window https://www.youtube.com/feed/subscriptions',
           'chromium --new-window https://www.icloud.com/reminders',
-        }
+        },
       },
       {
         tag = 4,
         exec = {
           'sesh connect large',
           terminal .. '  -o font.size=50 -e tmux attach-session -t large',
-        }
+        },
       },
       --     {
       --       tag = 4,
@@ -81,13 +81,13 @@ return function()
         exec = {
           'chromium --new-window ' .. satUrl .. '/Kd4z7q/resources/transactions',
           'chromium --new-window ' .. satUrl .. '/Kd4z7q/resources/articles',
-        }
+        },
       },
       {
         tag = 9,
         exec = {
           'chromium --app=http://gal/' .. os.date('%Y') .. '.html',
-        }
+        },
       },
     }
   end

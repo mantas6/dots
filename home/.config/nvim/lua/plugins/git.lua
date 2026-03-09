@@ -1,5 +1,5 @@
 return {
-  "lewis6991/gitsigns.nvim",
+  'lewis6991/gitsigns.nvim',
 
   config = function()
     require('gitsigns').setup({
@@ -22,15 +22,23 @@ return {
 
         -- Navigation through hunks
         map('n', ']c', function()
-          if vim.wo.diff then return ']c' end
-          vim.schedule(function() gs.next_hunk() end)
+          if vim.wo.diff then
+            return ']c'
+          end
+          vim.schedule(function()
+            gs.next_hunk()
+          end)
           return '<Ignore>'
         end, { expr = true })
 
         -- Navigation through hunks
         map('n', '[c', function()
-          if vim.wo.diff then return '[c' end
-          vim.schedule(function() gs.prev_hunk() end)
+          if vim.wo.diff then
+            return '[c'
+          end
+          vim.schedule(function()
+            gs.prev_hunk()
+          end)
           return '<Ignore>'
         end, { expr = true })
 
@@ -51,7 +59,7 @@ return {
 
         -- map('n', '<leader>gl', gs.diffthis)
         -- map('n', '<leader>gD', function() gs.diffthis('~') end)
-      end
+      end,
     })
-  end
+  end,
 }
