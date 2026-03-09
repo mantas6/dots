@@ -16,6 +16,7 @@
     # "services.printing"
     "services.docker"
     "quirks.amd-sleep"
+    "progs.gaming"
     # "purposes.sat"
     # "disks.normal"
   ];
