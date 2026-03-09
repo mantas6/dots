@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 # Convert markdown files to html with syntax highlighting
 
-set -eu
-
 for file in "$@"; do
     if [ "${file##*.}" != "md" ]; then
         echo "Skip: $file (not .md)" >&2
@@ -15,5 +13,7 @@ for file in "$@"; do
     fi
 
     output="${file%.md}.html"
-    pandoc "$file" -o "$output" -f gfm -t html5 --standalone --highlight-style=pygments
+    pandoc "$file" -o "$output" -f gfm -t html5 --standalone --highlight-style=pygments \
+        --css /dev/null -V margin-left=0 -V margin-right=0 \
+        -H <(printf '<style>body{max-width:100%%;margin:0 auto;padding:0 1em}</style>')
 done

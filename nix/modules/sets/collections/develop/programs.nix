@@ -52,6 +52,8 @@ in {
       shfmt
       prettier
       stylua
+
+      pandoc
       ripgrep
       fd
       entr
