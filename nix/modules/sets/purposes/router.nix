@@ -88,9 +88,9 @@ in {
       };
 
       # Rebind dhcpcd on wan carrier restore (cable re-plug)
-      services.udev.extraRules = ''
-        ACTION=="change", SUBSYSTEM=="net", ENV{INTERFACE}=="${wanIfName}", ENV{CARRIER}=="1", RUN+="${pkgs.systemd}/bin/systemctl reload dhcpcd.service"
-      '';
+      # services.udev.extraRules = ''
+      #   ACTION=="change", SUBSYSTEM=="net", ENV{INTERFACE}=="${wanIfName}", ENV{CARRIER}=="1", RUN+="${pkgs.systemd}/bin/systemctl reload dhcpcd.service"
+      # '';
 
       networking = {
         interfaces = {
