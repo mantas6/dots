@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Convert markdown files to html with syntax highlighting
+
+set -eu
+
+for file in "$@"; do
+    if [ "${file##*.}" != "md" ]; then
+        echo "Skip: $file (not .md)" >&2
+        continue
+    fi
+
+    if [ ! -f "$file" ]; then
+        echo "Skip: $file (not found)" >&2
+        continue
+    fi
+
+    output="${file%.md}.html"
+    pandoc "$file" -o "$output" -f gfm -t html5 --standalone --highlight-style=pygments
+done
