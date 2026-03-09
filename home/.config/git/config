@@ -11,6 +11,9 @@
 [push]
     autoSetupRemote = true
 
+[fetch]
+    prune = true
+
 [core]
     pager = delta
 
