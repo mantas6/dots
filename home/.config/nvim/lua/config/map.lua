@@ -98,19 +98,5 @@ vim.keymap.set('n', 'N', 'Nzzzv')
 
 vim.keymap.set('x', '<leader>v', [["_dP]])
 
-local function add_bible_text(type)
-  local output = vim.fn.system('curl -fsSL "$(sat-base-url)/api/bible/' .. type .. '"')
-  output = output:gsub('\n$', '')
-
-  vim.cmd('normal! a' .. output .. ' ')
-end
-
-vim.keymap.set('n', '<leader>-', function()
-  add_bible_text('word')
-end, { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>_', function()
-  add_bible_text('random')
-end, { noremap = true, silent = true })
-
 -- Agents
 vim.api.nvim_set_keymap('n', '<leader>q', ':norm OX-AGENT:  <CR>:norm Vgc^f:ll<CR>:startinsert<CR>', { noremap = true })
