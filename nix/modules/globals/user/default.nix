@@ -10,5 +10,4 @@
   };
 
   environment.variables.EDITOR = "${pkgs.vim}/bin/vim";
-  services.getty.autologinUser = "mantas";
 }

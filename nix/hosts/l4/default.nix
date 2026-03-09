@@ -88,6 +88,7 @@
   };
 
   services.udisks2.enable = true;
+  services.getty.autologinUser = "mantas";
 
   console.font = "ter-732n";
 

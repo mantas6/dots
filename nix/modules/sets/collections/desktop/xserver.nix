@@ -32,6 +32,9 @@
           # accelSpeed = "-1";
         };
       };
+
+      getty.autologinUser = "mantas";
     };
+
   };
 }
