@@ -11,7 +11,7 @@ test_script=$state/test.sh
 
 prompt() {
     echo '[ prompt ]'
-    opencode --agent build --file <(echo "$1")
+    opencode run --agent build --file <(echo "$1")
 }
 
 if ! git rev-parse --git-dir; then
