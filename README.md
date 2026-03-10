@@ -105,6 +105,12 @@ Clean up removed packages:
 brew bundle cleanup --global
 ```
 
+### Reset Neovim state
+
+```sh
+trash "$HOME/.local/share/nvim" "$HOME/.local/state/nvim" "$HOME/.cache/nvim"
+```
+
 ## Misc
 
 ### Stress testing
