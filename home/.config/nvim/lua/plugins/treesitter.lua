@@ -1,58 +1,62 @@
 return {
   'nvim-treesitter/nvim-treesitter',
+  lazy = false,
   build = ':TSUpdate',
+  branch = 'main',
   config = function()
-    require('nvim-treesitter.configs').setup({
-      -- A list of parser names, or "all" (the five listed parsers should always be installed)
-      ensure_installed = {
-        'c',
-        'lua',
-        'vim',
-        'vimdoc',
-        'query',
-        'php',
-        'css',
-        'scss',
-        'bash',
-        'html',
-        'go',
-        'rasi',
-        'tmux',
-        'sql',
-        'vue',
-        'json',
-        'twig',
-        'diff',
-        'udev',
-        'blade',
-        'glsl',
-        'gitcommit',
-        'python',
-        'nix',
-        'javascript',
-        'caddy',
-      },
+    local parsers = {
+      'c',
+      'lua',
+      'vim',
+      'vimdoc',
+      'query',
+      'php',
+      'css',
+      'scss',
+      'bash',
+      'html',
+      'go',
+      -- 'tmux',
+      'sql',
+      'vue',
+      'json',
+      'twig',
+      'diff',
+      'udev',
+      'blade',
+      'gitcommit',
+      'python',
+      'nix',
+      'javascript',
+      'caddy',
+    }
 
-      -- Install parsers synchronously (only applied to `ensure_installed`)
-      sync_install = false,
+    require('nvim-treesitter').install(parsers)
 
-      -- Automatically install missing parsers when entering buffer
-      -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-      auto_install = true,
+    vim.api.nvim_create_autocmd('FileType', {
+      callback = function(args)
+        local buf, filetype = args.buf, args.match
 
-      highlight = {
-        enable = true,
+        local language = vim.treesitter.language.get_lang(filetype)
+        if not language then
+          return
+        end
 
-        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-        -- Using this option may slow down your editor, and you may see some duplicate highlights.
-        -- Instead of true it can also be a list of languages
-        additional_vim_regex_highlighting = false,
-      },
+        -- check if parser exists and load it
+        if not vim.treesitter.language.add(language) then
+          return
+        end
+        -- enables syntax highlighting and other treesitter features
+        vim.treesitter.start(buf, language)
 
-      indent = {
-        enable = true,
-      },
+        -- enables treesitter based folds
+        -- for more info on folds see `:help folds`
+        -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+        -- vim.wo.foldmethod = 'expr'
+
+        -- enables treesitter based indentation
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end,
     })
   end,
 }

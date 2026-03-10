@@ -52,6 +52,7 @@ in {
       shfmt
       prettier
       stylua
+      tree-sitter
 
       pandoc
       ripgrep
