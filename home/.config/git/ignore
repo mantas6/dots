@@ -4,6 +4,10 @@
 .null-ls_*
 .conform.*
 
-PRESENTATION.md
+node_modules
+vendor
+
+/PRESENTATION.md
+/PLAN.md
 
 **/.claude/settings.local.json
