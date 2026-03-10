@@ -13,6 +13,7 @@
     "hardware.amd"
     "collections.desktop"
     "collections.develop"
+    "progs.shell"
     # "services.printing"
     "services.docker"
     "quirks.amd-sleep"

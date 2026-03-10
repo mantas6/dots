@@ -12,6 +12,7 @@
   features.sets = [
     "disks.normal"
     "jobs.updates"
+    "progs.shell"
     "purposes.app-server"
     # "services.docker"
   ];

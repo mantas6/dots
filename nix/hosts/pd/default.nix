@@ -19,8 +19,6 @@
   features.swapSizeInGB = 2;
   powerManagement.powertop.enable = true;
 
-  features.useZshShell = false;
-
   system.autoUpgrade.dates = "01:00";
 
   networking.hostName = "pd";

@@ -14,6 +14,7 @@
     "hardware.amd"
     "collections.desktop"
     "collections.develop"
+    "progs.shell"
     "services.docker"
     "hardware.backlight"
   ];

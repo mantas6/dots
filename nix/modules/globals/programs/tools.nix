@@ -3,20 +3,11 @@
     vim
     wget
     curl
-    git
-    fastfetch
-    lf
-    yazi
-    gh
     unzip
     htop
     btop
     file
 
     killall
-
-    pciutils
-    usbutils
-    lm_sensors
   ];
 }

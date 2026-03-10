@@ -13,6 +13,7 @@
     "disks.normal"
     "jobs.updates"
     "hardware.backlight"
+    "progs.shell"
     "services.docker"
     "services.memos"
     "services.speedtest"
