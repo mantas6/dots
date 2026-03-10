@@ -15,6 +15,7 @@ require('lazy').setup({
     require('plugins.fmt'),
     require('plugins.git'),
     require('plugins.lsp'),
+    require('plugins.cmp'),
     require('plugins.lsp-shim'),
     require('plugins.markdown'),
     require('plugins.oil'),
