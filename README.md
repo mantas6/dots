@@ -66,6 +66,12 @@ git pull
 sudo nixos-rebuild --install-bootloader switch --flake .
 ```
 
+### Reset Neovim state
+
+```sh
+trash "$HOME/.local/share/nvim" "$HOME/.local/state/nvim" "$HOME/.cache/nvim"
+```
+
 ## MacOS
 
 ### Setup
@@ -103,12 +109,6 @@ Clean up removed packages:
 
 ```sh
 brew bundle cleanup --global
-```
-
-### Reset Neovim state
-
-```sh
-trash "$HOME/.local/share/nvim" "$HOME/.local/state/nvim" "$HOME/.cache/nvim"
 ```
 
 ## Misc
