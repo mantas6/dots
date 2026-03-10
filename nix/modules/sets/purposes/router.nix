@@ -88,9 +88,18 @@ in {
       };
 
       # Rebind dhcpcd on wan carrier restore (cable re-plug)
-      # services.udev.extraRules = ''
-      #   ACTION=="change", SUBSYSTEM=="net", ENV{INTERFACE}=="${wanIfName}", ENV{CARRIER}=="1", RUN+="${pkgs.systemd}/bin/systemctl reload dhcpcd.service"
-      # '';
+      systemd.services.dhcpcd-wan-reload = {
+        description = "Delayed dhcpcd reload on WAN carrier restore";
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStartPre = "${pkgs.coreutils}/bin/sleep 10";
+          ExecStart = "${pkgs.systemd}/bin/systemctl reload dhcpcd.service";
+        };
+      };
+
+      services.udev.extraRules = ''
+        ACTION=="change", SUBSYSTEM=="net", ENV{INTERFACE}=="${wanIfName}", ENV{CARRIER}=="1", RUN+="${pkgs.systemd}/bin/systemctl --no-block start dhcpcd-wan-reload.service"
+      '';
 
       networking = {
         interfaces = {
