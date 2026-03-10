@@ -20,6 +20,8 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 -- vim.o.inccommand = 'split'
 
+vim.o.signcolumn = 'yes'
+
 vim.schedule(function()
   vim.o.clipboard = 'unnamedplus'
 end)
