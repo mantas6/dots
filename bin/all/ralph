@@ -9,9 +9,11 @@ progress_file=$state/progress.log
 init_script=$state/init.sh
 test_script=$state/test.sh
 
+mkdir -pv "$state"
+
 prompt() {
     echo '[ prompt ]'
-    opencode run --agent build --file <(echo "$1")
+    opencode run --agent build "$1"
 }
 
 if ! git rev-parse --git-dir; then
