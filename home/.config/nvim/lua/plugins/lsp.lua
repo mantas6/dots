@@ -20,13 +20,7 @@ return {
           vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
         end
 
-        local client = vim.lsp.get_client_by_id(event.data.client_id)
-
-        if client and client:supports_method('textDocument/inlayHint', event.buf) then
-          map('<leader>bh', function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
-          end, '[T]oggle Inlay [H]ints')
-        end
+        map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
       end,
     })
 
