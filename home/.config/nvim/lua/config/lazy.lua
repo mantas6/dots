@@ -9,6 +9,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Setup lazy.nvim
 require('lazy').setup({
   spec = {
+    -- { 'NMAC427/guess-indent.nvim', opts = {} },
     require('plugins.bookmarks'),
     require('plugins.colors'),
     require('plugins.fmt'),
