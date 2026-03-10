@@ -1,14 +1,31 @@
 return {
   'nvim-telescope/telescope.nvim',
 
-  tag = '0.1.8',
+  tag = 'v0.2.1',
 
   dependencies = {
     'nvim-lua/plenary.nvim',
+    'nvim-tree/nvim-web-devicons',
+    {
+      'nvim-telescope/telescope-fzf-native.nvim',
+
+      build = 'make',
+
+      cond = function()
+        return vim.fn.executable('make') == 1
+      end,
+    },
   },
+
+  event = 'VimEnter',
 
   config = function()
     require('telescope').setup({
+      extensions = {
+        ['ui-select'] = {
+          require('telescope.themes').get_dropdown(),
+        },
+      },
       defaults = {
         sorting_strategy = 'descending',
         borderchars = { '', '', '', '', '', '', '', '' },
@@ -33,6 +50,9 @@ return {
         -- git_status = { use_git_root = false },
       },
     })
+
+    pcall(require('telescope').load_extension, 'fzf')
+    pcall(require('telescope').load_extension, 'ui-select')
 
     local builtin = require('telescope.builtin')
     local utils = require('telescope.utils')
