@@ -1,12 +1,13 @@
 {pkgs-unstable, ...}: let
   serviceName = "trash-empty";
+  pruneAfterDays = "60";
 in {
   environment.systemPackages = with pkgs-unstable; [
     trash-cli
   ];
 
   systemd.user.services.${serviceName} = {
-    script = "${pkgs-unstable.trash-cli}/bin/trash-empty -vf 90";
+    script = "${pkgs-unstable.trash-cli}/bin/trash-empty -vf ${pruneAfterDays}";
 
     serviceConfig = {
       Type = "oneshot";
