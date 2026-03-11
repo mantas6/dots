@@ -21,7 +21,9 @@ return {
         end
 
         map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-        map('gl', function() vim.diagnostic.open_float({ scope = 'line' }) end, '[G]et [L]ine Diagnostics')
+        map('gl', function()
+          vim.diagnostic.open_float({ scope = 'line' })
+        end, '[G]et [L]ine Diagnostics')
       end,
     })
 
@@ -31,6 +33,9 @@ return {
         vim.lsp.buf.clear_references()
       end,
     })
+
+    local user = os.getenv('USER') or os.getenv('USERNAME')
+    local hostname = vim.loop.os_gethostname()
 
     ---@type table<string, vim.lsp.Config>
     local servers = {
@@ -53,34 +58,32 @@ return {
           'typescript.tsx',
         },
       },
-    }
-
-    local user = os.getenv('USER') or os.getenv('USERNAME')
-    local hostname = vim.loop.os_gethostname()
-
-    vim.lsp.config('nixd', {
-      cmd = { 'nixd' },
-      settings = {
-        nixd = {
-          nixpkgs = {
-            expr = 'import <nixpkgs> { }',
-          },
-          formatting = {
-            command = { 'alejandra' }, -- or nixfmt or nixpkgs-fmt
-          },
-          options = {
-            nixos = {
-              expr = '(builtins.getFlake "/home/' .. user .. '/.dots").nixosConfigurations.' .. hostname .. '.options',
+      nixd = {
+        cmd = { 'nixd' },
+        settings = {
+          nixd = {
+            nixpkgs = {
+              expr = 'import <nixpkgs> { }',
             },
-            --   home_manager = {
-            --       expr = '(builtins.getFlake "/PATH/TO/FLAKE").homeConfigurations.CONFIGNAME.options',
-            --   },
+            formatting = {
+              command = { 'alejandra' }, -- or nixfmt or nixpkgs-fmt
+            },
+            options = {
+              nixos = {
+                expr = '(builtins.getFlake "/home/'
+                  .. user
+                  .. '/.dots").nixosConfigurations.'
+                  .. hostname
+                  .. '.options',
+              },
+              --   home_manager = {
+              --       expr = '(builtins.getFlake "/PATH/TO/FLAKE").homeConfigurations.CONFIGNAME.options',
+              --   },
+            },
           },
         },
       },
-    })
-
-    vim.lsp.enable({ 'nixd' })
+    }
 
     -- Ensure the servers and tools above are installed
     --
@@ -89,7 +92,10 @@ return {
     --    :Mason
     --
     -- You can press `g?` for help in this menu.
-    local ensure_installed = vim.tbl_keys(servers or {})
+    local ensure_installed = vim.tbl_filter(function(s)
+      return s ~= 'nixd'
+    end, vim.tbl_keys(servers or {}))
+
     vim.list_extend(ensure_installed, {
       -- You can add other tools here that you want Mason to install
     })
