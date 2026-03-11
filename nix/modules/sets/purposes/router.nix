@@ -11,7 +11,7 @@
   lanIfName = "net0";
   lanDeviceMac = "98:fa:9b:9e:ef:fb";
   lanIp = "10.0.1.1";
-  lanIpRangeEnd = "10.0.1.255";
+  lanIpRangeEnd = "10.0.1.254";
 
   wanIfName = "internet0";
   wanDeviceMac = "00:1b:21:f0:6c:e0";
@@ -22,6 +22,7 @@ in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}
     (lib.mkIf (lib.elem name config.features.sets) {
+      services.fail2ban.enable = true;
       networking.stevenblack = {
         enable = true;
         package = pkgs-unstable.stevenblack-blocklist;
@@ -50,8 +51,9 @@ in {
 
           interface = "${lanIfName}";
 
-          listen-address = "::1,127.0.0.1,${lanIp}";
-          dhcp-range = "${lanIp},${lanIpRangeEnd},infinite";
+          # listen-address = "::1,127.0.0.1,${lanIp}";
+          listen-address = "127.0.0.1,${lanIp}";
+          dhcp-range = "${lanIp},${lanIpRangeEnd},30d";
 
           cache-size = 10000;
 
@@ -120,6 +122,7 @@ in {
 
         nat = {
           enable = true;
+          enableIPv6 = false;
           internalInterfaces = [lanIfName];
           externalInterface = wanIfName;
         };
