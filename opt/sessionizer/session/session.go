@@ -2,18 +2,32 @@ package session
 
 import (
 	"mantas6/sessionizer/config"
+	"mantas6/sessionizer/tmuxsession"
 	"path/filepath"
 )
 
 type Session struct {
-	Name   string
-	Path   string
-	Cmd    string
-	Active bool
+	Name         string
+	Path         string
+	Cmd          string
+	LastAttached int
+	Active       bool
 }
 
 func (s *Session) SetActive() {
 	s.Active = true
+}
+
+func (s *Session) MatchesTmuxSession(tmuxSession tmuxsession.TmuxSession) bool {
+	return s.Name == tmuxSession.Name
+}
+
+func CreateFromTmuxSession(tmuxSession tmuxsession.TmuxSession) Session {
+	return Session{
+		Name: 	tmuxSession.Name,
+		Path: tmuxSession.Path,
+		LastAttached: tmuxSession.LastAttached,
+	}
 }
 
 func CreateFromConfigItem(configSession config.Session) Session {
