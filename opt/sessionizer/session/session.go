@@ -1,6 +1,9 @@
 package session
 
-import "mantas6/sessionizer/config"
+import (
+	"mantas6/sessionizer/config"
+	"path/filepath"
+)
 
 type Session struct {
 	Name   string
@@ -18,5 +21,13 @@ func CreateFromConfigItem(configSession config.Session) Session {
 		Name: configSession.Name,
 		Path: configSession.Path,
 		Cmd:  configSession.Cmd,
+	}
+}
+
+func CreateFromPatternItem(configPattnern config.Pattern, resolvedPath string) Session {
+	return Session{
+		Name: filepath.Base(resolvedPath),
+		Path: resolvedPath,
+		Cmd:  configPattnern.Cmd,
 	}
 }
