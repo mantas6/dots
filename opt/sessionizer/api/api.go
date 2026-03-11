@@ -24,6 +24,10 @@ func Attach(target string) error {
 	return exec.Command("tmux", "attach", "-t", target).Run()
 }
 
+func NewSession(name string, path string) error {
+	return exec.Command("tmux", "new-session", "-d", "-s", name, "-c", path).Run()
+}
+
 func SendKeys(target string, keys []string) error {
 	args := append([]string{"send-keys", "-t", target}, keys...)
 	return exec.Command("tmux", args...).Run()

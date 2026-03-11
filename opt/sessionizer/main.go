@@ -1,13 +1,13 @@
 package main
 
 import (
+	"fmt"
+	"log"
 	"mantas6/sessionizer/api"
 	"mantas6/sessionizer/config"
 	"mantas6/sessionizer/helpers"
 	"mantas6/sessionizer/session"
 	"mantas6/sessionizer/tmuxsession"
-	"fmt"
-	"log"
 	"os"
 	"strings"
 )
@@ -44,15 +44,39 @@ func main() {
 		}
 	}
 
-	var selectedSession string
+	var selectedSessionName string
 	if len(os.Args) > 1 {
-		selectedSession = os.Args[1]
+		selectedSessionName = os.Args[1]
+	}
+
+	if selectedSessionName == "" {
+		for _, sessionItem := range sessionItems {
+			fmt.Printf("%v %v\n", sessionItem.Active, sessionItem.Name)
+		}
+		return
 	}
 
 	for _, sessionItem := range sessionItems {
-		fmt.Printf("%v %v\n", sessionItem.Active, sessionItem.Name)
-	}
+		if sessionItem.Name == selectedSessionName {
+			if sessionItem.Active {
+				// check if tmux is running
+				err := api.SwitchClient(sessionItem.Name)
+				if err != nil {
+					log.Fatalf("Failed to attach to session: %v", err)
+				}
+				return
+			}
 
-	// currentSessionName, _ := api.CurrentSession()
-	// fmt.Println(currentSessionName)
+			err := api.NewSession(sessionItem.Name, sessionItem.Path)
+			if err != nil {
+				log.Fatalf("Failed to create a session: %v", err)
+			}
+			if sessionItem.Cmd != "" {
+				err := api.SendKeys(sessionItem.Name, []string{sessionItem.Cmd, "C-m"})
+				if err != nil {
+					log.Fatalf("Failed to send keys to a session: %v", err)
+				}
+			}
+		}
+	}
 }
