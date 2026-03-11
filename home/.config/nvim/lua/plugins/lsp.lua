@@ -21,6 +21,7 @@ return {
         end
 
         map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+        map('gl', function() vim.diagnostic.open_float({ scope = 'line' }) end, '[G]et [L]ine Diagnostics')
       end,
     })
 
