@@ -80,6 +80,13 @@ brew "git-lfs"
 brew "go"
 brew "rust"
 
+brew "gopls"
+brew "pyright"
+brew "lua-language-server"
+brew "bash-language-server"
+brew "typescript-language-server"
+brew "vscode-langservers-extracted"
+
 brew "tmux"
 brew "sesh"
 

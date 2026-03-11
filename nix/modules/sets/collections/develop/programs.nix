@@ -2,8 +2,14 @@
   pkgs-unstable,
   lib,
   config,
+  inputs,
   ...
 }: let
+  pkgs-unfree = import inputs.nixpkgs-unstable {
+    system = pkgs-unstable.stdenv.hostPlatform.system;
+    config.allowUnfreePredicate = pkg: (lib.getName pkg) == "intelephense";
+  };
+
   phpConfigured = pkgs-unstable.php85.buildEnv {
     extensions = {
       enabled,
@@ -71,7 +77,17 @@ in {
       parallel
       speedtest-cli
 
+      # LSP servers
       nixd
+      gopls
+      pyright
+      lua-language-server
+      pkgs-unfree.intelephense
+      nodePackages.bash-language-server
+      nodePackages.typescript-language-server
+      dockerfile-language-server
+      vscode-langservers-extracted
+
       alejandra
       # deadnix
     ];
