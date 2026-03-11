@@ -2,7 +2,9 @@ package main
 
 import (
 	// "fmt"
+	"fmt"
 	"log"
+	"mantas6/sessionizer/api"
 	"os"
 	"os/exec"
 )
@@ -11,6 +13,10 @@ func main() {
 	configText := getUserConfigurationText()
 
 	buildConfigurationObjects(configText)
+
+	currentSessionName, _ := api.CurrentSession()
+
+	fmt.Println(currentSessionName)
 }
 
 func buildConfigurationObjects(configText string) {
