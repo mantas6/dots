@@ -44,7 +44,7 @@ func main() {
 	}
 
 	for _, sessionItem := range sessionItems {
-		fmt.Println(sessionItem.Name)
+		fmt.Printf("%v %v\n", sessionItem.Active, sessionItem.Name)
 	}
 
 	// currentSessionName, _ := api.CurrentSession()
