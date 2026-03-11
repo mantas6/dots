@@ -22,24 +22,24 @@ func (s *Session) MatchesTmuxSession(tmuxSession tmuxsession.TmuxSession) bool {
 	return s.Name == tmuxSession.Name
 }
 
-func CreateFromTmuxSession(tmuxSession tmuxsession.TmuxSession) Session {
-	return Session{
-		Name: 	tmuxSession.Name,
-		Path: tmuxSession.Path,
+func CreateFromTmuxSession(tmuxSession tmuxsession.TmuxSession) *Session {
+	return &Session{
+		Name:         tmuxSession.Name,
+		Path:         tmuxSession.Path,
 		LastAttached: tmuxSession.LastAttached,
 	}
 }
 
-func CreateFromConfigItem(configSession config.Session) Session {
-	return Session{
+func CreateFromConfigItem(configSession config.Session) *Session {
+	return &Session{
 		Name: configSession.Name,
 		Path: configSession.Path,
 		Cmd:  configSession.Cmd,
 	}
 }
 
-func CreateFromPatternItem(configPattnern config.Pattern, resolvedPath string) Session {
-	return Session{
+func CreateFromPatternItem(configPattnern config.Pattern, resolvedPath string) *Session {
+	return &Session{
 		Name: filepath.Base(resolvedPath),
 		Path: resolvedPath,
 		Cmd:  configPattnern.Cmd,

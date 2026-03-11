@@ -1,13 +1,14 @@
 package main
 
 import (
-	"fmt"
-	"log"
 	"mantas6/sessionizer/api"
 	"mantas6/sessionizer/config"
 	"mantas6/sessionizer/helpers"
 	"mantas6/sessionizer/session"
 	"mantas6/sessionizer/tmuxsession"
+	"fmt"
+	"log"
+	"os"
 	"strings"
 )
 
@@ -15,7 +16,7 @@ func main() {
 	configText := config.GetUserConfigurationText()
 	config := config.ParseConfigurationText(configText)
 
-	var sessionItems []session.Session
+	var sessionItems []*session.Session
 
 	for _, configSession := range config.Sessions {
 		sessionItems = append(sessionItems, session.CreateFromConfigItem(configSession))
@@ -41,6 +42,11 @@ func main() {
 				sessionItem.SetActive()
 			}
 		}
+	}
+
+	var selectedSession string
+	if len(os.Args) > 1 {
+		selectedSession = os.Args[1]
 	}
 
 	for _, sessionItem := range sessionItems {
