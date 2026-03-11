@@ -1,41 +1,24 @@
 package main
 
 import (
-	// "fmt"
 	"fmt"
-	"log"
 	"mantas6/sessionizer/api"
-	"os"
-	"os/exec"
+	"mantas6/sessionizer/config"
+	"mantas6/sessionizer/session"
 )
 
 func main() {
-	configText := getUserConfigurationText()
+	configText := config.GetUserConfigurationText()
+	config := config.ParseConfigurationText(configText)
 
-	buildConfigurationObjects(configText)
-
-	currentSessionName, _ := api.CurrentSession()
-
-	fmt.Println(currentSessionName)
-}
-
-func buildConfigurationObjects(configText string) {
-	//
-}
-
-func getUserConfigurationText() string {
-	configDir, err := os.UserConfigDir()
-
-	if err != nil {
-		log.Fatalf("Failed to get user configuration directory: %v", err)
+	var sessionItems []session.Session
+	for _, configSession := range config.Sessions {
+		 sessionItems = append(sessionItems, session.CreateFromConfigItem(configSession))
 	}
 
-	cmd := exec.Command("yq", "-p", "toml", "-o", "json", ".", configDir+"/tmux/sessions.toml")
-	output, err := cmd.Output()
+	// currentSessionName, _ := api.CurrentSession()
+	// fmt.Println(currentSessionName)
 
-	if err != nil {
-		log.Fatalf("Failed to read configuration file: %v", err)
-	}
-
-	return string(output)
+	sessions, _ := api.ListSessions()
+	fmt.Println(sessions)
 }

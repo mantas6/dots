@@ -4,12 +4,12 @@ pattern = "~/Repos/*"
 
 [[session]]
 name = "llm"
-dir = "~/.local/state/session/llm"
+path = "~/.local/state/session/llm"
 cmd = "opencode --continue"
 
 [[session]]
 name = "calc"
-dir = "~/.local/state/session/calc"
+path = "~/.local/state/session/calc"
 cmd = "nvim main.calc.php"
 
 [[session]]
