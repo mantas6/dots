@@ -28,13 +28,20 @@ func main() {
 			if s.Name == currentSession {
 				continue
 			}
-
 			tag := "-"
-			if s.Active {
-				tag = "*"
+			switch s.Source {
+			case session.SourceConfig:
+				tag = "#"
+			case session.SourcePattern:
+				tag = "~"
 			}
 
-			fmt.Printf("%v %v\n", tag, s.Name)
+			color := "\033[90m"
+			if s.Active {
+				color = "\033[34m"
+			}
+
+			fmt.Printf("%s%v \033[0m%v\n", color, tag, s.Name)
 		}
 
 	case "last":

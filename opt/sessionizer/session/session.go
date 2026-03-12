@@ -7,12 +7,21 @@ import (
 	"path/filepath"
 )
 
+type Source int
+
+const (
+	SourceConfig Source = iota
+	SourcePattern
+	SourceTmux
+)
+
 type Session struct {
 	Name         string
 	Path         string
 	Cmd          string
 	LastAttached int
 	Active       bool
+	Source       Source
 }
 
 func (s *Session) SetActive(lastAttached int) {
@@ -30,21 +39,24 @@ func CreateFromTmuxSession(tmuxSession tmuxsession.TmuxSession) *Session {
 		Path:         tmuxSession.Path,
 		LastAttached: tmuxSession.LastAttached,
 		Active:       true,
+		Source:       SourceTmux,
 	}
 }
 
 func CreateFromConfigItem(configSession config.Session) *Session {
 	return &Session{
-		Name: configSession.Name,
-		Path: helpers.ExpandHome(configSession.Path),
-		Cmd:  configSession.Cmd,
+		Name:   configSession.Name,
+		Path:   helpers.ExpandHome(configSession.Path),
+		Cmd:    configSession.Cmd,
+		Source: SourceConfig,
 	}
 }
 
 func CreateFromPatternItem(configPattnern config.Pattern, resolvedPath string) *Session {
 	return &Session{
-		Name: filepath.Base(resolvedPath),
-		Path: resolvedPath,
-		Cmd:  configPattnern.Cmd,
+		Name:   filepath.Base(resolvedPath),
+		Path:   resolvedPath,
+		Cmd:    configPattnern.Cmd,
+		Source: SourcePattern,
 	}
 }
