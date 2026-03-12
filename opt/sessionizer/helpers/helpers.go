@@ -26,6 +26,17 @@ func ExpandWildcardPaths(pattern string) []string {
 	return matches
 }
 
+func ExpandHome(path string) string {
+	if strings.HasPrefix(path, "~/") {
+		home, err := os.UserHomeDir()
+		if err != nil {
+			return path
+		}
+		return filepath.Join(home, path[2:])
+	}
+	return path
+}
+
 func SwitchToSession(name string) {
 	if os.Getenv("TMUX") != "" {
 		err := api.SwitchClient(name)

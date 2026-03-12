@@ -2,6 +2,7 @@ package session
 
 import (
 	"mantas6/sessionizer/config"
+	"mantas6/sessionizer/helpers"
 	"mantas6/sessionizer/tmuxsession"
 	"path/filepath"
 )
@@ -28,14 +29,14 @@ func CreateFromTmuxSession(tmuxSession tmuxsession.TmuxSession) *Session {
 		Name:         tmuxSession.Name,
 		Path:         tmuxSession.Path,
 		LastAttached: tmuxSession.LastAttached,
-		Active: true,
+		Active:       true,
 	}
 }
 
 func CreateFromConfigItem(configSession config.Session) *Session {
 	return &Session{
 		Name: configSession.Name,
-		Path: configSession.Path,
+		Path: helpers.ExpandHome(configSession.Path),
 		Cmd:  configSession.Cmd,
 	}
 }
