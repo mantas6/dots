@@ -49,7 +49,7 @@ func main() {
 				continue
 			}
 			if s.Active {
-				helpers.SwitchToSession(s.Name)
+				switchToSession(s.Name)
 				return
 			}
 		}
@@ -68,7 +68,7 @@ func main() {
 			}
 
 			if s.Active {
-				helpers.SwitchToSession(s.Name)
+				switchToSession(s.Name)
 				return
 			}
 
@@ -82,7 +82,7 @@ func main() {
 					log.Fatalf("Failed to send keys to a session: %v", err)
 				}
 			}
-			helpers.SwitchToSession(s.Name)
+			switchToSession(s.Name)
 			return
 		}
 
@@ -148,4 +148,18 @@ func mergeInTmuxSession(sessionItems []*session.Session, tmuxSessionItem tmuxses
 	}
 
 	return append(sessionItems, session.CreateFromTmuxSession(tmuxSessionItem))
+}
+
+func switchToSession(name string) {
+	if os.Getenv("TMUX") != "" {
+		err := api.SwitchClient(name)
+		if err != nil {
+			log.Fatalf("Failed to switch to session: %v", err)
+		}
+	} else {
+		err := api.Attach(name)
+		if err != nil {
+			log.Fatalf("Failed to attach to session: %v", err)
+		}
+	}
 }

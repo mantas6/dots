@@ -26,20 +26,6 @@ func ExpandWildcardPaths(pattern string) []string {
 	return matches
 }
 
-func RemoveHomeFromPath(path string) string {
-	home, err := os.UserHomeDir()
-	if err != nil {
-		return path
-	}
-
-	trimmed := strings.TrimPrefix(path, home)
-	if trimmed != path {
-		return "~" + trimmed
-	}
-
-	return path
-}
-
 func SwitchToSession(name string) {
 	if os.Getenv("TMUX") != "" {
 		err := api.SwitchClient(name)
