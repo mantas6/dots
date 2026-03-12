@@ -15,13 +15,13 @@ autocmd('TextYankPost', {
   end,
 })
 
-autocmd('BufEnter', {
-  group = group,
-  callback = function()
-    vim.opt.autoindent = true
-    vim.opt.smartindent = true
-  end,
-})
+-- autocmd('BufEnter', {
+--   group = group,
+--   callback = function()
+--     vim.opt.autoindent = true
+--     vim.opt.smartindent = true
+--   end,
+-- })
 
 autocmd('FileType', {
   pattern = {
