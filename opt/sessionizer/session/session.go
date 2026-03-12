@@ -28,6 +28,7 @@ func CreateFromTmuxSession(tmuxSession tmuxsession.TmuxSession) *Session {
 		Name:         tmuxSession.Name,
 		Path:         tmuxSession.Path,
 		LastAttached: tmuxSession.LastAttached,
+		Active: true,
 	}
 }
 
