@@ -123,13 +123,11 @@ func loadSessions() []*session.Session {
 	}
 
 	sessionsText, err := api.ListSessions()
-	if err != nil {
-		log.Fatalf("Failed to list tmux sessions: %v", err)
-	}
-
-	for _, line := range strings.Split(sessionsText, "\n") {
-		tmuxSessionItem := tmuxsession.CreateFromLineItem(line)
-		sessionItems = mergeInTmuxSession(sessionItems, tmuxSessionItem)
+	if err == nil {
+		for _, line := range strings.Split(sessionsText, "\n") {
+			tmuxSessionItem := tmuxsession.CreateFromLineItem(line)
+			sessionItems = mergeInTmuxSession(sessionItems, tmuxSessionItem)
+		}
 	}
 
 	sort.Slice(sessionItems, func(i, j int) bool {

@@ -16,6 +16,7 @@ cmd = "nvim main.calc.php"
 [[session]]
 name = "_dots"
 path = "~/.dots"
+cmd = "start-tmux-session"
 
 [[session]]
 name = "generic"
