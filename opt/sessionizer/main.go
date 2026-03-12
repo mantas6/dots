@@ -129,11 +129,7 @@ func loadSessions() []*session.Session {
 
 	for _, line := range strings.Split(sessionsText, "\n") {
 		tmuxSessionItem := tmuxsession.CreateFromLineItem(line)
-		for _, s := range sessionItems {
-			if s.MatchesTmuxSession(tmuxSessionItem) {
-				s.SetActive(tmuxSessionItem.LastAttached)
-			}
-		}
+		sessionItems = mergeInTmuxSession(sessionItems, tmuxSessionItem)
 	}
 
 	sort.Slice(sessionItems, func(i, j int) bool {
@@ -141,4 +137,15 @@ func loadSessions() []*session.Session {
 	})
 
 	return sessionItems
+}
+
+func mergeInTmuxSession(sessionItems []*session.Session, tmuxSessionItem tmuxsession.TmuxSession) []*session.Session {
+	for _, s := range sessionItems {
+		if s.MatchesTmuxSession(tmuxSessionItem) {
+			s.SetActive(tmuxSessionItem.LastAttached)
+			return sessionItems
+		}
+	}
+
+	return append(sessionItems, session.CreateFromTmuxSession(tmuxSessionItem))
 }
