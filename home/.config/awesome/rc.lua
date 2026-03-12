@@ -65,7 +65,7 @@ terminal = 'alacritty'
 terminal_cmd = terminal .. ' -e tmux'
 editor = os.getenv('EDITOR') or 'nano'
 editor_cmd = terminal .. ' -e ' .. editor
-browser = 'chromium'
+browser = 'qutebrowser'
 menu = 'rofi -show drun'
 
 -- Default modkey.

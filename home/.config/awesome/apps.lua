@@ -21,13 +21,13 @@ return function()
       {
         tag = 2,
         exec = {
-          'chromium --app=https://messenger.com',
+          'qutebrowser',
         },
       },
       {
         tag = 3,
         exec = {
-          'chromium --new-window https://gmail.com',
+          'qutebrowser',
         },
       },
     }
@@ -36,7 +36,7 @@ return function()
       {
         tag = 1,
         exec = {
-          'chromium --new-window https://chatgpt.com',
+          'qutebrowser',
           'sesh connect generic',
           terminal_cmd .. ' attach-session -t generic',
         },

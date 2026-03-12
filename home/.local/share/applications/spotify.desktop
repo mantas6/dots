@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Version=1.0
-Name=Spotify
-Icon=firefox
-Comment=Spotify music streaming service
-Exec=/usr/bin/env firefox https://open.spotify.com
-Terminal=false

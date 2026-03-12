@@ -9,7 +9,7 @@ config = config  # noqa: F821 pylint: disable=E0602,C0103
 # c: ConfigContainer = c  # noqa: F821 pylint: disable=E0602,C0103
 
 c.auto_save.session = False
-c.confirm_quit = ['always']
+# c.confirm_quit = ['always']
 c.completion.cmd_history_max_items = 5000
 c.new_instance_open_target = 'window'
 c.window.hide_decoration = True
