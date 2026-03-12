@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"mantas6/sessionizer/api"
@@ -8,11 +9,13 @@ import (
 	"mantas6/sessionizer/helpers"
 	"mantas6/sessionizer/session"
 	"mantas6/sessionizer/tmuxsession"
-	"os"
 	"strings"
 )
 
 func main() {
+	oneFlag := flag.Bool("1", false, "return only one session")
+	flag.Parse()
+
 	configText := config.GetUserConfigurationText()
 	config := config.ParseConfigurationText(configText)
 
@@ -45,13 +48,16 @@ func main() {
 	}
 
 	var selectedSessionName string
-	if len(os.Args) > 1 {
-		selectedSessionName = os.Args[1]
+	if flag.NArg() > 0 {
+		selectedSessionName = flag.Arg(0)
 	}
 
 	if selectedSessionName == "" {
 		for _, sessionItem := range sessionItems {
 			fmt.Printf("%v %v\n", sessionItem.Active, sessionItem.Name)
+			if *oneFlag {
+				return
+			}
 		}
 		return
 	}
