@@ -17,7 +17,7 @@
   ];
 
   features.swapSizeInGB = 2;
-  powerManagement.powertop.enable = true;
+  # powerManagement.powertop.enable = true;
 
   system.autoUpgrade.dates = "01:00";
 
