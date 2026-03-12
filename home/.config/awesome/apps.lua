@@ -14,7 +14,7 @@ return function()
       {
         tag = 1,
         exec = {
-          'sesh connect generic',
+          'sessionizer connect generic',
           terminal_cmd .. ' attach-session -t generic',
         },
       },
@@ -37,7 +37,7 @@ return function()
         tag = 1,
         exec = {
           'qutebrowser',
-          'sesh connect generic',
+          'sessionizer connect generic',
           terminal_cmd .. ' attach-session -t generic',
         },
       },
@@ -58,7 +58,7 @@ return function()
       {
         tag = 4,
         exec = {
-          'sesh connect large',
+          'sessionizer connect large',
           terminal .. '  -o font.size=50 -e tmux attach-session -t large',
         },
       },
