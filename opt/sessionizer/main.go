@@ -138,15 +138,7 @@ func loadSessions() []*session.Session {
 	}
 
 	sort.Slice(sessionItems, func(i, j int) bool {
-		if sessionItems[i].Active {
-			return sessionItems[i].LastAttached > sessionItems[j].LastAttached
-		}
-
-		if sessionItems[i].Source != sessionItems[j].Source {
-			return sessionItems[i].Source < sessionItems[j].Source
-		}
-
-		return false
+		return sessionItems[i].LastAttached > sessionItems[j].LastAttached
 	})
 
 	return sessionItems
