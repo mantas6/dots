@@ -5,7 +5,7 @@
   inputs,
   ...
 }: let
-  pkgs-unfree = import inputs.nixpkgs-unstable {
+  pkgs-unstable-unfree = import inputs.nixpkgs-unstable {
     system = pkgs-unstable.stdenv.hostPlatform.system;
     config.allowUnfreePredicate = pkg: (lib.getName pkg) == "intelephense";
   };
@@ -82,7 +82,7 @@ in {
       gopls
       pyright
       lua-language-server
-      pkgs-unfree.intelephense
+      pkgs-unstable-unfree.intelephense
       nodePackages.bash-language-server
       nodePackages.typescript-language-server
       dockerfile-language-server
