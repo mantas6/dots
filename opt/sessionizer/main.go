@@ -101,6 +101,8 @@ func main() {
 				if err != nil {
 					log.Fatalf("Failed to send keys to a session: %v", err)
 				}
+
+				switchToSession(sessionItem.Name)
 			}
 		}
 	}

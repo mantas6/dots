@@ -8,7 +8,7 @@ session="$(
         --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
         --header '  ^d kill' \
         --bind 'tab:down,btab:up' \
-        --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)'
+        --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sessionizer)'
 )"
 
 [ -n "$session" ] && sessionizer "$session"
