@@ -8,3 +8,5 @@ package-lock.json
 phpcs.xml
 phpmd.xml
 phpmd.baseline.xml
+
+.git
