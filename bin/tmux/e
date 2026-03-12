@@ -2,15 +2,15 @@
 # Choose tmux session
 
 session="$(
-    sessionizer | fzf-tmux -p 60%,50% \
+    sessionizer list | fzf-tmux -p 60%,50% \
         --accept-nth='{2..}' \
         --layout=reverse \
         --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
         --header '  ^d kill' \
         --bind 'tab:down,btab:up' \
-        --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sessionizer)'
+        --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sessionizer list)'
 )"
 
-[ -n "$session" ] && sessionizer "$session"
+[ -n "$session" ] && sessionizer connect "$session"
 
 exit 0

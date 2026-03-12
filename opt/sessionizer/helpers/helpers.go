@@ -1,6 +1,8 @@
 package helpers
 
 import (
+	"log"
+	"mantas6/sessionizer/api"
 	"os"
 	"path/filepath"
 	"strings"
@@ -36,4 +38,18 @@ func RemoveHomeFromPath(path string) string {
 	}
 
 	return path
+}
+
+func SwitchToSession(name string) {
+	if os.Getenv("TMUX") != "" {
+		err := api.SwitchClient(name)
+		if err != nil {
+			log.Fatalf("Failed to switch to session: %v", err)
+		}
+	} else {
+		err := api.Attach(name)
+		if err != nil {
+			log.Fatalf("Failed to attach to session: %v", err)
+		}
+	}
 }
