@@ -5,6 +5,9 @@
 state=tmp/ralph
 
 tasks_file=$state/tasks.json
+progress_file=$state/progress.log
+init_script=$state/init.sh
+test_script=$state/test.sh
 
 mkdir -pv "$state"
 
@@ -26,43 +29,36 @@ fi
 echo '< init >'
 
 if [ ! -f "$tasks_file" ]; then
-    prompt "$(
-        cat <<'MARKDOWN'
-Read PLAN.md and break it down into a structured task list.
-Output the result as JSON to @tmp/ralph/tasks.json with this schema:
+    prompt "Read PLAN.md and break it down into a structured task list.
+Output the result as JSON to @${tasks_file} with this schema:
 {
-    "category": "functional",
-    "description": "New chat button creates a fresh conversation",
-    "steps": [
-      "Navigate to main interface",
-      "Click the 'New Chat' button",
-      "Verify a new conversation is created",
-      "Check that chat area shows welcome state",
-      "Verify conversation appears in sidebar"
+    category: functional,
+    description: New chat button creates a fresh conversation,
+    steps: [
+      Navigate to main interface,
+      Click the New Chat button,
+      Verify a new conversation is created,
+      Check that chat area shows welcome state,
+      Verify conversation appears in sidebar
     ],
-    "passes": false
-}
-MARKDOWN
-    )"
+    passes: false
+}"
 fi
 
-prompt "Write @tmp/ralph/init.sh script that initializes enviroment and start development server. If it exists update it if you see that as necessary"
+prompt "Write @${init_script} script that initializes enviroment and start development server. If it exists update it if you see that as necessary"
 
-prompt "Write @tmp/ralph/test.sh script that runs all tests and code quality checks. If it exists update it if you see that as necessary"
+prompt "Write @${test_script} script that runs all tests and code quality checks. If it exists update it if you see that as necessary"
 
 echo '< execute >'
 
 while true; do
-    prompt "$(
-        cat <<'MARKDOWN'
-- Run `pwd` to see the directory you're working in. You'll only be able to edit files in this directory.
-- Read the git logs and progress files (@tmp/ralph/progress.log) to get up to speed on what was recently worked on.
-- Setup dev environment using @tmp/ralph/init.sh
+    prompt "
+- Run pwd to see the directory you're working in. You'll only be able to edit files in this directory.
+- Read the git logs and progress files (@${progress_file}) to get up to speed on what was recently worked on.
+- Setup dev environment using @${init_script}
 - Read the features list file and choose the highest-priority feature that's not yet done to work on.
-- Use @tmp/ralph/test.sh to test changes and only commit when there are no issues
-- Update the @tmp/ralph/tasks.json only when there are no issues and the tasks is fully complete
-MARKDOWN
-    )"
+- Use @${test_script} to test changes and only commit when there are no issues
+- Update the @${tasks_file} only when there are no issues and the tasks is fully complete"
 
     if [ "$(jq '[.[] | .passes] | all' "$tasks_file")" = "true" ]; then
         echo 'Finished.'
