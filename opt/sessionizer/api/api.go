@@ -3,6 +3,7 @@ package api
 import (
 	"bytes"
 	"errors"
+	"os"
 	"os/exec"
 	"strings"
 )
@@ -36,8 +37,11 @@ func SwitchClient(target string) error {
 }
 
 func Attach(target string) error {
-	_, err := callTmux("attach", "-t", target)
-	return err
+	cmd := exec.Command("tmux", "attach", "-t", target)
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	return cmd.Run()
 }
 
 func NewSession(name string, path string) error {
