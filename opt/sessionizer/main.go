@@ -9,11 +9,13 @@ import (
 	"mantas6/sessionizer/helpers"
 	"mantas6/sessionizer/session"
 	"mantas6/sessionizer/tmuxsession"
+	"os"
+	"sort"
 	"strings"
 )
 
 func main() {
-	oneFlag := flag.Bool("1", false, "return only one session")
+	lastFlag := flag.Bool("l", false, "return to last attached session")
 	flag.Parse()
 
 	configText := config.GetUserConfigurationText()
@@ -38,14 +40,23 @@ func main() {
 		log.Fatalf("Failed to list tmux sessions: %v", err)
 	}
 
+	currentSession, err := api.CurrentSession()
+	if err != nil {
+		log.Fatalf("Failed to get current tmux: %v", err)
+	}
+
 	for _, line := range strings.Split(sessionsText, "\n") {
 		tmuxSessionItem := tmuxsession.CreateFromLineItem(line)
 		for _, sessionItem := range sessionItems {
 			if sessionItem.MatchesTmuxSession(tmuxSessionItem) {
-				sessionItem.SetActive()
+				sessionItem.SetActive(tmuxSessionItem.LastAttached)
 			}
 		}
 	}
+
+	sort.Slice(sessionItems, func(i, j int) bool {
+		return sessionItems[i].LastAttached > sessionItems[j].LastAttached
+	})
 
 	var selectedSessionName string
 	if flag.NArg() > 0 {
@@ -54,22 +65,30 @@ func main() {
 
 	if selectedSessionName == "" {
 		for _, sessionItem := range sessionItems {
-			fmt.Printf("%v %v\n", sessionItem.Active, sessionItem.Name)
-			if *oneFlag {
+			if sessionItem.Name == currentSession {
+				continue
+			}
+
+			if *lastFlag {
+				switchToSession(sessionItem.Name)
 				return
 			}
+
+			tag := "-"
+			if sessionItem.Active {
+				tag = "*"
+			}
+
+			fmt.Printf("%v %v\n", tag, sessionItem.Name)
 		}
+
 		return
 	}
 
 	for _, sessionItem := range sessionItems {
 		if sessionItem.Name == selectedSessionName {
 			if sessionItem.Active {
-				// check if tmux is running
-				err := api.SwitchClient(sessionItem.Name)
-				if err != nil {
-					log.Fatalf("Failed to attach to session: %v", err)
-				}
+				switchToSession(sessionItem.Name)
 				return
 			}
 
@@ -83,6 +102,20 @@ func main() {
 					log.Fatalf("Failed to send keys to a session: %v", err)
 				}
 			}
+		}
+	}
+}
+
+func switchToSession(name string) {
+	if os.Getenv("TMUX") != "" {
+		err := api.SwitchClient(name)
+		if err != nil {
+			log.Fatalf("Failed to switch to session: %v", err)
+		}
+	} else {
+		err := api.Attach(name)
+		if err != nil {
+			log.Fatalf("Failed to attach to session: %v", err)
 		}
 	}
 }

@@ -14,8 +14,9 @@ type Session struct {
 	Active       bool
 }
 
-func (s *Session) SetActive() {
+func (s *Session) SetActive(lastAttached int) {
 	s.Active = true
+	s.LastAttached = lastAttached
 }
 
 func (s *Session) MatchesTmuxSession(tmuxSession tmuxsession.TmuxSession) bool {
