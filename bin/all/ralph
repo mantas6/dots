@@ -5,9 +5,6 @@
 state=tmp/ralph
 
 tasks_file=$state/tasks.json
-progress_file=$state/progress.log
-init_script=$state/init.sh
-test_script=$state/test.sh
 
 mkdir -pv "$state"
 
@@ -16,7 +13,7 @@ prompt() {
     opencode run --agent build "$1"
 }
 
-if ! git rev-parse --git-dir; then
+if ! git rev-parse --git-dir >/dev/null; then
     echo 'E: Working directory must be a git repository' >&2
     exit 1
 fi
@@ -30,54 +27,41 @@ echo '< init >'
 
 if [ ! -f "$tasks_file" ]; then
     prompt "$(
-        cat <<-MARKDOWN
-			Read PLAN.md and break it down into a structured task list.
-			Output the result as JSON to $tasks_file with this schema:
-            {
-			    "category": "functional",
-			    "description": "New chat button creates a fresh conversation",
-			    "steps": [
-			      "Navigate to main interface",
-			      "Click the 'New Chat' button",
-			      "Verify a new conversation is created",
-			      "Check that chat area shows welcome state",
-			      "Verify conversation appears in sidebar"
-			    ],
-			    "passes": false
-            }
-		MARKDOWN
+        cat <<'MARKDOWN'
+Read PLAN.md and break it down into a structured task list.
+Output the result as JSON to @tmp/ralph/tasks.json with this schema:
+{
+    "category": "functional",
+    "description": "New chat button creates a fresh conversation",
+    "steps": [
+      "Navigate to main interface",
+      "Click the 'New Chat' button",
+      "Verify a new conversation is created",
+      "Check that chat area shows welcome state",
+      "Verify conversation appears in sidebar"
+    ],
+    "passes": false
+}
+MARKDOWN
     )"
 fi
 
-if [ ! -f "$progress_file" ]; then
-    echo 'Initialized progress.log' >"$progress_file"
-fi
+prompt "Write @tmp/ralph/init.sh script that initializes enviroment and start development server. If it exists update it if you see that as necessary"
 
-if [ ! -f "$init_script" ]; then
-    echo '#!/usr/bin/env bash' >"$init_script"
-    chmod +x "$init_script"
-
-    prompt "Write $init_script script that initializes enviroment and start development server."
-fi
-
-if [ ! -f "$test_script" ]; then
-    echo '#!/usr/bin/env bash' >"$test_script"
-    chmod +x "$test_script"
-
-    prompt "Write $test_script script that runs all tests and code quality checks."
-fi
+prompt "Write @tmp/ralph/test.sh script that runs all tests and code quality checks. If it exists update it if you see that as necessary"
 
 echo '< execute >'
 
 while true; do
     prompt "$(
-        cat <<-MARKDOWN
-        - Run 'pwd' to see the directory you’re working in. You’ll only be able to edit files in this directory.
-        - Read the git logs and progress files ($progress_file) to get up to speed on what was recently worked on.
-        - Setup dev environment using $init_script
-        - Read the features list file and choose the highest-priority feature that’s not yet done to work on.
-        - Use $test_script to test changes and only commit when there are no issues
-	MARKDOWN
+        cat <<'MARKDOWN'
+- Run `pwd` to see the directory you're working in. You'll only be able to edit files in this directory.
+- Read the git logs and progress files (@tmp/ralph/progress.log) to get up to speed on what was recently worked on.
+- Setup dev environment using @tmp/ralph/init.sh
+- Read the features list file and choose the highest-priority feature that's not yet done to work on.
+- Use @tmp/ralph/test.sh to test changes and only commit when there are no issues
+- Update the @tmp/ralph/tasks.json only when there are no issues and the tasks is fully complete
+MARKDOWN
     )"
 
     if [ "$(jq '[.[] | .passes] | all' "$tasks_file")" = "true" ]; then
