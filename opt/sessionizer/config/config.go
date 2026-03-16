@@ -37,9 +37,9 @@ func ParseConfigurationText(configText string) Config {
 }
 
 func GetUserConfigurationText() string {
-	configDir := os.Getenv("HOME") + "/.config";
+	configFile := os.Getenv("HOME") + "/.config/tmux/sessions.toml"
 
-	cmd := exec.Command("yq", "-p", "toml", "-o", "json", ".", configDir+"/tmux/sessions.toml")
+	cmd := exec.Command("yq", "-p", "toml", "-o", "json", ".", configFile)
 
 	var stderr bytes.Buffer
 	cmd.Stderr = &stderr
