@@ -98,7 +98,8 @@ fn-node() {
     )
 
     if [ -x "$(command -v npm)" ]; then
-        npm i -g opencode-ai
+        npm i -g opencode-ai \
+            intelephense
     fi
 }
 
