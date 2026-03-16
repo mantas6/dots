@@ -1,1 +1,2 @@
 - Always format new PHP files with globally installed `pint`
+- Use `trash` instead of `rm` when possible
