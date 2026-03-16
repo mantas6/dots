@@ -1,10 +1,12 @@
 package config
 
 import (
+	"bytes"
 	"encoding/json"
 	"log"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 type Pattern struct {
@@ -35,16 +37,18 @@ func ParseConfigurationText(configText string) Config {
 }
 
 func GetUserConfigurationText() string {
-	configDir, err := os.UserConfigDir()
-
-	if err != nil {
-		log.Fatalf("Failed to get user configuration directory: %v", err)
-	}
+	configDir := os.Getenv("HOME") + "/.config";
 
 	cmd := exec.Command("yq", "-p", "toml", "-o", "json", ".", configDir+"/tmux/sessions.toml")
-	output, err := cmd.Output()
 
+	var stderr bytes.Buffer
+	cmd.Stderr = &stderr
+
+	output, err := cmd.Output()
 	if err != nil {
+		if msg := strings.TrimSpace(stderr.String()); msg != "" {
+			log.Fatalf("Failed to read configuration file: %s", msg)
+		}
 		log.Fatalf("Failed to read configuration file: %v", err)
 	}
 
