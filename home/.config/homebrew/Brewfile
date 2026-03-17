@@ -86,6 +86,7 @@ brew "lua-language-server"
 brew "bash-language-server"
 brew "typescript-language-server"
 brew "vscode-langservers-extracted"
+brew "docker-language-server"
 
 brew "tmux"
 brew "sesh"
