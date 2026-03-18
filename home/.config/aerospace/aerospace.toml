@@ -129,7 +129,8 @@ automatically-unhide-macos-hidden-apps = true
     cmd-h = [] # Disable "hide application"
     cmd-alt-h = [] # Disable "hide others"
 
-    cmd-u = 'exec-and-forget screencapture -i -c'
+    cmd-u = 'exec-and-forget open -a Screenshot'
+    # cmd-u = 'exec-and-forget screencapture -i -c'
     # cmd-u = 'exec-and-forget ~/Applications/flameshot.app/Contents/MacOS/flameshot gui'
 
     cmd-p = 'exec-and-forget app-launcher'
