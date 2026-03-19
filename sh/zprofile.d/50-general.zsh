@@ -16,7 +16,7 @@ fi
 export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
 
 export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
-export AWESOME_OUTPUT_DIR="$XDG_CACHE_HOME/awesome"
+# export AWESOME_OUTPUT_DIR="$XDG_CACHE_HOME/awesome"
 
 # Other
 if [ "$(uname)" != "Darwin" ]; then
