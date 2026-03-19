@@ -11,7 +11,7 @@
   lanIfName = "net0";
   lanDeviceMac = "98:fa:9b:9e:ef:fb";
   lanIp = "10.0.1.1";
-  lanIpRangeEnd = "10.0.1.254";
+  lanIpRangeEnd = "10.0.1.255";
 
   wanIfName = "internet0";
   wanDeviceMac = "00:1b:21:f0:6c:e0";
