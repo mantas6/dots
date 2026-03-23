@@ -6,7 +6,7 @@ cmd = "start-tmux-session"
 [[session]]
 name = "llm"
 path = "~/.local/state/session/llm"
-cmd = "opencode --continue"
+cmd = "ai"
 
 [[session]]
 name = "calc"
