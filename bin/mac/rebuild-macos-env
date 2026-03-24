@@ -99,6 +99,7 @@ fn-node() {
 
     if [ -x "$(command -v npm)" ]; then
         npm i -g opencode-ai \
+            opencode-claude-auth \
             intelephense
     fi
 }
