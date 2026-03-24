@@ -37,6 +37,8 @@ autocmd('FileType', {
     'typescript',
     'typescriptreact',
     'typescript.tsx',
+    'json',
+    'jsonc',
   },
   command = 'setlocal shiftwidth=2 softtabstop=2 expandtab',
 })
