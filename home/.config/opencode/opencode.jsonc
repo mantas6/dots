@@ -6,16 +6,9 @@
     // "enabled_providers": [
     //     "anthropic"
     // ],
-    // "mode": {
-    //     "build": {
-    //         "prompt": "You are Claude Code, Anthropic's official CLI for Claude."
-    //     },
-    //     "plan": {
-    //         "prompt": "You are Claude Code, Anthropic's official CLI for Claude."
-    //     }
-    // },
     "plugin": [
         // https://github.com/griffinmartin/opencode-claude-auth
+        // npm install -g opencode-claude-auth
         "opencode-claude-auth"
     ],
     "permission": {
