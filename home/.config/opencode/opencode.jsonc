@@ -15,7 +15,8 @@
     //     }
     // },
     "plugin": [
-        // "opencode-anthropic-auth@latest"
+        // https://github.com/griffinmartin/opencode-claude-auth
+        "opencode-claude-auth"
     ],
     "permission": {
         "read": {
