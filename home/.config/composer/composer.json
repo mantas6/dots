@@ -11,7 +11,8 @@
         "symfony/browser-kit": "^8.0",
         "symfony/http-client": "^8.0",
         "symfony/css-selector": "^8.0",
-        "laravel/pint": "^1.26"
+        "laravel/pint": "^1.26",
+        "phpstan/phpstan": "^2.1"
     },
     "config": {
         "use-parent-dir": true,
