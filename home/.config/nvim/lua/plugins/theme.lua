@@ -7,5 +7,7 @@ return {
     vim.g.neon_transparent = true
     vim.cmd([[colorscheme neon]])
     vim.cmd([[highlight statusline guibg=NONE]])
+
+    vim.api.nvim_set_hl(0, 'DiagnosticUnnecessary', { fg = '#505050' })
   end,
 }
