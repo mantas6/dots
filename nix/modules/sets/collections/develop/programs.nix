@@ -7,7 +7,11 @@
 }: let
   pkgs-unstable-unfree = import inputs.nixpkgs-unstable {
     system = pkgs-unstable.stdenv.hostPlatform.system;
-    config.allowUnfreePredicate = pkg: (lib.getName pkg) == "intelephense";
+    config.allowUnfreePredicate = pkg:
+      builtins.elem (lib.getName pkg) [
+        "intelephense"
+        "claude-code"
+      ];
   };
 
   phpConfigured = pkgs-unstable.php85.buildEnv {
@@ -69,7 +73,9 @@ in {
       lazydocker
       xh
       pastel
+
       opencode
+      pkgs-unstable-unfree.claude-code
 
       gnumake
       gitleaks
