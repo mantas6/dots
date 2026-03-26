@@ -33,7 +33,7 @@ func main() {
 			case session.SourceConfig:
 				tag = "#"
 			case session.SourcePattern:
-				tag = "~"
+				tag = "$"
 			}
 
 			color := "\033[90m"
