@@ -23,7 +23,6 @@ in {
       };
 
       environment.systemPackages = with pkgs-unstable; [
-        zoxide
         starship
         eza
 

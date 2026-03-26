@@ -8,27 +8,13 @@ cmd trash %trash-put $fx
 
 set scrolloff 10
 set mouse
-set icons 
+set icons
 set previewer '~/.config/lf/scope'
 
 map <enter> open
 map ` !true
 map . set hidden!
 map zi zi
-
-cmd z %{{
-	result="$(zoxide query --exclude $PWD $@ | sed 's/\\/\\\\/g;s/"/\\"/g')"
-	lf -remote "send $id cd \"$result\""
-}}
-
-cmd zi ${{
-	result="$(zoxide query -i | sed 's/\\/\\\\/g;s/"/\\"/g')"
-	lf -remote "send $id cd \"$result\""
-}}
-
-cmd on-cd &{{
-    zoxide add "$PWD"
-}}
 
 cmd on-select &{{
     lf -remote "send $id set statfmt \"$(cd "$PWD" && eza -ld --color=always "$(basename "$f")")\""
