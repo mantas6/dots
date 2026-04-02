@@ -4,10 +4,6 @@ lfcd() {
     cd "$(command lf -print-last-dir "$@")" || return
 }
 
-zt() {
-    out=$(command zt "$@") && eval "$out"
-}
-
 f() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
 	yazi "$@" --cwd-file="$tmp"

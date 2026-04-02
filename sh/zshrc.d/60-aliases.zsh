@@ -60,5 +60,5 @@ alias sshvm='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -A'
 # Other
 alias nj="jq . | nvim -Rc 'set syntax=json | set nospell' -"
 
-d="$HOME/Downloads"
 hash -d d="$HOME/Downloads"
+hash -d r="$HOME/Repos"
