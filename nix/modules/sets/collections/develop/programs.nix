@@ -89,8 +89,8 @@ in {
       pyright
       lua-language-server
       pkgs-unstable-unfree.intelephense
-      nodePackages.bash-language-server
-      nodePackages.typescript-language-server
+      bash-language-server
+      typescript-language-server
       dockerfile-language-server
       vscode-langservers-extracted
 
