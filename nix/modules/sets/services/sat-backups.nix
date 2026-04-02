@@ -9,7 +9,7 @@ in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}
     (lib.mkIf (lib.elem name config.features.sets) {
-      systemd.user.services.sat-backups = {
+      systemd.services.sat-backups = {
         script = "/home/mantas/Offload/Sat/run";
 
         path = with pkgs; [
@@ -24,12 +24,13 @@ in {
 
         serviceConfig = {
           Type = "oneshot";
+          User = "mantas";
         };
 
         startAt = ["03:00" "09:00"];
       };
 
-      systemd.user.timers.sat-backups = {
+      systemd.timers.sat-backups = {
         timerConfig = {
           Persistent = true;
         };

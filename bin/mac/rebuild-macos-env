@@ -26,6 +26,7 @@ fn-brew() {
     else
         brew bundle --global
         brew bundle upgrade --global
+        brew bundle cleanup --global --force
     fi
 }
 

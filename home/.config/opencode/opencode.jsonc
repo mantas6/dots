@@ -1,60 +1,64 @@
 {
-    "$schema": "https://opencode.ai/config.json",
-    "autoupdate": false,
-    "default_agent": "plan",
-    "model": "anthropic/claude-opus-4-6",
-    // "enabled_providers": [
-    //     "anthropic"
-    // ],
-    "plugin": [
-        // https://github.com/griffinmartin/opencode-claude-auth
-        // npm install -g opencode-claude-auth
-        "opencode-claude-auth"
-    ],
-    "permission": {
-        "read": {
-            "*": "allow",
-            "*.env": "deny",
-            "*.env.*": "deny",
-            "*.env.example": "allow"
-        },
-        "bash": {
-            "*": "allow",
-            "git push*": "deny",
-            "ssh*": "deny",
-            "scp*": "deny",
-            "rsync*": "deny",
-            "gpg*": "deny",
-            "brew*": "deny",
-        },
-        "external_diretory": {
-            "*": "deny",
-            "~/Repos/*": "allow",
-            "~/Repos/**": "allow",
-            "~/Downloads/*": "ask",
-        },
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": false,
+  "default_agent": "plan",
+  "model": "anthropic/claude-opus-4-6",
+  // "enabled_providers": [
+  //     "anthropic"
+  // ],
+  "plugin": [
+    // https://github.com/griffinmartin/opencode-claude-auth
+    // npm install -g opencode-claude-auth
+    "opencode-claude-auth"
+  ],
+  "permission": {
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow"
     },
-    "mcp": {
-        "sentry": {
-            "enabled": false,
-            "type": "remote",
-            "url": "https://mcp.sentry.dev/mcp",
-            "oauth": {}
-        },
-        "jira": {
-            "enabled": false,
-            "type": "remote",
-            "url": "https://mcp.atlassian.com/v1/mcp",
-            "oauth": {}
-        },
-        "playwright": {
-            "enabled": false,
-            "type": "local",
-            "command": [
-                "npx",
-                "@playwright/mcp@latest",
-                "--headless",
-            ],
-        },
+    "bash": {
+      "*": "allow",
+      "git push*": "deny",
+      "ssh*": "deny",
+      "scp*": "deny",
+      "rsync*": "deny",
+      "gpg*": "deny",
+      "brew*": "deny",
     },
+    "external_diretory": {
+      "*": "deny",
+      "~/Repos/*": "allow",
+      "~/Repos/**": "allow",
+      "~/Downloads/*": "ask",
+    },
+  },
+  "compaction": {
+    "auto": false,
+    "prune": false,
+  },
+  "mcp": {
+    "sentry": {
+      "enabled": false,
+      "type": "remote",
+      "url": "https://mcp.sentry.dev/mcp",
+      "oauth": {}
+    },
+    "jira": {
+      "enabled": false,
+      "type": "remote",
+      "url": "https://mcp.atlassian.com/v1/mcp",
+      "oauth": {}
+    },
+    "playwright": {
+      "enabled": false,
+      "type": "local",
+      "command": [
+        "npx",
+        "@playwright/mcp@latest",
+        "--headless",
+      ],
+    },
+  },
 }
