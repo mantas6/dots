@@ -89,6 +89,7 @@ in {
       pyright
       lua-language-server
       pkgs-unstable-unfree.intelephense
+      phpactor
       bash-language-server
       typescript-language-server
       dockerfile-language-server
