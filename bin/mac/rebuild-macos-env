@@ -105,6 +105,10 @@ fn-node() {
 
 fn-php() {
     bash -c "$(curl -fsSL https://php.new/install/mac/8.5)"
+
+    local bin="$HOME/.local/bin/phpactor"
+    curl -Lo "$bin" https://github.com/phpactor/phpactor/releases/latest/download/phpactor.phar
+    chmod a+x "$bin"
 }
 
 fn-misc() {
