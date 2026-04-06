@@ -58,8 +58,7 @@ func main() {
 
 	case "connect":
 		if len(os.Args) < 3 {
-			fmt.Fprintln(os.Stderr, "usage: sessionizer connect <name>")
-			os.Exit(1)
+			log.Fatalf("usage: sessionizer connect <name>")
 		}
 		selectedSessionName := os.Args[2]
 		sessionItems := loadSessions()
@@ -88,8 +87,7 @@ func main() {
 			return
 		}
 
-		fmt.Fprintf(os.Stderr, "session %q not found\n", selectedSessionName)
-		os.Exit(1)
+		log.Fatalf("session %q not found", selectedSessionName)
 
 	default:
 		printUsage()

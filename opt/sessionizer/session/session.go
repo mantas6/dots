@@ -51,11 +51,11 @@ func CreateFromConfigItem(configSession config.Session) *Session {
 	}
 }
 
-func CreateFromPatternItem(configPattnern config.Pattern, resolvedPath string) *Session {
+func CreateFromPatternItem(configPattern config.Pattern, resolvedPath string) *Session {
 	return &Session{
 		Name:   filepath.Base(resolvedPath),
 		Path:   resolvedPath,
-		Cmd:    configPattnern.Cmd,
+		Cmd:    configPattern.Cmd,
 		Source: SourcePattern,
 	}
 }

@@ -20,11 +20,11 @@ func loadSessions() []*session.Session {
 		sessionItems = append(sessionItems, session.CreateFromConfigItem(configSession))
 	}
 
-	for _, configPattnern := range cfg.Patterns {
-		resolvedPaths := expandWildcardPaths(configPattnern.Pattern)
+	for _, configPattern := range cfg.Patterns {
+		resolvedPaths := expandWildcardPaths(configPattern.Pattern)
 
 		for _, resolvedPath := range resolvedPaths {
-			sessionItems = append(sessionItems, session.CreateFromPatternItem(configPattnern, resolvedPath))
+			sessionItems = append(sessionItems, session.CreateFromPatternItem(configPattern, resolvedPath))
 		}
 	}
 
