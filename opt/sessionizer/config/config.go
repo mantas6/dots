@@ -6,8 +6,11 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 )
+
+const configPath = ".config/tmux/sessions.toml"
 
 type Pattern struct {
 	Cmd     string `json:"cmd"`
@@ -37,7 +40,12 @@ func ParseConfigurationText(configText string) Config {
 }
 
 func GetUserConfigurationText() string {
-	configFile := os.Getenv("HOME") + "/.config/tmux/sessions.toml"
+	home, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatalf("Failed to get home directory: %v", err)
+	}
+
+	configFile := filepath.Join(home, configPath)
 
 	cmd := exec.Command("yq", "-p", "toml", "-o", "json", ".", configFile)
 

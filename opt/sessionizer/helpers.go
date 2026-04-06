@@ -37,6 +37,7 @@ func expandHome(path string) string {
 	return path
 }
 
+// X-AGENT: move to sessions.go
 func switchToSession(name string) {
 	if os.Getenv("TMUX") != "" {
 		err := api.SwitchClient(name)
