@@ -15,17 +15,13 @@ func cpuUsage(parts *[]string, res json.RawMessage) {
 	}
 
 	sum := 0.0
-	max := 0.0
 
 	for _, v := range usages {
 		sum += v
-		if v >= max {
-			max = v
-		}
 	}
 
 	avg := sum / float64(len(usages))
-	*parts = append(*parts, fmt.Sprintf(""+gap+"%02.0f%%|%02.0f%%", avg, max))
+	*parts = append(*parts, fmt.Sprintf(""+gap+"%02.0f%%", avg))
 }
 
 func cpuTemp(parts *[]string, res json.RawMessage) {
