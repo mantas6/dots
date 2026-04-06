@@ -77,12 +77,14 @@ func main() {
 			if err != nil {
 				log.Fatalf("Failed to create a session: %v", err)
 			}
+
 			if s.Cmd != "" {
 				err := api.SendKeys(s.Name, []string{s.Cmd, "C-m"})
 				if err != nil {
 					log.Fatalf("Failed to send keys to a session: %v", err)
 				}
 			}
+
 			switchToSession(s.Name)
 			return
 		}
