@@ -1,4 +1,4 @@
-package helpers
+package main
 
 import (
 	"log"
@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func ExpandWildcardPaths(pattern string) []string {
+func expandWildcardPaths(pattern string) []string {
 	if strings.HasPrefix(pattern, "~/") {
 		home, err := os.UserHomeDir()
 		if err != nil {
@@ -26,7 +26,7 @@ func ExpandWildcardPaths(pattern string) []string {
 	return matches
 }
 
-func ExpandHome(path string) string {
+func expandHome(path string) string {
 	if strings.HasPrefix(path, "~/") {
 		home, err := os.UserHomeDir()
 		if err != nil {
@@ -37,7 +37,7 @@ func ExpandHome(path string) string {
 	return path
 }
 
-func SwitchToSession(name string) {
+func switchToSession(name string) {
 	if os.Getenv("TMUX") != "" {
 		err := api.SwitchClient(name)
 		if err != nil {
