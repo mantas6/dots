@@ -11,7 +11,6 @@ require('lazy').setup({
   spec = {
     -- { 'NMAC427/guess-indent.nvim', opts = {} },
     require('plugins.bookmarks'),
-    require('plugins.colors'),
     require('plugins.fmt'),
     require('plugins.git'),
     require('plugins.lsp'),
