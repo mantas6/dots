@@ -96,7 +96,7 @@ func main() {
 }
 
 func printUsage() {
-	fmt.Fprintln(os.Stderr, "usage: sessionizer <command>")
+	fmt.Fprintf(os.Stderr, "usage: %s <command>\n", os.Args[0])
 	fmt.Fprintln(os.Stderr, "")
 	fmt.Fprintln(os.Stderr, "commands:")
 	fmt.Fprintln(os.Stderr, "  list            list sessions")

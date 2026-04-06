@@ -1,8 +1,6 @@
 package main
 
 import (
-	"log"
-	"mantas6/sessionizer/api"
 	"os"
 	"path/filepath"
 	"strings"
@@ -35,19 +33,4 @@ func expandHome(path string) string {
 		return filepath.Join(home, path[2:])
 	}
 	return path
-}
-
-// X-AGENT: move to sessions.go
-func switchToSession(name string) {
-	if os.Getenv("TMUX") != "" {
-		err := api.SwitchClient(name)
-		if err != nil {
-			log.Fatalf("Failed to switch to session: %v", err)
-		}
-	} else {
-		err := api.Attach(name)
-		if err != nil {
-			log.Fatalf("Failed to attach to session: %v", err)
-		}
-	}
 }
