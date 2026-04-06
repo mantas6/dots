@@ -16,7 +16,7 @@
       enabled
       ++ (with all; [
         pdo
-        pdo_mysql
+        # pdo_mysql
         pdo_sqlite
         mbstring
         # xml
@@ -25,14 +25,27 @@
         zip
         intl
       ]);
-    # extraConfig = ''
-    # '';
+
+    extraConfig = ''
+      memory_limit = 128M
+    '';
+    # - opcache.enable=1, opcache.memory_consumption=256, opcache.max_accelerated_files=20000
+    # - upload_max_filesize / post_max_size (defaults are 2M)
+    # - memory_limit (default 128M may be tight)
+    # - expose_php = Off
+    # - realpath_cache_size = 4096K / realpath_cache_ttl = 600
   };
 
   phpEnv = with pkgs; [
     phpConfigured
     phpConfigured.packages.composer
   ];
+
+  # The services have no sandboxing or resource limits:
+  #
+  # - PrivateTmp = true, ProtectSystem = "strict", ProtectHome = "read-only" - basic hardening
+  # - MemoryMax / CPUQuota - prevent runaway processes
+  # - ReadWritePaths to limit filesystem writes to what's needed
 
   defaultServiceConfig = {
     User = userName;
@@ -60,6 +73,8 @@ in {
 
       services.caddy = {
         enable = true;
+        # Secrets:
+        # environmentFile = "/run/secrets/caddy.env";
 
         # Example: reverse proxy for myapp.example.com → localhost:8000
         virtualHosts."http://:8080".extraConfig = ''
@@ -76,6 +91,7 @@ in {
         port = 6379;
       };
 
+      # - sat-schedule: redirects all output to /dev/null - you'll never see scheduler errors. At minimum send stderr somewhere useful.
       systemd.services.sat-schedule =
         defaultServiceOptions
         // {
@@ -94,11 +110,14 @@ in {
           startAt = "minutely";
         };
 
+      # - sat-octane: no ExecReload for graceful worker restart (useful for deploys). Octane supports --max-requests to prevent memory leaks - not set here.
       systemd.services.sat-octane =
         defaultServiceOptions
         // {
           script = "php artisan octane:start --workers=8";
         };
+
+      # - sat-horizon: the 3600s stop timeout is good, but there's no ExecStop = php artisan horizon:terminate for graceful shutdown signaling.
 
       systemd.services.sat-horizon =
         defaultServiceOptions
