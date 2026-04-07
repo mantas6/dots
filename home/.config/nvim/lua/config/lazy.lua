@@ -30,3 +30,6 @@ require('lazy').setup({
   checker = { enabled = true, notify = false },
   change_detection = { notify = false },
 })
+
+-- nvim native plugins
+vim.cmd.packadd('nvim.tohtml')
