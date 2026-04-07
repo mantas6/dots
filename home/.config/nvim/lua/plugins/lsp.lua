@@ -47,6 +47,7 @@ return {
       pyright = {},
       gopls = {},
       lua_ls = {},
+      taplo = {},
       ts_ls = {
         filetypes = {
           'javascript',

@@ -65,6 +65,7 @@ brew "shellcheck"
 brew "shfmt"
 brew "prettier"
 brew "stylua"
+brew "taplo"
 
 brew "speedtest-cli"
 brew "telnet"

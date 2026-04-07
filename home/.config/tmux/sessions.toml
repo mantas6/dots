@@ -1,7 +1,6 @@
 [[patterns]]
 cmd = "tmux-start-session"
 pattern = "~/Repos/*"
-cmd = "start-tmux-session"
 
 [[session]]
 name = "llm"
@@ -35,4 +34,4 @@ path = "~/Downloads"
 [[session]]
 name = "Notes"
 path = "~"
-cmd  = "nvim NOTES.md"
+cmd = "nvim NOTES.md"
