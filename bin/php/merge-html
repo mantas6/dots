@@ -1,0 +1,53 @@
+#!/usr/bin/env php
+<?php
+
+// Merge multiple html files into one
+
+declare(strict_types=1);
+
+$prog = new class
+{
+    public function handle(array $files): void
+    {
+        foreach ($files as $file) {
+            if (! is_file($file)) {
+                fwrite(STDERR, "Not found: $file\n");
+                exit(1);
+            }
+        }
+
+        libxml_use_internal_errors(true);
+
+        $out = new \DOMDocument;
+        $out->loadHTML(file_get_contents($files[0]));
+        libxml_clear_errors();
+
+        $body = $out->getElementsByTagName('body')->item(0);
+
+        for ($i = 1; $i < count($files); $i++) {
+            $doc = new \DOMDocument;
+            $doc->loadHTML(file_get_contents($files[$i]));
+            libxml_clear_errors();
+
+            $body->appendChild($out->createElement('hr'));
+
+            $srcBody = $doc->getElementsByTagName('body')->item(0);
+            if (! $srcBody) {
+                continue;
+            }
+
+            foreach ($srcBody->childNodes as $node) {
+                $body->appendChild($out->importNode($node, true));
+            }
+        }
+
+        echo $out->saveHTML();
+    }
+};
+
+if ($argc < 3) {
+    fwrite(STDERR, "Usage: merge-html file1.html file2.html [...]\n");
+    exit(1);
+}
+
+$prog->handle(array_slice($argv, 1));
