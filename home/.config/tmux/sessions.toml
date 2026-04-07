@@ -1,5 +1,5 @@
 [[patterns]]
-cmd = "tmux-start-session"
+cmd = "start-tmux-session"
 pattern = "~/Repos/*"
 
 [[session]]
