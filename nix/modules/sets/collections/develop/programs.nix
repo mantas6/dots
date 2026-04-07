@@ -40,6 +40,11 @@ in {
 
     environment.variables.EDITOR = lib.mkDefault "${pkgs-unstable.neovim}/bin/vim";
 
+    services.redis.servers.develop = {
+      enable = true;
+      port = 6379;
+    };
+
     environment.systemPackages = with pkgs-unstable; [
       neovim
       tmux
@@ -62,6 +67,7 @@ in {
       shfmt
       prettier
       stylua
+      taplo
       tree-sitter
 
       pandoc
