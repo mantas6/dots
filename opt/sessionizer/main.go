@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"os"
-)
+import "os"
 
 func main() {
 	if len(os.Args) < 2 {
@@ -22,13 +19,4 @@ func main() {
 		printUsage()
 		os.Exit(1)
 	}
-}
-
-func printUsage() {
-	fmt.Fprintf(os.Stderr, "usage: %s <command>\n", os.Args[0])
-	fmt.Fprintln(os.Stderr, "")
-	fmt.Fprintln(os.Stderr, "commands:")
-	fmt.Fprintln(os.Stderr, "  list            list sessions")
-	fmt.Fprintln(os.Stderr, "  last            switch to last accessed session")
-	fmt.Fprintln(os.Stderr, "  connect <name>  connect to a session by name")
 }
