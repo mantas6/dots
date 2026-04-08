@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"mantas6/sessionizer/api"
+	"mantas6/sessionizer/order"
 	"mantas6/sessionizer/session"
 	"os"
 )
@@ -83,6 +84,7 @@ func cmdConnect() {
 
 		createNewSession(s)
 		switchToSession(s.Name)
+		order.Update(sessionItems, s)
 
 		return
 	}

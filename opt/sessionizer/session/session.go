@@ -19,6 +19,7 @@ type Session struct {
 	Path         string
 	Cmd          string
 	LastAttached int
+	OrderCreated int
 	Active       bool
 	Source       Source
 }

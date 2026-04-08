@@ -4,6 +4,7 @@ import (
 	"log"
 	"mantas6/sessionizer/api"
 	"mantas6/sessionizer/config"
+	"mantas6/sessionizer/order"
 	"mantas6/sessionizer/session"
 	"mantas6/sessionizer/tmuxsession"
 	"sort"
@@ -37,8 +38,25 @@ func loadSessions() []*session.Session {
 		}
 	}
 
+	sessionsOrder := order.Read()
+	for order, sessionName := range sessionsOrder {
+		for _, s := range sessionItems {
+			if s.Name == sessionName {
+				s.OrderCreated = order
+			}
+		}
+	}
+
 	sort.Slice(sessionItems, func(i, j int) bool {
-		return sessionItems[i].LastAttached > sessionItems[j].LastAttached
+		if sessionItems[i].Active != sessionItems[j].Active {
+			return sessionItems[i].Active
+		}
+
+		if sessionItems[i].Active {
+			return sessionItems[i].LastAttached > sessionItems[j].LastAttached
+		}
+
+		return sessionItems[i].OrderCreated < sessionItems[j].OrderCreated
 	})
 
 	return sessionItems
