@@ -79,15 +79,16 @@ in {
 
       services.caddy = {
         enable = true;
-        # Secrets:
-        # environmentFile = "/run/secrets/caddy.env";
+        # Runtime-only hostname secret, e.g. APP_DOMAIN=example.com
+        environmentFile = "/var/lib/secrets/caddy.env";
 
-        # Example: reverse proxy for myapp.example.com → localhost:8000
-        virtualHosts."http://:8080".extraConfig = ''
-          reverse_proxy localhost:8000 {
-            header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-For {remote_host}
-            header_up X-Forwarded-Proto {scheme}
+        extraConfig = ''
+          {$APP_DOMAIN} {
+            reverse_proxy localhost:8000 {
+              header_up X-Real-IP {remote_host}
+              header_up X-Forwarded-For {remote_host}
+              header_up X-Forwarded-Proto {scheme}
+            }
           }
         '';
       };
