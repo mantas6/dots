@@ -5,13 +5,15 @@ import (
 	"strings"
 )
 
+const LineFormat = "#{session_last_attached} #{session_name} #{session_path}"
+
 type TmuxSession struct {
 	Name         string
 	Path         string
 	LastAttached int
 }
 
-func CreateFromLineItem(line string) TmuxSession {
+func CreateFromLine(line string) TmuxSession {
 	parts := strings.SplitN(line, " ", 3)
 
 	lastAttached, _ := strconv.Atoi(parts[0])

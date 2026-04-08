@@ -3,6 +3,7 @@ package api
 import (
 	"bytes"
 	"errors"
+	"mantas6/sessionizer/tmuxsession"
 	"os"
 	"os/exec"
 	"strings"
@@ -26,9 +27,12 @@ func callTmux(args ...string) (string, error) {
 	return strings.TrimSpace(string(out)), nil
 }
 
-func ListSessions() (string, error) {
-	format := "#{session_last_attached} #{session_name} #{session_path}"
-	return callTmux("list-sessions", "-F", format)
+func Attached() bool {
+	return os.Getenv("TMUX") != ""
+}
+
+func ListSessions() (output string, err error) {
+	return callTmux("list-sessions", "-F", tmuxsession.LineFormat)
 }
 
 func SwitchClient(target string) error {

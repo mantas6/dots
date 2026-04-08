@@ -42,20 +42,20 @@ func CreateFromTmuxSession(tmuxSession tmuxsession.TmuxSession) *Session {
 	}
 }
 
-func CreateFromConfigItem(configSession config.Session) *Session {
+func CreateFromConfig(item config.Session) *Session {
 	return &Session{
-		Name:   configSession.Name,
-		Path:   configSession.Path,
-		Cmd:    configSession.Cmd,
+		Name:   item.Name,
+		Path:   item.Path,
+		Cmd:    item.Cmd,
 		Source: SourceConfig,
 	}
 }
 
-func CreateFromPatternItem(configPattern config.Pattern, resolvedPath string) *Session {
+func CreateFromPattern(item config.Pattern, resolvedPath string) *Session {
 	return &Session{
 		Name:   filepath.Base(resolvedPath),
 		Path:   resolvedPath,
-		Cmd:    configPattern.Cmd,
+		Cmd:    item.Cmd,
 		Source: SourcePattern,
 	}
 }

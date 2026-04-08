@@ -6,7 +6,6 @@ import (
 	"mantas6/sessionizer/config"
 	"mantas6/sessionizer/session"
 	"mantas6/sessionizer/tmuxsession"
-	"os"
 	"sort"
 	"strings"
 )
@@ -19,21 +18,21 @@ func loadSessions() []*session.Session {
 
 	for _, configSession := range cfg.Sessions {
 		configSession.Path = expandHome(configSession.Path)
-		sessionItems = append(sessionItems, session.CreateFromConfigItem(configSession))
+		sessionItems = append(sessionItems, session.CreateFromConfig(configSession))
 	}
 
 	for _, configPattern := range cfg.Patterns {
 		resolvedPaths := expandWildcardPaths(configPattern.Pattern)
 
 		for _, resolvedPath := range resolvedPaths {
-			sessionItems = append(sessionItems, session.CreateFromPatternItem(configPattern, resolvedPath))
+			sessionItems = append(sessionItems, session.CreateFromPattern(configPattern, resolvedPath))
 		}
 	}
 
 	sessionsText, err := api.ListSessions()
 	if err == nil {
 		for _, line := range strings.Split(sessionsText, "\n") {
-			tmuxSessionItem := tmuxsession.CreateFromLineItem(line)
+			tmuxSessionItem := tmuxsession.CreateFromLine(line)
 			sessionItems = mergeInTmuxSession(sessionItems, tmuxSessionItem)
 		}
 	}
@@ -57,7 +56,7 @@ func mergeInTmuxSession(sessionItems []*session.Session, tmuxSessionItem tmuxses
 }
 
 func switchToSession(name string) {
-	if os.Getenv("TMUX") != "" {
+	if api.Attached() {
 		err := api.SwitchClient(name)
 		if err != nil {
 			log.Fatalf("Failed to switch to session: %v", err)
@@ -66,6 +65,20 @@ func switchToSession(name string) {
 		err := api.Attach(name)
 		if err != nil {
 			log.Fatalf("Failed to attach to session: %v", err)
+		}
+	}
+}
+
+func createNewSession(item *session.Session) {
+	err := api.NewSession(item.Name, item.Path)
+	if err != nil {
+		log.Fatalf("Failed to create a session: %v", err)
+	}
+
+	if item.Cmd != "" {
+		err := api.SendKeys(item.Name, []string{item.Cmd, "C-m"})
+		if err != nil {
+			log.Fatalf("Failed to send keys to a session: %v", err)
 		}
 	}
 }
