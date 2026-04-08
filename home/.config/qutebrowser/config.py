@@ -62,6 +62,7 @@ c.downloads.position = 'bottom'
 # config.bind('<Ctrl-v>', 'spawn mpv {url}')
 # config.unbind('<Ctrl-v>', mode='normal')
 
+config.bind('td', 'config-cycle colors.webpage.darkmode.enabled true false')
 config.bind('so', 'config-source')
 
 i = 1
@@ -105,4 +106,3 @@ c.editor.command = [
 
 config.source('theme.py')
 config.load_autoconfig()
-
