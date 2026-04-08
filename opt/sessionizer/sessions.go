@@ -11,11 +11,9 @@ import (
 	"strings"
 )
 
-func loadSessions() []*session.Session {
+func loadSessions() (sessionItems []*session.Session) {
 	configText := config.GetUserConfigurationText()
 	cfg := config.ParseConfigurationText(configText)
-
-	var sessionItems []*session.Session
 
 	for _, configSession := range cfg.Sessions {
 		configSession.Path = expandHome(configSession.Path)
@@ -47,6 +45,12 @@ func loadSessions() []*session.Session {
 		}
 	}
 
+	sortSessions(sessionItems)
+
+	return sessionItems
+}
+
+func sortSessions(sessionItems []*session.Session) {
 	sort.Slice(sessionItems, func(i, j int) bool {
 		if sessionItems[i].Active != sessionItems[j].Active {
 			return sessionItems[i].Active
@@ -58,8 +62,6 @@ func loadSessions() []*session.Session {
 
 		return sessionItems[i].OrderCreated < sessionItems[j].OrderCreated
 	})
-
-	return sessionItems
 }
 
 func mergeInTmuxSession(sessionItems []*session.Session, tmuxSessionItem tmuxsession.TmuxSession) []*session.Session {
