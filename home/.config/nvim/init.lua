@@ -1,4 +1,5 @@
 require('config.set')
+require('config.utils')
 require('config.map')
 require('config.auto')
 require('config.lazy')

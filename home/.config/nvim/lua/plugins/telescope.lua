@@ -75,6 +75,11 @@ return {
       builtin.find_files({ cwd = utils.buffer_dir() })
     end)
 
+    vim.keymap.set('n', '<leader>pt', function()
+      local dir = ClosestGitignoreDir(utils.buffer_dir())
+      builtin.find_files({ cwd = dir, prompt_title = dir })
+    end, { desc = 'Telescope in closest .gitignore dir' })
+
     vim.keymap.set('n', '<leader>pD', function()
       builtin.find_files({ cwd = utils.buffer_dir():match('(.*/)') })
     end)
