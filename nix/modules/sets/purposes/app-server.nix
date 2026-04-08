@@ -39,6 +39,7 @@
   phpEnv = with pkgs; [
     phpConfigured
     phpConfigured.packages.composer
+    sqlite
   ];
 
   # The services have no sandboxing or resource limits:
@@ -70,6 +71,11 @@ in {
     {features.setsAvailable = [name];}
     (lib.mkIf (lib.elem name config.features.sets) {
       environment.systemPackages = phpEnv;
+
+      networking.firewall = {
+        enable = true;
+        allowedTCPPorts = [22 80 443];
+      };
 
       services.caddy = {
         enable = true;
@@ -118,7 +124,6 @@ in {
         };
 
       # - sat-horizon: the 3600s stop timeout is good, but there's no ExecStop = php artisan horizon:terminate for graceful shutdown signaling.
-
       systemd.services.sat-horizon =
         defaultServiceOptions
         // {
