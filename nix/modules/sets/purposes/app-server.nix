@@ -82,13 +82,22 @@ in {
         # Runtime-only hostname secret, e.g. APP_DOMAIN=example.com
         environmentFile = "/var/lib/secrets/caddy.env";
 
+        # https://caddyserver.com/docs/caddyfile/patterns
+        # {
+        #     frankenphp
+        #     order php_server before file_server
+        # }
+        #
+        # example.com {
+        # 	root /srv/public
+        #     encode zstd br gzip
+        #     php_server
+        # }
         extraConfig = ''
+          encode zstd gzip
+
           {$APP_DOMAIN} {
-            reverse_proxy localhost:8000 {
-              header_up X-Real-IP {remote_host}
-              header_up X-Forwarded-For {remote_host}
-              header_up X-Forwarded-Proto {scheme}
-            }
+            reverse_proxy localhost:8000
           }
         '';
       };

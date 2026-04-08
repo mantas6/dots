@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   imports = [
     ./authorized-keys.nix
   ];
@@ -6,7 +10,7 @@
   users.users.mantas = {
     isNormalUser = true;
     # mkpasswd
-    hashedPassword = "$y$j9T$ZhKXn9KIagbM2wzlkOXfz/$RQmrNYqwkbYre0BgLJ83nCHAWr6e/QCABtax5gXN6k.";
+    hashedPassword = lib.mkDefault "$y$j9T$ZhKXn9KIagbM2wzlkOXfz/$RQmrNYqwkbYre0BgLJ83nCHAWr6e/QCABtax5gXN6k.";
     extraGroups = ["wheel" "dialout"];
   };
 
