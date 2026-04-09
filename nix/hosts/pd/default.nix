@@ -16,6 +16,8 @@
     "services.sat-backups"
   ];
 
+  users.users.mantas.hashedPassword = "$y$j9T$9fIB3RWe.fVkunAycN6jD.$tsgfckKykjuNpmAfvcp5PqmyJdOaJG4NTpg54ESi5p3";
+
   features.swapSizeInGB = 2;
   # powerManagement.powertop.enable = true;
 

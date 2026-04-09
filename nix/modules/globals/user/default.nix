@@ -7,6 +7,8 @@
     ./authorized-keys.nix
   ];
 
+  users.mutableUsers = false;
+
   users.users.mantas = {
     isNormalUser = true;
     # mkpasswd
