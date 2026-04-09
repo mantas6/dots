@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-
-sudo grub-reboot "$(grep -i 'menuentry .*windows' /boot/grub/grub.cfg | head -n 1 | awk -F\' '{print $2}')"
-sudo reboot
