@@ -6,11 +6,11 @@
 if [ -d "$HOME/.local/brew" ]; then
     export HOMEBREW_PREFIX="$HOME/.local/brew"
 
-    export HOMEBREW_PREFIX=~/.local/brew
-    export HOMEBREW_CASK_OPTS=--appdir=~/Applications
+    export HOMEBREW_PREFIX="$HOME/.local/brew"
+    export HOMEBREW_CASK_OPTS=--appdir="$HOME/Applications"
     export HOMEBREW_MAKE_JOBS=4
 
-    export HOMEBREW_BUNDLE_FILE_GLOBAL=~/.config/homebrew/Brewfile
+    export HOMEBREW_BUNDLE_FILE_GLOBAL="$HOME/.config/homebrew/Brewfile"
     export HOMEBREW_BUNDLE_NO_UPGRADE=true
 
     # export HOMEBREW_NO_AUTO_UPDATE=true
