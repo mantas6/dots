@@ -34,10 +34,8 @@ alias zr='cd "$(git rev-parse --show-toplevel)"'
 alias ze='z "$(tmux display-message -p "#S")"'
 alias zf='eval "$(__fzf_cd__)"'
 
-alias sail="vendor/bin/sail"
 alias artisan="a"
 alias composer="c"
-alias s="sail"
 
 alias glc="git log -1 --pretty=%B"
 alias g='git status'
@@ -45,7 +43,6 @@ alias g='git status'
 alias lg='lazygit'
 alias cmatrix='cmatrix -ab'
 alias ff='fastfetch'
-alias q='vi -c Quickmath'
 
 [ "$(uname)" != 'Darwin' ] && alias cal='cal --monday'
 [ "$(uname)" = 'Darwin' ] && alias cal='cal -A 2'
@@ -60,5 +57,6 @@ alias sshvm='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -A'
 # Other
 alias nj="jq . | nvim -Rc 'set syntax=json | set nospell' -"
 
+# Directories
 hash -d d="$HOME/Downloads"
 hash -d r="$HOME/Repos"
