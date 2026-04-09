@@ -48,14 +48,13 @@ in {
     environment.systemPackages = with pkgs-unstable; [
       neovim
       tmux
-      sesh
       direnv
 
       phpConfigured
       phpConfigured.packages.composer
       sqlite
 
-      nodejs_24
+      nodejs_25
       go
       gcc
       lua51Packages.lua

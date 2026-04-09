@@ -90,7 +90,6 @@ brew "vscode-langservers-extracted"
 brew "dockerfile-language-server"
 
 brew "tmux"
-brew "sesh"
 
 brew "eza"
 brew "jq"
