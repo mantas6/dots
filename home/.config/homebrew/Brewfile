@@ -38,6 +38,7 @@ brew "lazygit"
 brew "htop"
 brew "yazi"
 brew "lf"
+brew "onefetch"
 
 # tap "anomalyco/tap"
 # brew "opencode"

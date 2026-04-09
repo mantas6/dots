@@ -78,6 +78,7 @@ in {
       lazydocker
       xh
       pastel
+      onefetch
 
       opencode
       pkgs-unstable-unfree.claude-code

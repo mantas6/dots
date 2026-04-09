@@ -11,6 +11,8 @@ if [ -d '.git' ] || [ -f 'composer.json' ] || [ -f 'package.json' ]; then
     fi
 
     tmux new-window -n 'git'
+    tmux send-keys 'onefetch --no-color-palette --number-of-file-churns 6' C-m
+
     tmux new-window -n 'tin'
 
     # tmux new-window -n 'llm' ai
