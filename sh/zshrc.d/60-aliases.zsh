@@ -43,7 +43,7 @@ alias g='git status'
 alias lg='lazygit'
 alias cmatrix='cmatrix -ab'
 alias ff='fastfetch'
-alias onefetch='onefetch --no-color-palette --number-of-file-churns 6 --no-merges --include-hidden'
+alias onefetch='onefetch --no-color-palette --no-merges --include-hidden'
 
 [ "$(uname)" != 'Darwin' ] && alias cal='cal --monday'
 [ "$(uname)" = 'Darwin' ] && alias cal='cal -A 2'
