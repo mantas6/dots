@@ -8,8 +8,9 @@
   // ],
   "plugin": [
     // https://github.com/griffinmartin/opencode-claude-auth
-    // npm install -g opencode-claude-auth
-    "opencode-claude-auth"
+    // "opencode-claude-auth@1.4.9"
+    // https://github.com/ex-machina-co/opencode-anthropic-auth
+    "@ex-machina/opencode-anthropic-auth@1.6.1"
   ],
   "permission": {
     "read": {
