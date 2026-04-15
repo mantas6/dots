@@ -8,9 +8,9 @@
   // ],
   "plugin": [
     // https://github.com/griffinmartin/opencode-claude-auth
-    // "opencode-claude-auth@1.4.9"
+    "opencode-claude-auth@1.4.10"
     // https://github.com/ex-machina-co/opencode-anthropic-auth
-    "@ex-machina/opencode-anthropic-auth@1.6.1"
+    // "@ex-machina/opencode-anthropic-auth@1.6.1"
   ],
   "permission": {
     "read": {
