@@ -101,5 +101,6 @@ return {
 
     vim.keymap.set('n', '<leader>pc', builtin.git_bcommits, {})
     vim.keymap.set('n', '<leader>ph', builtin.help_tags, { desc = 'Telescope help tags' })
+    vim.keymap.set('n', '<leader>pp', builtin.builtin, {})
   end,
 }
