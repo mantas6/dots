@@ -7,7 +7,7 @@
   //     "anthropic"
   // ],
   "plugin": [
-    "superpowers@git+https://github.com/obra/superpowers.git#v5.0.7",
+    // "superpowers@git+https://github.com/obra/superpowers.git#v5.0.7",
     // https://github.com/griffinmartin/opencode-claude-auth
     "opencode-claude-auth@1.4.10"
     // https://github.com/ex-machina-co/opencode-anthropic-auth
