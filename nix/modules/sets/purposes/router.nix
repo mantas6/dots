@@ -131,7 +131,7 @@ in {
         wantedBy = ["multi-user.target"];
         after = ["network.target"];
         serviceConfig = {
-          ExecStart = "${self.packages.${pkgs.system}.wolf}/bin/wolf -i ${lanIp}:${toString wolPort} -a ${lanIpRangeEnd}";
+          ExecStart = "${self.packages.${pkgs.stdenv.hostPlatform.system}.wolf}/bin/wolf -i ${lanIp}:${toString wolPort} -a ${lanIpRangeEnd}";
           Restart = "always";
           Type = "simple";
           DynamicUser = "yes";
