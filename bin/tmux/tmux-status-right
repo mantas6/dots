@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+
+changes=false
+unpushed=false
+
+if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+    changes=true
+fi
+
+if ! git diff --quiet; then
+    changes=true
+fi
+
+if ! git diff --cached --quiet; then
+    changes=true
+fi
+
+if git status | grep -q 'Your branch is ahead of'; then
+    unpushed=true
+fi
+
+status=''
+branch=$(git branch --show-current 2>/dev/null)
+
+if $changes; then
+    status='*'
+fi
+
+if $unpushed; then
+    status="$status^"
+fi
+
+printf '%s' "$status$branch"
