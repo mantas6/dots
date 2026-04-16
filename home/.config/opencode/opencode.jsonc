@@ -7,6 +7,7 @@
   //     "anthropic"
   // ],
   "plugin": [
+    "superpowers@git+https://github.com/obra/superpowers.git#v5.0.7",
     // https://github.com/griffinmartin/opencode-claude-auth
     "opencode-claude-auth@1.4.10"
     // https://github.com/ex-machina-co/opencode-anthropic-auth
@@ -26,18 +27,18 @@
       "scp*": "deny",
       "rsync*": "deny",
       "gpg*": "deny",
-      "brew*": "deny",
+      "brew*": "deny"
     },
     "external_diretory": {
       "*": "deny",
       "~/Repos/*": "allow",
       "~/Repos/**": "allow",
-      "~/Downloads/*": "ask",
+      "~/Downloads/*": "ask"
     },
   },
   "compaction": {
     "auto": false,
-    "prune": false,
+    "prune": false
   },
   "mcp": {
     "sentry": {
@@ -58,8 +59,8 @@
       "command": [
         "npx",
         "@playwright/mcp@latest",
-        "--headless",
-      ],
-    },
-  },
+        "--headless"
+      ]
+    }
+  }
 }
