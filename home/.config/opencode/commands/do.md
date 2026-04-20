@@ -1,7 +1,6 @@
 ---
 description: Process code comment instructions for agent
 agent: build
-subtask: true
 ---
 
 Search the codebase for text fragment (case sensitive) "X-AGENT:".
