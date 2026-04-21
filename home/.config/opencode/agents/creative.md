@@ -1,7 +1,7 @@
 ---
 description: Creative and divergent thinking with high variability
 mode: subagent
-temperature: 0.8
+temperature: 0.9
 permission:
   edit: deny
   write: deny
