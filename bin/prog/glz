@@ -29,8 +29,10 @@ if $add; then
     git add .
 fi
 
+echo
 git diff --staged
 git status --short --branch
+echo
 
 msg=$(gum write --show-line-numbers --height=5 --placeholder 'Commit message' --value="$last_msg")
 
