@@ -38,7 +38,7 @@ alias artisan="a"
 alias composer="c"
 
 alias glc="git log -1 --pretty=%B"
-alias g='git status'
+alias g='git status --short --branch'
 
 alias lg='lazygit'
 alias cmatrix='cmatrix -ab'
