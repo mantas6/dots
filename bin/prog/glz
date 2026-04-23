@@ -38,8 +38,8 @@ msg=$(gum write --show-line-numbers --height=5 --placeholder 'Commit message' --
 
 echo "$msg"
 
-git commit -m "$msg"
 printf '%s' "$msg" >"$msg_file"
+git commit -m "$msg"
 
 if git ls-remote --exit-code --heads origin "$(git branch --show-current)" >/dev/null 2>&1; then
     git pull --no-edit
