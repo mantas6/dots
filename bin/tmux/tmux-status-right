@@ -1,17 +1,11 @@
 #!/usr/bin/env sh
 
+set -e
+
 changes=false
 unpushed=false
 
-if [ -n "$(git ls-files --others --exclude-standard)" ]; then
-    changes=true
-fi
-
-if ! git diff --quiet; then
-    changes=true
-fi
-
-if ! git diff --cached --quiet; then
+if [ "$(git status --short)" != '' ]; then
     changes=true
 fi
 
@@ -23,11 +17,11 @@ status=''
 branch=$(git branch --show-current 2>/dev/null)
 
 if $changes; then
-    status='*'
+    status='#[fg=pink]*#[default]'
 fi
 
 if $unpushed; then
-    status="$status^"
+    status="$status#[fg=yellow]^#[default]"
 fi
 
 printf '%s' "$status$branch"
