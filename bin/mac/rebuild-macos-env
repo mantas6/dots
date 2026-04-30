@@ -134,6 +134,8 @@ fn-misc() {
     else
         (cd "$fzf_tab_path" && git pull)
     fi
+
+    brew services start sketchybar
 }
 
 fn-docker() {

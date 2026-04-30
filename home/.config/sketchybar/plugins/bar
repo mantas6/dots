@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-sketchybar --set "$NAME" label="$(bar)"
+export PATH="$HOME/.local/bin:$HOME/.local/sbin:$PATH"
+
+sketchybar --set "$NAME" label="$(bar -p 2)"
