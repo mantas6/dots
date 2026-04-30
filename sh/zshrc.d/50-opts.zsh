@@ -27,6 +27,7 @@ setopt hist_ignore_dups
 setopt hist_find_no_dups
 
 setopt autocd
+setopt interactive_comments
 
 # Load completions
 autoload -Uz compinit && compinit
