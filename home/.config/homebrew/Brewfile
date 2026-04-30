@@ -50,7 +50,7 @@ brew "ripgrep"
 brew "fd"
 brew "entr"
 
-# brew "lima"
+# brew "colima"
 # brew "docker"
 # brew "docker-compose"
 
