@@ -31,7 +31,7 @@ if [ -x "$(command -v eza)" ]; then
 fi
 
 alias zr='cd "$(git rev-parse --show-toplevel)"'
-alias ze='z "$(tmux display-message -p "#S")"'
+alias ze='cd "$(tmux display-message -p "#{session_path}")"'
 alias zf='eval "$(__fzf_cd__)"'
 
 alias artisan="a"
