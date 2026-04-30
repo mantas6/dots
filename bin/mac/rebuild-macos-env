@@ -150,6 +150,30 @@ fn-docker() {
     limactl start-at-login default
 }
 
+fn-fastfetch() {
+    local version tmp url bin="$HOME/.local/bin/fastfetch"
+
+    version="$(brew info --json=v2 fastfetch | jq -r '.formulae[0].versions.stable')"
+    [ -z "$version" ] || [ "$version" = 'null' ] && {
+        echo 'Failed to get fastfetch version from brew' >&2
+        return 1
+    }
+
+    url="https://github.com/fastfetch-cli/fastfetch/releases/download/${version}/fastfetch-macos-aarch64.tar.gz"
+    tmp="$(mktemp -d)"
+
+    if curl -fsSLo "$tmp/fastfetch.tar.gz" "$url"; then
+        tar -xzf "$tmp/fastfetch.tar.gz" -C "$tmp"
+        mv "$tmp"/fastfetch-*/usr/bin/fastfetch "$bin"
+        chmod a+x "$bin"
+        xattr -c "$bin"
+        trash "$tmp"
+    else
+        echo 'Failed to download fastfetch' >&2
+        return 1
+    fi
+}
+
 fn-init() {
     fn-brew
     tldr -u
@@ -157,6 +181,7 @@ fn-init() {
     fn-php
     fn-misc
     fn-defaults
+    fn-fastfetch
     # fn-docker
 }
 
