@@ -34,7 +34,7 @@
       "~/Repos/*": "allow",
       "~/Repos/**": "allow",
       "~/Downloads/*": "ask"
-    },
+    }
   },
   "compaction": {
     "auto": false,
@@ -60,6 +60,14 @@
         "npx",
         "@playwright/mcp@latest",
         "--headless"
+      ]
+    },
+    "chrome-devtools": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "chrome-devtools-mcp@latest"
       ]
     }
   }
