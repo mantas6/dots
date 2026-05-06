@@ -80,7 +80,7 @@ brew "watch"
 brew "git-lfs"
 
 brew "go"
-brew "rust"
+# brew "rust"
 
 brew "gopls"
 brew "pyright"
