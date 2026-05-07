@@ -60,6 +60,7 @@
       ]
     },
     "chrome-devtools": {
+      "enabled": false,
       "type": "local",
       "command": [
         "npx",
