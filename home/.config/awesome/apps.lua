@@ -36,7 +36,7 @@ return function()
       {
         tag = 1,
         exec = {
-          'qutebrowser',
+          'chromium --new-window',
           'sessionizer connect generic',
           terminal_cmd .. ' attach-session -t generic',
         },
