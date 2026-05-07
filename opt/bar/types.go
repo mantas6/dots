@@ -24,7 +24,7 @@ type SwapResult struct {
 }
 
 type CpuResult struct {
-	Temperature float64 `json:"temperature"`
+	Temperature *float64 `json:"temperature"`
 }
 
 type UptimeResult struct {
@@ -32,8 +32,8 @@ type UptimeResult struct {
 }
 
 type BatteryResult struct {
-	Capacity float64 `json:"capacity"`
-	Status   string  `json:"status"`
+	Capacity float64  `json:"capacity"`
+	Status   []string `json:"status"`
 }
 
 type DiskBytesResult struct {
@@ -47,9 +47,8 @@ type DiskResult struct {
 }
 
 type SoundResult struct {
-	Active bool `json:"active"`
-	Main   bool `json:"main"`
-	Volume int  `json:"volume"`
+	Type   []string `json:"type"`
+	Volume int      `json:"volume"`
 }
 
 type BluetoothResult struct {

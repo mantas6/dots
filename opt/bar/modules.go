@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"math"
+	"slices"
 	"strings"
 	"time"
 )
@@ -30,7 +31,11 @@ func cpuTemp(parts *[]string, res json.RawMessage) {
 		return
 	}
 
-	temp := math.Round(cpu.Temperature)
+	if cpu.Temperature == nil {
+		return
+	}
+
+	temp := math.Round(*cpu.Temperature)
 	*parts = append(*parts, fmt.Sprintf("󰏈"+gap+"%.0fC", temp))
 }
 
@@ -122,10 +127,19 @@ func battery(parts *[]string, res json.RawMessage) {
 
 	icon := ""
 
+	hasStatus := func(s string) bool {
+		for _, v := range p.Status {
+			if strings.Contains(v, s) {
+				return true
+			}
+		}
+		return false
+	}
+
 	switch {
-	case strings.Contains(p.Status, "Charging"):
+	case hasStatus("Charging"):
 		icon = "󱐋"
-	case strings.Contains(p.Status, "AC Connected"):
+	case hasStatus("AC Connected"):
 		icon = ""
 	case p.Capacity > 80:
 		icon = ""
@@ -234,7 +248,7 @@ func volume(parts *[]string, res json.RawMessage) {
 			continue
 		}
 
-		if !p.Active || !p.Main {
+		if !slices.Contains(p.Type, "active") {
 			continue
 		}
 
