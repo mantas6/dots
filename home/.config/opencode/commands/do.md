@@ -3,7 +3,7 @@ description: Process code comment instructions for agent
 agent: build
 ---
 
-Check unstaged changes for comments (case sensitive) "X-AGENT:".
+Check unstaged changes for comments (case sensitive) "@AGENT:".
 
 These lines are instructions for you to execute. Only look at code comments. If following lines are also comments, read them as well.
 

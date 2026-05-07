@@ -105,4 +105,4 @@ vim.keymap.set('n', 'N', 'Nzzzv')
 vim.keymap.set('x', '<leader>v', [["_dP]])
 
 -- Agents
-vim.api.nvim_set_keymap('n', '<leader>q', ':norm OX-AGENT:  <CR>:norm Vgc^f:ll<CR>:startinsert<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>q', ':norm O@AGENT:  <CR>:norm Vgc^f:ll<CR>:startinsert<CR>', { noremap = true })
