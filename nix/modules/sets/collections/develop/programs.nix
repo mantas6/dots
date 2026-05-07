@@ -75,6 +75,7 @@ in {
       entr
 
       lazygit
+      diffnav
       lazydocker
       xh
       pastel
