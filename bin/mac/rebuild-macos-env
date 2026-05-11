@@ -102,6 +102,7 @@ fn-node() {
         npm i -g opencode-ai \
             intelephense \
             bash-language-server \
+            typescript \
             typescript-language-server \
             vscode-langservers-extracted
     fi
