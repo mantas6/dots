@@ -5,7 +5,7 @@ terminal() {
 }
 
 browser() {
-    local app='Applications/Google Chrome.app'
+    local app='Applications/Helium.app'
     if [ -e "$HOME/$app" ]; then
         open -n "$HOME/$app"
     else
