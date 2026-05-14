@@ -65,7 +65,6 @@ brew "pwgen"
 brew "python@3.12"
 brew "shellcheck"
 brew "shfmt"
-brew "prettier"
 brew "stylua"
 brew "taplo"
 
@@ -84,7 +83,6 @@ brew "go"
 # brew "rust"
 
 brew "gopls"
-brew "pyright"
 brew "lua-language-server"
 brew "dockerfile-language-server"
 
