@@ -113,6 +113,8 @@ brew "starship"
 
 brew "choose-gui"
 
+brew "ffmpeg"
+
 tap "daipeihust/tap"
 brew "im-select"
 
