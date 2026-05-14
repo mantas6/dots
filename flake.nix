@@ -36,7 +36,11 @@
     nixosConfigurations = builtins.listToAttrs (map (name: {
         inherit name;
         value = nixpkgs.lib.nixosSystem {
-          modules = [./nix/hosts/${name}];
+          modules = [
+            # (inputs.import-tree ./nix/modules)
+            ./nix/modules
+            ./nix/hosts/${name}
+          ];
 
           specialArgs = {inherit inputs pkgs-unstable self;};
         };

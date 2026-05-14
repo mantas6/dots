@@ -4,7 +4,6 @@
 {...}: {
   imports = [
     ./hardware.nix
-    ../../modules
   ];
 
   disko.devices.disk.main-disk.device = "/dev/nvme0n1";
