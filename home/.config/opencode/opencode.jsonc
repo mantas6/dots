@@ -24,7 +24,10 @@
       "scp*": "deny",
       "rsync*": "deny",
       "gpg*": "deny",
-      "brew*": "deny"
+      "brew*": "deny",
+      "nix-env*": "deny",
+      "nixos-rebuild*": "deny",
+      "sudo*": "deny"
     },
     "external_diretory": {
       "*": "deny",
