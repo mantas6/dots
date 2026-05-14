@@ -99,14 +99,18 @@ fn-node() {
     )
 
     if [ -x "$(command -v npm)" ]; then
-        npm i -g opencode-ai \
-            intelephense \
-            bash-language-server \
-            typescript \
-            typescript-language-server \
-            vscode-langservers-extracted \
-            pyright \
+        local pkgs=(
+            opencode-ai
+            intelephense
+            bash-language-server
+            typescript
+            typescript-language-server
+            vscode-langservers-extracted
+            pyright
             prettier
+        )
+
+        npm i -g "${pkgs[@]}"
     fi
 }
 
