@@ -59,8 +59,14 @@ in {
       gcc
       lua51Packages.lua
       lua51Packages.luarocks
-      python3
+
+      # Art
+      python313
+      python313Packages.pip
+      uv
+      imagemagick
       exiftool
+      ffmpeg
 
       shellcheck
       shfmt
