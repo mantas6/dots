@@ -3,17 +3,6 @@
   config,
   ...
 }: {
-  imports = [
-    ./disks
-    ./quirks
-    ./jobs
-    ./hardware
-    ./services
-    ./purposes
-    ./collections
-    ./progs
-  ];
-
   options = {
     features.setsAvailable = lib.mkOption {
       type = lib.types.listOf lib.types.str;

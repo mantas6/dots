@@ -1,7 +1,0 @@
-{...}: {
-  imports = [
-    ./sets
-    ./options
-    ./globals
-  ];
-}

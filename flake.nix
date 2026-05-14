@@ -37,8 +37,7 @@
         inherit name;
         value = nixpkgs.lib.nixosSystem {
           modules = [
-            # (inputs.import-tree ./nix/modules)
-            ./nix/modules
+            (inputs.import-tree ./nix/modules)
             ./nix/hosts/${name}
           ];
 

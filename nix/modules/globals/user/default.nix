@@ -3,10 +3,6 @@
   lib,
   ...
 }: {
-  imports = [
-    ./authorized-keys.nix
-  ];
-
   users.mutableUsers = false;
 
   users.users.mantas = {
