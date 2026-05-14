@@ -12,6 +12,8 @@
     };
 
     xremap-flake.url = "github:xremap/nix-flake";
+
+    import-tree.url = "github:vic/import-tree";
   };
 
   outputs = {
