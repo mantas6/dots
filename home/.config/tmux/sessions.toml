@@ -8,6 +8,11 @@ path = "~/.local/state/sessions/llm"
 cmd = "ai"
 
 [[session]]
+name = "art"
+path = "~/.local/state/sessions/art"
+cmd = "tmux new-window -d; ai"
+
+[[session]]
 name = "calc"
 path = "~/.local/state/sessions/calc"
 cmd = "nvim main.calc.php"
