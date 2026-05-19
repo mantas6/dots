@@ -10,4 +10,6 @@ vendor
 /PRESENTATION.md
 /PLAN.md
 
+/.playwright-mcp
+
 **/.claude/settings.local.json
