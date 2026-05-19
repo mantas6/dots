@@ -31,9 +31,9 @@
     },
     "external_diretory": {
       "*": "deny",
-      "~/Repos/*": "allow",
-      "~/Repos/**": "allow",
-      "~/Downloads/*": "ask"
+      "$HOME/Repos/*": "allow",
+      "$HOME/Repos/**": "allow",
+      "$HOME/Downloads/*": "ask"
     }
   },
   "compaction": {
