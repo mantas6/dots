@@ -56,12 +56,37 @@ return {
 
     local builtin = require('telescope.builtin')
     local utils = require('telescope.utils')
+    local conf = require('telescope.config').values
+
+    local function scope_picker()
+      local file_paths = {}
+      local scope_path = vim.fn.getcwd() .. '/.scope'
+      if vim.fn.filereadable(scope_path) == 1 then
+        for _, line in ipairs(vim.fn.readfile(scope_path)) do
+          if line ~= '' then
+            table.insert(file_paths, line)
+          end
+        end
+      end
+
+      require('telescope.pickers')
+        .new({}, {
+          prompt_title = 'Scope',
+          finder = require('telescope.finders').new_table({
+            results = file_paths,
+          }),
+          previewer = conf.file_previewer({}),
+          sorter = conf.generic_sorter({}),
+        })
+        :find()
+    end
 
     -- vim.keymap.set('n', '<C-p>', builtin.git_files, {})
     vim.keymap.set('n', '<leader>pe', builtin.git_files, {})
     vim.keymap.set('n', '<leader>pa', function()
       builtin.find_files({ no_ignore = true, prompt_title = 'All Files' })
     end)
+    vim.keymap.set('n', '<leader>pg', scope_picker, {})
     vim.keymap.set('n', '<leader>pf', builtin.live_grep, {})
     vim.keymap.set('n', '<leader>pF', ':Telescope live_grep search_dirs={""}<Left><Left>', {})
     vim.keymap.set('n', '<leader>po', function()

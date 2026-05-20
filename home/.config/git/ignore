@@ -1,6 +1,7 @@
 /.tinker-*.php
 /out*
 /tmp*
+/.scope
 .null-ls_*
 .conform.*
 
