@@ -24,6 +24,21 @@ function ClosestGitignoreDir(start_dir, cwd)
   end
 end
 
+function GetScopePaths()
+  local file_paths = {}
+  local scope_path = vim.fn.getcwd() .. '/.scope'
+  if vim.fn.filereadable(scope_path) == 1 then
+    for _, line in ipairs(vim.fn.readfile(scope_path)) do
+      if line ~= '' then
+        table.insert(file_paths, line)
+      end
+    end
+  end
+
+  return file_paths
+end
+
 return {
   closest_gitignore_dir = ClosestGitignoreDir,
+  get_scope_paths = GetScopePaths,
 }

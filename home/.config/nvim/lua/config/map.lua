@@ -82,6 +82,7 @@ vim.api.nvim_set_keymap('n', '<leader>en', ':e .env <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>er', ':e README.md <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>ei', ':e .gitignore <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>ex', ':e .git/info/exclude <CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>eg', ':e .scope <CR>', {})
 
 vim.keymap.set('n', '<leader>z', '1z=')
 vim.keymap.set('n', '<leader>a', '<C-^>')
