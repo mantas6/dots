@@ -12,7 +12,7 @@ in {
       environment.systemPackages = with pkgs; [
         gimp
         natron
-        ffmpeg-full
+        ffmpeg
         kdePackages.kdenlive
         audacity
       ];
