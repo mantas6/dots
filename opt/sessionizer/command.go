@@ -25,7 +25,7 @@ func cmdList() {
 	currentSession, _ := api.CurrentSession()
 
 	for _, s := range sessionItems {
-		if s.Name == currentSession {
+		if s.Name == currentSession && os.Getenv("TMUX") != "" {
 			continue
 		}
 		tag := iconDefault
