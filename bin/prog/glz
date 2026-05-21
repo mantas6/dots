@@ -2,22 +2,26 @@
 
 set -e
 
-root=$(git rev-parse --git-dir)
-msg_file="$root/glz-msg"
+repo=$(basename "$(pwd)")
+state="$HOME/.local/state/dots/glz/$repo"
+mkdir -p "$state"
+
+branch=$(git branch --show-current)
+msg_file="$state/$branch"
 
 add=true
 
-last_msg=
+last_msg=$branch
 [ -f "$msg_file" ] && last_msg=$(<"$msg_file")
 
 while getopts 'in' opt; do
     case ${opt} in
-    n)
-        add=false
-        ;;
-    ?)
-        exit 1
-        ;;
+        n)
+            add=false
+            ;;
+        ?)
+            exit 1
+            ;;
     esac
 done
 
