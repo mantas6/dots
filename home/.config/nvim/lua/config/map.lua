@@ -49,6 +49,29 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
+local function jump_to_scope(nr)
+  local paths = GetScopePaths()
+  vim.cmd.edit(paths[nr])
+end
+
+vim.keymap.set('n', '<leader>j', function()
+  jump_to_scope(1)
+end)
+
+vim.keymap.set('n', '<leader>k', function()
+  jump_to_scope(2)
+end)
+
+vim.keymap.set('n', '<leader>l', function()
+  jump_to_scope(3)
+end)
+
+vim.keymap.set('n', '<leader>;', function()
+  jump_to_scope(4)
+end)
+
+-- vim.api.nvim_set_keymap('n', '<leader>t', ':silent !echo %:p >> .scope <CR>', {})
+
 local function format_buffer()
   require('conform').format()
 end
