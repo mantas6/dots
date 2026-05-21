@@ -6,14 +6,12 @@ import (
 	"strings"
 )
 
-var gap string
-
 func main() {
 	padding := flag.Int("p", 1, "number of spaces between elements")
 	flag.Parse()
 
-	gap = strings.Repeat(" ", *padding)
-	parts := new([]string)
+	gap := strings.Repeat(" ", *padding)
+	parts := []Part{}
 
 	metrics := make(chan []Metric)
 	networkTime := make(chan string)
@@ -31,38 +29,50 @@ func main() {
 	for _, m := range <-metrics {
 		res := m.Result
 
+		var p *Part
 		switch m.Type {
 		case "Memory":
-			memoryUsage(parts, res)
+			p = memoryUsage(res)
 		case "CPUUsage":
-			cpuUsage(parts, res)
+			p = cpuUsage(res)
 		case "CPU":
-			cpuTemp(parts, res)
+			p = cpuTemp(res)
 		case "Kernel":
-			kernelVersion(parts, res)
+			p = kernelVersion(res)
 		case "Uptime":
-			uptime(parts, res)
+			p = uptime(res)
 		case "Battery":
-			battery(parts, res)
+			p = battery(res)
 		case "Disk":
-			diskUsage(parts, res)
+			p = diskUsage(res)
 		case "Sound":
-			volume(parts, res)
+			p = volume(res)
 		case "Bluetooth":
-			bluetoothBattery(parts, res)
+			p = bluetoothBattery(res)
 		case "Swap":
-			swapUsage(parts, res)
+			p = swapUsage(res)
 		case "NetIO":
-			networkIO(parts, res)
+			p = networkIO(res)
 		case "DiskIO":
-			diskIO(parts, res)
+			p = diskIO(res)
 		case "DNS":
-			dns(parts, res)
+			p = dns(res)
+		}
+		if p != nil {
+			parts = append(parts, *p)
 		}
 	}
 
-	networkPing(parts, <-networkTime)
-	clock(parts)
+	if p := networkPing(<-networkTime); p != nil {
+		parts = append(parts, *p)
+	}
+	if p := clock(); p != nil {
+		parts = append(parts, *p)
+	}
 
-	fmt.Println(strings.Join(*parts, gap))
+	strs := make([]string, len(parts))
+	for i, part := range parts {
+		strs[i] = part.Format(gap)
+	}
+	fmt.Println(strings.Join(strs, gap))
 }

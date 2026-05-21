@@ -9,10 +9,10 @@ import (
 	"time"
 )
 
-func cpuUsage(parts *[]string, res json.RawMessage) {
+func cpuUsage(res json.RawMessage) *Part {
 	var usages []float64
 	if err := json.Unmarshal(res, &usages); err != nil {
-		return
+		return nil
 	}
 
 	sum := 0.0
@@ -22,41 +22,41 @@ func cpuUsage(parts *[]string, res json.RawMessage) {
 	}
 
 	avg := sum / float64(len(usages))
-	*parts = append(*parts, fmt.Sprintf(""+gap+"%02.0f%%", avg))
+	return &Part{Icon: "", Value: fmt.Sprintf("%02.0f%%", avg)}
 }
 
-func cpuTemp(parts *[]string, res json.RawMessage) {
+func cpuTemp(res json.RawMessage) *Part {
 	var cpu CpuResult
 	if err := json.Unmarshal(res, &cpu); err != nil {
-		return
+		return nil
 	}
 
 	if cpu.Temperature == nil {
-		return
+		return nil
 	}
 
 	temp := math.Round(*cpu.Temperature)
-	*parts = append(*parts, fmt.Sprintf("󰏈"+gap+"%.0fC", temp))
+	return &Part{Icon: "󰏈", Value: fmt.Sprintf("%.0fC", temp)}
 }
 
-func memoryUsage(parts *[]string, res json.RawMessage) {
+func memoryUsage(res json.RawMessage) *Part {
 	var mem MemoryResult
 	if err := json.Unmarshal(res, &mem); err != nil {
-		return
+		return nil
 	}
 
 	usageGb := float64(mem.Used) / 1024 / 1024 / 1024
-	*parts = append(*parts, fmt.Sprintf("󰘚"+gap+"%.1fG", usageGb))
+	return &Part{Icon: "󰘚", Value: fmt.Sprintf("%.1fG", usageGb)}
 }
 
-func swapUsage(parts *[]string, res json.RawMessage) {
+func swapUsage(res json.RawMessage) *Part {
 	var raw []json.RawMessage
 	if err := json.Unmarshal(res, &raw); err != nil {
-		return
+		return nil
 	}
 
 	if len(raw) == 0 {
-		return
+		return nil
 	}
 
 	var totalUsed int64 = 0
@@ -71,22 +71,22 @@ func swapUsage(parts *[]string, res json.RawMessage) {
 	}
 
 	usageGb := float64(totalUsed) / 1024 / 1024 / 1024
-	*parts = append(*parts, fmt.Sprintf("󰾶"+gap+"%.1fG", usageGb))
+	return &Part{Icon: "󰾶", Value: fmt.Sprintf("%.1fG", usageGb)}
 }
 
-func kernelVersion(parts *[]string, res json.RawMessage) {
+func kernelVersion(res json.RawMessage) *Part {
 	var p KernelResult
 	if err := json.Unmarshal(res, &p); err != nil {
-		return
+		return nil
 	}
 
-	*parts = append(*parts, fmt.Sprintf(""+gap+"%s", p.Release))
+	return &Part{Icon: "", Value: p.Release}
 }
 
-func uptime(parts *[]string, res json.RawMessage) {
+func uptime(res json.RawMessage) *Part {
 	var p UptimeResult
 	if err := json.Unmarshal(res, &p); err != nil {
-		return
+		return nil
 	}
 
 	time := p.Uptime / 1000 / 60
@@ -102,27 +102,26 @@ func uptime(parts *[]string, res json.RawMessage) {
 		}
 	}
 
-	*parts = append(*parts, fmt.Sprintf("󰐦"+gap+"%v%s", time, unit))
+	return &Part{Icon: "󰐦", Value: fmt.Sprintf("%v%s", time, unit)}
 }
 
-func clock(parts *[]string) {
-	s := time.Now().Format(time.TimeOnly)
-	*parts = append(*parts, fmt.Sprintf(""+gap+"%v", s))
+func clock() *Part {
+	return &Part{Icon: "", Value: time.Now().Format(time.TimeOnly)}
 }
 
-func battery(parts *[]string, res json.RawMessage) {
+func battery(res json.RawMessage) *Part {
 	var raw []json.RawMessage
 	if err := json.Unmarshal(res, &raw); err != nil {
-		return
+		return nil
 	}
 
 	if len(raw) == 0 {
-		return
+		return nil
 	}
 
 	var p BatteryResult
 	if err := json.Unmarshal(raw[0], &p); err != nil {
-		return
+		return nil
 	}
 
 	icon := ""
@@ -153,13 +152,13 @@ func battery(parts *[]string, res json.RawMessage) {
 		icon = ""
 	}
 
-	*parts = append(*parts, fmt.Sprintf("%v"+gap+"%.0f%%", icon, p.Capacity))
+	return &Part{Icon: icon, Value: fmt.Sprintf("%.0f%%", p.Capacity)}
 }
 
-func diskUsage(parts *[]string, res json.RawMessage) {
+func diskUsage(res json.RawMessage) *Part {
 	var raw []json.RawMessage
 	if err := json.Unmarshal(res, &raw); err != nil {
-		return
+		return nil
 	}
 
 	for _, disk := range raw {
@@ -173,19 +172,19 @@ func diskUsage(parts *[]string, res json.RawMessage) {
 		}
 
 		usagePercent := float64(p.Bytes.Used) / float64(p.Bytes.Total) * 100
-		*parts = append(*parts, fmt.Sprintf(""+gap+"%.0f%%", usagePercent))
-		return
+		return &Part{Icon: "", Value: fmt.Sprintf("%.0f%%", usagePercent)}
 	}
+	return nil
 }
 
-func networkPing(parts *[]string, networkTime string) {
-	*parts = append(*parts, fmt.Sprintf(""+gap+"%v", networkTime))
+func networkPing(networkTime string) *Part {
+	return &Part{Icon: "", Value: networkTime}
 }
 
-func networkIO(parts *[]string, res json.RawMessage) {
+func networkIO(res json.RawMessage) *Part {
 	var raw []json.RawMessage
 	if err := json.Unmarshal(res, &raw); err != nil {
-		return
+		return nil
 	}
 
 	for _, dev := range raw {
@@ -206,15 +205,15 @@ func networkIO(parts *[]string, res json.RawMessage) {
 			bytes = p.TxBytes
 		}
 
-		*parts = append(*parts, fmt.Sprintf("%s"+gap+"%v", icon, formatBytes(bytes)))
-		return
+		return &Part{Icon: icon, Value: formatBytes(bytes)}
 	}
+	return nil
 }
 
-func diskIO(parts *[]string, res json.RawMessage) {
+func diskIO(res json.RawMessage) *Part {
 	var raw []json.RawMessage
 	if err := json.Unmarshal(res, &raw); err != nil {
-		return
+		return nil
 	}
 
 	for _, dev := range raw {
@@ -231,15 +230,15 @@ func diskIO(parts *[]string, res json.RawMessage) {
 			bytes = p.BytesWritten
 		}
 
-		*parts = append(*parts, fmt.Sprintf("%s"+gap+"%vM", icon, bytes/1024/1024))
-		return
+		return &Part{Icon: icon, Value: fmt.Sprintf("%vM", bytes/1024/1024)}
 	}
+	return nil
 }
 
-func volume(parts *[]string, res json.RawMessage) {
+func volume(res json.RawMessage) *Part {
 	var raw []json.RawMessage
 	if err := json.Unmarshal(res, &raw); err != nil {
-		return
+		return nil
 	}
 
 	for _, dev := range raw {
@@ -252,15 +251,15 @@ func volume(parts *[]string, res json.RawMessage) {
 			continue
 		}
 
-		*parts = append(*parts, fmt.Sprintf("󰕾"+gap+"%v%%", p.Volume))
-		return
+		return &Part{Icon: "󰕾", Value: fmt.Sprintf("%v%%", p.Volume)}
 	}
+	return nil
 }
 
-func bluetoothBattery(parts *[]string, res json.RawMessage) {
+func bluetoothBattery(res json.RawMessage) *Part {
 	var raw []json.RawMessage
 	if err := json.Unmarshal(res, &raw); err != nil {
-		return
+		return nil
 	}
 
 	for _, dev := range raw {
@@ -273,19 +272,19 @@ func bluetoothBattery(parts *[]string, res json.RawMessage) {
 			continue
 		}
 
-		*parts = append(*parts, fmt.Sprintf("󰂳"+gap+"%v%%", p.Battery))
-		return
+		return &Part{Icon: "󰂳", Value: fmt.Sprintf("%v%%", p.Battery)}
 	}
+	return nil
 }
 
-func dns(parts *[]string, res json.RawMessage) {
+func dns(res json.RawMessage) *Part {
 	var addresses []string
 	if err := json.Unmarshal(res, &addresses); err != nil {
-		return
+		return nil
 	}
 
 	for _, address := range addresses {
-		*parts = append(*parts, fmt.Sprintf("󰒍"+gap+"%v", address))
-		return
+		return &Part{Icon: "󰒍", Value: address}
 	}
+	return nil
 }

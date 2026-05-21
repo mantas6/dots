@@ -66,3 +66,12 @@ type DiskIOResult struct {
 	BytesRead    int64 `json:"bytesRead"`
 	BytesWritten int64 `json:"bytesWritten"`
 }
+
+type Part struct {
+	Icon  string
+	Value string
+}
+
+func (p Part) Format(gap string) string {
+	return p.Icon + gap + p.Value
+}
