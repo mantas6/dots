@@ -110,7 +110,7 @@ fn-node() {
             prettier
         )
 
-        npm i -g "${pkgs[@]}"
+        npm i -g --min-release-age=1 "${pkgs[@]}"
     fi
 }
 
