@@ -23,25 +23,21 @@ autocmd('TextYankPost', {
 --   end,
 -- })
 
-autocmd('FileType', {
-  pattern = {
-    'lua',
-    'vue',
-    'nix',
-    'ts',
-    'markdown',
-    'javascript',
-    'javascriptreact',
-    'javascript.jsx',
-    'javascript.vue',
-    'typescript',
-    'typescriptreact',
-    'typescript.tsx',
-    'json',
-    'jsonc',
-  },
-  command = 'setlocal shiftwidth=2 softtabstop=2 expandtab',
-})
+-- autocmd('FileType', {
+--   pattern = {
+--     'lua',
+--     'vue',
+--     'nix',
+--     'ts',
+--     'markdown',
+--     'javascript',
+--     'javascript.vue',
+--     'typescript',
+--     'json',
+--     'jsonc',
+--   },
+--   command = 'setlocal shiftwidth=2 softtabstop=2 expandtab',
+-- })
 
 autocmd({ 'BufWritePre' }, {
   group = group,
