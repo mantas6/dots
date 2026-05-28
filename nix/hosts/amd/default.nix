@@ -10,7 +10,7 @@
 
   features.sets = [
     "disks.normal"
-    "hardware.nvidia"
+    # "hardware.nvidia"
     # "hardware.amd"
     "collections.desktop"
     "collections.develop"
