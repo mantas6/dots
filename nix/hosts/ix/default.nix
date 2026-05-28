@@ -1,4 +1,4 @@
-{...}: {
+{pkgs-unstable, ...}: {
   disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 
   features.sets = [
@@ -20,6 +20,11 @@
   features.swapSizeInGB = 36;
   services.logind.settings.Login.HandlePowerKey = "hibernate";
   # powerManagement.enable = true;
+
+  # services.ollama = {
+  #   enable = true;
+  #   package = pkgs-unstable.ollama-cpu;
+  # };
 
   # try pkgs.linuxPackages_6_10 to prevent sleep issues
   # boot.kernelPackages = pkgs.linuxPackages_6_10;
