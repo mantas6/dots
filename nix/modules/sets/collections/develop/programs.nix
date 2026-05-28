@@ -54,7 +54,7 @@ in {
       phpConfigured.packages.composer
       sqlite
 
-      nodejs_25
+      nodejs_24
       go
       gcc
       lua51Packages.lua
