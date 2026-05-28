@@ -4,13 +4,13 @@
   features.sets = [
     "disks.normal"
     # "hardware.nvidia"
-    # "hardware.amd"
+    "hardware.amd"
     "collections.desktop"
     "collections.develop"
     "progs.shell"
     "services.printing"
     "services.docker"
-    "quirks.amd-sleep"
+    # "quirks.amd-sleep"
   ];
 
   features.wakeOnLanAdapterMAC = "10:ff:e0:6d:48:60";

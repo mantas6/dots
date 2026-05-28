@@ -8,7 +8,7 @@
     "progs.shell"
     # "services.printing"
     "services.docker"
-    "quirks.amd-sleep"
+    # "quirks.amd-sleep"
     "progs.gaming"
     # "purposes.sat"
     # "disks.normal"
