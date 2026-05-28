@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-if [ "$(dirname "$(pwd)")" = "$HOME/.local/state/sessions" ]; then
+if [ "$(pwd)" = "$HOME/.local/state/sessions/llm" ]; then
     if [ ! -d .git ]; then
         git init
     fi
