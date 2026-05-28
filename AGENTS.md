@@ -1,7 +1,5 @@
 # AGENTS.md
 
-This file provides guidance to AI coding agents when working with code in this repository.
-
 ## Overview
 
 This is a dotfiles repository that manages configuration for both NixOS Linux systems and macOS. It uses GNU Stow for symlink management.
