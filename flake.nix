@@ -38,7 +38,7 @@
         value = nixpkgs.lib.nixosSystem {
           modules = [
             (inputs.import-tree ./nix/modules)
-            ./nix/hosts/${name}
+            (inputs.import-tree ./nix/hosts/${name})
           ];
 
           specialArgs = {inherit inputs pkgs-unstable self;};

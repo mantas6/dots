@@ -2,10 +2,6 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 {pkgs, ...}: {
-  imports = [
-    ./hardware.nix
-  ];
-
   disko.devices.disk.main-disk.device = "/dev/sda";
 
   features.sets = [
