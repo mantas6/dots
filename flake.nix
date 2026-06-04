@@ -14,6 +14,8 @@
     xremap-flake.url = "github:xremap/nix-flake";
 
     import-tree.url = "github:vic/import-tree";
+
+    hermes-agent.url = "github:NousResearch/hermes-agent";
   };
 
   outputs = {
