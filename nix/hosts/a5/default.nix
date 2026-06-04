@@ -3,21 +3,25 @@
 
   features.sets = [
     "disks.normal"
-    # "hardware.nvidia"
     "hardware.amd"
     "collections.desktop"
     "collections.develop"
     "progs.shell"
-    "services.printing"
+    "progs.gaming"
+    # "services.printing"
     "services.docker"
-    # "quirks.amd-sleep"
   ];
 
-  features.wakeOnLanAdapterMAC = "10:ff:e0:6d:48:60";
+  # Hibernation
+  # https://nixos.wiki/wiki/Hibernation
+  boot.kernelParams = ["resume_offset=457809920"];
+  boot.resumeDevice = "/dev/disk/by-uuid/c0c994a8-1809-4a81-8440-743be7370aeb";
+  features.swapSizeInGB = 36;
+  services.logind.settings.Login.HandlePowerKey = "hibernate";
 
-  boot.loader.grub.useOSProber = true;
+  features.wakeOnLanAdapterMAC = "04:7c:16:4f:88:ea";
 
-  services.xserver.dpi = 100;
+  # services.xserver.dpi = 100;
 
   networking.hostName = "a5";
 
