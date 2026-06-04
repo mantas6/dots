@@ -8,7 +8,7 @@
       enable = true;
       # container.enable = true;
       # container.hostUsers = ["mantas"];
-      # settings.model.default = "openai/chatgpt-5.5";
+      settings.model.default = "openai/chatgpt-5.5";
       environmentFiles = ["/var/lib/hermes/env"];
       addToSystemPackages = true;
     };
