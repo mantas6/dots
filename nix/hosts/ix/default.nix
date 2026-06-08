@@ -3,13 +3,13 @@
 
   features.sets = [
     "hardware.amd"
-    "collections.desktop"
+    # "collections.desktop"
     "collections.develop"
     "progs.shell"
     # "services.printing"
     "services.docker"
-    # "quirks.amd-sleep"
-    "progs.gaming"
+    "quirks.amd-sleep"
+    # "progs.gaming"
     # "purposes.sat"
     # "disks.normal"
   ];
@@ -31,7 +31,7 @@
   # https://www.reddit.com/r/Fedora/comments/1gj29ub/is_anyone_having_this_suspendwake_up_problem_as/
   # https://www.reddit.com/r/Fedora/comments/1g7ke8e/workaround_sleep_issues_with_kernel_611/
 
-  # features.wakeOnLanAdapterMAC = "04:7c:16:4f:88:ea";
+  features.wakeOnLanAdapterMAC = "10:ff:e0:6d:48:60";
 
   # services.xserver.dpi = 100;
 
