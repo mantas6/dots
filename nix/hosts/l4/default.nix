@@ -33,9 +33,9 @@
         reverse_proxy http://localhost:5230
       '';
 
-      "http://nostalgia".extraConfig = ''
-        reverse_proxy http://localhost:8077
-      '';
+      # "http://nostalgia".extraConfig = ''
+      #   reverse_proxy http://localhost:8077
+      # '';
     };
   };
 
@@ -50,15 +50,15 @@
           admin off
         }
 
-        :8077 {
-          root    * /home/mantas/Pictures/Nostalgia/Site
-          file_server
-        }
-
-        :8078 {
-          root    * /home/mantas/Pictures/Nostalgia/Originals
-          file_server
-        }
+        # :8077 {
+        #   root    * /home/mantas/Pictures/Nostalgia/Site
+        #   file_server
+        # }
+        #
+        # :8078 {
+        #   root    * /home/mantas/Pictures/Nostalgia/Originals
+        #   file_server
+        # }
 
         :8079 {
           root    * /home/mantas/Pictures/Gallery/Site
