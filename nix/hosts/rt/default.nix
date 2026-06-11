@@ -20,7 +20,7 @@
       "jobs.updates"
       "progs.shell"
       "purposes.app-server"
-      # "services.docker"
+      "services.docker"
     ];
 
     # boot.kernelParams = [
