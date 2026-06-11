@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  pkgs-unstable,
+  ...
+}: {
   imports = [
     inputs.hermes-agent.nixosModules.default
   ];
@@ -6,7 +10,7 @@
   config = {
     services.hermes-agent = {
       enable = true;
-      settings.model.default = "openai/chatgpt-5.5";
+      settings.model.default = "openai/gpt-5.5";
       environmentFiles = ["/var/lib/hermes/env"];
 
       authFile = "/var/lib/hermes/auth.json";
@@ -15,6 +19,15 @@
       addToSystemPackages = true;
 
       extraDependencyGroups = ["messaging"];
+
+      extraPackages = with pkgs-unstable; [
+        python313
+        python313Packages.pip
+        uv
+        imagemagick
+        exiftool
+        ffmpeg
+      ];
     };
 
     disko.devices.disk.main-disk.device = "/dev/sda";
