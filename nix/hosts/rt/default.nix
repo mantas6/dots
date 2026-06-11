@@ -13,6 +13,8 @@
       authFileForceOverwrite = true; # overwrite on every activation
 
       addToSystemPackages = true;
+
+      extraDependencyGroups = ["messaging"];
     };
 
     disko.devices.disk.main-disk.device = "/dev/sda";
