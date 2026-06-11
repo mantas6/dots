@@ -5,7 +5,7 @@
 
   config = {
     services.hermes-agent = {
-      enable = false;
+      enable = true;
       settings.model.default = "openai/chatgpt-5.5";
       environmentFiles = ["/var/lib/hermes/env"];
 
