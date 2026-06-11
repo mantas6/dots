@@ -30,7 +30,16 @@
     pkgs = nixpkgs.legacyPackages.${system};
     pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
     pkgs-go = nixpkgs-go.legacyPackages.${system};
-    hosts = ["ix" "l4" "tp" "pd" "a5" "rt" "iso"];
+    hosts = [
+      "ix"
+      "l4"
+      "tp"
+      "pd"
+      "a5"
+      "rt"
+      "mt"
+      "iso"
+    ];
   in {
     formatter.x86_64-linux = pkgs.alejandra;
     formatter.aarch64-linux = pkgs.alejandra;
