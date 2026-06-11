@@ -4,6 +4,7 @@
   features.sets = [
     "disks.normal"
     "hardware.backlight"
+    "quirks.prevent-sleep"
   ];
 
   networking.hostName = "mt";
