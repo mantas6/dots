@@ -1,4 +1,3 @@
 #!/usr/bin/env sh
-# Use with https://github.com/mantas6/tinywolf
 
-curl -sSfL gw:5001/wol/"$1"
+curl -sSfL 10.0.1.1:5001/wol/"$1"

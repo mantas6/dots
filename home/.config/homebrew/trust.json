@@ -1,0 +1,7 @@
+{
+  "trustedtaps": [
+    "felixkratz/formulae",
+    "jsdelivr/globalping",
+    "nikitabobko/tap"
+  ]
+}
