@@ -12,61 +12,68 @@
     };
 
     xremap-flake.url = "github:xremap/nix-flake";
-
-    import-tree.url = "github:vic/import-tree";
-
     hermes-agent.url = "github:NousResearch/hermes-agent";
+
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
   };
 
   outputs = {
     self,
     nixpkgs,
     nixpkgs-unstable,
-    nixpkgs-go,
+    flake-parts,
     ...
-  } @ inputs: let
-    system = "x86_64-linux";
+  } @ inputs:
+    flake-parts.lib.mkFlake {inherit inputs;} (let
+      system = "x86_64-linux";
+      pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+      hosts = [
+        "ix"
+        "l4"
+        "tp"
+        "pd"
+        "a5"
+        "rt"
+        "mt"
+        "iso"
+      ];
+    in {
+      systems = [system];
 
-    pkgs = nixpkgs.legacyPackages.${system};
-    pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
-    pkgs-go = nixpkgs-go.legacyPackages.${system};
-    hosts = [
-      "ix"
-      "l4"
-      "tp"
-      "pd"
-      "a5"
-      "rt"
-      "mt"
-      "iso"
-    ];
-  in {
-    formatter.x86_64-linux = pkgs.alejandra;
-    formatter.aarch64-linux = pkgs.alejandra;
+      flake.nixosConfigurations = builtins.listToAttrs (map (name: {
+          inherit name;
+          value = nixpkgs.lib.nixosSystem {
+            modules = [
+              (inputs.import-tree ./nix/modules)
+              (inputs.import-tree ./nix/hosts/${name})
+            ];
 
-    nixosConfigurations = builtins.listToAttrs (map (name: {
-        inherit name;
-        value = nixpkgs.lib.nixosSystem {
-          modules = [
-            (inputs.import-tree ./nix/modules)
-            (inputs.import-tree ./nix/hosts/${name})
-          ];
+            specialArgs = {inherit inputs pkgs-unstable self;};
+          };
+        })
+        hosts);
 
-          specialArgs = {inherit inputs pkgs-unstable self;};
+      perSystem = {
+        config,
+        pkgs,
+        inputs',
+        ...
+      }: {
+        formatter = pkgs.alejandra;
+
+        packages.wolf = inputs'.nixpkgs-go.legacyPackages.buildGoModule {
+          pname = "wolf";
+          version = "0.1.0";
+          src = ./opt/wolf/.;
+          vendorHash = null;
         };
-      })
-      hosts);
 
-    packages.${system}.wolf = pkgs-go.buildGoModule {
-      pname = "wolf";
-      version = "0.1.0";
-      src = ./opt/wolf/.;
-      vendorHash = null;
-    };
-
-    apps.${system}.wolf = {
-      type = "app";
-      program = "${self.packages.${system}.wolf}/bin/wolf";
-    };
-  };
+        apps.wolf = {
+          type = "app";
+          program = "${config.packages.wolf}/bin/wolf";
+          meta.description = "HTTP server that sends Wake-on-LAN packets to hosts resolved from dnsmasq leases";
+        };
+      };
+    });
 }
