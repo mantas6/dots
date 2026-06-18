@@ -5,6 +5,7 @@
     "disks.normal"
     "hardware.backlight"
     "quirks.prevent-sleep"
+    "purposes.monitor"
   ];
 
   networking.hostName = "mt";
