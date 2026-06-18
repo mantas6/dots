@@ -10,7 +10,6 @@
   config = {
     services.hermes-agent = {
       enable = true;
-      settings.model.default = "openai/gpt-5.5";
       environmentFiles = ["/var/lib/hermes/env"];
 
       authFile = "/var/lib/hermes/auth.json";
@@ -18,12 +17,19 @@
 
       addToSystemPackages = true;
 
-      extraDependencyGroups = ["messaging"];
+      extraDependencyGroups = ["messaging" "voice"];
+
+      settings = {
+        model.default = "openai/gpt-5.5";
+        approvals = {
+          mode = "smart";
+        };
+      };
 
       extraPackages = with pkgs-unstable; [
         python313
         python313Packages.pip
-        python313Packages.faster-whisper
+        # python313Packages.faster-whisper
         uv
         imagemagick
         exiftool
