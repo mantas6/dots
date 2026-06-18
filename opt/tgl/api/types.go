@@ -10,7 +10,9 @@ type Me struct {
 
 // TimeEntry mirrors a Toggl time entry. Start/Stop/At are RFC3339 strings as
 // returned by the API. A non-nil ServerDeletedAt marks a remote deletion (only
-// surfaced by since-based listing).
+// surfaced by since-based listing). ProjectName/TaskName are only populated
+// when the entry is fetched with meta=true (see List) and let a pull self-heal
+// the local catalog so titles render even before a full catalog update.
 type TimeEntry struct {
 	ID              int64   `json:"id"`
 	WorkspaceID     int64   `json:"workspace_id"`
@@ -22,6 +24,9 @@ type TimeEntry struct {
 	Duration        int64   `json:"duration"`
 	At              string  `json:"at"`
 	ServerDeletedAt *string `json:"server_deleted_at"`
+
+	ProjectName string `json:"project_name"` // meta=true only
+	TaskName    string `json:"task_name"`    // meta=true only
 }
 
 // Deleted reports whether the remote entry has been deleted.

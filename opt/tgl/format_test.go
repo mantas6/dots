@@ -5,6 +5,7 @@ import (
 	"flag"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
@@ -132,6 +133,38 @@ func TestRenderCurrentGolden(t *testing.T) {
 		t.Fatal(err)
 	}
 	assertGolden(t, "current.json", js.String())
+}
+
+// sampleTasks builds the catalog-listing fixture (project name joined),
+// pre-sorted by project then task name as ListTasks returns them.
+func sampleTasks() []store.Task {
+	return []store.Task{
+		{ID: 12, Name: "Code review", ProjectName: "Backend", Active: true},
+		{ID: 10, Name: "Fix login bug", ProjectName: "Backend", Active: true},
+		{ID: 20, Name: "Payment fix", ProjectName: "Payments", Active: true},
+	}
+}
+
+func TestRenderTasksGolden(t *testing.T) {
+	var buf bytes.Buffer
+	renderTasks(&buf, sampleTasks())
+	assertGolden(t, "tasks.txt", buf.String())
+}
+
+func TestRenderTasksJSONGolden(t *testing.T) {
+	var buf bytes.Buffer
+	if err := renderTasksJSON(&buf, sampleTasks()); err != nil {
+		t.Fatal(err)
+	}
+	assertGolden(t, "tasks.json", buf.String())
+}
+
+func TestRenderTasksEmpty(t *testing.T) {
+	var buf bytes.Buffer
+	renderTasks(&buf, nil)
+	if !strings.Contains(buf.String(), "tgl update") {
+		t.Errorf("empty tasks = %q, want hint to run `tgl update`", buf.String())
+	}
 }
 
 func TestRenderCurrentNoneGolden(t *testing.T) {

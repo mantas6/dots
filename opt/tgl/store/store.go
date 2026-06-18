@@ -61,7 +61,8 @@ type Project struct {
 	At          string
 }
 
-// Task mirrors a Toggl task.
+// Task mirrors a Toggl task. ProjectName is populated from a catalog join on
+// read (display only) and is not persisted directly.
 type Task struct {
 	ID          int64
 	WorkspaceID int64
@@ -69,6 +70,8 @@ type Task struct {
 	Name        string
 	Active      bool
 	At          string
+
+	ProjectName string // joined, display only
 }
 
 // Open opens (creating if needed) the SQLite database at path and applies the
@@ -358,6 +361,34 @@ VALUES (?, ?, ?, ?, ?, ?)`,
 	return tx.Commit()
 }
 
+// UpsertProject inserts or updates a single project row by id, refreshing the
+// display fields. It is used to self-heal the catalog from meta-enriched pulls
+// so entries always resolve a project name, even before a full `tgl update`.
+// It deliberately leaves active/at untouched on conflict so an authoritative
+// `tgl update` is never downgraded.
+func (s *Store) UpsertProject(p Project) error {
+	_, err := s.db.Exec(`
+INSERT INTO projects (id, workspace_id, name, color, client_name, active, at)
+VALUES (?, ?, ?, ?, ?, ?, ?)
+ON CONFLICT(id) DO UPDATE SET
+  workspace_id = excluded.workspace_id, name = excluded.name`,
+		p.ID, p.WorkspaceID, p.Name, p.Color, p.ClientName, boolToInt(p.Active), p.At)
+	return err
+}
+
+// UpsertTask inserts or updates a single task row by id, refreshing the display
+// fields (see UpsertProject for the rationale).
+func (s *Store) UpsertTask(t Task) error {
+	_, err := s.db.Exec(`
+INSERT INTO tasks (id, workspace_id, project_id, name, active, at)
+VALUES (?, ?, ?, ?, ?, ?)
+ON CONFLICT(id) DO UPDATE SET
+  workspace_id = excluded.workspace_id, project_id = excluded.project_id,
+  name = excluded.name`,
+		t.ID, t.WorkspaceID, t.ProjectID, t.Name, boolToInt(t.Active), t.At)
+	return err
+}
+
 // activeTasks loads every active task for matching.
 func (s *Store) activeTasks() ([]Task, error) {
 	rows, err := s.db.Query(
@@ -370,6 +401,37 @@ func (s *Store) activeTasks() ([]Task, error) {
 	for rows.Next() {
 		var t Task
 		if err := rows.Scan(&t.ID, &t.WorkspaceID, &t.ProjectID, &t.Name, &t.Active, &t.At); err != nil {
+			return nil, err
+		}
+		out = append(out, t)
+	}
+	return out, rows.Err()
+}
+
+// ListTasks returns catalog tasks for display, with the project name joined and
+// ordered by project then task name. Inactive tasks are included only when
+// includeInactive is set.
+func (s *Store) ListTasks(includeInactive bool) ([]Task, error) {
+	q := `
+SELECT t.id, t.workspace_id, t.project_id, t.name, t.active, COALESCE(t.at, ''),
+       COALESCE(p.name, '')
+FROM tasks t
+LEFT JOIN projects p ON p.id = t.project_id`
+	if !includeInactive {
+		q += "\nWHERE t.active = 1"
+	}
+	q += "\nORDER BY p.name, t.name"
+
+	rows, err := s.db.Query(q)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var out []Task
+	for rows.Next() {
+		var t Task
+		if err := rows.Scan(&t.ID, &t.WorkspaceID, &t.ProjectID, &t.Name,
+			&t.Active, &t.At, &t.ProjectName); err != nil {
 			return nil, err
 		}
 		out = append(out, t)

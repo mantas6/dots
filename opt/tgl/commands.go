@@ -102,6 +102,20 @@ func cmdToday(w io.Writer, st *store.Store, now time.Time, loc *time.Location, d
 	return nil
 }
 
+// cmdTasks lists the locally cached task catalog. `--all` includes inactive
+// tasks; refresh the cache with `tgl update`.
+func cmdTasks(w io.Writer, st *store.Store, all, jsonOut bool) error {
+	tasks, err := st.ListTasks(all)
+	if err != nil {
+		return err
+	}
+	if jsonOut {
+		return renderTasksJSON(w, tasks)
+	}
+	renderTasks(w, tasks)
+	return nil
+}
+
 // cmdUpdate mirrors the Toggl catalog (projects + tasks) via full replace.
 func cmdUpdate(w io.Writer, st *store.Store, c *api.Client, workspaceID int64, all, jsonOut bool) error {
 	projects, err := c.Projects(workspaceID, all)

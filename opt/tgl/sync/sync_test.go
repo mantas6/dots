@@ -254,6 +254,45 @@ func TestPullSkipsRemoteDeletedWithNoLocal(t *testing.T) {
 	}
 }
 
+// TestPullSelfHealsCatalog verifies that a pulled, task-based entry resolves
+// its project/task titles via the catalog even when nothing was seeded, by
+// self-healing from the meta=true names in the payload.
+func TestPullSelfHealsCatalog(t *testing.T) {
+	st, c := setup(t, func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`[{"id":950,"workspace_id":1,"project_id":5,"task_id":7,
+		  "project_name":"Backend","task_name":"Fix login bug","description":"",
+		  "start":"2026-01-02T09:00:00Z","stop":"2026-01-02T09:30:00Z",
+		  "duration":1800,"at":"2026-01-02T09:30:00Z"}]`))
+	})
+
+	if _, err := Pull(st, c, ts("2026-01-01T00:00:00Z"), ts("2026-01-02T12:00:00Z")); err != nil {
+		t.Fatalf("pull: %v", err)
+	}
+
+	entries, err := st.EntriesBetween(ts("2026-01-02T00:00:00Z"), ts("2026-01-03T00:00:00Z"))
+	if err != nil {
+		t.Fatalf("entries: %v", err)
+	}
+	if len(entries) != 1 {
+		t.Fatalf("entries = %d, want 1", len(entries))
+	}
+	if entries[0].TaskName != "Fix login bug" {
+		t.Errorf("task name = %q, want %q", entries[0].TaskName, "Fix login bug")
+	}
+	if entries[0].ProjectName != "Backend" {
+		t.Errorf("project name = %q, want %q", entries[0].ProjectName, "Backend")
+	}
+
+	// And the healed task is discoverable for `start`.
+	tasks, err := st.FindTasksByFragment("login", nil)
+	if err != nil {
+		t.Fatalf("find: %v", err)
+	}
+	if len(tasks) != 1 || tasks[0].ID != 7 {
+		t.Errorf("FindTasksByFragment = %+v, want task 7", tasks)
+	}
+}
+
 func TestPullAdvancesLastPull(t *testing.T) {
 	st, c := setup(t, func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`[]`))

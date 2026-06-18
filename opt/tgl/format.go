@@ -171,6 +171,45 @@ func renderTodayJSON(w io.Writer, entries []store.Entry, now time.Time) error {
 	return writeJSON(w, out)
 }
 
+// taskRow is the stable --json shape for `tasks`.
+type taskRow struct {
+	ID      int64  `json:"id"`
+	Name    string `json:"name"`
+	Project string `json:"project,omitempty"`
+	Active  bool   `json:"active"`
+}
+
+// renderTasks writes the catalog task list, aligning the project column to the
+// widest task name.
+func renderTasks(w io.Writer, tasks []store.Task) {
+	if len(tasks) == 0 {
+		fmt.Fprintln(w, "No tasks. Run `tgl update` to refresh the catalog.")
+		return
+	}
+	width := 0
+	for _, t := range tasks {
+		if n := len(t.Name); n > width {
+			width = n
+		}
+	}
+	for _, t := range tasks {
+		if t.ProjectName != "" {
+			fmt.Fprintf(w, "%-*s  [%s]\n", width, t.Name, t.ProjectName)
+		} else {
+			fmt.Fprintln(w, t.Name)
+		}
+	}
+}
+
+// renderTasksJSON writes the catalog tasks as the stable JSON shape.
+func renderTasksJSON(w io.Writer, tasks []store.Task) error {
+	out := make([]taskRow, 0, len(tasks))
+	for _, t := range tasks {
+		out = append(out, taskRow{ID: t.ID, Name: t.Name, Project: t.ProjectName, Active: t.Active})
+	}
+	return writeJSON(w, out)
+}
+
 // writeJSON emits compact JSON followed by a newline.
 func writeJSON(w io.Writer, v any) error {
 	data, err := json.Marshal(v)

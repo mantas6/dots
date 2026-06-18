@@ -41,6 +41,8 @@ func run(cmd string, args []string) error {
 		return runCurrent(args)
 	case "today", "list":
 		return runToday(args)
+	case "tasks":
+		return runTasks(args)
 	case "update":
 		return runUpdate(args)
 	case "push":
@@ -115,6 +117,21 @@ func runToday(args []string) error {
 	}
 	defer st.Close()
 	return cmdToday(os.Stdout, st, time.Now(), time.Local, *days, *jsonOut)
+}
+
+func runTasks(args []string) error {
+	fs := newFlagSet("tasks")
+	all := fs.Bool("all", false, "include inactive tasks")
+	jsonOut := fs.Bool("json", false, "emit JSON")
+	if err := fs.Parse(args); err != nil {
+		return err
+	}
+	st, err := openStore()
+	if err != nil {
+		return err
+	}
+	defer st.Close()
+	return cmdTasks(os.Stdout, st, *all, *jsonOut)
 }
 
 func runUpdate(args []string) error {
@@ -268,6 +285,7 @@ func printUsage(w io.Writer) {
 	fmt.Fprintln(w, "  stop                  stop the running entry (rounds up to 5m)")
 	fmt.Fprintln(w, "  current | status      show the running entry            [--json]")
 	fmt.Fprintln(w, "  today   | list        show today's entries     [--days N] [--json]")
+	fmt.Fprintln(w, "  tasks                 list cached tasks                 [--all] [--json]")
 	fmt.Fprintln(w, "  update                refresh the project/task catalog  [--all] [--json]")
 	fmt.Fprintln(w, "  push                  send local changes to Toggl       [--json]")
 	fmt.Fprintln(w, "  pull                  fetch remote changes      [--since DATE] [--json]")

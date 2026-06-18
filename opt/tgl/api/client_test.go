@@ -220,7 +220,8 @@ func TestTasksActiveBoth(t *testing.T) {
 		if r.URL.Path != "/workspaces/1/tasks" {
 			t.Errorf("path = %q", r.URL.Path)
 		}
-		w.Write([]byte(`[{"id":1,"name":"T"}]`))
+		// The tasks endpoint wraps results in a paginated envelope.
+		w.Write([]byte(`{"data":[{"id":1,"name":"T"}],"total_count":1,"per_page":200}`))
 	})
 	tasks, err := c.Tasks(1, true)
 	if err != nil {
@@ -228,6 +229,30 @@ func TestTasksActiveBoth(t *testing.T) {
 	}
 	if len(tasks) != 1 {
 		t.Errorf("tasks = %d, want 1", len(tasks))
+	}
+	if tasks[0].Name != "T" {
+		t.Errorf("task name = %q, want T", tasks[0].Name)
+	}
+}
+
+func TestTasksPaginationEnvelope(t *testing.T) {
+	// First page is a full batch (perPage items) inside the envelope; the
+	// second page is short, terminating the walk.
+	var pages []string
+	c := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		page := r.URL.Query().Get("page")
+		pages = append(pages, page)
+		w.Write([]byte(pageTasks(page)))
+	})
+	tasks, err := c.Tasks(1, false)
+	if err != nil {
+		t.Fatalf("Tasks: %v", err)
+	}
+	if len(tasks) != perPage+2 {
+		t.Errorf("tasks = %d, want %d", len(tasks), perPage+2)
+	}
+	if len(pages) != 2 || pages[0] != "1" || pages[1] != "2" {
+		t.Errorf("requested pages = %v, want [1 2]", pages)
 	}
 }
 
@@ -274,4 +299,20 @@ func pageProjects(page string) string {
 		items = []string{`{"id":1001,"name":"X","active":true}`, `{"id":1002,"name":"Y","active":true}`}
 	}
 	return "[" + strings.Join(items, ",") + "]"
+}
+
+// pageTasks renders the paginated tasks envelope: page 1 is a full batch and
+// page 2 is the short final page.
+func pageTasks(page string) string {
+	var items []string
+	switch page {
+	case "1":
+		for i := 0; i < perPage; i++ {
+			items = append(items, fmt.Sprintf(`{"id":%d,"name":"T%d","active":true}`, i+1, i+1))
+		}
+	case "2":
+		items = []string{`{"id":9001,"name":"X","active":true}`, `{"id":9002,"name":"Y","active":true}`}
+	}
+	return fmt.Sprintf(`{"data":[%s],"total_count":%d,"per_page":%d}`,
+		strings.Join(items, ","), perPage+2, perPage)
 }

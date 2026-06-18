@@ -233,6 +233,51 @@ func TestStopNothingRunning(t *testing.T) {
 	}
 }
 
+func TestTasksCommand(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	var buf bytes.Buffer
+	if err := cmdTasks(&buf, s, false, false); err != nil {
+		t.Fatalf("tasks: %v", err)
+	}
+	out := buf.String()
+	for _, want := range []string{"Fix login bug", "Code review", "Payment fix", "[Backend]", "[Payments]"} {
+		if !strings.Contains(out, want) {
+			t.Errorf("tasks output missing %q:\n%s", want, out)
+		}
+	}
+}
+
+func TestTasksCommandAllIncludesInactive(t *testing.T) {
+	s := newStore(t)
+	if err := s.ReplaceProjects([]store.Project{{ID: 1, WorkspaceID: 1, Name: "Backend", Active: true}}); err != nil {
+		t.Fatal(err)
+	}
+	if err := s.ReplaceTasks([]store.Task{
+		{ID: 10, WorkspaceID: 1, ProjectID: 1, Name: "Active task", Active: true},
+		{ID: 11, WorkspaceID: 1, ProjectID: 1, Name: "Retired task", Active: false},
+	}); err != nil {
+		t.Fatal(err)
+	}
+
+	var active bytes.Buffer
+	if err := cmdTasks(&active, s, false, false); err != nil {
+		t.Fatalf("tasks: %v", err)
+	}
+	if strings.Contains(active.String(), "Retired task") {
+		t.Errorf("active-only listing should hide inactive tasks:\n%s", active.String())
+	}
+
+	var all bytes.Buffer
+	if err := cmdTasks(&all, s, true, false); err != nil {
+		t.Fatalf("tasks --all: %v", err)
+	}
+	if !strings.Contains(all.String(), "Retired task") {
+		t.Errorf("--all listing should include inactive tasks:\n%s", all.String())
+	}
+}
+
 // seedSampleDay mirrors the fixture behind today.txt / current.txt goldens.
 func seedSampleDay(t *testing.T, s *store.Store) (now time.Time, loc *time.Location) {
 	t.Helper()

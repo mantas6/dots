@@ -46,6 +46,13 @@ func Pull(st *store.Store, c *api.Client, since, now time.Time) (PullResult, err
 			return res, err
 		}
 
+		// Self-heal the catalog from the meta-enriched payload so the entry's
+		// project/task titles resolve on display even if the local catalog is
+		// stale or was never populated (e.g. before the first `tgl update`).
+		if err := healCatalog(st, r); err != nil {
+			return res, err
+		}
+
 		switch {
 		case local == nil:
 			if r.Deleted() {
@@ -126,6 +133,38 @@ func Push(st *store.Store, c *api.Client, now time.Time) (PushResult, error) {
 		}
 	}
 	return res, nil
+}
+
+// healCatalog upserts the project/task referenced by a (non-deleted) remote
+// entry using the names from its meta=true payload. Missing names or ids are
+// skipped, so this is a no-op when meta is absent. A task is only healed when
+// its project id is known, since the catalog requires it.
+func healCatalog(st *store.Store, r api.TimeEntry) error {
+	if r.Deleted() {
+		return nil
+	}
+	if r.ProjectID != nil && r.ProjectName != "" {
+		if err := st.UpsertProject(store.Project{
+			ID:          *r.ProjectID,
+			WorkspaceID: r.WorkspaceID,
+			Name:        r.ProjectName,
+			Active:      true,
+		}); err != nil {
+			return err
+		}
+	}
+	if r.TaskID != nil && r.ProjectID != nil && r.TaskName != "" {
+		if err := st.UpsertTask(store.Task{
+			ID:          *r.TaskID,
+			WorkspaceID: r.WorkspaceID,
+			ProjectID:   *r.ProjectID,
+			Name:        r.TaskName,
+			Active:      true,
+		}); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // --- conversions -------------------------------------------------------------
