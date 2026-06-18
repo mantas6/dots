@@ -14,7 +14,7 @@
       environmentFiles = ["/var/lib/hermes/env"];
 
       authFile = "/var/lib/hermes/auth.json";
-      authFileForceOverwrite = true; # overwrite on every activation
+      # authFileForceOverwrite = true; # overwrite on every activation
 
       addToSystemPackages = true;
 
