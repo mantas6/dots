@@ -32,7 +32,6 @@ in {
         getty.autologinUser = "mantas";
       };
 
-      # After autologin on tty1, start X (awesome) automatically.
       environment.loginShellInit =
         /*
         bash
