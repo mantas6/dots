@@ -3,6 +3,7 @@
 
   features.sets = [
     "disks.normal"
+    "jobs.updates"
     "hardware.backlight"
     "quirks.prevent-sleep"
     "purposes.monitor"
