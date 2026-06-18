@@ -1,0 +1,454 @@
+// Package store is the local-first persistence layer for tgl. It wraps a
+// SQLite database holding tracked time entries plus a read-only mirror of the
+// Toggl task/project catalog. All times are stored as RFC3339 UTC strings;
+// durations are integer seconds (-1 marks a running entry).
+package store
+
+import (
+	"database/sql"
+	"errors"
+	"sort"
+	"strings"
+	"time"
+
+	_ "modernc.org/sqlite"
+)
+
+// Meta keys persisted in the meta table.
+const (
+	MetaSchemaVersion = "schema_version"
+	MetaLastPull      = "last_pull"
+)
+
+// Store is a handle to the SQLite database.
+type Store struct {
+	db *sql.DB
+}
+
+// Entry is a tracked time entry. RemoteID/ProjectID/TaskID/Stop/SyncedAt are
+// nil when unset. TaskName and ProjectName are populated from a catalog join on
+// read and are not persisted directly.
+type Entry struct {
+	ID          int64
+	RemoteID    *int64
+	WorkspaceID int64
+	ProjectID   *int64
+	TaskID      *int64
+	Description string
+	Start       time.Time
+	Stop        *time.Time
+	Duration    int64 // seconds; -1 while running
+	UpdatedAt   time.Time
+	SyncedAt    *time.Time
+	Dirty       bool
+	Deleted     bool
+
+	TaskName    string // joined, display only
+	ProjectName string // joined, display only
+}
+
+// Running reports whether the entry is currently running.
+func (e Entry) Running() bool { return e.Duration < 0 || e.Stop == nil }
+
+// Project mirrors a Toggl project.
+type Project struct {
+	ID          int64
+	WorkspaceID int64
+	Name        string
+	Color       string
+	ClientName  string
+	Active      bool
+	At          string
+}
+
+// Task mirrors a Toggl task.
+type Task struct {
+	ID          int64
+	WorkspaceID int64
+	ProjectID   int64
+	Name        string
+	Active      bool
+	At          string
+}
+
+// Open opens (creating if needed) the SQLite database at path and applies the
+// schema. WAL + a busy timeout keep concurrent CLI invocations well behaved.
+func Open(path string) (*Store, error) {
+	dsn := path + "?_pragma=busy_timeout(5000)&_pragma=journal_mode(WAL)"
+	db, err := sql.Open("sqlite", dsn)
+	if err != nil {
+		return nil, err
+	}
+	s := &Store{db: db}
+	if err := s.migrate(); err != nil {
+		db.Close()
+		return nil, err
+	}
+	return s, nil
+}
+
+// Close releases the underlying database handle.
+func (s *Store) Close() error { return s.db.Close() }
+
+// --- time helpers -----------------------------------------------------------
+
+func fmtTime(t time.Time) string { return t.UTC().Format(time.RFC3339) }
+
+func parseTime(s string) (time.Time, error) { return time.Parse(time.RFC3339, s) }
+
+func nullTime(p *time.Time) any {
+	if p == nil {
+		return nil
+	}
+	return fmtTime(*p)
+}
+
+func nullInt(p *int64) any {
+	if p == nil {
+		return nil
+	}
+	return *p
+}
+
+// --- entry reads -------------------------------------------------------------
+
+// entrySelect lists every entry column plus the joined task/project name.
+const entrySelect = `
+SELECT e.id, e.remote_id, e.workspace_id, e.project_id, e.task_id,
+       e.description, e.start, e.stop, e.duration, e.updated_at, e.synced_at,
+       e.dirty, e.deleted, t.name, p.name
+FROM entries e
+LEFT JOIN tasks t ON t.id = e.task_id
+LEFT JOIN projects p ON p.id = e.project_id
+`
+
+func scanEntry(sc interface{ Scan(...any) error }) (Entry, error) {
+	var (
+		e         Entry
+		remoteID  sql.NullInt64
+		projectID sql.NullInt64
+		taskID    sql.NullInt64
+		start     string
+		stop      sql.NullString
+		updatedAt string
+		syncedAt  sql.NullString
+		taskName  sql.NullString
+		projName  sql.NullString
+	)
+	if err := sc.Scan(&e.ID, &remoteID, &e.WorkspaceID, &projectID, &taskID,
+		&e.Description, &start, &stop, &e.Duration, &updatedAt, &syncedAt,
+		&e.Dirty, &e.Deleted, &taskName, &projName); err != nil {
+		return Entry{}, err
+	}
+	if remoteID.Valid {
+		e.RemoteID = &remoteID.Int64
+	}
+	if projectID.Valid {
+		e.ProjectID = &projectID.Int64
+	}
+	if taskID.Valid {
+		e.TaskID = &taskID.Int64
+	}
+	var err error
+	if e.Start, err = parseTime(start); err != nil {
+		return Entry{}, err
+	}
+	if stop.Valid {
+		t, err := parseTime(stop.String)
+		if err != nil {
+			return Entry{}, err
+		}
+		e.Stop = &t
+	}
+	if e.UpdatedAt, err = parseTime(updatedAt); err != nil {
+		return Entry{}, err
+	}
+	if syncedAt.Valid {
+		t, err := parseTime(syncedAt.String)
+		if err != nil {
+			return Entry{}, err
+		}
+		e.SyncedAt = &t
+	}
+	e.TaskName = taskName.String
+	e.ProjectName = projName.String
+	return e, nil
+}
+
+// Running returns the single running entry (stop IS NULL, not deleted) or nil.
+func (s *Store) Running() (*Entry, error) {
+	row := s.db.QueryRow(entrySelect +
+		" WHERE e.stop IS NULL AND e.deleted = 0 ORDER BY e.start DESC LIMIT 1")
+	e, err := scanEntry(row)
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	return &e, nil
+}
+
+// EntriesBetween returns non-deleted entries with start in [from, to), ordered
+// by start ascending.
+func (s *Store) EntriesBetween(from, to time.Time) ([]Entry, error) {
+	rows, err := s.db.Query(entrySelect+
+		" WHERE e.deleted = 0 AND e.start >= ? AND e.start < ? ORDER BY e.start ASC",
+		fmtTime(from), fmtTime(to))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	return collectEntries(rows)
+}
+
+// DirtyEntries returns every entry with unsynced local changes, oldest first.
+func (s *Store) DirtyEntries() ([]Entry, error) {
+	rows, err := s.db.Query(entrySelect + " WHERE e.dirty = 1 ORDER BY e.start ASC")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	return collectEntries(rows)
+}
+
+// EntryByRemoteID returns the entry mirroring the given Toggl id, or nil.
+func (s *Store) EntryByRemoteID(remoteID int64) (*Entry, error) {
+	row := s.db.QueryRow(entrySelect+" WHERE e.remote_id = ?", remoteID)
+	e, err := scanEntry(row)
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	return &e, nil
+}
+
+func collectEntries(rows *sql.Rows) ([]Entry, error) {
+	var out []Entry
+	for rows.Next() {
+		e, err := scanEntry(rows)
+		if err != nil {
+			return nil, err
+		}
+		out = append(out, e)
+	}
+	return out, rows.Err()
+}
+
+// --- entry writes ------------------------------------------------------------
+
+// CreateEntry inserts a new entry and returns its local id. The caller sets all
+// fields (Start/UpdatedAt/Dirty/Duration etc.); Duration -1 marks it running.
+func (s *Store) CreateEntry(e Entry) (int64, error) {
+	res, err := s.db.Exec(`
+INSERT INTO entries
+  (remote_id, workspace_id, project_id, task_id, description, start, stop,
+   duration, updated_at, synced_at, dirty, deleted)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+		nullInt(e.RemoteID), e.WorkspaceID, nullInt(e.ProjectID), nullInt(e.TaskID),
+		e.Description, fmtTime(e.Start), nullTime(e.Stop), e.Duration,
+		fmtTime(e.UpdatedAt), nullTime(e.SyncedAt), boolToInt(e.Dirty), boolToInt(e.Deleted))
+	if err != nil {
+		return 0, err
+	}
+	return res.LastInsertId()
+}
+
+// StopRunning finalizes the running entry: duration = round(now - start),
+// stop = start + duration, marking it dirty with updated_at = now. It returns
+// the stopped entry, or nil if nothing was running. round lets the caller inject
+// the rounding policy (ceil5) while keeping the field-setting logic here.
+func (s *Store) StopRunning(now time.Time, round func(time.Duration) time.Duration) (*Entry, error) {
+	e, err := s.Running()
+	if err != nil || e == nil {
+		return nil, err
+	}
+	dur := round(now.Sub(e.Start))
+	stop := e.Start.Add(dur)
+	secs := int64(dur / time.Second)
+	if _, err := s.db.Exec(`
+UPDATE entries SET stop = ?, duration = ?, dirty = 1, updated_at = ? WHERE id = ?`,
+		fmtTime(stop), secs, fmtTime(now), e.ID); err != nil {
+		return nil, err
+	}
+	e.Stop = &stop
+	e.Duration = secs
+	e.Dirty = true
+	e.UpdatedAt = now
+	return e, nil
+}
+
+// MarkSynced records a successful push: stores the remote id, clears dirty, and
+// aligns updated_at/synced_at to the remote clock so a later pull is a no-op.
+func (s *Store) MarkSynced(id, remoteID int64, at time.Time) error {
+	_, err := s.db.Exec(`
+UPDATE entries SET remote_id = ?, synced_at = ?, updated_at = ?, dirty = 0 WHERE id = ?`,
+		remoteID, fmtTime(at), fmtTime(at), id)
+	return err
+}
+
+// UpdateFromRemote overwrites a local entry with remote state (remote wins) and
+// marks it clean, aligning the LWW clocks to the remote at.
+func (s *Store) UpdateFromRemote(e Entry) error {
+	_, err := s.db.Exec(`
+UPDATE entries SET workspace_id = ?, project_id = ?, task_id = ?, description = ?,
+  start = ?, stop = ?, duration = ?, updated_at = ?, synced_at = ?, dirty = 0,
+  deleted = 0 WHERE remote_id = ?`,
+		e.WorkspaceID, nullInt(e.ProjectID), nullInt(e.TaskID), e.Description,
+		fmtTime(e.Start), nullTime(e.Stop), e.Duration, fmtTime(e.UpdatedAt),
+		nullTime(e.SyncedAt), nullInt(e.RemoteID))
+	return err
+}
+
+// DeleteRow hard-deletes a local row (used after a remote delete is confirmed).
+func (s *Store) DeleteRow(id int64) error {
+	_, err := s.db.Exec("DELETE FROM entries WHERE id = ?", id)
+	return err
+}
+
+// DeleteByRemoteID hard-deletes the local mirror of a remote-deleted entry.
+func (s *Store) DeleteByRemoteID(remoteID int64) error {
+	_, err := s.db.Exec("DELETE FROM entries WHERE remote_id = ?", remoteID)
+	return err
+}
+
+// --- catalog -----------------------------------------------------------------
+
+// ReplaceProjects atomically replaces the entire projects mirror.
+func (s *Store) ReplaceProjects(projects []Project) error {
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+	if _, err := tx.Exec("DELETE FROM projects"); err != nil {
+		return err
+	}
+	for _, p := range projects {
+		if _, err := tx.Exec(`
+INSERT INTO projects (id, workspace_id, name, color, client_name, active, at)
+VALUES (?, ?, ?, ?, ?, ?, ?)`,
+			p.ID, p.WorkspaceID, p.Name, p.Color, p.ClientName, boolToInt(p.Active), p.At); err != nil {
+			return err
+		}
+	}
+	return tx.Commit()
+}
+
+// ReplaceTasks atomically replaces the entire tasks mirror.
+func (s *Store) ReplaceTasks(tasks []Task) error {
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+	if _, err := tx.Exec("DELETE FROM tasks"); err != nil {
+		return err
+	}
+	for _, t := range tasks {
+		if _, err := tx.Exec(`
+INSERT INTO tasks (id, workspace_id, project_id, name, active, at)
+VALUES (?, ?, ?, ?, ?, ?)`,
+			t.ID, t.WorkspaceID, t.ProjectID, t.Name, boolToInt(t.Active), t.At); err != nil {
+			return err
+		}
+	}
+	return tx.Commit()
+}
+
+// activeTasks loads every active task for matching.
+func (s *Store) activeTasks() ([]Task, error) {
+	rows, err := s.db.Query(
+		"SELECT id, workspace_id, project_id, name, active, at FROM tasks WHERE active = 1")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var out []Task
+	for rows.Next() {
+		var t Task
+		if err := rows.Scan(&t.ID, &t.WorkspaceID, &t.ProjectID, &t.Name, &t.Active, &t.At); err != nil {
+			return nil, err
+		}
+		out = append(out, t)
+	}
+	return out, rows.Err()
+}
+
+// FindTasksByFragment returns active tasks matching fragment (see matchTasks),
+// optionally scoped to a project.
+func (s *Store) FindTasksByFragment(fragment string, projectID *int64) ([]Task, error) {
+	tasks, err := s.activeTasks()
+	if err != nil {
+		return nil, err
+	}
+	return matchTasks(tasks, fragment, projectID), nil
+}
+
+// matchTasks is a pure, deterministic matcher: case-insensitive substring on
+// the task name, optionally scoped to projectID. An exact (case-insensitive)
+// full-title match takes precedence over mere substring matches. Results are
+// sorted by name then id for stable candidate listings.
+func matchTasks(tasks []Task, fragment string, projectID *int64) []Task {
+	frag := strings.ToLower(strings.TrimSpace(fragment))
+	if frag == "" {
+		return nil
+	}
+	var subs, exact []Task
+	for _, t := range tasks {
+		if projectID != nil && t.ProjectID != *projectID {
+			continue
+		}
+		name := strings.ToLower(t.Name)
+		if !strings.Contains(name, frag) {
+			continue
+		}
+		subs = append(subs, t)
+		if name == frag {
+			exact = append(exact, t)
+		}
+	}
+	res := subs
+	if len(exact) > 0 {
+		res = exact
+	}
+	sort.Slice(res, func(i, j int) bool {
+		if res[i].Name != res[j].Name {
+			return res[i].Name < res[j].Name
+		}
+		return res[i].ID < res[j].ID
+	})
+	return res
+}
+
+// --- meta --------------------------------------------------------------------
+
+// GetMeta returns the value for key and whether it was present.
+func (s *Store) GetMeta(key string) (string, bool, error) {
+	var v string
+	err := s.db.QueryRow("SELECT value FROM meta WHERE key = ?", key).Scan(&v)
+	if errors.Is(err, sql.ErrNoRows) {
+		return "", false, nil
+	}
+	if err != nil {
+		return "", false, err
+	}
+	return v, true, nil
+}
+
+// SetMeta upserts a meta key/value pair.
+func (s *Store) SetMeta(key, value string) error {
+	_, err := s.db.Exec(
+		"INSERT INTO meta (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+		key, value)
+	return err
+}
+
+func boolToInt(b bool) int {
+	if b {
+		return 1
+	}
+	return 0
+}
