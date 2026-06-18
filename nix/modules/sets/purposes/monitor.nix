@@ -8,10 +8,15 @@
 
   awesomePkg = config.services.xserver.windowManager.awesome.package;
 
-  xinitrc = pkgs.writeScript "monitor-xinitrc" ''
-    #!${pkgs.runtimeShell}
-    exec ${awesomePkg}/bin/awesome
-  '';
+  xinitrc =
+    pkgs.writeScript "monitor-xinitrc"
+    /*
+    bash
+    */
+    ''
+      #!${pkgs.runtimeShell}
+      exec ${awesomePkg}/bin/awesome
+    '';
 in {
   config = lib.mkMerge [
     {features.setsAvailable = [name];}
@@ -21,7 +26,6 @@ in {
           enable = true;
 
           windowManager.awesome.enable = true;
-
           displayManager.startx.enable = true;
         };
 
@@ -29,11 +33,15 @@ in {
       };
 
       # After autologin on tty1, start X (awesome) automatically.
-      environment.loginShellInit = ''
-        if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
-          exec startx ${xinitrc}
-        fi
-      '';
+      environment.loginShellInit =
+        /*
+        bash
+        */
+        ''
+          if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
+            exec startx ${xinitrc}
+          fi
+        '';
     })
   ];
 }
