@@ -1,3 +1,3 @@
 - tgl: decoding response: json: cannot unmarshal object into Go value of type []api.Task (tgl update error)
-- there is no way to list all tasks in cli
+- there is no way to list all tasks in cli : make sure you store task title
 - from entries the task title is missing
