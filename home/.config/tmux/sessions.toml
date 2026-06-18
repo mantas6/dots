@@ -5,7 +5,7 @@ pattern = "~/Repos/*"
 [[session]]
 name = "llm"
 path = "~/.local/state/sessions/llm"
-cmd = "ai"
+cmd = "tmux new-window -d; ai"
 
 [[session]]
 name = "calc"
