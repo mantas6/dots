@@ -37,7 +37,8 @@
       "*": "deny",
       "$HOME/Repos/*": "allow",
       "$HOME/Repos/**": "allow",
-      "$HOME/Downloads/*": "ask"
+      "$HOME/Downloads/*": "ask",
+      "/tmp": "allow"
     }
   },
   "compaction": {
