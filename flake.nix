@@ -17,62 +17,9 @@
     import-tree.url = "github:vic/import-tree";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    nixpkgs-unstable,
-    flake-parts,
-    ...
-  } @ inputs:
-    flake-parts.lib.mkFlake {inherit inputs;} (let
-      system = "x86_64-linux";
-      pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
-      hosts = [
-        "ix"
-        "l4"
-        "tp"
-        "pd"
-        "a5"
-        "rt"
-        "mt"
-        "iso"
-      ];
-    in {
-      systems = [system];
-
-      flake.nixosConfigurations = builtins.listToAttrs (map (name: {
-          inherit name;
-          value = nixpkgs.lib.nixosSystem {
-            modules = [
-              (inputs.import-tree ./nix/modules)
-              (inputs.import-tree ./nix/hosts/${name})
-            ];
-
-            specialArgs = {inherit inputs pkgs-unstable self;};
-          };
-        })
-        hosts);
-
-      perSystem = {
-        config,
-        pkgs,
-        inputs',
-        ...
-      }: {
-        formatter = pkgs.alejandra;
-
-        packages.wolf = inputs'.nixpkgs-go.legacyPackages.buildGoModule {
-          pname = "wolf";
-          version = "0.1.0";
-          src = ./opt/wolf/.;
-          vendorHash = null;
-        };
-
-        apps.wolf = {
-          type = "app";
-          program = "${config.packages.wolf}/bin/wolf";
-          meta.description = "HTTP server that sends Wake-on-LAN packets to hosts resolved from dnsmasq leases";
-        };
-      };
-    });
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["x86_64-linux"];
+      imports = [(inputs.import-tree ./nix)];
+    };
 }

@@ -1,13 +1,26 @@
 {
+  self,
   inputs,
-  pkgs-unstable,
   ...
 }: {
-  imports = [
-    inputs.hermes-agent.nixosModules.default
-  ];
+  flake.nixosConfigurations.rt = inputs.nixpkgs.lib.nixosSystem {
+    modules = [self.nixosModules."host-rt"];
+  };
 
-  config = {
+  flake.nixosModules."host-rt" = {pkgs-unstable, ...}: {
+    imports =
+      (with self.nixosModules; [
+        base
+        disks-normal
+        jobs-updates
+        progs-shell
+        # purposes-app-server
+        # services-docker
+      ])
+      ++ [
+        inputs.hermes-agent.nixosModules.default
+      ];
+
     services.hermes-agent = {
       enable = true;
       environmentFiles = ["/var/lib/hermes/env"];
@@ -59,14 +72,6 @@
     };
 
     disko.devices.disk.main-disk.device = "/dev/sda";
-
-    features.sets = [
-      "disks.normal"
-      "jobs.updates"
-      "progs.shell"
-      # "purposes.app-server"
-      # "services.docker"
-    ];
 
     # boot.kernelParams = [
     #   "console=ttyS0,115200n8"

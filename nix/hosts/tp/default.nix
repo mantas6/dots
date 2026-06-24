@@ -1,23 +1,34 @@
-{...}: {
-  disko.devices.disk.main-disk.device = "/dev/nvme0n1";
+{
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosConfigurations.tp = inputs.nixpkgs.lib.nixosSystem {
+    modules = [self.nixosModules."host-tp"];
+  };
 
-  features.sets = [
-    "disks.encrypted"
-    "hardware.amd"
-    "collections.desktop"
-    "collections.develop"
-    "progs.shell"
-    "services.docker"
-    "hardware.backlight"
-  ];
+  flake.nixosModules."host-tp" = {...}: {
+    imports = with self.nixosModules; [
+      base
+      disks-encrypted
+      hardware-amd
+      collections-desktop
+      collections-develop
+      progs-shell
+      services-docker
+      hardware-backlight
+    ];
 
-  networking.stevenblack.enable = true;
-  networking.networkmanager.enable = true;
-  users.users.mantas.extraGroups = ["networkmanager"];
+    disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 
-  services.logind.settings.Login.HandlePowerKey = "suspend";
+    networking.stevenblack.enable = true;
+    networking.networkmanager.enable = true;
+    users.users.mantas.extraGroups = ["networkmanager"];
 
-  networking.hostName = "tp";
+    services.logind.settings.Login.HandlePowerKey = "suspend";
 
-  system.stateVersion = "25.05";
+    networking.hostName = "tp";
+
+    system.stateVersion = "25.05";
+  };
 }

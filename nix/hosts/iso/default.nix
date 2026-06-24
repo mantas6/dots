@@ -1,13 +1,27 @@
 {
-  pkgs,
-  modulesPath,
+  self,
+  inputs,
   ...
 }: {
-  imports = [
-    "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
-  ];
+  flake.nixosConfigurations.iso = inputs.nixpkgs.lib.nixosSystem {
+    modules = [self.nixosModules."host-iso"];
+  };
 
-  nixpkgs.hostPlatform = "x86_64-linux";
+  flake.nixosModules."host-iso" = {
+    pkgs,
+    modulesPath,
+    ...
+  }: {
+    imports =
+      (with self.nixosModules; [
+        base
+      ])
+      ++ [
+        "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
+      ];
 
-  environment.systemPackages = [pkgs.vim];
+    nixpkgs.hostPlatform = "x86_64-linux";
+
+    environment.systemPackages = [pkgs.vim];
+  };
 }

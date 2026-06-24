@@ -1,0 +1,36 @@
+{...}: {
+  flake.nixosModules."services-printing" = {
+    lib,
+    config,
+    pkgs,
+    ...
+  }: {
+    services = {
+      printing = {
+        enable = true;
+        drivers = with pkgs; [
+          cups-filters
+          cups-browsed
+        ];
+      };
+
+      avahi = {
+        enable = true;
+        nssmdns4 = true;
+        openFirewall = true;
+      };
+    };
+
+    hardware.printers = {
+      ensureDefaultPrinter = "L2445DW";
+      ensurePrinters = [
+        {
+          deviceUri = "ipp://BRN94DDF82B172F/ipp";
+          location = "home";
+          name = "L2445DW";
+          model = "everywhere";
+        }
+      ];
+    };
+  };
+}
