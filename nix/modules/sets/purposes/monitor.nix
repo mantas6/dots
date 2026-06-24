@@ -36,6 +36,10 @@ in {
 
           windowManager.awesome.enable = true;
           displayManager.startx.enable = true;
+
+          serverFlagsSection = ''
+            Option "AutoAddDevices" "false"
+          '';
         };
 
         getty.autologinUser = "mantas";
