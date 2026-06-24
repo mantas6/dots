@@ -8,6 +8,8 @@
 
   awesomePkg = config.services.xserver.windowManager.awesome.package;
 
+  url = "https://google.com";
+
   xinitrc =
     pkgs.writeScript "monitor-xinitrc"
     /*
@@ -15,6 +17,7 @@
     */
     ''
       #!${pkgs.runtimeShell}
+      ${pkgs.chromium}/bin/chromium --kiosk --noerrdialogs --disable-infobars --no-first-run ${url} &
       exec ${awesomePkg}/bin/awesome
     '';
 in {
