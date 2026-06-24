@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable";
-    nixpkgs.url = "nixpkgs/nixos-25.11";
+    nixpkgs.url = "nixpkgs/nixos-26.05";
     nixpkgs-go.url = "github:NixOS/nixpkgs/d1d883129b193f0b495d75c148c2c3a7d95789a0";
 
     disko = {
