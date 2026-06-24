@@ -8,8 +8,6 @@
 
   awesomePkg = config.services.xserver.windowManager.awesome.package;
 
-  url = "https://google.com";
-
   xinitrc =
     pkgs.writeScript "monitor-xinitrc"
     /*
@@ -22,7 +20,9 @@
       ${pkgs.xset}/bin/xset s noblank
       ${pkgs.brightnessctl}/bin/brightnessctl set 25%
 
-      (${pkgs.coreutils}/bin/sleep 5 && ${pkgs.chromium}/bin/chromium --kiosk --noerrdialogs --disable-infobars --no-first-run ${url}) &
+      base_url=$(cat /var/lib/sat-base)
+
+      (${pkgs.coreutils}/bin/sleep 5 && ${pkgs.chromium}/bin/chromium --kiosk --noerrdialogs --disable-infobars --no-first-run "$base_url/api/probes/display/home") &
 
       exec ${awesomePkg}/bin/awesome
     '';
