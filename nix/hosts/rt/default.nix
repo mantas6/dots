@@ -27,8 +27,8 @@
       };
 
       extraPackages = with pkgs-unstable; [
-        python313
-        python313Packages.pip
+        # python313
+        # python313Packages.pip
 
         curl
         wget
