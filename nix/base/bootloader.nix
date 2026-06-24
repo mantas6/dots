@@ -8,7 +8,7 @@
         useOSProber = lib.mkDefault false;
       };
 
-      timeout = 1;
+      timeout = lib.mkDefault 1;
 
       efi.canTouchEfiVariables = true;
     };
