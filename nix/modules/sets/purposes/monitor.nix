@@ -22,7 +22,7 @@
       ${pkgs.xset}/bin/xset s noblank
       ${pkgs.brightnessctl}/bin/brightnessctl set 25%
 
-      ${pkgs.chromium}/bin/chromium --kiosk --noerrdialogs --disable-infobars --no-first-run ${url} &
+      (${pkgs.coreutils}/bin/sleep 5 && ${pkgs.chromium}/bin/chromium --kiosk --noerrdialogs --disable-infobars --no-first-run ${url}) &
 
       exec ${awesomePkg}/bin/awesome
     '';
