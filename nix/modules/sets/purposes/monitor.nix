@@ -17,7 +17,10 @@
     */
     ''
       #!${pkgs.runtimeShell}
+      ${pkgs.xorg.xset}/bin/xset s off -dpms
+      ${pkgs.xorg.xset}/bin/xset s noblank
       ${pkgs.chromium}/bin/chromium --kiosk --noerrdialogs --disable-infobars --no-first-run ${url} &
+
       exec ${awesomePkg}/bin/awesome
     '';
 in {
