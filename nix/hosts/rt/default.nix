@@ -27,16 +27,60 @@
       };
 
       extraPackages = with pkgs-unstable; [
-        python313
-        python313Packages.pip
-        python313Packages.pillow
-        # python313Packages.faster-whisper
+        python312
+        (python312.withPackages (ps:
+          with ps; [
+            pillow
+            numpy
+            scipy
+            matplotlib
+            pandas
+
+            requests
+            httpx
+            beautifulsoup4
+            lxml
+            pyyaml
+            python-dotenv
+
+            pydub
+            soundfile
+            librosa
+
+            fastapi
+            uvicorn
+            websockets
+
+            pytest
+            pytest-xdist
+            rich
+          ]))
+
+        curl
+        wget
+        jq
+        file
+        which
+        tree
+        unzip
+        zip
+        ripgrep
+        fd
         uv
+
         imagemagick
         exiftool
         ffmpeg
+        imagemagick
+
+        sox
+        espeak-ng
+        yt-dlp
         caddy
         gh
+
+        chromium
+        nodejs_24
       ];
     };
 
@@ -46,8 +90,8 @@
       "disks.normal"
       "jobs.updates"
       "progs.shell"
-      "purposes.app-server"
-      "services.docker"
+      # "purposes.app-server"
+      # "services.docker"
     ];
 
     # boot.kernelParams = [
