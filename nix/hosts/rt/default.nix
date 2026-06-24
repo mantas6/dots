@@ -29,11 +29,14 @@
       extraPackages = with pkgs-unstable; [
         python313
         python313Packages.pip
+        python313Packages.pillow
         # python313Packages.faster-whisper
         uv
         imagemagick
         exiftool
         ffmpeg
+        caddy
+        gh
       ];
     };
 
