@@ -17,8 +17,11 @@
     */
     ''
       #!${pkgs.runtimeShell}
+
       ${pkgs.xorg.xset}/bin/xset s off -dpms
       ${pkgs.xorg.xset}/bin/xset s noblank
+      ${pkgs.brightnessctl}/bin/brightnessctl set 25%
+
       ${pkgs.chromium}/bin/chromium --kiosk --noerrdialogs --disable-infobars --no-first-run ${url} &
 
       exec ${awesomePkg}/bin/awesome
