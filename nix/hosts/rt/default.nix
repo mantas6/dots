@@ -27,34 +27,8 @@
       };
 
       extraPackages = with pkgs-unstable; [
-        python312
-        (python312.withPackages (ps:
-          with ps; [
-            pillow
-            numpy
-            scipy
-            matplotlib
-            pandas
-
-            requests
-            httpx
-            beautifulsoup4
-            lxml
-            pyyaml
-            python-dotenv
-
-            pydub
-            soundfile
-            librosa
-
-            fastapi
-            uvicorn
-            websockets
-
-            pytest
-            pytest-xdist
-            rich
-          ]))
+        python313
+        python313Packages.pip
 
         curl
         wget
