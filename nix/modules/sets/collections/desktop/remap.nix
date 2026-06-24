@@ -1,42 +1,37 @@
 {
   lib,
   config,
-  inputs,
   ...
 }: {
-  imports = [
-    inputs.xremap-flake.nixosModules.default
-  ];
-
   config = {
-    services = {
-      xremap = {
-        enable = lib.elem "collections.desktop" config.features.sets;
+    services.keyd = {
+      enable = lib.elem "collections.desktop" config.features.sets;
 
-        withX11 = true;
-        watch = true;
+      keyboards.default = {
+        ids = ["*"];
 
-        yamlConfig =
-          /*
-          yaml
-          */
-          ''
-            modmap:
-              - name: Caps swap
-                remap:
-                  capslock: C_L
-            keymap:
-              - name: MacOS sync
-                remap:
-                  M-left: C_R-left
-                  M-right: C_R-right
-                  SUPER-left: home
-                  SUPER-right: end
-                  SUPER-leftbrace: back
-                  SUPER-rightbrace: forward
-                  SUPER-backspace: C_R-SHIFT-backspace
-                  M-backspace: C_R-backspace
-          '';
+        settings = {
+          # Caps Lock -> Left Control
+          main = {
+            capslock = "leftcontrol";
+          };
+
+          # Left Alt + key -> word navigation
+          alt = {
+            left = "C-left";
+            right = "C-right";
+            backspace = "C-backspace";
+          };
+
+          # Super + key -> line nav / browser / delete
+          meta = {
+            left = "home";
+            right = "end";
+            leftbrace = "back";
+            rightbrace = "forward";
+            backspace = "C-S-backspace";
+          };
+        };
       };
     };
   };

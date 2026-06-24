@@ -11,7 +11,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    xremap-flake.url = "github:xremap/nix-flake";
     hermes-agent.url = "github:NousResearch/hermes-agent";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
