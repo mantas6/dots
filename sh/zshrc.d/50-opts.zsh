@@ -51,3 +51,11 @@ precmd() {
         print -n '\a'
     fi
 }
+
+copy-line-to-clipboard() {
+    printf '%s' "$BUFFER" | xc
+}
+
+zle -N copy-line-to-clipboard
+bindkey '^Xy' copy-line-to-clipboard
+
