@@ -6,7 +6,7 @@
 
     age.secrets = {
       sat-base-url = {
-        file = ../../../secrets/sat-base-url.age;
+        file = ./sat-base-url.age;
         owner = "mantas";
       };
     };
