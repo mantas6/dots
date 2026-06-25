@@ -13,7 +13,7 @@ type TmuxSession struct {
 	LastAttached int
 }
 
-func CreateFromLine(line string) TmuxSession {
+func NewFromLine(line string) TmuxSession {
 	parts := strings.SplitN(line, " ", 3)
 
 	lastAttached, _ := strconv.Atoi(parts[0])

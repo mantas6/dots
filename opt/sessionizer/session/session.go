@@ -33,7 +33,7 @@ func (s *Session) MatchesTmuxSession(tmuxSession tmuxsession.TmuxSession) bool {
 	return s.Name == tmuxSession.Name
 }
 
-func CreateFromTmuxSession(tmuxSession tmuxsession.TmuxSession) *Session {
+func NewFromTmuxSession(tmuxSession tmuxsession.TmuxSession) *Session {
 	return &Session{
 		Name:         tmuxSession.Name,
 		Path:         tmuxSession.Path,
@@ -43,7 +43,7 @@ func CreateFromTmuxSession(tmuxSession tmuxsession.TmuxSession) *Session {
 	}
 }
 
-func CreateFromConfig(item config.Session) *Session {
+func NewFromConfig(item config.Session) *Session {
 	return &Session{
 		Name:   item.Name,
 		Path:   item.Path,
@@ -52,7 +52,7 @@ func CreateFromConfig(item config.Session) *Session {
 	}
 }
 
-func CreateFromPattern(item config.Pattern, resolvedPath string) *Session {
+func NewFromPattern(item config.Pattern, resolvedPath string) *Session {
 	return &Session{
 		Name:   filepath.Base(resolvedPath),
 		Path:   resolvedPath,

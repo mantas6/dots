@@ -16,21 +16,21 @@ func loadSessions() (sessionItems []*session.Session) {
 
 	for _, configSession := range cfg.Sessions {
 		configSession.Path = expandHome(configSession.Path)
-		sessionItems = append(sessionItems, session.CreateFromConfig(configSession))
+		sessionItems = append(sessionItems, session.NewFromConfig(configSession))
 	}
 
 	for _, configPattern := range cfg.Patterns {
 		resolvedPaths := expandWildcardPaths(configPattern.Pattern)
 
 		for _, resolvedPath := range resolvedPaths {
-			sessionItems = append(sessionItems, session.CreateFromPattern(configPattern, resolvedPath))
+			sessionItems = append(sessionItems, session.NewFromPattern(configPattern, resolvedPath))
 		}
 	}
 
 	sessionsText, err := api.ListSessions()
 	if err == nil {
 		for _, line := range strings.Split(sessionsText, "\n") {
-			tmuxSessionItem := tmuxsession.CreateFromLine(line)
+			tmuxSessionItem := tmuxsession.NewFromLine(line)
 			sessionItems = mergeInTmuxSession(sessionItems, tmuxSessionItem)
 		}
 	}
@@ -71,7 +71,7 @@ func mergeInTmuxSession(sessionItems []*session.Session, tmuxSessionItem tmuxses
 		}
 	}
 
-	return append(sessionItems, session.CreateFromTmuxSession(tmuxSessionItem))
+	return append(sessionItems, session.NewFromTmuxSession(tmuxSessionItem))
 }
 
 func switchToSession(name string) {
