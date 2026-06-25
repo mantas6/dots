@@ -35,6 +35,7 @@
       settings = {
         model.default = "openai/gpt-5.5";
         stt.enabled = false;
+        cron_mode = "approve";
         approvals = {
           mode = "smart";
         };
