@@ -6,8 +6,15 @@ let
   systems = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO1l4E2BxsfN8rHZnntHirLssQQsQ+gofyrJYo+nMWz5 @mt"
   ];
+
+  basePath = "nix/features/other/secrets";
 in {
-  "sat-base-url.age" = {
+  "${basePath}/sat-base-url.age" = {
+    publicKeys = users ++ systems;
+    armor = true;
+  };
+
+  "${basePath}/test-secret.age" = {
     publicKeys = users ++ systems;
     armor = true;
   };

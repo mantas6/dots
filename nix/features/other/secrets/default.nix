@@ -9,6 +9,11 @@
         file = ./sat-base-url.age;
         owner = "mantas";
       };
+
+      test-secret = {
+        file = ./test-secret.age;
+        owner = "mantas";
+      };
     };
   };
 }
