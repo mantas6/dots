@@ -11,6 +11,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     hermes-agent.url = "github:NousResearch/hermes-agent";
 
     flake-parts.url = "github:hercules-ci/flake-parts";

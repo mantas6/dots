@@ -14,6 +14,8 @@
         ];
     };
 
+    agenix = inputs.agenix.packages.${pkgs-unstable.stdenv.hostPlatform.system}.default;
+
     phpConfigured = pkgs-unstable.php85.buildEnv {
       extensions = {
         enabled,
@@ -109,6 +111,8 @@
 
       alejandra
       # deadnix
+
+      agenix
     ];
   };
 }
