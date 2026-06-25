@@ -148,3 +148,31 @@ agenix --rekey
 ```sh
 ssh-keyscan __host__
 ```
+
+### Troubleshooting auto-upgrade
+
+Check that automatic system upgrades run successfully.
+
+Force an automatic system upgrade:
+
+```sh
+systemctl start nixos-upgrade
+```
+
+Check the upgrade log:
+
+```sh
+systemctl status nixos-upgrade.service
+```
+
+Or, to see the full log:
+
+```sh
+journalctl -u nixos-upgrade.service
+```
+
+To see the status of the upgrade timer:
+
+```sh
+systemctl status nixos-upgrade.timer
+```
