@@ -12,8 +12,7 @@ import (
 )
 
 func loadSessions() (sessionItems []*session.Session) {
-	configText := config.GetUserConfigurationText()
-	cfg := config.ParseConfigurationText(configText)
+	cfg := config.Load()
 
 	for _, configSession := range cfg.Sessions {
 		configSession.Path = expandHome(configSession.Path)

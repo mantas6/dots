@@ -1,45 +1,32 @@
 package config
 
 import (
-	"bytes"
-	"encoding/json"
 	"log"
 	"os"
-	"os/exec"
 	"path/filepath"
-	"strings"
+
+	"github.com/BurntSushi/toml"
 )
 
 const configPath = ".config/tmux/sessions.toml"
 
 type Pattern struct {
-	Cmd     string `json:"cmd"`
-	Pattern string `json:"pattern"`
+	Cmd     string `toml:"cmd"`
+	Pattern string `toml:"pattern"`
 }
 
 type Session struct {
-	Name string `json:"name"`
-	Path string `json:"path,omitempty"`
-	Cmd  string `json:"cmd,omitempty"`
+	Name string `toml:"name"`
+	Path string `toml:"path"`
+	Cmd  string `toml:"cmd"`
 }
 
 type Config struct {
-	Patterns []Pattern `json:"patterns"`
-	Sessions []Session `json:"session"`
+	Patterns []Pattern `toml:"patterns"`
+	Sessions []Session `toml:"session"`
 }
 
-func ParseConfigurationText(configText string) Config {
-	var cfg Config
-
-	err := json.Unmarshal([]byte(configText), &cfg)
-	if err != nil {
-		log.Fatalf("Failed to parse configuration: %v", err)
-	}
-
-	return cfg
-}
-
-func GetUserConfigurationText() string {
+func Load() Config {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		log.Fatalf("Failed to get home directory: %v", err)
@@ -47,18 +34,10 @@ func GetUserConfigurationText() string {
 
 	configFile := filepath.Join(home, configPath)
 
-	cmd := exec.Command("yq", "-p", "toml", "-o", "json", ".", configFile)
-
-	var stderr bytes.Buffer
-	cmd.Stderr = &stderr
-
-	output, err := cmd.Output()
-	if err != nil {
-		if msg := strings.TrimSpace(stderr.String()); msg != "" {
-			log.Fatalf("Failed to read configuration file: %s", msg)
-		}
+	var cfg Config
+	if _, err := toml.DecodeFile(configFile, &cfg); err != nil {
 		log.Fatalf("Failed to read configuration file: %v", err)
 	}
 
-	return string(output)
+	return cfg
 }
