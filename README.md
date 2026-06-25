@@ -129,13 +129,13 @@ nix run nixpkgs#s-tui
 
 ### Secrets management
 
-Edit/create a new secret:
+Edit/create a secret:
 
 ```sh
-agenix -e nix/features/other/secrets/__name__.age
+agenix -e lib/secrets/__name__.age
 ```
 
-After saving edit the `secrets.nix` and `nix/features/other/secrets/default.nix`
+After saving update the `secrets.nix`
 
 #### Rekey secrets
 
