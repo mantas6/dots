@@ -25,6 +25,11 @@
         exec ${awesomePkg}/bin/awesome
       '';
   in {
+    age.secrets.sat-base-url = {
+      file = ./sat-base-url.age;
+      owner = "mantas";
+    };
+
     services = {
       xserver = {
         enable = true;

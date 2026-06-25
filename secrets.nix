@@ -7,7 +7,7 @@ let
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO1l4E2BxsfN8rHZnntHirLssQQsQ+gofyrJYo+nMWz5 @mt"
   ];
 
-  basePath = "nix/features/other/secrets";
+  basePath = "lib/secrets";
 in {
   "${basePath}/sat-base-url.age" = {
     publicKeys = users ++ systems;

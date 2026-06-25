@@ -4,7 +4,10 @@
   ...
 }: {
   flake.nixosModules.base = {pkgs, ...}: {
-    imports = [inputs.disko.nixosModules.disko];
+    imports = [
+      inputs.disko.nixosModules.disko
+      inputs.agenix.nixosModules.default
+    ];
 
     _module.args = {
       inherit inputs self;
