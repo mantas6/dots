@@ -26,7 +26,7 @@
       '';
   in {
     age.secrets.sat-base-url = {
-      file = ./sat-base-url.age;
+      file = ./../../../lib/secrets/sat-base-url.age;
       owner = "mantas";
     };
 
