@@ -126,3 +126,25 @@ Monitor temperatures:
 ```sh
 nix run nixpkgs#s-tui
 ```
+
+### Secrets management
+
+Edit/create a new secret:
+
+```sh
+agenix -e nix/features/other/secrets/__name__.age
+```
+
+After saving edit the `secrets.nix` and `nix/features/other/secrets/default.nix`
+
+#### Rekey secrets
+
+```sh
+agenix --rekey
+```
+
+#### Get host key
+
+```sh
+ssh-keyscan __host__
+```
