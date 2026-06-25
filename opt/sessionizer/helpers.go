@@ -21,7 +21,15 @@ func expandWildcardPaths(pattern string) []string {
 		return []string{}
 	}
 
-	return matches
+	filtered := matches[:0]
+	for _, match := range matches {
+		if strings.HasPrefix(filepath.Base(match), ".") {
+			continue
+		}
+		filtered = append(filtered, match)
+	}
+
+	return filtered
 }
 
 func expandHome(path string) string {
