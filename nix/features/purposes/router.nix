@@ -146,7 +146,7 @@
     packages.wolf = inputs'.nixpkgs-go.legacyPackages.buildGoModule {
       pname = "wolf";
       version = "0.1.0";
-      src = ../../opt/wolf/.;
+      src = ../../../opt/wolf/.;
       vendorHash = null;
     };
 
