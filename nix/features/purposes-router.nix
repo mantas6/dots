@@ -1,0 +1,159 @@
+{...}: {
+  flake.nixosModules."purposes-router" = {
+    self,
+    pkgs,
+    pkgs-unstable,
+    config,
+    ...
+  }: let
+    lanIfName = "net0";
+    lanDeviceMac = "98:fa:9b:9e:ef:fb";
+    lanIp = "10.0.1.1";
+    lanIpRangeEnd = "10.0.1.255";
+
+    wanIfName = "internet0";
+    wanDeviceMac = "00:1b:21:f0:6c:e0";
+
+    servicesIp = "10.0.1.21"; # l4
+    wolPort = 5001;
+  in {
+    services.fail2ban.enable = true;
+    networking.stevenblack = {
+      enable = true;
+      package = pkgs-unstable.stevenblack-blocklist;
+    };
+
+    services.dnsmasq = {
+      enable = true;
+
+      alwaysKeepRunning = true;
+      resolveLocalQueries = false;
+
+      settings = {
+        server = [
+          "8.8.8.8"
+          "1.1.1.1"
+        ];
+
+        address = [
+          "/gw/${lanIp}"
+          "/${config.networking.hostName}/${lanIp}"
+
+          "/nostalgia/${servicesIp}"
+          "/gal/${servicesIp}"
+          "/memos/${servicesIp}"
+        ];
+
+        interface = "${lanIfName}";
+
+        # listen-address = "::1,127.0.0.1,${lanIp}";
+        listen-address = "127.0.0.1,${lanIp}";
+        dhcp-range = "${lanIp},${lanIpRangeEnd},30d";
+
+        cache-size = 10000;
+
+        local = "/lan/";
+        domain = "lan";
+
+        expand-hosts = true;
+        domain-needed = true;
+      };
+    };
+
+    systemd.network.links."10-${lanIfName}" = {
+      matchConfig.PermanentMACAddress = lanDeviceMac;
+      linkConfig = {
+        Name = lanIfName;
+      };
+    };
+
+    systemd.network.links."10-${wanIfName}" = {
+      matchConfig.PermanentMACAddress = wanDeviceMac;
+      linkConfig = {
+        Name = wanIfName;
+      };
+    };
+
+    boot.kernel.sysctl = {
+      "net.ipv4.ip_forward" = true;
+      "net.ipv4.conf.all.forwarding" = true;
+      # "net.ipv6.conf.all.forwarding" = true;
+    };
+
+    services.openssh.settings = {
+      ListenAddress = lanIp;
+    };
+
+    networking = {
+      interfaces = {
+        "${wanIfName}" = {
+          useDHCP = true;
+        };
+
+        "${lanIfName}" = {
+          useDHCP = false;
+          ipv4.addresses = [
+            {
+              address = "${lanIp}";
+              prefixLength = 24;
+            }
+          ];
+        };
+      };
+
+      nat = {
+        enable = true;
+        enableIPv6 = false;
+        internalInterfaces = [lanIfName];
+        externalInterface = wanIfName;
+      };
+
+      firewall = {
+        enable = true;
+        allowPing = false;
+
+        interfaces.${wanIfName}.allowedTCPPorts = [];
+
+        interfaces.${lanIfName} = {
+          allowedTCPPorts = [22 53 wolPort];
+          allowedUDPPorts = [53 67 68];
+        };
+      };
+    };
+
+    systemd.services.wolf = {
+      description = "Wolf";
+      wantedBy = ["multi-user.target"];
+      after = ["network.target"];
+      serviceConfig = {
+        ExecStart = "${self.packages.${pkgs.stdenv.hostPlatform.system}.wolf}/bin/wolf -i ${lanIp}:${toString wolPort} -a ${lanIpRangeEnd}";
+        Restart = "always";
+        Type = "simple";
+        DynamicUser = "yes";
+      };
+      # change prog?
+      path = [pkgs.wakeonlan];
+      environment = {
+      };
+    };
+  };
+
+  perSystem = {
+    config,
+    inputs',
+    ...
+  }: {
+    packages.wolf = inputs'.nixpkgs-go.legacyPackages.buildGoModule {
+      pname = "wolf";
+      version = "0.1.0";
+      src = ../../opt/wolf/.;
+      vendorHash = null;
+    };
+
+    apps.wolf = {
+      type = "app";
+      program = "${config.packages.wolf}/bin/wolf";
+      meta.description = "HTTP server that sends Wake-on-LAN packets to hosts resolved from dnsmasq leases";
+    };
+  };
+}

@@ -1,15 +1,26 @@
-{...}: {
-  disko.devices.disk.main-disk.device = "/dev/sda";
+{
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosConfigurations.mt = inputs.nixpkgs.lib.nixosSystem {
+    modules = [self.nixosModules."host-mt"];
+  };
 
-  features.sets = [
-    "disks.normal"
-    "jobs.updates"
-    "hardware.backlight"
-    "quirks.prevent-sleep"
-    "purposes.monitor"
-  ];
+  flake.nixosModules."host-mt" = {...}: {
+    imports = with self.nixosModules; [
+      base
+      disks-normal
+      jobs-updates
+      hardware-backlight
+      quirks-prevent-sleep
+      purposes-monitor
+    ];
 
-  networking.hostName = "mt";
+    disko.devices.disk.main-disk.device = "/dev/sda";
 
-  system.stateVersion = "26.05";
+    networking.hostName = "mt";
+
+    system.stateVersion = "26.05";
+  };
 }

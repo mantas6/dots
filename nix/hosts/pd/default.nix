@@ -1,21 +1,32 @@
-{...}: {
-  disko.devices.disk.main-disk.device = "/dev/nvme0n1";
+{
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosConfigurations.pd = inputs.nixpkgs.lib.nixosSystem {
+    modules = [self.nixosModules."host-pd"];
+  };
 
-  features.sets = [
-    "disks.normal"
-    "jobs.updates"
-    "purposes.router"
-    "services.sat-backups"
-  ];
+  flake.nixosModules."host-pd" = {...}: {
+    imports = with self.nixosModules; [
+      base
+      disks-normal
+      jobs-updates
+      purposes-router
+      services-sat-backups
+    ];
 
-  users.users.mantas.hashedPassword = "$y$j9T$9fIB3RWe.fVkunAycN6jD.$tsgfckKykjuNpmAfvcp5PqmyJdOaJG4NTpg54ESi5p3";
+    disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 
-  features.swapSizeInGB = 2;
-  # powerManagement.powertop.enable = true;
+    users.users.mantas.hashedPassword = "$y$j9T$9fIB3RWe.fVkunAycN6jD.$tsgfckKykjuNpmAfvcp5PqmyJdOaJG4NTpg54ESi5p3";
 
-  system.autoUpgrade.dates = "01:00";
+    features.swapSizeInGB = 2;
+    # powerManagement.powertop.enable = true;
 
-  networking.hostName = "pd";
+    system.autoUpgrade.dates = "01:00";
 
-  system.stateVersion = "25.05";
+    networking.hostName = "pd";
+
+    system.stateVersion = "25.05";
+  };
 }

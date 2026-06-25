@@ -17,7 +17,7 @@ If stow fails, remove conflicting files (preferably to trash) and run again. Pay
 ### Create NixOS ISO
 
 ```sh
-nix run nixpkgs#nixos-generators -- --format iso --flake #iso
+nix run nixpkgs#nixos-generators -- --format iso --flake '#iso'
 ```
 
 ### Install NixOS

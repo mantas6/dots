@@ -1,29 +1,40 @@
-{...}: {
-  disko.devices.disk.main-disk.device = "/dev/nvme0n1";
+{
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosConfigurations.a5 = inputs.nixpkgs.lib.nixosSystem {
+    modules = [self.nixosModules."host-a5"];
+  };
 
-  features.sets = [
-    "disks.normal"
-    "hardware.amd"
-    "collections.desktop"
-    "collections.develop"
-    "progs.shell"
-    "progs.gaming"
-    # "services.printing"
-    "services.docker"
-  ];
+  flake.nixosModules."host-a5" = {...}: {
+    imports = with self.nixosModules; [
+      base
+      disks-normal
+      hardware-amd
+      collections-desktop
+      collections-develop
+      progs-shell
+      progs-gaming
+      # services-printing
+      services-docker
+    ];
 
-  # Hibernation
-  # https://nixos.wiki/wiki/Hibernation
-  boot.kernelParams = ["resume_offset=457809920"];
-  boot.resumeDevice = "/dev/disk/by-uuid/c0c994a8-1809-4a81-8440-743be7370aeb";
-  features.swapSizeInGB = 36;
-  services.logind.settings.Login.HandlePowerKey = "hibernate";
+    disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 
-  features.wakeOnLanAdapterMAC = "04:7c:16:4f:88:ea";
+    # Hibernation
+    # https://nixos.wiki/wiki/Hibernation
+    boot.kernelParams = ["resume_offset=457809920"];
+    boot.resumeDevice = "/dev/disk/by-uuid/c0c994a8-1809-4a81-8440-743be7370aeb";
+    features.swapSizeInGB = 36;
+    services.logind.settings.Login.HandlePowerKey = "hibernate";
 
-  # services.xserver.dpi = 100;
+    features.wakeOnLanAdapterMAC = "04:7c:16:4f:88:ea";
 
-  networking.hostName = "a5";
+    # services.xserver.dpi = 100;
 
-  system.stateVersion = "25.05";
+    networking.hostName = "a5";
+
+    system.stateVersion = "25.05";
+  };
 }
