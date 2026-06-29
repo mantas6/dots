@@ -1,5 +1,6 @@
 {
   "trustedtaps": [
+    "daipeihust/tap",
     "felixkratz/formulae",
     "jsdelivr/globalping",
     "nikitabobko/tap"
