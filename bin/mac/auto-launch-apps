@@ -53,7 +53,7 @@ if workspace 3; then
 fi
 
 if workspace 4; then
-    browser
+    open -n "/Applications/Google Chrome.app"
     open -n "/Applications/Safari.app"
     await-windows 2
 fi
