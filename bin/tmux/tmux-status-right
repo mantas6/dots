@@ -2,6 +2,8 @@
 
 set -e
 
+export GIT_OPTIONAL_LOCKS=0
+
 changes=false
 unpushed=false
 
