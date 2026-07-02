@@ -27,8 +27,11 @@ type PushResult struct {
 }
 
 // Pull fetches remote entries modified since `since`, applies LWW against local
-// state, and advances last_pull to `now`.
-func Pull(st *store.Store, c *api.Client, since, now time.Time) (PullResult, error) {
+// state, and advances last_pull to `now`. A non-nil projectID (from
+// TOGGL_PROJECT_ID) scopes the pull to a single project: entries belonging to
+// other projects (or to none) are ignored, and last_pull is left untouched so a
+// later full pull still reconciles those other projects.
+func Pull(st *store.Store, c *api.Client, projectID *int64, since, now time.Time) (PullResult, error) {
 	var res PullResult
 	remotes, err := c.List(since)
 	if err != nil {
@@ -36,6 +39,10 @@ func Pull(st *store.Store, c *api.Client, since, now time.Time) (PullResult, err
 	}
 
 	for _, r := range remotes {
+		if projectID != nil && (r.ProjectID == nil || *r.ProjectID != *projectID) {
+			continue
+		}
+
 		local, err := st.EntryByRemoteID(r.ID)
 		if err != nil {
 			return res, err
@@ -82,8 +89,13 @@ func Pull(st *store.Store, c *api.Client, since, now time.Time) (PullResult, err
 		}
 	}
 
-	if err := st.SetMeta(store.MetaLastPull, now.UTC().Format(time.RFC3339)); err != nil {
-		return res, err
+	// Only advance the watermark on a full (unscoped) pull; a project-scoped
+	// pull is partial and must not hide other projects' changes from a later
+	// full pull.
+	if projectID == nil {
+		if err := st.SetMeta(store.MetaLastPull, now.UTC().Format(time.RFC3339)); err != nil {
+			return res, err
+		}
 	}
 	return res, nil
 }

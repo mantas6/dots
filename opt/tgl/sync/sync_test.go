@@ -156,7 +156,7 @@ func TestPullInsert(t *testing.T) {
 		  "duration":1800,"at":"2026-01-02T09:30:00Z"}]`))
 	})
 	now := ts("2026-01-02T12:00:00Z")
-	res, err := Pull(st, c, ts("2026-01-01T00:00:00Z"), now)
+	res, err := Pull(st, c, nil, ts("2026-01-01T00:00:00Z"), now)
 	if err != nil {
 		t.Fatalf("pull: %v", err)
 	}
@@ -180,7 +180,7 @@ func TestPullLWWRemoteNewer(t *testing.T) {
 		UpdatedAt: ts("2026-01-02T09:00:00Z"), Dirty: false,
 	})
 
-	res, err := Pull(st, c, ts("2026-01-01T00:00:00Z"), ts("2026-01-02T12:00:00Z"))
+	res, err := Pull(st, c, nil, ts("2026-01-01T00:00:00Z"), ts("2026-01-02T12:00:00Z"))
 	if err != nil {
 		t.Fatalf("pull: %v", err)
 	}
@@ -204,7 +204,7 @@ func TestPullLWWLocalNewer(t *testing.T) {
 		UpdatedAt: ts("2026-01-02T11:00:00Z"), Dirty: true,
 	})
 
-	res, err := Pull(st, c, ts("2026-01-01T00:00:00Z"), ts("2026-01-02T12:00:00Z"))
+	res, err := Pull(st, c, nil, ts("2026-01-01T00:00:00Z"), ts("2026-01-02T12:00:00Z"))
 	if err != nil {
 		t.Fatalf("pull: %v", err)
 	}
@@ -228,7 +228,7 @@ func TestPullRemoteDeleted(t *testing.T) {
 		UpdatedAt: ts("2026-01-02T09:00:00Z"),
 	})
 
-	res, err := Pull(st, c, ts("2026-01-01T00:00:00Z"), ts("2026-01-02T12:00:00Z"))
+	res, err := Pull(st, c, nil, ts("2026-01-01T00:00:00Z"), ts("2026-01-02T12:00:00Z"))
 	if err != nil {
 		t.Fatalf("pull: %v", err)
 	}
@@ -245,7 +245,7 @@ func TestPullSkipsRemoteDeletedWithNoLocal(t *testing.T) {
 		w.Write([]byte(`[{"id":903,"workspace_id":1,"start":"2026-01-02T09:00:00Z",
 		  "duration":300,"at":"2026-01-02T10:00:00Z","server_deleted_at":"2026-01-02T10:00:00Z"}]`))
 	})
-	res, err := Pull(st, c, ts("2026-01-01T00:00:00Z"), ts("2026-01-02T12:00:00Z"))
+	res, err := Pull(st, c, nil, ts("2026-01-01T00:00:00Z"), ts("2026-01-02T12:00:00Z"))
 	if err != nil {
 		t.Fatalf("pull: %v", err)
 	}
@@ -265,7 +265,7 @@ func TestPullSelfHealsCatalog(t *testing.T) {
 		  "duration":1800,"at":"2026-01-02T09:30:00Z"}]`))
 	})
 
-	if _, err := Pull(st, c, ts("2026-01-01T00:00:00Z"), ts("2026-01-02T12:00:00Z")); err != nil {
+	if _, err := Pull(st, c, nil, ts("2026-01-01T00:00:00Z"), ts("2026-01-02T12:00:00Z")); err != nil {
 		t.Fatalf("pull: %v", err)
 	}
 
@@ -293,12 +293,52 @@ func TestPullSelfHealsCatalog(t *testing.T) {
 	}
 }
 
+// TestPullProjectScope verifies a project-scoped pull only reconciles entries
+// for that project and, being partial, does not advance the last_pull watermark.
+func TestPullProjectScope(t *testing.T) {
+	st, c := setup(t, func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`[
+		  {"id":1,"workspace_id":1,"project_id":5,"description":"mine",
+		   "start":"2026-01-02T09:00:00Z","stop":"2026-01-02T09:30:00Z",
+		   "duration":1800,"at":"2026-01-02T09:30:00Z"},
+		  {"id":2,"workspace_id":1,"project_id":9,"description":"other",
+		   "start":"2026-01-02T10:00:00Z","stop":"2026-01-02T10:30:00Z",
+		   "duration":1800,"at":"2026-01-02T10:30:00Z"},
+		  {"id":3,"workspace_id":1,"description":"noproject",
+		   "start":"2026-01-02T11:00:00Z","stop":"2026-01-02T11:30:00Z",
+		   "duration":1800,"at":"2026-01-02T11:30:00Z"}]`))
+	})
+
+	pid := int64(5)
+	now := ts("2026-01-02T12:00:00Z")
+	res, err := Pull(st, c, &pid, ts("2026-01-01T00:00:00Z"), now)
+	if err != nil {
+		t.Fatalf("pull: %v", err)
+	}
+	if res.Inserted != 1 {
+		t.Errorf("inserted = %d, want 1 (only project 5)", res.Inserted)
+	}
+	if got, _ := st.EntryByRemoteID(1); got == nil {
+		t.Error("entry for project 5 should have been inserted")
+	}
+	if got, _ := st.EntryByRemoteID(2); got != nil {
+		t.Error("entry for other project should be ignored")
+	}
+	if got, _ := st.EntryByRemoteID(3); got != nil {
+		t.Error("entry with no project should be ignored")
+	}
+	// A scoped pull is partial: the watermark must not advance.
+	if _, ok, _ := st.GetMeta(store.MetaLastPull); ok {
+		t.Error("scoped pull should not advance last_pull")
+	}
+}
+
 func TestPullAdvancesLastPull(t *testing.T) {
 	st, c := setup(t, func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`[]`))
 	})
 	now := ts("2026-01-02T12:00:00Z")
-	if _, err := Pull(st, c, ts("2026-01-01T00:00:00Z"), now); err != nil {
+	if _, err := Pull(st, c, nil, ts("2026-01-01T00:00:00Z"), now); err != nil {
 		t.Fatalf("pull: %v", err)
 	}
 	v, ok, _ := st.GetMeta(store.MetaLastPull)
@@ -338,7 +378,7 @@ func TestRoundTrip(t *testing.T) {
 	if !created {
 		t.Fatal("expected a create call")
 	}
-	if _, err := Pull(st, c, ts("2026-01-01T00:00:00Z"), ts("2026-01-02T12:00:00Z")); err != nil {
+	if _, err := Pull(st, c, nil, ts("2026-01-01T00:00:00Z"), ts("2026-01-02T12:00:00Z")); err != nil {
 		t.Fatalf("pull: %v", err)
 	}
 

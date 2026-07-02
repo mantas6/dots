@@ -43,6 +43,8 @@ func run(cmd string, args []string) error {
 		return runToday(args)
 	case "tasks":
 		return runTasks(args)
+	case "projects":
+		return runProjects(args)
 	case "update":
 		return runUpdate(args)
 	case "push":
@@ -131,7 +133,22 @@ func runTasks(args []string) error {
 		return err
 	}
 	defer st.Close()
-	return cmdTasks(os.Stdout, st, *all, *jsonOut)
+	return cmdTasks(os.Stdout, st, *all, projectIDFromEnv(), *jsonOut)
+}
+
+func runProjects(args []string) error {
+	fs := newFlagSet("projects")
+	all := fs.Bool("all", false, "include inactive projects")
+	jsonOut := fs.Bool("json", false, "emit JSON")
+	if err := fs.Parse(args); err != nil {
+		return err
+	}
+	st, err := openStore()
+	if err != nil {
+		return err
+	}
+	defer st.Close()
+	return cmdProjects(os.Stdout, st, *all, *jsonOut)
 }
 
 func runUpdate(args []string) error {
@@ -193,7 +210,8 @@ func runPull(args []string) error {
 	if err != nil {
 		return err
 	}
-	return cmdPull(os.Stdout, st, api.New(cfg.APIToken), since, now, *jsonOut)
+	fragment := strings.Join(fs.Args(), " ")
+	return cmdPull(os.Stdout, st, api.New(cfg.APIToken), projectIDFromEnv(), fragment, since, now, *jsonOut)
 }
 
 func runAuth(args []string) error {
@@ -286,10 +304,13 @@ func printUsage(w io.Writer) {
 	fmt.Fprintln(w, "  current | status      show the running entry            [--json]")
 	fmt.Fprintln(w, "  today   | list        show today's entries     [--days N] [--json]")
 	fmt.Fprintln(w, "  tasks                 list cached tasks                 [--all] [--json]")
+	fmt.Fprintln(w, "  projects              list cached projects with ids     [--all] [--json]")
 	fmt.Fprintln(w, "  update                refresh the project/task catalog  [--all] [--json]")
 	fmt.Fprintln(w, "  push                  send local changes to Toggl       [--json]")
-	fmt.Fprintln(w, "  pull                  fetch remote changes      [--since DATE] [--json]")
+	fmt.Fprintln(w, "  pull <project>        fetch one project's changes [--since DATE] [--json]")
 	fmt.Fprintln(w, "")
 	fmt.Fprintln(w, "sync: run `tgl pull` then `tgl push` for correct last-writer-wins.")
-	fmt.Fprintln(w, "env:  TOGGL_PROJECT_ID scopes `start` matches and sets the entry project.")
+	fmt.Fprintln(w, "env:  TOGGL_PROJECT_ID scopes `start`/`tasks`/`pull` to one project")
+	fmt.Fprintln(w, "      (and sets the project on entries created by `start`). When it is")
+	fmt.Fprintln(w, "      unset, `pull` requires a unique <project> name fragment.")
 }

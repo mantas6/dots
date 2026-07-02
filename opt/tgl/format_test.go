@@ -167,6 +167,37 @@ func TestRenderTasksEmpty(t *testing.T) {
 	}
 }
 
+// sampleProjects builds the project-listing fixture, pre-sorted by name as
+// ListProjects returns them.
+func sampleProjects() []store.Project {
+	return []store.Project{
+		{ID: 1, Name: "Backend", Active: true},
+		{ID: 2, Name: "Payments", ClientName: "Acme", Active: true},
+	}
+}
+
+func TestRenderProjectsGolden(t *testing.T) {
+	var buf bytes.Buffer
+	renderProjects(&buf, sampleProjects())
+	assertGolden(t, "projects.txt", buf.String())
+}
+
+func TestRenderProjectsJSONGolden(t *testing.T) {
+	var buf bytes.Buffer
+	if err := renderProjectsJSON(&buf, sampleProjects()); err != nil {
+		t.Fatal(err)
+	}
+	assertGolden(t, "projects.json", buf.String())
+}
+
+func TestRenderProjectsEmpty(t *testing.T) {
+	var buf bytes.Buffer
+	renderProjects(&buf, nil)
+	if !strings.Contains(buf.String(), "tgl update") {
+		t.Errorf("empty projects = %q, want hint to run `tgl update`", buf.String())
+	}
+}
+
 func TestRenderCurrentNoneGolden(t *testing.T) {
 	var human bytes.Buffer
 	if err := renderCurrent(&human, nil, time.Now(), time.UTC, false); err != nil {

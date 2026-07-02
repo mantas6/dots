@@ -238,7 +238,7 @@ func TestTasksCommand(t *testing.T) {
 	seedCatalog(t, s)
 
 	var buf bytes.Buffer
-	if err := cmdTasks(&buf, s, false, false); err != nil {
+	if err := cmdTasks(&buf, s, false, nil, false); err != nil {
 		t.Fatalf("tasks: %v", err)
 	}
 	out := buf.String()
@@ -262,7 +262,7 @@ func TestTasksCommandAllIncludesInactive(t *testing.T) {
 	}
 
 	var active bytes.Buffer
-	if err := cmdTasks(&active, s, false, false); err != nil {
+	if err := cmdTasks(&active, s, false, nil, false); err != nil {
 		t.Fatalf("tasks: %v", err)
 	}
 	if strings.Contains(active.String(), "Retired task") {
@@ -270,11 +270,113 @@ func TestTasksCommandAllIncludesInactive(t *testing.T) {
 	}
 
 	var all bytes.Buffer
-	if err := cmdTasks(&all, s, true, false); err != nil {
+	if err := cmdTasks(&all, s, true, nil, false); err != nil {
 		t.Fatalf("tasks --all: %v", err)
 	}
 	if !strings.Contains(all.String(), "Retired task") {
 		t.Errorf("--all listing should include inactive tasks:\n%s", all.String())
+	}
+}
+
+func TestTasksCommandProjectScope(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	pid := int64(2) // Payments
+	var buf bytes.Buffer
+	if err := cmdTasks(&buf, s, false, &pid, false); err != nil {
+		t.Fatalf("tasks: %v", err)
+	}
+	out := buf.String()
+	if !strings.Contains(out, "Payment fix") {
+		t.Errorf("scoped tasks should list Payment fix:\n%s", out)
+	}
+	for _, hidden := range []string{"Fix login bug", "Code review", "Write tests"} {
+		if strings.Contains(out, hidden) {
+			t.Errorf("scoped tasks should hide %q:\n%s", hidden, out)
+		}
+	}
+}
+
+func TestResolvePullProjectEnvWins(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	// With the env project id set, the fragment is ignored entirely.
+	pid := int64(2)
+	got, err := resolvePullProject(s, &pid, "backend")
+	if err != nil {
+		t.Fatalf("resolve: %v", err)
+	}
+	if got == nil || *got != 2 {
+		t.Errorf("resolved = %v, want 2 (env wins)", got)
+	}
+}
+
+func TestResolvePullProjectRequiresFragment(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	_, err := resolvePullProject(s, nil, "  ")
+	if err == nil || !strings.Contains(err.Error(), "TOGGL_PROJECT_ID") {
+		t.Errorf("err = %v, want a required-fragment error mentioning TOGGL_PROJECT_ID", err)
+	}
+}
+
+func TestResolvePullProjectUnique(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	got, err := resolvePullProject(s, nil, "back")
+	if err != nil {
+		t.Fatalf("resolve: %v", err)
+	}
+	if got == nil || *got != 1 {
+		t.Errorf("resolved = %v, want project 1 (Backend)", got)
+	}
+}
+
+func TestResolvePullProjectAmbiguous(t *testing.T) {
+	s := newStore(t)
+	if err := s.ReplaceProjects([]store.Project{
+		{ID: 1, WorkspaceID: 1, Name: "Backend", Active: true},
+		{ID: 2, WorkspaceID: 1, Name: "Back office", Active: true},
+	}); err != nil {
+		t.Fatal(err)
+	}
+
+	_, err := resolvePullProject(s, nil, "back")
+	if err == nil {
+		t.Fatal("expected ambiguity error")
+	}
+	if !strings.Contains(err.Error(), "Backend") || !strings.Contains(err.Error(), "Back office") {
+		t.Errorf("error should list candidates: %v", err)
+	}
+}
+
+func TestResolvePullProjectNone(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	_, err := resolvePullProject(s, nil, "nonexistent")
+	if err == nil || !strings.Contains(err.Error(), "tgl update") {
+		t.Errorf("err = %v, want suggestion to run `tgl update`", err)
+	}
+}
+
+func TestProjectsCommand(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	var buf bytes.Buffer
+	if err := cmdProjects(&buf, s, false, false); err != nil {
+		t.Fatalf("projects: %v", err)
+	}
+	out := buf.String()
+	for _, want := range []string{"Backend", "Payments", "1", "2"} {
+		if !strings.Contains(out, want) {
+			t.Errorf("projects output missing %q:\n%s", want, out)
+		}
 	}
 }
 

@@ -103,9 +103,10 @@ func cmdToday(w io.Writer, st *store.Store, now time.Time, loc *time.Location, d
 }
 
 // cmdTasks lists the locally cached task catalog. `--all` includes inactive
-// tasks; refresh the cache with `tgl update`.
-func cmdTasks(w io.Writer, st *store.Store, all, jsonOut bool) error {
-	tasks, err := st.ListTasks(all)
+// tasks; a non-nil projectID (from TOGGL_PROJECT_ID) scopes the listing to one
+// project. Refresh the cache with `tgl update`.
+func cmdTasks(w io.Writer, st *store.Store, all bool, projectID *int64, jsonOut bool) error {
+	tasks, err := st.ListTasks(all, projectID)
 	if err != nil {
 		return err
 	}
@@ -113,6 +114,21 @@ func cmdTasks(w io.Writer, st *store.Store, all, jsonOut bool) error {
 		return renderTasksJSON(w, tasks)
 	}
 	renderTasks(w, tasks)
+	return nil
+}
+
+// cmdProjects lists the locally cached project catalog with ids so the id can
+// be exported as TOGGL_PROJECT_ID to scope other commands. `--all` includes
+// inactive projects; refresh the cache with `tgl update`.
+func cmdProjects(w io.Writer, st *store.Store, all, jsonOut bool) error {
+	projects, err := st.ListProjects(all)
+	if err != nil {
+		return err
+	}
+	if jsonOut {
+		return renderProjectsJSON(w, projects)
+	}
+	renderProjects(w, projects)
 	return nil
 }
 
@@ -153,9 +169,16 @@ func cmdPush(w io.Writer, st *store.Store, c *api.Client, now time.Time, jsonOut
 	return nil
 }
 
-// cmdPull reconciles remote entries into the local store (LWW).
-func cmdPull(w io.Writer, st *store.Store, c *api.Client, since, now time.Time, jsonOut bool) error {
-	res, err := sync.Pull(st, c, since, now)
+// cmdPull reconciles a single project's remote entries into the local store
+// (LWW). The project is chosen by projectID (from TOGGL_PROJECT_ID) when set;
+// otherwise fragment must uniquely match a cached project name. Pulling every
+// project at once is intentionally disallowed (see resolvePullProject).
+func cmdPull(w io.Writer, st *store.Store, c *api.Client, projectID *int64, fragment string, since, now time.Time, jsonOut bool) error {
+	pid, err := resolvePullProject(st, projectID, fragment)
+	if err != nil {
+		return err
+	}
+	res, err := sync.Pull(st, c, pid, since, now)
 	if err != nil {
 		return err
 	}
@@ -165,6 +188,34 @@ func cmdPull(w io.Writer, st *store.Store, c *api.Client, since, now time.Time, 
 	fmt.Fprintf(w, "Pulled: %d inserted, %d updated, %d deleted, %d skipped.\n",
 		res.Inserted, res.Updated, res.Deleted, res.Skipped)
 	return nil
+}
+
+// resolvePullProject decides which project `pull` scopes to. When projectID is
+// set (from TOGGL_PROJECT_ID) it wins and fragment is ignored. Otherwise a
+// fragment is required and must resolve to exactly one cached project: none ->
+// error suggesting `tgl update`; many -> error listing candidates. This keeps
+// `pull` from ever fetching every project's entries at once.
+func resolvePullProject(st *store.Store, projectID *int64, fragment string) (*int64, error) {
+	if projectID != nil {
+		return projectID, nil
+	}
+	fragment = strings.TrimSpace(fragment)
+	if fragment == "" {
+		return nil, errors.New("pull requires a project-name fragment (or set TOGGL_PROJECT_ID)")
+	}
+	projects, err := st.FindProjectsByFragment(fragment)
+	if err != nil {
+		return nil, err
+	}
+	switch len(projects) {
+	case 0:
+		return nil, fmt.Errorf("no project matches %q; run `tgl update` to refresh the catalog", fragment)
+	case 1:
+		id := projects[0].ID
+		return &id, nil
+	default:
+		return nil, fmt.Errorf("multiple projects match %q:\n%s", fragment, projectCandidateList(projects))
+	}
 }
 
 // cmdAuth acquires a token (via tokenSource), verifies it against GET /me, and

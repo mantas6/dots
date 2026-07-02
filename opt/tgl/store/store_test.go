@@ -241,6 +241,107 @@ func TestFindTasksByFragment(t *testing.T) {
 	}
 }
 
+func TestListProjects(t *testing.T) {
+	s := openTest(t)
+	if err := s.ReplaceProjects([]Project{
+		{ID: 2, WorkspaceID: 1, Name: "Payments", Active: true},
+		{ID: 1, WorkspaceID: 1, Name: "Backend", Active: true},
+		{ID: 3, WorkspaceID: 1, Name: "Archived", Active: false},
+	}); err != nil {
+		t.Fatalf("replace projects: %v", err)
+	}
+
+	// Active-only, ordered by name.
+	got, err := s.ListProjects(false)
+	if err != nil {
+		t.Fatalf("list projects: %v", err)
+	}
+	if len(got) != 2 || got[0].Name != "Backend" || got[1].Name != "Payments" {
+		t.Fatalf("active projects = %+v, want [Backend Payments]", got)
+	}
+
+	// --all includes inactive.
+	all, err := s.ListProjects(true)
+	if err != nil {
+		t.Fatalf("list projects --all: %v", err)
+	}
+	if len(all) != 3 || all[0].Name != "Archived" {
+		t.Fatalf("all projects = %+v, want 3 incl. Archived", all)
+	}
+}
+
+func TestListTasksProjectScope(t *testing.T) {
+	s := openTest(t)
+	if err := s.ReplaceProjects([]Project{
+		{ID: 100, WorkspaceID: 1, Name: "Backend", Active: true},
+		{ID: 200, WorkspaceID: 1, Name: "Payments", Active: true},
+	}); err != nil {
+		t.Fatalf("replace projects: %v", err)
+	}
+	if err := s.ReplaceTasks([]Task{
+		{ID: 1, WorkspaceID: 1, ProjectID: 100, Name: "Fix login bug", Active: true},
+		{ID: 2, WorkspaceID: 1, ProjectID: 100, Name: "Code review", Active: true},
+		{ID: 3, WorkspaceID: 1, ProjectID: 200, Name: "Payment fix", Active: true},
+	}); err != nil {
+		t.Fatalf("replace tasks: %v", err)
+	}
+
+	// Unscoped: every active task.
+	all, err := s.ListTasks(false, nil)
+	if err != nil {
+		t.Fatalf("list tasks: %v", err)
+	}
+	if len(all) != 3 {
+		t.Fatalf("tasks = %d, want 3", len(all))
+	}
+
+	// Scoped to project 200: only its tasks.
+	pid := int64(200)
+	scoped, err := s.ListTasks(false, &pid)
+	if err != nil {
+		t.Fatalf("list tasks scoped: %v", err)
+	}
+	if len(scoped) != 1 || scoped[0].ID != 3 {
+		t.Fatalf("scoped tasks = %+v, want only task 3 (Payment fix)", scoped)
+	}
+}
+
+func TestFindProjectsByFragment(t *testing.T) {
+	s := openTest(t)
+	if err := s.ReplaceProjects([]Project{
+		{ID: 1, WorkspaceID: 1, Name: "Backend", Active: true},
+		{ID: 2, WorkspaceID: 1, Name: "Back office", Active: true},
+		{ID: 3, WorkspaceID: 1, Name: "Payments", Active: true},
+		{ID: 4, WorkspaceID: 1, Name: "Backup", Active: false},
+	}); err != nil {
+		t.Fatalf("replace projects: %v", err)
+	}
+
+	// Substring: matches active projects across the catalog, sorted by name,
+	// excluding the inactive "Backup".
+	got, _ := s.FindProjectsByFragment("back")
+	if names := projectNames(got); !equal(names, []string{"Back office", "Backend"}) {
+		t.Fatalf("substring match = %v", names)
+	}
+
+	// Exact full-name precedence over broader substrings.
+	got, _ = s.FindProjectsByFragment("Backend")
+	if names := projectNames(got); !equal(names, []string{"Backend"}) {
+		t.Fatalf("exact match = %v", names)
+	}
+
+	// Unique fragment.
+	got, _ = s.FindProjectsByFragment("pay")
+	if len(got) != 1 || got[0].ID != 3 {
+		t.Fatalf("unique match = %+v, want project 3", got)
+	}
+
+	// No match.
+	if got, _ := s.FindProjectsByFragment("nonexistent"); len(got) != 0 {
+		t.Fatalf("expected no matches, got %v", projectNames(got))
+	}
+}
+
 func TestMetaRoundTrip(t *testing.T) {
 	s := openTest(t)
 	if _, ok, _ := s.GetMeta(MetaLastPull); ok {
@@ -266,6 +367,14 @@ func taskNames(tasks []Task) []string {
 	out := make([]string, len(tasks))
 	for i, t := range tasks {
 		out[i] = t.Name
+	}
+	return out
+}
+
+func projectNames(projects []Project) []string {
+	out := make([]string, len(projects))
+	for i, p := range projects {
+		out[i] = p.Name
 	}
 	return out
 }

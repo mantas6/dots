@@ -408,21 +408,59 @@ func (s *Store) activeTasks() ([]Task, error) {
 	return out, rows.Err()
 }
 
+// ListProjects returns catalog projects for display, ordered by name. Inactive
+// projects are included only when includeInactive is set.
+func (s *Store) ListProjects(includeInactive bool) ([]Project, error) {
+	q := `
+SELECT id, workspace_id, name, COALESCE(color, ''), COALESCE(client_name, ''),
+       active, COALESCE(at, '')
+FROM projects`
+	if !includeInactive {
+		q += "\nWHERE active = 1"
+	}
+	q += "\nORDER BY name"
+
+	rows, err := s.db.Query(q)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var out []Project
+	for rows.Next() {
+		var p Project
+		if err := rows.Scan(&p.ID, &p.WorkspaceID, &p.Name, &p.Color,
+			&p.ClientName, &p.Active, &p.At); err != nil {
+			return nil, err
+		}
+		out = append(out, p)
+	}
+	return out, rows.Err()
+}
+
 // ListTasks returns catalog tasks for display, with the project name joined and
 // ordered by project then task name. Inactive tasks are included only when
-// includeInactive is set.
-func (s *Store) ListTasks(includeInactive bool) ([]Task, error) {
+// includeInactive is set; a non-nil projectID scopes the listing to one project.
+func (s *Store) ListTasks(includeInactive bool, projectID *int64) ([]Task, error) {
 	q := `
 SELECT t.id, t.workspace_id, t.project_id, t.name, t.active, COALESCE(t.at, ''),
        COALESCE(p.name, '')
 FROM tasks t
 LEFT JOIN projects p ON p.id = t.project_id`
+	var conds []string
+	var args []any
 	if !includeInactive {
-		q += "\nWHERE t.active = 1"
+		conds = append(conds, "t.active = 1")
+	}
+	if projectID != nil {
+		conds = append(conds, "t.project_id = ?")
+		args = append(args, *projectID)
+	}
+	if len(conds) > 0 {
+		q += "\nWHERE " + strings.Join(conds, " AND ")
 	}
 	q += "\nORDER BY p.name, t.name"
 
-	rows, err := s.db.Query(q)
+	rows, err := s.db.Query(q, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -447,6 +485,49 @@ func (s *Store) FindTasksByFragment(fragment string, projectID *int64) ([]Task, 
 		return nil, err
 	}
 	return matchTasks(tasks, fragment, projectID), nil
+}
+
+// FindProjectsByFragment returns active projects matching fragment (see
+// matchProjects).
+func (s *Store) FindProjectsByFragment(fragment string) ([]Project, error) {
+	projects, err := s.ListProjects(false)
+	if err != nil {
+		return nil, err
+	}
+	return matchProjects(projects, fragment), nil
+}
+
+// matchProjects mirrors matchTasks for projects: a case-insensitive substring
+// match on the project name, with an exact (case-insensitive) full-name match
+// taking precedence over mere substrings. Results are sorted by name then id
+// for stable candidate listings.
+func matchProjects(projects []Project, fragment string) []Project {
+	frag := strings.ToLower(strings.TrimSpace(fragment))
+	if frag == "" {
+		return nil
+	}
+	var subs, exact []Project
+	for _, p := range projects {
+		name := strings.ToLower(p.Name)
+		if !strings.Contains(name, frag) {
+			continue
+		}
+		subs = append(subs, p)
+		if name == frag {
+			exact = append(exact, p)
+		}
+	}
+	res := subs
+	if len(exact) > 0 {
+		res = exact
+	}
+	sort.Slice(res, func(i, j int) bool {
+		if res[i].Name != res[j].Name {
+			return res[i].Name < res[j].Name
+		}
+		return res[i].ID < res[j].ID
+	})
+	return res
 }
 
 // matchTasks is a pure, deterministic matcher: case-insensitive substring on

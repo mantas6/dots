@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"strconv"
 	"strings"
 	"time"
 
@@ -210,6 +211,45 @@ func renderTasksJSON(w io.Writer, tasks []store.Task) error {
 	return writeJSON(w, out)
 }
 
+// projectRow is the stable --json shape for `projects`.
+type projectRow struct {
+	ID     int64  `json:"id"`
+	Name   string `json:"name"`
+	Client string `json:"client,omitempty"`
+	Active bool   `json:"active"`
+}
+
+// renderProjects writes the catalog project list with ids, leading with the id
+// column (right-aligned) so it can be exported as TOGGL_PROJECT_ID.
+func renderProjects(w io.Writer, projects []store.Project) {
+	if len(projects) == 0 {
+		fmt.Fprintln(w, "No projects. Run `tgl update` to refresh the catalog.")
+		return
+	}
+	width := 0
+	for _, p := range projects {
+		if n := len(strconv.FormatInt(p.ID, 10)); n > width {
+			width = n
+		}
+	}
+	for _, p := range projects {
+		if p.ClientName != "" {
+			fmt.Fprintf(w, "%*d  %s  [%s]\n", width, p.ID, p.Name, p.ClientName)
+		} else {
+			fmt.Fprintf(w, "%*d  %s\n", width, p.ID, p.Name)
+		}
+	}
+}
+
+// renderProjectsJSON writes the catalog projects as the stable JSON shape.
+func renderProjectsJSON(w io.Writer, projects []store.Project) error {
+	out := make([]projectRow, 0, len(projects))
+	for _, p := range projects {
+		out = append(out, projectRow{ID: p.ID, Name: p.Name, Client: p.ClientName, Active: p.Active})
+	}
+	return writeJSON(w, out)
+}
+
 // writeJSON emits compact JSON followed by a newline.
 func writeJSON(w io.Writer, v any) error {
 	data, err := json.Marshal(v)
@@ -225,6 +265,16 @@ func candidateList(tasks []store.Task) string {
 	var b strings.Builder
 	for _, t := range tasks {
 		fmt.Fprintf(&b, "  %s\n", t.Name)
+	}
+	return b.String()
+}
+
+// projectCandidateList renders project match candidates (name + id) for the
+// ambiguous `pull` case so the fragment can be refined or the id exported.
+func projectCandidateList(projects []store.Project) string {
+	var b strings.Builder
+	for _, p := range projects {
+		fmt.Fprintf(&b, "  %s (%d)\n", p.Name, p.ID)
 	}
 	return b.String()
 }
