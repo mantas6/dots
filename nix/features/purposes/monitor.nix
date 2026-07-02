@@ -16,7 +16,6 @@
 
         ${pkgs.xset}/bin/xset s off -dpms
         ${pkgs.xset}/bin/xset s noblank
-        ${pkgs.brightnessctl}/bin/brightnessctl set 25%
 
         ${pkgs.unclutter}/bin/unclutter &
 
