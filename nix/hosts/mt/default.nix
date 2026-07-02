@@ -15,7 +15,6 @@
       hardware-backlight
       quirks-prevent-sleep
       purposes-monitor
-      services-auto-brightness
     ];
 
     disko.devices.disk.main-disk.device = "/dev/sda";
