@@ -149,7 +149,7 @@ fn-misc() {
 }
 
 fn-docker() {
-    colima start --cpu 8 --memory 8 --disk 80
+    colima start --cpu 10 --memory 8 --disk 80
 
     # docker context use colima
 
