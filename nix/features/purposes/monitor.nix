@@ -18,6 +18,8 @@
         ${pkgs.xset}/bin/xset s noblank
         ${pkgs.brightnessctl}/bin/brightnessctl set 25%
 
+        ${pkgs.unclutter}/bin/unclutter &
+
         base_url=$(cat "${config.age.secrets.sat-base-url.path}")
 
         (${pkgs.coreutils}/bin/sleep 5 && ${pkgs.chromium}/bin/chromium --kiosk --noerrdialogs --disable-infobars --no-first-run "$base_url/api/probes/display/home") &
