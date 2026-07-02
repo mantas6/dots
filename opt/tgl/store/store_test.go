@@ -1,6 +1,7 @@
 package store
 
 import (
+	"database/sql"
 	"path/filepath"
 	"testing"
 	"time"
@@ -44,6 +45,88 @@ func TestMigrateIdempotent(t *testing.T) {
 	}
 	if v, ok, _ := s.GetMeta(MetaSchemaVersion); !ok || v != schemaVersion {
 		t.Fatalf("schema_version = %q ok=%v, want %q", v, ok, schemaVersion)
+	}
+}
+
+func TestMigrateAddsBillableColumns(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "tgl.db")
+
+	// Seed a pre-v2 database whose entries/projects tables predate billable.
+	raw, err := sql.Open("sqlite", path)
+	if err != nil {
+		t.Fatalf("open raw: %v", err)
+	}
+	if _, err := raw.Exec(`
+CREATE TABLE entries (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, remote_id INTEGER UNIQUE,
+  workspace_id INTEGER NOT NULL, project_id INTEGER, task_id INTEGER,
+  description TEXT NOT NULL DEFAULT '', start TEXT NOT NULL, stop TEXT,
+  duration INTEGER NOT NULL, updated_at TEXT NOT NULL, synced_at TEXT,
+  dirty INTEGER NOT NULL DEFAULT 1, deleted INTEGER NOT NULL DEFAULT 0);
+CREATE TABLE projects (
+  id INTEGER PRIMARY KEY, workspace_id INTEGER NOT NULL, name TEXT NOT NULL,
+  color TEXT, client_name TEXT, active INTEGER NOT NULL DEFAULT 1, at TEXT);
+CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT);`); err != nil {
+		t.Fatalf("seed old schema: %v", err)
+	}
+	raw.Close()
+
+	// Open runs migrate, which must add the billable columns in place.
+	s, err := Open(path)
+	if err != nil {
+		t.Fatalf("open (migrate): %v", err)
+	}
+	t.Cleanup(func() { s.Close() })
+
+	for _, tbl := range []string{"entries", "projects"} {
+		has, err := s.hasColumn(tbl, "billable")
+		if err != nil {
+			t.Fatalf("hasColumn %s: %v", tbl, err)
+		}
+		if !has {
+			t.Errorf("%s.billable missing after migrate", tbl)
+		}
+	}
+	if v, ok, _ := s.GetMeta(MetaSchemaVersion); !ok || v != schemaVersion {
+		t.Errorf("schema_version = %q ok=%v, want %q", v, ok, schemaVersion)
+	}
+
+	// The migrated store round-trips billable on both projects and entries.
+	if err := s.ReplaceProjects([]Project{
+		{ID: 1, WorkspaceID: 1, Name: "P", Active: true, Billable: true},
+	}); err != nil {
+		t.Fatalf("replace projects: %v", err)
+	}
+	got, err := s.ProjectByID(1)
+	if err != nil || got == nil || !got.Billable {
+		t.Fatalf("ProjectByID = %+v err=%v, want billable", got, err)
+	}
+}
+
+func TestEntryBillableRoundTrip(t *testing.T) {
+	s := openTest(t)
+	start := time.Date(2026, 1, 2, 9, 0, 0, 0, time.UTC)
+	mustCreate(t, s, Entry{
+		WorkspaceID: 1, RemoteID: ptrInt(42), Start: start, Duration: 300,
+		Billable: true, UpdatedAt: start, Dirty: true,
+	})
+	got, err := s.EntryByRemoteID(42)
+	if err != nil || got == nil {
+		t.Fatalf("by remote: %v err=%v", got, err)
+	}
+	if !got.Billable {
+		t.Errorf("Billable = false, want true")
+	}
+}
+
+func TestProjectByIDMissing(t *testing.T) {
+	s := openTest(t)
+	got, err := s.ProjectByID(999)
+	if err != nil {
+		t.Fatalf("ProjectByID: %v", err)
+	}
+	if got != nil {
+		t.Errorf("ProjectByID(missing) = %+v, want nil", got)
 	}
 }
 

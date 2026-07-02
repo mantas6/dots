@@ -118,7 +118,7 @@ func TestCreateBody(t *testing.T) {
 
 	out, err := c.Create(TimeEntry{
 		WorkspaceID: 1, ProjectID: ptrInt(20), TaskID: ptrInt(30),
-		Start: "2026-01-02T09:00:00Z", Duration: -1,
+		Start: "2026-01-02T09:00:00Z", Duration: -1, Billable: true,
 	})
 	if err != nil {
 		t.Fatalf("Create: %v", err)
@@ -143,6 +143,9 @@ func TestCreateBody(t *testing.T) {
 	}
 	if body["project_id"] != float64(20) {
 		t.Errorf("project_id = %v, want 20", body["project_id"])
+	}
+	if body["billable"] != true {
+		t.Errorf("billable = %v, want true", body["billable"])
 	}
 }
 

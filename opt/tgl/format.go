@@ -213,10 +213,11 @@ func renderTasksJSON(w io.Writer, tasks []store.Task) error {
 
 // projectRow is the stable --json shape for `projects`.
 type projectRow struct {
-	ID     int64  `json:"id"`
-	Name   string `json:"name"`
-	Client string `json:"client,omitempty"`
-	Active bool   `json:"active"`
+	ID       int64  `json:"id"`
+	Name     string `json:"name"`
+	Client   string `json:"client,omitempty"`
+	Active   bool   `json:"active"`
+	Billable bool   `json:"billable"`
 }
 
 // renderProjects writes the catalog project list with ids, leading with the id
@@ -245,7 +246,10 @@ func renderProjects(w io.Writer, projects []store.Project) {
 func renderProjectsJSON(w io.Writer, projects []store.Project) error {
 	out := make([]projectRow, 0, len(projects))
 	for _, p := range projects {
-		out = append(out, projectRow{ID: p.ID, Name: p.Name, Client: p.ClientName, Active: p.Active})
+		out = append(out, projectRow{
+			ID: p.ID, Name: p.Name, Client: p.ClientName,
+			Active: p.Active, Billable: p.Billable,
+		})
 	}
 	return writeJSON(w, out)
 }

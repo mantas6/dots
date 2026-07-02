@@ -200,6 +200,7 @@ func toStoreEntry(r api.TimeEntry) (store.Entry, error) {
 		Description: r.Description,
 		Start:       start,
 		Duration:    r.Duration,
+		Billable:    r.Billable,
 		UpdatedAt:   at,
 		SyncedAt:    &at,
 		Dirty:       false,
@@ -224,6 +225,7 @@ func toAPIEntry(e store.Entry) api.TimeEntry {
 		Description: e.Description,
 		Start:       e.Start.UTC().Format(time.RFC3339),
 		Duration:    e.Duration,
+		Billable:    e.Billable,
 	}
 	if e.RemoteID != nil {
 		te.ID = *e.RemoteID

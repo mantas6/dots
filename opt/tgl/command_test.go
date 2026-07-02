@@ -29,7 +29,7 @@ func seedCatalog(t *testing.T, s *store.Store) {
 	t.Helper()
 	if err := s.ReplaceProjects([]store.Project{
 		{ID: 1, WorkspaceID: 1, Name: "Backend", Active: true},
-		{ID: 2, WorkspaceID: 1, Name: "Payments", Active: true},
+		{ID: 2, WorkspaceID: 1, Name: "Payments", Active: true, Billable: true},
 	}); err != nil {
 		t.Fatal(err)
 	}
@@ -172,6 +172,38 @@ func TestStartProjectScope(t *testing.T) {
 	}
 	if r.ProjectID == nil || *r.ProjectID != 2 {
 		t.Errorf("project_id = %v, want 2", r.ProjectID)
+	}
+}
+
+func TestStartCarriesProjectBillable(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	// A task in the billable project (Payments, id 2) must produce a billable
+	// entry so the workspace accepts it.
+	pid := int64(2)
+	var buf bytes.Buffer
+	if err := cmdStart(&buf, s, 1, &pid, "fix", testStart); err != nil {
+		t.Fatalf("start billable: %v", err)
+	}
+	r, _ := s.Running()
+	if r == nil || !r.Billable {
+		t.Fatalf("running entry = %+v, want Billable=true", r)
+	}
+}
+
+func TestStartNonBillableProject(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	// A task in a non-billable project (Backend, id 1) stays non-billable.
+	var buf bytes.Buffer
+	if err := cmdStart(&buf, s, 1, nil, "login", testStart); err != nil {
+		t.Fatalf("start: %v", err)
+	}
+	r, _ := s.Running()
+	if r == nil || r.Billable {
+		t.Fatalf("running entry = %+v, want Billable=false", r)
 	}
 }
 

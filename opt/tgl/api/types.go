@@ -22,6 +22,7 @@ type TimeEntry struct {
 	Start           string  `json:"start"`
 	Stop            *string `json:"stop"`
 	Duration        int64   `json:"duration"`
+	Billable        bool    `json:"billable"`
 	At              string  `json:"at"`
 	ServerDeletedAt *string `json:"server_deleted_at"`
 
@@ -32,7 +33,9 @@ type TimeEntry struct {
 // Deleted reports whether the remote entry has been deleted.
 func (t TimeEntry) Deleted() bool { return t.ServerDeletedAt != nil }
 
-// Project mirrors a Toggl project.
+// Project mirrors a Toggl project. Billable marks projects that require their
+// time entries to be billable (workspaces can reject non-billable entries in
+// billable projects), so it is carried through to entries created against them.
 type Project struct {
 	ID          int64  `json:"id"`
 	WorkspaceID int64  `json:"workspace_id"`
@@ -40,6 +43,7 @@ type Project struct {
 	Color       string `json:"color"`
 	ClientName  string `json:"client_name"`
 	Active      bool   `json:"active"`
+	Billable    bool   `json:"billable"`
 	At          string `json:"at"`
 }
 

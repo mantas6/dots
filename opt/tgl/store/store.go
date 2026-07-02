@@ -38,6 +38,7 @@ type Entry struct {
 	Start       time.Time
 	Stop        *time.Time
 	Duration    int64 // seconds; -1 while running
+	Billable    bool
 	UpdatedAt   time.Time
 	SyncedAt    *time.Time
 	Dirty       bool
@@ -50,7 +51,9 @@ type Entry struct {
 // Running reports whether the entry is currently running.
 func (e Entry) Running() bool { return e.Duration < 0 || e.Stop == nil }
 
-// Project mirrors a Toggl project.
+// Project mirrors a Toggl project. Billable is carried through to entries
+// created against the project so workspaces that forbid non-billable entries in
+// billable projects accept them.
 type Project struct {
 	ID          int64
 	WorkspaceID int64
@@ -58,6 +61,7 @@ type Project struct {
 	Color       string
 	ClientName  string
 	Active      bool
+	Billable    bool
 	At          string
 }
 
@@ -118,8 +122,8 @@ func nullInt(p *int64) any {
 // entrySelect lists every entry column plus the joined task/project name.
 const entrySelect = `
 SELECT e.id, e.remote_id, e.workspace_id, e.project_id, e.task_id,
-       e.description, e.start, e.stop, e.duration, e.updated_at, e.synced_at,
-       e.dirty, e.deleted, t.name, p.name
+       e.description, e.start, e.stop, e.duration, e.billable, e.updated_at,
+       e.synced_at, e.dirty, e.deleted, t.name, p.name
 FROM entries e
 LEFT JOIN tasks t ON t.id = e.task_id
 LEFT JOIN projects p ON p.id = e.project_id
@@ -139,7 +143,7 @@ func scanEntry(sc interface{ Scan(...any) error }) (Entry, error) {
 		projName  sql.NullString
 	)
 	if err := sc.Scan(&e.ID, &remoteID, &e.WorkspaceID, &projectID, &taskID,
-		&e.Description, &start, &stop, &e.Duration, &updatedAt, &syncedAt,
+		&e.Description, &start, &stop, &e.Duration, &e.Billable, &updatedAt, &syncedAt,
 		&e.Dirty, &e.Deleted, &taskName, &projName); err != nil {
 		return Entry{}, err
 	}
@@ -248,10 +252,10 @@ func (s *Store) CreateEntry(e Entry) (int64, error) {
 	res, err := s.db.Exec(`
 INSERT INTO entries
   (remote_id, workspace_id, project_id, task_id, description, start, stop,
-   duration, updated_at, synced_at, dirty, deleted)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+   duration, billable, updated_at, synced_at, dirty, deleted)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 		nullInt(e.RemoteID), e.WorkspaceID, nullInt(e.ProjectID), nullInt(e.TaskID),
-		e.Description, fmtTime(e.Start), nullTime(e.Stop), e.Duration,
+		e.Description, fmtTime(e.Start), nullTime(e.Stop), e.Duration, boolToInt(e.Billable),
 		fmtTime(e.UpdatedAt), nullTime(e.SyncedAt), boolToInt(e.Dirty), boolToInt(e.Deleted))
 	if err != nil {
 		return 0, err
@@ -297,11 +301,11 @@ UPDATE entries SET remote_id = ?, synced_at = ?, updated_at = ?, dirty = 0 WHERE
 func (s *Store) UpdateFromRemote(e Entry) error {
 	_, err := s.db.Exec(`
 UPDATE entries SET workspace_id = ?, project_id = ?, task_id = ?, description = ?,
-  start = ?, stop = ?, duration = ?, updated_at = ?, synced_at = ?, dirty = 0,
-  deleted = 0 WHERE remote_id = ?`,
+  start = ?, stop = ?, duration = ?, billable = ?, updated_at = ?, synced_at = ?,
+  dirty = 0, deleted = 0 WHERE remote_id = ?`,
 		e.WorkspaceID, nullInt(e.ProjectID), nullInt(e.TaskID), e.Description,
-		fmtTime(e.Start), nullTime(e.Stop), e.Duration, fmtTime(e.UpdatedAt),
-		nullTime(e.SyncedAt), nullInt(e.RemoteID))
+		fmtTime(e.Start), nullTime(e.Stop), e.Duration, boolToInt(e.Billable),
+		fmtTime(e.UpdatedAt), nullTime(e.SyncedAt), nullInt(e.RemoteID))
 	return err
 }
 
@@ -331,9 +335,10 @@ func (s *Store) ReplaceProjects(projects []Project) error {
 	}
 	for _, p := range projects {
 		if _, err := tx.Exec(`
-INSERT INTO projects (id, workspace_id, name, color, client_name, active, at)
-VALUES (?, ?, ?, ?, ?, ?, ?)`,
-			p.ID, p.WorkspaceID, p.Name, p.Color, p.ClientName, boolToInt(p.Active), p.At); err != nil {
+INSERT INTO projects (id, workspace_id, name, color, client_name, active, billable, at)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+			p.ID, p.WorkspaceID, p.Name, p.Color, p.ClientName,
+			boolToInt(p.Active), boolToInt(p.Billable), p.At); err != nil {
 			return err
 		}
 	}
@@ -368,11 +373,12 @@ VALUES (?, ?, ?, ?, ?, ?)`,
 // `tgl update` is never downgraded.
 func (s *Store) UpsertProject(p Project) error {
 	_, err := s.db.Exec(`
-INSERT INTO projects (id, workspace_id, name, color, client_name, active, at)
-VALUES (?, ?, ?, ?, ?, ?, ?)
+INSERT INTO projects (id, workspace_id, name, color, client_name, active, billable, at)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 ON CONFLICT(id) DO UPDATE SET
   workspace_id = excluded.workspace_id, name = excluded.name`,
-		p.ID, p.WorkspaceID, p.Name, p.Color, p.ClientName, boolToInt(p.Active), p.At)
+		p.ID, p.WorkspaceID, p.Name, p.Color, p.ClientName,
+		boolToInt(p.Active), boolToInt(p.Billable), p.At)
 	return err
 }
 
@@ -413,7 +419,7 @@ func (s *Store) activeTasks() ([]Task, error) {
 func (s *Store) ListProjects(includeInactive bool) ([]Project, error) {
 	q := `
 SELECT id, workspace_id, name, COALESCE(color, ''), COALESCE(client_name, ''),
-       active, COALESCE(at, '')
+       active, billable, COALESCE(at, '')
 FROM projects`
 	if !includeInactive {
 		q += "\nWHERE active = 1"
@@ -429,12 +435,32 @@ FROM projects`
 	for rows.Next() {
 		var p Project
 		if err := rows.Scan(&p.ID, &p.WorkspaceID, &p.Name, &p.Color,
-			&p.ClientName, &p.Active, &p.At); err != nil {
+			&p.ClientName, &p.Active, &p.Billable, &p.At); err != nil {
 			return nil, err
 		}
 		out = append(out, p)
 	}
 	return out, rows.Err()
+}
+
+// ProjectByID returns the cached project with the given id, or nil if it is not
+// in the local catalog (e.g. before `tgl update`). It is used to carry a
+// project's billable flag onto entries created against it.
+func (s *Store) ProjectByID(id int64) (*Project, error) {
+	row := s.db.QueryRow(`
+SELECT id, workspace_id, name, COALESCE(color, ''), COALESCE(client_name, ''),
+       active, billable, COALESCE(at, '')
+FROM projects WHERE id = ?`, id)
+	var p Project
+	err := row.Scan(&p.ID, &p.WorkspaceID, &p.Name, &p.Color,
+		&p.ClientName, &p.Active, &p.Billable, &p.At)
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	return &p, nil
 }
 
 // ListTasks returns catalog tasks for display, with the project name joined and

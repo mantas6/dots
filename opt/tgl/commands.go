@@ -39,6 +39,12 @@ func cmdStart(w io.Writer, st *store.Store, workspaceID int64, projectID *int64,
 		}
 		taskID := task.ID
 		projID := task.ProjectID
+		// Carry the project's billable flag onto the entry: workspaces can
+		// reject non-billable entries in billable projects.
+		billable, err := projectBillable(st, projID)
+		if err != nil {
+			return err
+		}
 		if _, err := st.CreateEntry(store.Entry{
 			WorkspaceID: workspaceID,
 			ProjectID:   &projID,
@@ -46,6 +52,7 @@ func cmdStart(w io.Writer, st *store.Store, workspaceID int64, projectID *int64,
 			Description: "",
 			Start:       now,
 			Duration:    -1,
+			Billable:    billable,
 			UpdatedAt:   now,
 			Dirty:       true,
 		}); err != nil {
@@ -250,6 +257,20 @@ func cmdAuth(w io.Writer, tokenSource func() (string, error), newClient func(tok
 	return nil
 }
 
+// projectBillable reports whether the cached project is billable, defaulting to
+// false when the project is not in the local catalog yet (e.g. before the first
+// `tgl update`).
+func projectBillable(st *store.Store, projectID int64) (bool, error) {
+	p, err := st.ProjectByID(projectID)
+	if err != nil {
+		return false, err
+	}
+	if p == nil {
+		return false, nil
+	}
+	return p.Billable, nil
+}
+
 // startOfDay returns midnight of t's calendar day in loc.
 func startOfDay(t time.Time, loc *time.Location) time.Time {
 	t = t.In(loc)
@@ -261,7 +282,8 @@ func toStoreProjects(ps []api.Project) []store.Project {
 	for i, p := range ps {
 		out[i] = store.Project{
 			ID: p.ID, WorkspaceID: p.WorkspaceID, Name: p.Name,
-			Color: p.Color, ClientName: p.ClientName, Active: p.Active, At: p.At,
+			Color: p.Color, ClientName: p.ClientName, Active: p.Active,
+			Billable: p.Billable, At: p.At,
 		}
 	}
 	return out

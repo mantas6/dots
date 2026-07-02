@@ -19,6 +19,7 @@ type entryPayload struct {
 	Start       string  `json:"start"`
 	Stop        *string `json:"stop,omitempty"`
 	Duration    int64   `json:"duration"`
+	Billable    bool    `json:"billable"`
 	CreatedWith string  `json:"created_with,omitempty"`
 }
 
@@ -31,6 +32,7 @@ func payloadFrom(e TimeEntry, withCreatedWith bool) entryPayload {
 		Start:       e.Start,
 		Stop:        e.Stop,
 		Duration:    e.Duration,
+		Billable:    e.Billable,
 	}
 	if withCreatedWith {
 		p.CreatedWith = createdWith

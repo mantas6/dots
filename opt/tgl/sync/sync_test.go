@@ -1,6 +1,8 @@
 package sync
 
 import (
+	"encoding/json"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
@@ -166,6 +168,42 @@ func TestPullInsert(t *testing.T) {
 	got, _ := st.EntryByRemoteID(900)
 	if got == nil || got.Description != "Imported" || got.Dirty {
 		t.Fatalf("inserted entry = %+v", got)
+	}
+}
+
+func TestPullMapsBillable(t *testing.T) {
+	st, c := setup(t, func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`[{"id":910,"workspace_id":1,"description":"Billed",
+		  "start":"2026-01-02T09:00:00Z","stop":"2026-01-02T09:30:00Z",
+		  "duration":1800,"billable":true,"at":"2026-01-02T09:30:00Z"}]`))
+	})
+	if _, err := Pull(st, c, nil, ts("2026-01-01T00:00:00Z"), ts("2026-01-02T12:00:00Z")); err != nil {
+		t.Fatalf("pull: %v", err)
+	}
+	got, _ := st.EntryByRemoteID(910)
+	if got == nil || !got.Billable {
+		t.Fatalf("entry = %+v, want Billable=true", got)
+	}
+}
+
+func TestPushSendsBillable(t *testing.T) {
+	var body map[string]any
+	st, c := setup(t, func(w http.ResponseWriter, r *http.Request) {
+		raw, _ := io.ReadAll(r.Body)
+		json.Unmarshal(raw, &body)
+		w.Write([]byte(`{"id":556,"at":"2026-01-02T10:00:00Z"}`))
+	})
+	start := ts("2026-01-02T09:00:00Z")
+	stop := start.Add(5 * time.Minute)
+	st.CreateEntry(store.Entry{
+		WorkspaceID: 1, ProjectID: ptrInt(3), Start: start, Stop: &stop,
+		Duration: 300, Billable: true, UpdatedAt: stop, Dirty: true,
+	})
+	if _, err := Push(st, c, time.Now()); err != nil {
+		t.Fatalf("push: %v", err)
+	}
+	if body["billable"] != true {
+		t.Errorf("billable = %v, want true", body["billable"])
 	}
 }
 

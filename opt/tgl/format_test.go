@@ -172,7 +172,7 @@ func TestRenderTasksEmpty(t *testing.T) {
 func sampleProjects() []store.Project {
 	return []store.Project{
 		{ID: 1, Name: "Backend", Active: true},
-		{ID: 2, Name: "Payments", ClientName: "Acme", Active: true},
+		{ID: 2, Name: "Payments", ClientName: "Acme", Active: true, Billable: true},
 	}
 }
 
