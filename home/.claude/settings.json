@@ -22,5 +22,6 @@
   "spinnerTipsEnabled": false,
   "effortLevel": "high",
   "promptSuggestionEnabled": false,
-  "theme": "dark"
+  "theme": "dark",
+  "tui": "fullscreen"
 }

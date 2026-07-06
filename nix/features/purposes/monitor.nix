@@ -4,7 +4,7 @@
     pkgs,
     ...
   }: let
-    awesomePkg = config.services.xserver.windowManager.awesome.package;
+    dwmPkg = config.services.xserver.windowManager.dwm.package;
 
     xinitrc =
       pkgs.writeScript "monitor-xinitrc"
@@ -24,7 +24,7 @@
 
         (${pkgs.coreutils}/bin/sleep 5 && ${pkgs.chromium}/bin/chromium --kiosk --noerrdialogs --disable-infobars --no-first-run "$base_url/api/probes/display/home") &
 
-        exec ${awesomePkg}/bin/awesome
+        exec ${dwmPkg}/bin/dwm
       '';
   in {
     age.secrets.sat-base-url = {
@@ -36,7 +36,7 @@
       xserver = {
         enable = true;
 
-        windowManager.awesome.enable = true;
+        windowManager.dwm.enable = true;
         displayManager.startx.enable = true;
 
         serverFlagsSection = ''
