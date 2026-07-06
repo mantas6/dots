@@ -8,7 +8,7 @@ import (
 )
 
 // createdWith identifies this client to Toggl on entry creation.
-const createdWith = "tgl"
+const createdWith = "tg"
 
 // entryPayload is the request body for creating/updating a time entry.
 type entryPayload struct {
@@ -72,7 +72,7 @@ func (c *Client) List(since time.Time) ([]TimeEntry, error) {
 	return entries, nil
 }
 
-// Create posts a new time entry (tagged created_with:"tgl") and returns the
+// Create posts a new time entry (tagged created_with:"tg") and returns the
 // server's representation (with id and at).
 func (c *Client) Create(e TimeEntry) (*TimeEntry, error) {
 	var out TimeEntry

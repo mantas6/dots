@@ -7,21 +7,21 @@ import (
 	"strings"
 	"time"
 
-	"mantas6/tgl/api"
-	"mantas6/tgl/config"
-	"mantas6/tgl/store"
-	"mantas6/tgl/sync"
+	"mantas6/tg/api"
+	"mantas6/tg/config"
+	"mantas6/tg/store"
+	"mantas6/tg/sync"
 )
 
 // cmdStart resolves a task-title fragment to a single task and starts tracking
 // it: 1 match -> auto-stop the running entry and create a new running entry
 // (empty description, task + project set); many -> error listing candidates;
-// none -> error suggesting `tgl update`. projectID (from TOGGL_PROJECT_ID)
+// none -> error suggesting `tg update`. projectID (from TOGGL_PROJECT_ID)
 // scopes the candidates when set.
 func cmdStart(w io.Writer, st *store.Store, workspaceID int64, projectID *int64, fragment string, now time.Time) error {
 	fragment = strings.TrimSpace(fragment)
 	if fragment == "" {
-		return errors.New("usage: tgl start <task-fragment>")
+		return errors.New("usage: tg start <task-fragment>")
 	}
 
 	tasks, err := st.FindTasksByFragment(fragment, projectID)
@@ -31,7 +31,7 @@ func cmdStart(w io.Writer, st *store.Store, workspaceID int64, projectID *int64,
 
 	switch len(tasks) {
 	case 0:
-		return fmt.Errorf("no task matches %q; run `tgl update` to refresh the catalog", fragment)
+		return fmt.Errorf("no task matches %q; run `tg update` to refresh the catalog", fragment)
 	case 1:
 		task := tasks[0]
 		if _, err := st.StopRunning(now, ceil5); err != nil {
@@ -111,7 +111,7 @@ func cmdToday(w io.Writer, st *store.Store, now time.Time, loc *time.Location, d
 
 // cmdTasks lists the locally cached task catalog. `--all` includes inactive
 // tasks; a non-nil projectID (from TOGGL_PROJECT_ID) scopes the listing to one
-// project. Refresh the cache with `tgl update`.
+// project. Refresh the cache with `tg update`.
 func cmdTasks(w io.Writer, st *store.Store, all bool, projectID *int64, jsonOut bool) error {
 	tasks, err := st.ListTasks(all, projectID)
 	if err != nil {
@@ -126,7 +126,7 @@ func cmdTasks(w io.Writer, st *store.Store, all bool, projectID *int64, jsonOut 
 
 // cmdProjects lists the locally cached project catalog with ids so the id can
 // be exported as TOGGL_PROJECT_ID to scope other commands. `--all` includes
-// inactive projects; refresh the cache with `tgl update`.
+// inactive projects; refresh the cache with `tg update`.
 func cmdProjects(w io.Writer, st *store.Store, all, jsonOut bool) error {
 	projects, err := st.ListProjects(all)
 	if err != nil {
@@ -200,7 +200,7 @@ func cmdPull(w io.Writer, st *store.Store, c *api.Client, projectID *int64, frag
 // resolvePullProject decides which project `pull` scopes to. When projectID is
 // set (from TOGGL_PROJECT_ID) it wins and fragment is ignored. Otherwise a
 // fragment is required and must resolve to exactly one cached project: none ->
-// error suggesting `tgl update`; many -> error listing candidates. This keeps
+// error suggesting `tg update`; many -> error listing candidates. This keeps
 // `pull` from ever fetching every project's entries at once.
 func resolvePullProject(st *store.Store, projectID *int64, fragment string) (*int64, error) {
 	if projectID != nil {
@@ -216,7 +216,7 @@ func resolvePullProject(st *store.Store, projectID *int64, fragment string) (*in
 	}
 	switch len(projects) {
 	case 0:
-		return nil, fmt.Errorf("no project matches %q; run `tgl update` to refresh the catalog", fragment)
+		return nil, fmt.Errorf("no project matches %q; run `tg update` to refresh the catalog", fragment)
 	case 1:
 		id := projects[0].ID
 		return &id, nil
@@ -259,7 +259,7 @@ func cmdAuth(w io.Writer, tokenSource func() (string, error), newClient func(tok
 
 // projectBillable reports whether the cached project is billable, defaulting to
 // false when the project is not in the local catalog yet (e.g. before the first
-// `tgl update`).
+// `tg update`).
 func projectBillable(st *store.Store, projectID int64) (bool, error) {
 	p, err := st.ProjectByID(projectID)
 	if err != nil {

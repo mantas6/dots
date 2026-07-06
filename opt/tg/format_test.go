@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"mantas6/tgl/store"
+	"mantas6/tg/store"
 )
 
 var update = flag.Bool("update", false, "update golden files")
@@ -162,8 +162,8 @@ func TestRenderTasksJSONGolden(t *testing.T) {
 func TestRenderTasksEmpty(t *testing.T) {
 	var buf bytes.Buffer
 	renderTasks(&buf, nil)
-	if !strings.Contains(buf.String(), "tgl update") {
-		t.Errorf("empty tasks = %q, want hint to run `tgl update`", buf.String())
+	if !strings.Contains(buf.String(), "tg update") {
+		t.Errorf("empty tasks = %q, want hint to run `tg update`", buf.String())
 	}
 }
 
@@ -193,8 +193,8 @@ func TestRenderProjectsJSONGolden(t *testing.T) {
 func TestRenderProjectsEmpty(t *testing.T) {
 	var buf bytes.Buffer
 	renderProjects(&buf, nil)
-	if !strings.Contains(buf.String(), "tgl update") {
-		t.Errorf("empty projects = %q, want hint to run `tgl update`", buf.String())
+	if !strings.Contains(buf.String(), "tg update") {
+		t.Errorf("empty projects = %q, want hint to run `tg update`", buf.String())
 	}
 }
 

@@ -135,8 +135,8 @@ func TestCreateBody(t *testing.T) {
 	if body["duration"] != float64(-1) {
 		t.Errorf("duration = %v, want -1", body["duration"])
 	}
-	if body["created_with"] != "tgl" {
-		t.Errorf("created_with = %v, want tgl", body["created_with"])
+	if body["created_with"] != "tg" {
+		t.Errorf("created_with = %v, want tg", body["created_with"])
 	}
 	if body["task_id"] != float64(30) {
 		t.Errorf("task_id = %v, want 30", body["task_id"])

@@ -1,4 +1,4 @@
-// Command tgl is a local-first time tracker that records entries in SQLite and
+// Command tg is a local-first time tracker that records entries in SQLite and
 // synchronizes them with Toggl Track on demand. See PLAN.md for the full design.
 package main
 
@@ -13,9 +13,9 @@ import (
 
 	"golang.org/x/term"
 
-	"mantas6/tgl/api"
-	"mantas6/tgl/config"
-	"mantas6/tgl/store"
+	"mantas6/tg/api"
+	"mantas6/tg/config"
+	"mantas6/tg/store"
 )
 
 func main() {
@@ -24,7 +24,7 @@ func main() {
 		os.Exit(1)
 	}
 	if err := run(os.Args[1], os.Args[2:]); err != nil {
-		fmt.Fprintln(os.Stderr, "tgl: "+err.Error())
+		fmt.Fprintln(os.Stderr, "tg: "+err.Error())
 		os.Exit(1)
 	}
 }
@@ -295,7 +295,7 @@ func newFlagSet(name string) *flag.FlagSet {
 }
 
 func printUsage(w io.Writer) {
-	fmt.Fprintln(w, "usage: tgl <command> [flags]")
+	fmt.Fprintln(w, "usage: tg <command> [flags]")
 	fmt.Fprintln(w, "")
 	fmt.Fprintln(w, "commands:")
 	fmt.Fprintln(w, "  auth [token]          verify a Toggl API token and store config")
@@ -309,7 +309,7 @@ func printUsage(w io.Writer) {
 	fmt.Fprintln(w, "  push                  send local changes to Toggl       [--json]")
 	fmt.Fprintln(w, "  pull <project>        fetch one project's changes [--since DATE] [--json]")
 	fmt.Fprintln(w, "")
-	fmt.Fprintln(w, "sync: run `tgl pull` then `tgl push` for correct last-writer-wins.")
+	fmt.Fprintln(w, "sync: run `tg pull` then `tg push` for correct last-writer-wins.")
 	fmt.Fprintln(w, "env:  TOGGL_PROJECT_ID scopes `start`/`tasks`/`pull` to one project")
 	fmt.Fprintln(w, "      (and sets the project on entries created by `start`). When it is")
 	fmt.Fprintln(w, "      unset, `pull` requires a unique <project> name fragment.")

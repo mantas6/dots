@@ -46,7 +46,7 @@ func TestDirHonorsXDG(t *testing.T) {
 	if err != nil {
 		t.Fatalf("dir: %v", err)
 	}
-	if dir != "/custom/state/tgl" {
-		t.Errorf("Dir() = %q, want /custom/state/tgl", dir)
+	if dir != "/custom/state/tg" {
+		t.Errorf("Dir() = %q, want /custom/state/tg", dir)
 	}
 }

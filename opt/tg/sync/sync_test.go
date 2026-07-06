@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"mantas6/tgl/api"
-	"mantas6/tgl/store"
+	"mantas6/tg/api"
+	"mantas6/tg/store"
 )
 
 func ptrInt(v int64) *int64 { return &v }
@@ -25,7 +25,7 @@ func ts(s string) time.Time {
 
 func setup(t *testing.T, handler http.HandlerFunc) (*store.Store, *api.Client) {
 	t.Helper()
-	st, err := store.Open(filepath.Join(t.TempDir(), "tgl.db"))
+	st, err := store.Open(filepath.Join(t.TempDir(), "tg.db"))
 	if err != nil {
 		t.Fatalf("open store: %v", err)
 	}

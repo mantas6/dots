@@ -20,7 +20,7 @@ func ceil5(d time.Duration) time.Duration {
 
 func openTest(t *testing.T) *Store {
 	t.Helper()
-	s, err := Open(filepath.Join(t.TempDir(), "tgl.db"))
+	s, err := Open(filepath.Join(t.TempDir(), "tg.db"))
 	if err != nil {
 		t.Fatalf("open: %v", err)
 	}
@@ -49,7 +49,7 @@ func TestMigrateIdempotent(t *testing.T) {
 }
 
 func TestMigrateAddsBillableColumns(t *testing.T) {
-	path := filepath.Join(t.TempDir(), "tgl.db")
+	path := filepath.Join(t.TempDir(), "tg.db")
 
 	// Seed a pre-v2 database whose entries/projects tables predate billable.
 	raw, err := sql.Open("sqlite", path)

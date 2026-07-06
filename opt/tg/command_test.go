@@ -10,14 +10,14 @@ import (
 	"testing"
 	"time"
 
-	"mantas6/tgl/api"
-	"mantas6/tgl/config"
-	"mantas6/tgl/store"
+	"mantas6/tg/api"
+	"mantas6/tg/config"
+	"mantas6/tg/store"
 )
 
 func newStore(t *testing.T) *store.Store {
 	t.Helper()
-	s, err := store.Open(filepath.Join(t.TempDir(), "tgl.db"))
+	s, err := store.Open(filepath.Join(t.TempDir(), "tg.db"))
 	if err != nil {
 		t.Fatalf("open: %v", err)
 	}
@@ -151,8 +151,8 @@ func TestStartNoneSuggestsUpdate(t *testing.T) {
 
 	var buf bytes.Buffer
 	err := cmdStart(&buf, s, 1, nil, "nonexistent", testStart)
-	if err == nil || !strings.Contains(err.Error(), "tgl update") {
-		t.Errorf("error = %v, want suggestion to run `tgl update`", err)
+	if err == nil || !strings.Contains(err.Error(), "tg update") {
+		t.Errorf("error = %v, want suggestion to run `tg update`", err)
 	}
 }
 
@@ -391,8 +391,8 @@ func TestResolvePullProjectNone(t *testing.T) {
 	seedCatalog(t, s)
 
 	_, err := resolvePullProject(s, nil, "nonexistent")
-	if err == nil || !strings.Contains(err.Error(), "tgl update") {
-		t.Errorf("err = %v, want suggestion to run `tgl update`", err)
+	if err == nil || !strings.Contains(err.Error(), "tg update") {
+		t.Errorf("err = %v, want suggestion to run `tg update`", err)
 	}
 }
 

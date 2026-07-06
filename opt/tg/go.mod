@@ -1,4 +1,4 @@
-module mantas6/tgl
+module mantas6/tg
 
 go 1.26
 

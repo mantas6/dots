@@ -7,8 +7,8 @@ package sync
 import (
 	"time"
 
-	"mantas6/tgl/api"
-	"mantas6/tgl/store"
+	"mantas6/tg/api"
+	"mantas6/tg/store"
 )
 
 // PullResult summarizes what a pull reconciled.
@@ -55,7 +55,7 @@ func Pull(st *store.Store, c *api.Client, projectID *int64, since, now time.Time
 
 		// Self-heal the catalog from the meta-enriched payload so the entry's
 		// project/task titles resolve on display even if the local catalog is
-		// stale or was never populated (e.g. before the first `tgl update`).
+		// stale or was never populated (e.g. before the first `tg update`).
 		if err := healCatalog(st, r); err != nil {
 			return res, err
 		}

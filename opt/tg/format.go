@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"mantas6/tgl/store"
+	"mantas6/tg/store"
 )
 
 // ceil5 rounds a duration up to the next 5 minutes, minimum 5 minutes.
@@ -184,7 +184,7 @@ type taskRow struct {
 // widest task name.
 func renderTasks(w io.Writer, tasks []store.Task) {
 	if len(tasks) == 0 {
-		fmt.Fprintln(w, "No tasks. Run `tgl update` to refresh the catalog.")
+		fmt.Fprintln(w, "No tasks. Run `tg update` to refresh the catalog.")
 		return
 	}
 	width := 0
@@ -224,7 +224,7 @@ type projectRow struct {
 // column (right-aligned) so it can be exported as TOGGL_PROJECT_ID.
 func renderProjects(w io.Writer, projects []store.Project) {
 	if len(projects) == 0 {
-		fmt.Fprintln(w, "No projects. Run `tgl update` to refresh the catalog.")
+		fmt.Fprintln(w, "No projects. Run `tg update` to refresh the catalog.")
 		return
 	}
 	width := 0

@@ -1,4 +1,4 @@
-// Package store is the local-first persistence layer for tgl. It wraps a
+// Package store is the local-first persistence layer for tg. It wraps a
 // SQLite database holding tracked time entries plus a read-only mirror of the
 // Toggl task/project catalog. All times are stored as RFC3339 UTC strings;
 // durations are integer seconds (-1 marks a running entry).
@@ -368,9 +368,9 @@ VALUES (?, ?, ?, ?, ?, ?)`,
 
 // UpsertProject inserts or updates a single project row by id, refreshing the
 // display fields. It is used to self-heal the catalog from meta-enriched pulls
-// so entries always resolve a project name, even before a full `tgl update`.
+// so entries always resolve a project name, even before a full `tg update`.
 // It deliberately leaves active/at untouched on conflict so an authoritative
-// `tgl update` is never downgraded.
+// `tg update` is never downgraded.
 func (s *Store) UpsertProject(p Project) error {
 	_, err := s.db.Exec(`
 INSERT INTO projects (id, workspace_id, name, color, client_name, active, billable, at)
@@ -444,7 +444,7 @@ FROM projects`
 }
 
 // ProjectByID returns the cached project with the given id, or nil if it is not
-// in the local catalog (e.g. before `tgl update`). It is used to carry a
+// in the local catalog (e.g. before `tg update`). It is used to carry a
 // project's billable flag onto entries created against it.
 func (s *Store) ProjectByID(id int64) (*Project, error) {
 	row := s.db.QueryRow(`

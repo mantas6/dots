@@ -1,4 +1,4 @@
-// Package config manages tgl's on-disk state directory: the API token and
+// Package config manages tg's on-disk state directory: the API token and
 // cached workspace id (config.json) plus the location of the SQLite database.
 // The state directory honors XDG_STATE_HOME, falling back to ~/.local/state.
 package config
@@ -11,8 +11,8 @@ import (
 )
 
 // ErrNotConfigured is returned by Load when no config.json exists yet, i.e. the
-// user has not run `tgl auth`.
-var ErrNotConfigured = errors.New("not authenticated: run `tgl auth`")
+// user has not run `tg auth`.
+var ErrNotConfigured = errors.New("not authenticated: run `tg auth`")
 
 // Config is the persisted credential/workspace state.
 type Config struct {
@@ -20,7 +20,7 @@ type Config struct {
 	WorkspaceID int64  `json:"workspace_id"`
 }
 
-// Dir returns the tgl state directory ($XDG_STATE_HOME/tgl or ~/.local/state/tgl).
+// Dir returns the tg state directory ($XDG_STATE_HOME/tg or ~/.local/state/tg).
 func Dir() (string, error) {
 	base := os.Getenv("XDG_STATE_HOME")
 	if base == "" {
@@ -30,7 +30,7 @@ func Dir() (string, error) {
 		}
 		base = filepath.Join(home, ".local", "state")
 	}
-	return filepath.Join(base, "tgl"), nil
+	return filepath.Join(base, "tg"), nil
 }
 
 // EnsureDir creates the state directory (mode 0700) if it does not exist.
@@ -60,7 +60,7 @@ func DBPath() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(dir, "tgl.db"), nil
+	return filepath.Join(dir, "tg.db"), nil
 }
 
 // Load reads config.json. It returns ErrNotConfigured when the file is absent.
