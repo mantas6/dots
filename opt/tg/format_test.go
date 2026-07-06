@@ -110,6 +110,79 @@ func TestRenderTodayJSONGolden(t *testing.T) {
 	assertGolden(t, "today.json", buf.String())
 }
 
+func TestRenderTodayGaps(t *testing.T) {
+	day := time.Date(2026, 1, 2, 0, 0, 0, 0, time.UTC)
+	at := func(d time.Duration) time.Time { return day.Add(d) }
+	pt := func(t time.Time) *time.Time { return &t }
+	now := at(23 * time.Hour)
+
+	cases := []struct {
+		name    string
+		entries []store.Entry
+		want    string // substring that must appear...
+		absent  bool   // ...or must not appear when true
+	}{
+		{
+			name: "gap shown",
+			entries: []store.Entry{
+				{TaskName: "A", Start: at(9 * time.Hour), Stop: pt(at(10 * time.Hour)), Duration: 3600},
+				{TaskName: "B", Start: at(10*time.Hour + 25*time.Minute), Stop: pt(at(11 * time.Hour)), Duration: 2100},
+			},
+			want: "            (gap 0h25m)\n",
+		},
+		{
+			name: "gap below threshold hidden",
+			entries: []store.Entry{
+				{TaskName: "A", Start: at(9 * time.Hour), Stop: pt(at(10 * time.Hour)), Duration: 3600},
+				{TaskName: "B", Start: at(10*time.Hour + 30*time.Second), Stop: pt(at(11 * time.Hour)), Duration: 3570},
+			},
+			want:   "(gap",
+			absent: true,
+		},
+		{
+			name: "no cross-day gap",
+			entries: []store.Entry{
+				{TaskName: "A", Start: at(-2 * time.Hour), Stop: pt(at(-1 * time.Hour)), Duration: 3600},
+				{TaskName: "B", Start: at(9 * time.Hour), Stop: pt(at(10 * time.Hour)), Duration: 3600},
+			},
+			want:   "(gap",
+			absent: true,
+		},
+		{
+			name: "no gap after running entry",
+			entries: []store.Entry{
+				{TaskName: "A", Start: at(9 * time.Hour), Duration: -1},
+				{TaskName: "B", Start: at(10 * time.Hour), Stop: pt(at(11 * time.Hour)), Duration: 3600},
+			},
+			want:   "(gap",
+			absent: true,
+		},
+		{
+			name: "no gap on overlap",
+			entries: []store.Entry{
+				{TaskName: "A", Start: at(9 * time.Hour), Stop: pt(at(11 * time.Hour)), Duration: 7200},
+				{TaskName: "B", Start: at(10 * time.Hour), Stop: pt(at(10*time.Hour + 30*time.Minute)), Duration: 1800},
+			},
+			want:   "(gap",
+			absent: true,
+		},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			var buf bytes.Buffer
+			renderToday(&buf, c.entries, now, time.UTC)
+			got := buf.String()
+			if c.absent {
+				if strings.Contains(got, c.want) {
+					t.Errorf("output contains %q, want it absent:\n%s", c.want, got)
+				}
+			} else if !strings.Contains(got, c.want) {
+				t.Errorf("output missing %q:\n%s", c.want, got)
+			}
+		})
+	}
+}
+
 func TestRenderTodayEmpty(t *testing.T) {
 	var buf bytes.Buffer
 	renderToday(&buf, nil, time.Now(), time.UTC)

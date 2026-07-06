@@ -54,6 +54,32 @@ func displayDuration(e store.Entry, now time.Time) time.Duration {
 
 const todayDivider = "----------------------------------------"
 
+// gapThreshold is the smallest stop-to-start distance rendered as a gap line.
+// Durations are quantized to 5-minute blocks (ceil5), so sub-minute gaps are
+// rounding noise from adjacent entries rather than real idle time.
+const gapThreshold = time.Minute
+
+// gapBetween returns the idle time between prev and next worth showing, or 0.
+// No gap is reported when prev is still running, when the entries overlap or
+// sit closer than gapThreshold, or when they fall on different calendar days
+// in loc (a "gap" across midnight is just the night, not tracked idle time).
+func gapBetween(prev, next store.Entry, loc *time.Location) time.Duration {
+	if prev.Stop == nil {
+		return 0
+	}
+	gap := next.Start.Sub(*prev.Stop)
+	if gap < gapThreshold {
+		return 0
+	}
+	ps, ns := prev.Stop.In(loc), next.Start.In(loc)
+	py, pm, pd := ps.Date()
+	ny, nm, nd := ns.Date()
+	if py != ny || pm != nm || pd != nd {
+		return 0
+	}
+	return gap
+}
+
 // renderToday writes the human-readable daily table to w.
 func renderToday(w io.Writer, entries []store.Entry, now time.Time, loc *time.Location) {
 	if len(entries) == 0 {
@@ -63,7 +89,13 @@ func renderToday(w io.Writer, entries []store.Entry, now time.Time, loc *time.Lo
 
 	var total time.Duration
 	anyRunning := false
-	for _, e := range entries {
+	for i, e := range entries {
+		if i > 0 {
+			if gap := gapBetween(entries[i-1], e, loc); gap > 0 {
+				// Indented to the duration column so it reads as a filler row.
+				fmt.Fprintf(w, "%-12s(gap %s)\n", "", formatHM(gap))
+			}
+		}
 		startClk := formatClock(e.Start, loc)
 		stopClk := "  *"
 		if e.Stop != nil {
