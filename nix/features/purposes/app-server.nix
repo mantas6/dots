@@ -61,7 +61,11 @@
       wants = ["network-online.target"];
     };
   in {
-    environment.systemPackages = phpEnv;
+    environment.systemPackages =
+      phpEnv
+      ++ [
+        pkgs.git
+      ];
 
     networking.firewall = {
       enable = true;
