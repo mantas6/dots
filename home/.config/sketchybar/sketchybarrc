@@ -52,8 +52,8 @@ sketchybar --add event aerospace_workspace_change
 #         script="$CONFIG_DIR/plugins/aerospace $sid"
 # done
 
-sketchybar --add item tgl left \
-           --set tgl update_freq=5 script="$PLUGIN_DIR/tgl"
+sketchybar --add item tg left \
+           --set tg update_freq=5 script="$PLUGIN_DIR/tg"
 
 sketchybar --add item bar right \
            --set bar update_freq=2 script="$PLUGIN_DIR/bar"
