@@ -89,11 +89,11 @@
       #     php_server
       # }
       virtualHosts.app = {
-        hostName = "http://localhost";
+        hostName = "http://ag";
         # hostName = "{$APP_DOMAIN}";
         extraConfig = ''
           encode zstd gzip
-          reverse_proxy localhost:8000
+          reverse_proxy 127.0.0.1:8000
         '';
       };
     };
