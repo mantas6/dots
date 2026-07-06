@@ -88,13 +88,13 @@
       #     encode zstd br gzip
       #     php_server
       # }
-      extraConfig = ''
-        encode zstd gzip
-
-        {$APP_DOMAIN} {
+      virtualHosts.app = {
+        hostName = "{$APP_DOMAIN}";
+        extraConfig = ''
+          encode zstd gzip
           reverse_proxy localhost:8000
-        }
-      '';
+        '';
+      };
     };
 
     services.redis.servers.main = {
