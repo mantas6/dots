@@ -39,7 +39,7 @@ func run(cmd string, args []string) error {
 		return runStop(args)
 	case "current", "status":
 		return runCurrent(args)
-	case "today", "list":
+	case "today", "list", "ls":
 		return runToday(args)
 	case "tasks":
 		return runTasks(args)
@@ -302,7 +302,7 @@ func printUsage(w io.Writer) {
 	fmt.Fprintln(w, "  start <fragment>      start tracking the task matching <fragment>")
 	fmt.Fprintln(w, "  stop                  stop the running entry (rounds up to 5m)")
 	fmt.Fprintln(w, "  current | status      show the running entry            [--json]")
-	fmt.Fprintln(w, "  today   | list        show today's entries     [--days N] [--json]")
+	fmt.Fprintln(w, "  today   | list | ls   show today's entries     [--days N] [--json]")
 	fmt.Fprintln(w, "  tasks                 list cached tasks                 [--all] [--json]")
 	fmt.Fprintln(w, "  projects              list cached projects with ids     [--all] [--json]")
 	fmt.Fprintln(w, "  update                refresh the project/task catalog  [--all] [--json]")
