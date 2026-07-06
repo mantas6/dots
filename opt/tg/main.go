@@ -118,7 +118,8 @@ func runToday(args []string) error {
 		return err
 	}
 	defer st.Close()
-	return cmdToday(os.Stdout, st, time.Now(), time.Local, *days, *jsonOut)
+	color := term.IsTerminal(int(os.Stdout.Fd()))
+	return cmdToday(os.Stdout, st, time.Now(), time.Local, *days, *jsonOut, color)
 }
 
 func runTasks(args []string) error {

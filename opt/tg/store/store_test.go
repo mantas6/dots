@@ -228,6 +228,29 @@ func TestEntriesBetweenOrdering(t *testing.T) {
 	}
 }
 
+func TestEntryJoinsProjectColor(t *testing.T) {
+	s := openTest(t)
+	if err := s.ReplaceProjects([]Project{
+		{ID: 1, WorkspaceID: 1, Name: "Backend", Color: "#0B83D9", Active: true},
+	}); err != nil {
+		t.Fatalf("replace projects: %v", err)
+	}
+	at := time.Date(2026, 1, 2, 9, 0, 0, 0, time.UTC)
+	mustCreate(t, s, Entry{
+		WorkspaceID: 1, ProjectID: ptrInt(1), Start: at,
+		Stop: ptrTime(at.Add(time.Hour)), Duration: 3600, UpdatedAt: at,
+	})
+
+	got, err := s.EntriesBetween(at.Add(-time.Hour), at.Add(time.Hour))
+	if err != nil || len(got) != 1 {
+		t.Fatalf("between = %v err=%v, want 1 entry", got, err)
+	}
+	if got[0].ProjectName != "Backend" || got[0].ProjectColor != "#0B83D9" {
+		t.Errorf("joined project = (%q, %q), want (Backend, #0B83D9)",
+			got[0].ProjectName, got[0].ProjectColor)
+	}
+}
+
 func TestDirtyEntriesAndMarkSynced(t *testing.T) {
 	s := openTest(t)
 	at := time.Date(2026, 1, 2, 9, 0, 0, 0, time.UTC)

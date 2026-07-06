@@ -54,6 +54,30 @@ func displayDuration(e store.Entry, now time.Time) time.Duration {
 
 const todayDivider = "----------------------------------------"
 
+// parseHexColor parses a "#RRGGBB" hex color (as stored on projects) into its
+// 8-bit channels. ok is false for any other shape (empty, short, bad digits).
+func parseHexColor(s string) (r, g, b uint8, ok bool) {
+	if len(s) != 7 || s[0] != '#' {
+		return 0, 0, 0, false
+	}
+	v, err := strconv.ParseUint(s[1:], 16, 32)
+	if err != nil {
+		return 0, 0, 0, false
+	}
+	return uint8(v >> 16), uint8(v >> 8), uint8(v), true
+}
+
+// colorBlock renders a small block tinted with the given "#RRGGBB" color via a
+// 24-bit ANSI foreground escape, reset afterwards. Missing or malformed colors
+// yield "" so callers never emit broken escape codes.
+func colorBlock(hex string) string {
+	r, g, b, ok := parseHexColor(hex)
+	if !ok {
+		return ""
+	}
+	return fmt.Sprintf("\x1b[38;2;%d;%d;%dm\u25a0\x1b[0m", r, g, b)
+}
+
 // gapThreshold is the smallest stop-to-start distance rendered as a gap line.
 // Durations are quantized to 5-minute blocks (ceil5), so sub-minute gaps are
 // rounding noise from adjacent entries rather than real idle time.
@@ -80,8 +104,9 @@ func gapBetween(prev, next store.Entry, loc *time.Location) time.Duration {
 	return gap
 }
 
-// renderToday writes the human-readable daily table to w.
-func renderToday(w io.Writer, entries []store.Entry, now time.Time, loc *time.Location) {
+// renderToday writes the human-readable daily table to w. color enables the
+// per-project ANSI color block and should only be set when w is a terminal.
+func renderToday(w io.Writer, entries []store.Entry, now time.Time, loc *time.Location, color bool) {
 	if len(entries) == 0 {
 		fmt.Fprintln(w, "No entries.")
 		return
@@ -110,6 +135,11 @@ func renderToday(w io.Writer, entries []store.Entry, now time.Time, loc *time.Lo
 		project := ""
 		if e.ProjectName != "" {
 			project = "[" + e.ProjectName + "]"
+			if color {
+				if block := colorBlock(e.ProjectColor); block != "" {
+					project = block + " " + project
+				}
+			}
 		}
 		fmt.Fprintf(w, "%-12s%-7s%-17s%s\n",
 			startClk+"-"+stopClk, formatHM(dur), label, project)

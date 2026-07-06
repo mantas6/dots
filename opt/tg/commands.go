@@ -89,8 +89,10 @@ func cmdCurrent(w io.Writer, st *store.Store, now time.Time, loc *time.Location,
 	return renderCurrent(w, e, now, loc, jsonOut)
 }
 
-// cmdToday lists entries for the current day (or the last `days` days).
-func cmdToday(w io.Writer, st *store.Store, now time.Time, loc *time.Location, days int, jsonOut bool) error {
+// cmdToday lists entries for the current day (or the last `days` days). color
+// enables ANSI project-color blocks in the human output (never in JSON) and
+// should reflect whether w is a terminal.
+func cmdToday(w io.Writer, st *store.Store, now time.Time, loc *time.Location, days int, jsonOut, color bool) error {
 	if days < 1 {
 		days = 1
 	}
@@ -105,7 +107,7 @@ func cmdToday(w io.Writer, st *store.Store, now time.Time, loc *time.Location, d
 	if jsonOut {
 		return renderTodayJSON(w, entries, now)
 	}
-	renderToday(w, entries, now, loc)
+	renderToday(w, entries, now, loc, color)
 	return nil
 }
 

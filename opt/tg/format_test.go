@@ -97,7 +97,7 @@ func sampleDay() (entries []store.Entry, now time.Time) {
 func TestRenderTodayGolden(t *testing.T) {
 	entries, now := sampleDay()
 	var buf bytes.Buffer
-	renderToday(&buf, entries, now, time.UTC)
+	renderToday(&buf, entries, now, time.UTC, false)
 	assertGolden(t, "today.txt", buf.String())
 }
 
@@ -170,7 +170,7 @@ func TestRenderTodayGaps(t *testing.T) {
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
 			var buf bytes.Buffer
-			renderToday(&buf, c.entries, now, time.UTC)
+			renderToday(&buf, c.entries, now, time.UTC, false)
 			got := buf.String()
 			if c.absent {
 				if strings.Contains(got, c.want) {
@@ -183,9 +183,75 @@ func TestRenderTodayGaps(t *testing.T) {
 	}
 }
 
+func TestParseHexColor(t *testing.T) {
+	cases := []struct {
+		in      string
+		r, g, b uint8
+		ok      bool
+	}{
+		{"#000000", 0, 0, 0, true},
+		{"#ffffff", 255, 255, 255, true},
+		{"#0B83D9", 11, 131, 217, true},
+		{"", 0, 0, 0, false},
+		{"#fff", 0, 0, 0, false},     // short form unsupported
+		{"0b83d9", 0, 0, 0, false},   // missing '#'
+		{"#gggggg", 0, 0, 0, false},  // bad digits
+		{"#0b83d9a", 0, 0, 0, false}, // too long
+	}
+	for _, c := range cases {
+		r, g, b, ok := parseHexColor(c.in)
+		if r != c.r || g != c.g || b != c.b || ok != c.ok {
+			t.Errorf("parseHexColor(%q) = (%d,%d,%d,%v), want (%d,%d,%d,%v)",
+				c.in, r, g, b, ok, c.r, c.g, c.b, c.ok)
+		}
+	}
+}
+
+func TestColorBlock(t *testing.T) {
+	if got, want := colorBlock("#0B83D9"), "\x1b[38;2;11;131;217m\u25a0\x1b[0m"; got != want {
+		t.Errorf("colorBlock = %q, want %q", got, want)
+	}
+	for _, bad := range []string{"", "#fff", "nope"} {
+		if got := colorBlock(bad); got != "" {
+			t.Errorf("colorBlock(%q) = %q, want empty", bad, got)
+		}
+	}
+}
+
+func TestRenderTodayColor(t *testing.T) {
+	entries, now := sampleDay()
+	for i := range entries {
+		entries[i].ProjectColor = "#0B83D9"
+	}
+
+	// color enabled: a tinted block precedes the project name.
+	var buf bytes.Buffer
+	renderToday(&buf, entries, now, time.UTC, true)
+	if want := "\x1b[38;2;11;131;217m\u25a0\x1b[0m [Backend]"; !strings.Contains(buf.String(), want) {
+		t.Errorf("colored output missing %q:\n%q", want, buf.String())
+	}
+
+	// color disabled: plain output, no escape codes.
+	buf.Reset()
+	renderToday(&buf, entries, now, time.UTC, false)
+	if strings.Contains(buf.String(), "\x1b") {
+		t.Errorf("plain output contains ANSI escapes:\n%q", buf.String())
+	}
+
+	// invalid color: no block, no broken escapes.
+	for i := range entries {
+		entries[i].ProjectColor = "oops"
+	}
+	buf.Reset()
+	renderToday(&buf, entries, now, time.UTC, true)
+	if strings.Contains(buf.String(), "\x1b") {
+		t.Errorf("invalid-color output contains ANSI escapes:\n%q", buf.String())
+	}
+}
+
 func TestRenderTodayEmpty(t *testing.T) {
 	var buf bytes.Buffer
-	renderToday(&buf, nil, time.Now(), time.UTC)
+	renderToday(&buf, nil, time.Now(), time.UTC, false)
 	if buf.String() != "No entries.\n" {
 		t.Errorf("empty today = %q", buf.String())
 	}

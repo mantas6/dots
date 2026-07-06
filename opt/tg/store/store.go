@@ -44,8 +44,9 @@ type Entry struct {
 	Dirty       bool
 	Deleted     bool
 
-	TaskName    string // joined, display only
-	ProjectName string // joined, display only
+	TaskName     string // joined, display only
+	ProjectName  string // joined, display only
+	ProjectColor string // joined, display only; "#RRGGBB" hex
 }
 
 // Running reports whether the entry is currently running.
@@ -119,11 +120,12 @@ func nullInt(p *int64) any {
 
 // --- entry reads -------------------------------------------------------------
 
-// entrySelect lists every entry column plus the joined task/project name.
+// entrySelect lists every entry column plus the joined task/project display
+// fields (task name, project name and color).
 const entrySelect = `
 SELECT e.id, e.remote_id, e.workspace_id, e.project_id, e.task_id,
        e.description, e.start, e.stop, e.duration, e.billable, e.updated_at,
-       e.synced_at, e.dirty, e.deleted, t.name, p.name
+       e.synced_at, e.dirty, e.deleted, t.name, p.name, p.color
 FROM entries e
 LEFT JOIN tasks t ON t.id = e.task_id
 LEFT JOIN projects p ON p.id = e.project_id
@@ -141,10 +143,11 @@ func scanEntry(sc interface{ Scan(...any) error }) (Entry, error) {
 		syncedAt  sql.NullString
 		taskName  sql.NullString
 		projName  sql.NullString
+		projColor sql.NullString
 	)
 	if err := sc.Scan(&e.ID, &remoteID, &e.WorkspaceID, &projectID, &taskID,
 		&e.Description, &start, &stop, &e.Duration, &e.Billable, &updatedAt, &syncedAt,
-		&e.Dirty, &e.Deleted, &taskName, &projName); err != nil {
+		&e.Dirty, &e.Deleted, &taskName, &projName, &projColor); err != nil {
 		return Entry{}, err
 	}
 	if remoteID.Valid {
@@ -179,6 +182,7 @@ func scanEntry(sc interface{ Scan(...any) error }) (Entry, error) {
 	}
 	e.TaskName = taskName.String
 	e.ProjectName = projName.String
+	e.ProjectColor = projColor.String
 	return e, nil
 }
 

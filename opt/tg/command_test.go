@@ -448,7 +448,7 @@ func TestTodayCommandGolden(t *testing.T) {
 	s := newStore(t)
 	now, loc := seedSampleDay(t, s)
 	var buf bytes.Buffer
-	if err := cmdToday(&buf, s, now, loc, 1, false); err != nil {
+	if err := cmdToday(&buf, s, now, loc, 1, false, false); err != nil {
 		t.Fatalf("today: %v", err)
 	}
 	assertGolden(t, "today.txt", buf.String())
