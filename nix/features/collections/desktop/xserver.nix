@@ -1,5 +1,7 @@
 {...}: {
   flake.nixosModules."collections-desktop" = {
+    environment.variables.XCURSOR_SIZE = "16";
+
     services = {
       xserver = {
         enable = true;

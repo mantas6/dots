@@ -13,11 +13,6 @@ else
     export VISUAL=vim
 fi
 
-export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
-
-export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
-# export AWESOME_OUTPUT_DIR="$XDG_CACHE_HOME/awesome"
-
 # Other
 if [ "$(uname)" != "Darwin" ]; then
     export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
