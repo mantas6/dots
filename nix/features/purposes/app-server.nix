@@ -61,7 +61,11 @@
       wants = ["network-online.target"];
     };
   in {
-    environment.systemPackages = phpEnv;
+    environment.systemPackages =
+      phpEnv
+      ++ [
+        pkgs.git
+      ];
 
     networking.firewall = {
       enable = true;
@@ -71,7 +75,7 @@
     services.caddy = {
       enable = true;
       # Runtime-only hostname secret, e.g. APP_DOMAIN=example.com
-      environmentFile = "/var/lib/secrets/caddy.env";
+      # environmentFile = "/var/lib/secrets/caddy.env";
 
       # https://caddyserver.com/docs/caddyfile/patterns
       # {
@@ -84,13 +88,14 @@
       #     encode zstd br gzip
       #     php_server
       # }
-      extraConfig = ''
-        encode zstd gzip
-
-        {$APP_DOMAIN} {
+      virtualHosts.app = {
+        hostName = "http://localhost";
+        # hostName = "{$APP_DOMAIN}";
+        extraConfig = ''
+          encode zstd gzip
           reverse_proxy localhost:8000
-        }
-      '';
+        '';
+      };
     };
 
     services.redis.servers.main = {
