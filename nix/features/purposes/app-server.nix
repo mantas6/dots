@@ -47,6 +47,9 @@
       WorkingDirectory = "/home/${userName}/Sat/current";
       Restart = "always";
       RestartSec = 1;
+
+      NoNewPrivileges = true;
+      PrivateTmp = true;
     };
 
     defaultServiceOptions = {
