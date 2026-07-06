@@ -75,7 +75,7 @@
     services.caddy = {
       enable = true;
       # Runtime-only hostname secret, e.g. APP_DOMAIN=example.com
-      environmentFile = "/var/lib/secrets/caddy.env";
+      # environmentFile = "/var/lib/secrets/caddy.env";
 
       # https://caddyserver.com/docs/caddyfile/patterns
       # {
@@ -89,7 +89,8 @@
       #     php_server
       # }
       virtualHosts.app = {
-        hostName = "{$APP_DOMAIN}";
+        hostName = "http://localhost";
+        # hostName = "{$APP_DOMAIN}";
         extraConfig = ''
           encode zstd gzip
           reverse_proxy localhost:8000
