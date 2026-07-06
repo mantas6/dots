@@ -3,6 +3,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -51,6 +52,8 @@ func run(cmd string, args []string) error {
 		return runPush(args)
 	case "pull":
 		return runPull(args)
+	case "completion":
+		return runCompletion(args)
 	case "help", "-h", "--help":
 		printUsage(os.Stdout)
 		return nil
@@ -225,6 +228,13 @@ func runAuth(args []string) error {
 	})
 }
 
+func runCompletion(args []string) error {
+	if len(args) != 1 {
+		return errors.New("usage: tg completion zsh")
+	}
+	return cmdCompletion(os.Stdout, args[0])
+}
+
 // --- helpers -----------------------------------------------------------------
 
 // openStore ensures the state directory exists and opens the SQLite database.
@@ -309,6 +319,7 @@ func printUsage(w io.Writer) {
 	fmt.Fprintln(w, "  update                refresh the project/task catalog  [--all] [--json]")
 	fmt.Fprintln(w, "  push                  send local changes to Toggl       [--json]")
 	fmt.Fprintln(w, "  pull <project>        fetch one project's changes [--since DATE] [--json]")
+	fmt.Fprintln(w, "  completion zsh        print the zsh completion script")
 	fmt.Fprintln(w, "")
 	fmt.Fprintln(w, "sync: run `tg pull` then `tg push` for correct last-writer-wins.")
 	fmt.Fprintln(w, "env:  TOGGL_PROJECT_ID scopes `start`/`tasks`/`pull` to one project")
