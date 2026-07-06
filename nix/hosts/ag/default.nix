@@ -11,6 +11,7 @@
     imports = with self.nixosModules; [
       base
       disks-normal
+      purposes-app-server
     ];
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
