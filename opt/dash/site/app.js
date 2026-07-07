@@ -46,6 +46,7 @@ function renderOverview(langs, hosts, modules, scripts) {
   const nLangs = countLangs(cur.by_language);
   $("#overview").innerHTML = [
     card("Lines of code", nf.format(cur.total_lines), delta(cur.total_lines, prev?.total_lines ?? null)),
+    card("Total lines (wc -l)", nf.format(cur.total_raw_lines), delta(cur.total_raw_lines, prev?.total_raw_lines ?? null)),
     card("Files", nf.format(cur.total_files), delta(cur.total_files, prev?.total_files ?? null)),
     card("Languages", nf.format(nLangs), delta(nLangs, prev ? countLangs(prev.by_language) : null)),
     card("Nix hosts", nf.format(hosts.hosts.length)),

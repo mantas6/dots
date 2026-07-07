@@ -13,6 +13,11 @@ run_tokei() {
     tokei --hidden --no-ignore --output json "$1"
 }
 
+# Raw newline count across every file in a tree (matches `git ls-files | xargs wc -l`).
+raw_lines() {
+    find "$1" -type f -print0 | xargs -0 cat 2>/dev/null | wc -l
+}
+
 # jq program: reduce tokei output to totals + per-language code counts.
 # Excludes the synthetic "Total" key from the language map.
 tokei_reduce='
@@ -51,7 +56,9 @@ for month in "${sorted_months[@]}"; do
     rm -rf "$work"
     mkdir -p "$work"
     git -C "$REPO" archive "$sha" | tar -x -C "$work"
-    run_tokei "$work" | jq -c --arg month "$month" "$tokei_reduce + {month: \$month}" >>"$series"
+    raw="$(raw_lines "$work")"
+    run_tokei "$work" | jq -c --arg month "$month" --argjson raw "$raw" \
+        "$tokei_reduce + {month: \$month, total_raw_lines: \$raw}" >>"$series"
 done
 
 # current snapshot from HEAD (tracked files only, matching the series)
@@ -59,7 +66,8 @@ work="$tmp/work"
 rm -rf "$work"
 mkdir -p "$work"
 git -C "$REPO" archive HEAD | tar -x -C "$work"
-current="$(run_tokei "$work" | jq -c "$tokei_reduce")"
+raw="$(raw_lines "$work")"
+current="$(run_tokei "$work" | jq -c --argjson raw "$raw" "$tokei_reduce + {total_raw_lines: \$raw}")"
 
 jq -n \
     --slurpfile series "$series" \
