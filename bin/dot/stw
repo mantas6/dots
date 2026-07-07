@@ -9,7 +9,7 @@ cd "$source"
 repo=$(git rev-parse --show-toplevel)
 
 # Create base directories so that stow wouldn't link them directly
-grep -v '^\(#\|$\)' "$repo/etc/dirs.conf" | xargs -I {} mkdir -pv "$HOME/{}"
+"$source/init-dirs"
 
 stow --dir="$repo" --target="$HOME" --verbose "$@" home
 

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Create base directories so that stow wouldn't link them directly
+
+set -e
+
+cd "$HOME"
+
+mkdir -pv \
+    .config/{docker,docker-darwin,autorandr,systemd/user,composer} \
+    .local/{share,bin,sbin} \
+    .local/state/{bash,zsh} \
+    .local/state/sessions/{llm,calc} \
+    .gnupg \
+    .claude \
+    Repos \
+    Volumes \
+    Downloads
