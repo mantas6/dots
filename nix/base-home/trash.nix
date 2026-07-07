@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules.base = {pkgs-unstable, ...}: let
+  flake.nixosModules.base-home = {pkgs-unstable, ...}: let
     serviceName = "trash-empty";
     pruneAfterDays = "60";
   in {
