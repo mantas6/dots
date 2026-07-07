@@ -17,6 +17,41 @@ async function loadJSON(path) {
 
 const nf = new Intl.NumberFormat("en-US");
 
+// Human-readable relative age from a YYYY-MM-DD date string.
+function relativeTime(dateStr) {
+  if (!dateStr) return "";
+  const then = new Date(dateStr + "T00:00:00Z");
+  if (isNaN(then)) return "";
+  const days = Math.floor((Date.now() - then.getTime()) / 86400000);
+  if (days <= 0) return "today";
+  if (days === 1) return "1 day ago";
+  if (days < 30) return `${days} days ago`;
+  const months = Math.floor(days / 30);
+  if (months < 12) return months === 1 ? "1 month ago" : `${months} months ago`;
+  const years = Math.floor(days / 365);
+  return years === 1 ? "1 year ago" : `${years} years ago`;
+}
+
+// Deterministic colored badge for a filetype/extension.
+const BADGE_COLORS = [
+  "bg-blue-500/15 text-blue-300",
+  "bg-pink-500/15 text-pink-300",
+  "bg-emerald-500/15 text-emerald-300",
+  "bg-amber-500/15 text-amber-300",
+  "bg-violet-500/15 text-violet-300",
+  "bg-rose-500/15 text-rose-300",
+  "bg-cyan-500/15 text-cyan-300",
+  "bg-lime-500/15 text-lime-300",
+  "bg-orange-500/15 text-orange-300",
+  "bg-fuchsia-500/15 text-fuchsia-300",
+  "bg-teal-500/15 text-teal-300",
+];
+function typeBadge(t) {
+  let h = 0;
+  for (let i = 0; i < t.length; i++) h = (h * 31 + t.charCodeAt(i)) >>> 0;
+  return BADGE_COLORS[h % BADGE_COLORS.length];
+}
+
 function card(label, value, sub) {
   return `
     <div class="rounded-lg border border-edge bg-panel p-4">
@@ -297,19 +332,17 @@ function renderScripts(scripts) {
     .join("");
 }
 
-const TYPE_BADGE = "bg-zinc-500/15 text-zinc-300";
-
 function renderCommits(commits) {
   $("#commits").innerHTML = commits
     .map((c) => {
       const types = c.filetypes
-        .map((t) => `<span class="rounded px-1.5 py-0.5 text-xs ${TYPE_BADGE}">${t}</span>`)
+        .map((t) => `<span class="rounded px-1.5 py-0.5 text-xs ${typeBadge(t)}">${t}</span>`)
         .join(" ");
       return `
         <div class="rounded-lg border border-edge bg-panel p-3">
           <div class="flex items-baseline justify-between gap-3">
             <span class="text-sm text-zinc-200">${escapeHtml(c.subject)}</span>
-            <span class="shrink-0 text-xs text-zinc-600">${c.date} · ${c.sha}</span>
+            <span class="shrink-0 text-sm text-zinc-400">${c.date} · ${relativeTime(c.date)} · ${c.sha}</span>
           </div>
           <div class="mt-2 flex flex-wrap items-center gap-1.5">
             <span class="mr-1 text-xs text-zinc-600">${c.files_changed} file${c.files_changed === 1 ? "" : "s"}:</span>
@@ -325,8 +358,8 @@ function renderStale(stale) {
     .map(
       (f) => `
       <div class="flex items-baseline justify-between gap-4 px-4 py-3">
-        <span class="min-w-0 truncate text-sm text-zinc-200" title="${escapeHtml(f.path)}">${escapeHtml(f.path)}</span>
-        <span class="shrink-0 text-xs text-zinc-600">${f.last_commit || ""}</span>
+        <span class="min-w-0 truncate text-base text-zinc-200" title="${escapeHtml(f.path)}">${escapeHtml(f.path)}</span>
+        <span class="shrink-0 text-sm text-zinc-400">${f.last_commit || ""} · ${relativeTime(f.last_commit)}</span>
       </div>`
     )
     .join("");
