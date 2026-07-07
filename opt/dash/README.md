@@ -1,7 +1,7 @@
 # dash
 
 Deterministic stats dashboard for this repository, deployed to GitHub Pages on
-every push to `main`.
+a weekly schedule (and on manual `workflow_dispatch`).
 
 ## What it shows
 

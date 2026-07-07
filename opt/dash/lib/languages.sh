@@ -67,7 +67,17 @@ rm -rf "$work"
 mkdir -p "$work"
 git -C "$REPO" archive HEAD | tar -x -C "$work"
 raw="$(raw_lines "$work")"
-current="$(run_tokei "$work" | jq -c --argjson raw "$raw" "$tokei_reduce + {total_raw_lines: \$raw}")"
+current_reduce="$tokei_reduce"'
++ {
+  total_raw_lines: $raw,
+  languages: (
+    to_entries | map(select(.key != "Total"))
+    | map({name: .key, code: (.value.code // 0), files: ((.value.reports // []) | length)})
+    | map(select(.code > 0 or .files > 0))
+    | sort_by(-.code)
+  )
+}'
+current="$(run_tokei "$work" | jq -c --argjson raw "$raw" "$current_reduce")"
 
 jq -n \
     --slurpfile series "$series" \

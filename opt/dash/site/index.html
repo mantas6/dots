@@ -49,6 +49,15 @@
         </div>
       </section>
 
+      <!-- Per-language breakdown -->
+      <section class="mb-12">
+        <h2 class="mb-1 text-lg font-semibold text-zinc-100">By language</h2>
+        <p class="mb-4 text-xs text-zinc-500">
+          Code lines and files per language at the current commit.
+        </p>
+        <div id="languages" class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"></div>
+      </section>
+
       <!-- Recent commits -->
       <section class="mb-12">
         <h2 class="mb-1 text-lg font-semibold text-zinc-100">Recent commits</h2>
@@ -88,7 +97,7 @@
       </section>
 
       <footer class="border-t border-edge pt-6 text-xs text-zinc-600">
-        Generated deterministically from the repository state · rebuilt on every push.
+        Generated deterministically from the repository state · rebuilt weekly.
       </footer>
     </div>
 

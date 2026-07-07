@@ -61,6 +61,26 @@ function renderMeta(meta) {
   $("#meta").textContent = `commit ${short} · generated ${when} UTC`;
 }
 
+function renderLanguages(langs) {
+  const list = langs.current.languages || [];
+  $("#languages").innerHTML = list
+    .map(
+      (l) => `
+      <div class="rounded-lg border border-edge bg-panel p-4">
+        <div class="mb-2 truncate text-sm font-semibold text-zinc-100" title="${l.name}">${l.name}</div>
+        <div class="flex items-baseline justify-between">
+          <span class="text-xl font-bold text-zinc-50">${nf.format(l.code)}</span>
+          <span class="text-xs uppercase tracking-wide text-zinc-500">lines</span>
+        </div>
+        <div class="mt-1 flex items-baseline justify-between">
+          <span class="text-sm text-zinc-300">${nf.format(l.files)}</span>
+          <span class="text-xs uppercase tracking-wide text-zinc-600">file${l.files === 1 ? "" : "s"}</span>
+        </div>
+      </div>`
+    )
+    .join("");
+}
+
 let langChart;
 function renderLangChart(langs, metric) {
   const series = langs.series;
@@ -331,6 +351,7 @@ async function main() {
     renderOverview(langs, hosts, modules, scripts);
     renderLangChart(langs, "lines");
     wireMetricButtons(langs);
+    renderLanguages(langs);
     renderCommits(commits);
     renderHostMatrix(hosts);
     renderModules(modules);
