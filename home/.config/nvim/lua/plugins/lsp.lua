@@ -48,6 +48,7 @@ return {
       gopls = {},
       lua_ls = {},
       taplo = {},
+      -- clangd = {},
       ts_ls = {
         filetypes = {
           'javascript',

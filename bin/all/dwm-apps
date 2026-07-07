@@ -29,12 +29,12 @@ else
     run "$term attach-session -t generic"
 
     tag 2
-    run "chromium --app=https://messenger.com"
     run "chromium --new-window https://meteofor.lt/weather-alytus-4152/month"
+    run "chromium --app=https://messenger.com"
 
     tag 3
-    run "firefox --new-window https://www.youtube.com/feed/subscriptions"
     run "chromium --new-window https://www.icloud.com/reminders"
+    run "firefox --new-window https://www.youtube.com/feed/subscriptions"
 
     tag 4
     run "sessionizer connect large"

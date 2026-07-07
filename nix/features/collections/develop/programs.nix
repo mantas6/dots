@@ -108,6 +108,7 @@
       typescript-language-server
       dockerfile-language-server
       vscode-langservers-extracted
+      # clang-tools
 
       alejandra
       # deadnix
