@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>.dots · dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+            },
+            colors: { ink: "#0a0a0b", panel: "#141417", edge: "#26262b" },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-ink text-zinc-200 font-mono antialiased">
+    <div class="mx-auto max-w-6xl px-5 py-10">
+      <header class="mb-10 border-b border-edge pb-6">
+        <h1 class="text-2xl font-bold tracking-tight text-zinc-50">.dots</h1>
+        <p class="mt-1 text-sm text-zinc-400">
+          NixOS / macOS dotfiles &mdash; auto-generated repository dashboard
+        </p>
+        <p id="meta" class="mt-2 text-xs text-zinc-600"></p>
+      </header>
+
+      <!-- Overview stat cards -->
+      <section id="overview" class="mb-12 grid grid-cols-2 gap-3 sm:grid-cols-4"></section>
+
+      <!-- Languages over time -->
+      <section class="mb-12">
+        <h2 class="mb-1 text-lg font-semibold text-zinc-100">Code over time</h2>
+        <p class="mb-4 text-xs text-zinc-500">
+          Lines of code per language, sampled at the last commit of each month
+          (all git-tracked files).
+        </p>
+        <div class="rounded-lg border border-edge bg-panel p-4">
+          <div class="mb-3 flex gap-2 text-xs">
+            <button data-metric="lines" class="metric-btn rounded bg-zinc-700 px-2 py-1 text-zinc-100">Lines</button>
+            <button data-metric="files" class="metric-btn rounded px-2 py-1 text-zinc-400 hover:text-zinc-100">Files</button>
+          </div>
+          <div class="h-[380px]"><canvas id="langChart"></canvas></div>
+        </div>
+      </section>
+
+      <!-- Hosts x features -->
+      <section class="mb-12">
+        <h2 class="mb-1 text-lg font-semibold text-zinc-100">Hosts &times; features</h2>
+        <p class="mb-4 text-xs text-zinc-500">
+          NixOS modules imported by each host.
+        </p>
+        <div class="overflow-x-auto rounded-lg border border-edge bg-panel">
+          <table id="hostMatrix" class="w-full border-collapse text-xs"></table>
+        </div>
+      </section>
+
+      <!-- Nix modules tree -->
+      <section class="mb-12">
+        <h2 class="mb-1 text-lg font-semibold text-zinc-100">Nix modules</h2>
+        <p class="mb-4 text-xs text-zinc-500">
+          flake-parts modules and the files that define them, by category.
+        </p>
+        <div id="modules" class="space-y-4"></div>
+      </section>
+
+      <!-- Scripts catalog -->
+      <section class="mb-12">
+        <h2 class="mb-1 text-lg font-semibold text-zinc-100">Scripts</h2>
+        <p class="mb-4 text-xs text-zinc-500">
+          Scripts under <code>bin/</code>, grouped by folder, with self-described purpose.
+        </p>
+        <div id="scripts" class="space-y-4"></div>
+      </section>
+
+      <footer class="border-t border-edge pt-6 text-xs text-zinc-600">
+        Generated deterministically from the repository state · rebuilt on every push.
+      </footer>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
