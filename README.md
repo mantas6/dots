@@ -124,7 +124,7 @@ nix fmt .
 Format all Lua files:
 
 ```sh
-stylua .
+find . -name '*.lua' -exec stylua {} +
 ```
 
 Format all shell scripts:
