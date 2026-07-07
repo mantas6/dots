@@ -1,14 +1,12 @@
 {...}: {
-  flake.nixosModules.base = {pkgs-unstable, ...}: {
-    environment.systemPackages = with pkgs-unstable; [
+  flake.nixosModules.base = {pkgs, ...}: {
+    environment.systemPackages = with pkgs; [
       vim
       wget
       curl
       unzip
       htop
-      btop
       file
-
       killall
     ];
   };
