@@ -13,6 +13,10 @@ mkdir -p "$DATA"
 # Static site
 cp -r "$HERE/site/." "$OUT/"
 
+# Cache-busting: stamp the current commit into asset URLs
+VERSION="$(git -C "$REPO" rev-parse --short HEAD)"
+sed -i "s/__VERSION__/$VERSION/g" "$OUT/index.html"
+
 # Data generators
 bash "$HERE/lib/languages.sh" "$REPO" "$DATA/languages.json"
 bash "$HERE/lib/nix-modules.sh" "$REPO" "$DATA/modules.json"

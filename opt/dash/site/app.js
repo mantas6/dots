@@ -9,7 +9,8 @@ const PALETTE = [
 const $ = (sel) => document.querySelector(sel);
 
 async function loadJSON(path) {
-  const res = await fetch(path);
+  const v = window.__V && window.__V !== "__VERSION__" ? `?v=${window.__V}` : "";
+  const res = await fetch(path + v);
   if (!res.ok) throw new Error(`${path}: ${res.status}`);
   return res.json();
 }
