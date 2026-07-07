@@ -15,6 +15,7 @@
     imports =
       (with self.nixosModules; [
         base
+        base-home
       ])
       ++ [
         "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"

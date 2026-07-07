@@ -10,6 +10,7 @@
   flake.nixosModules."host-ag" = {...}: {
     imports = with self.nixosModules; [
       base
+      base-home
       disks-normal
       services-docker
       purposes-app-server

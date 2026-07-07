@@ -10,6 +10,7 @@
   flake.nixosModules."host-tp" = {...}: {
     imports = with self.nixosModules; [
       base
+      base-home
       disks-encrypted
       hardware-amd
       collections-desktop

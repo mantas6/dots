@@ -10,6 +10,7 @@
   flake.nixosModules."host-mt" = {...}: {
     imports = with self.nixosModules; [
       base
+      base-home
       disks-normal
       jobs-updates
       hardware-backlight

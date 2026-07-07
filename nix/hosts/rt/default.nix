@@ -10,6 +10,7 @@
   flake.nixosModules."host-rt" = {...}: {
     imports = with self.nixosModules; [
       base
+      base-home
       disks-normal
       jobs-updates
       progs-shell

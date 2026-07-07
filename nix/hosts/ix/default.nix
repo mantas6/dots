@@ -10,6 +10,7 @@
   flake.nixosModules."host-ix" = {...}: {
     imports = with self.nixosModules; [
       base
+      base-home
       hardware-amd
       # collections-desktop
       collections-develop

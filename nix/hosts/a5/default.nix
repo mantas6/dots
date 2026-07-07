@@ -10,6 +10,7 @@
   flake.nixosModules."host-a5" = {...}: {
     imports = with self.nixosModules; [
       base
+      base-home
       disks-normal
       hardware-amd
       collections-desktop
