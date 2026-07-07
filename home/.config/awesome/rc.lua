@@ -459,16 +459,16 @@ globalkeys = gears.table.join(
   end, { description = 'reset/turn off monitor', group = 'misc' }),
   -- Volume Keys
   awful.key({}, 'XF86AudioLowerVolume', function()
-    awful.util.spawn('amixer -q sset Master 5%-', false)
+    awful.util.spawn('wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-', false)
   end),
   awful.key({}, 'XF86AudioRaiseVolume', function()
-    awful.util.spawn('amixer -q sset Master 5%+', false)
+    awful.util.spawn('wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+', false)
   end),
   awful.key({}, 'XF86AudioMute', function()
-    awful.util.spawn('amixer set Master 1+ toggle', false)
+    awful.util.spawn('wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle', false)
   end),
   awful.key({}, 'XF86AudioMicMute', function()
-    awful.util.spawn('amixer set Capture 1+ toggle', false)
+    awful.util.spawn('wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle', false)
   end),
   -- Media Keys
   awful.key({}, 'XF86AudioPlay', function()
