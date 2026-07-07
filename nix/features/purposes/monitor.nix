@@ -6,8 +6,8 @@
   }: let
     dwmPkg = config.services.xserver.windowManager.dwm.package;
 
-    dayBrightness = "30%";
-    nightBrightness = "10%";
+    dayBrightness = "25%";
+    nightBrightness = "1%";
     coordinates = "54.0N 23.0E";
 
     sunBrightness =
