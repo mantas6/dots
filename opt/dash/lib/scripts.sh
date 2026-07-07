@@ -44,12 +44,16 @@ while IFS= read -r file; do
             && desc="$(echo "$line2" | sed -E 's/^#\s?//')"
     fi
 
+    # last commit date (author date, YYYY-MM-DD) for the file
+    date="$(git log -1 --format=%cs -- "$rel" 2>/dev/null || true)"
+
     jq -nc \
         --arg path "$rel" \
         --arg folder "$folder" \
         --arg lang "$lang" \
         --arg desc "$desc" \
-        '{path: $path, folder: $folder, lang: $lang, description: $desc}' >>"$entries"
+        --arg date "$date" \
+        '{path: $path, folder: $folder, lang: $lang, description: $desc, last_commit: $date}' >>"$entries"
 done < <(find bin -type f | sort)
 
 jq -s 'sort_by(.folder, .path)' "$entries" >"$OUT"

@@ -27,13 +27,20 @@ categorize() {
     esac
 }
 
-# modules: [{name, category, files:[...]}]
+# modules: [{name, category, files:[{path, last_commit}]}]
+# `path` is relative to the nix/ directory.
 modules="$tmp/modules.json"
 : >"$modules"
 while IFS= read -r name; do
     [[ -n "$name" ]] || continue
     mapfile -t fs < <(awk -F'\t' -v n="$name" '$1==n {print $2}' "$pairs" | sort -u)
-    files_json="$(printf '%s\n' "${fs[@]}" | jq -R . | jq -s .)"
+    files_json="$(
+        for f in "${fs[@]}"; do
+            date="$(git log -1 --format=%cs -- "$f" 2>/dev/null || true)"
+            jq -nc --arg path "${f#nix/}" --arg date "$date" \
+                '{path: $path, last_commit: $date}'
+        done | jq -s .
+    )"
     cat="$(categorize "${fs[0]}")"
     jq -nc --arg name "$name" --arg cat "$cat" --argjson files "$files_json" \
         '{name: $name, category: $cat, files: $files}' >>"$modules"

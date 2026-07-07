@@ -143,6 +143,46 @@ function renderHostMatrix(hosts) {
   $("#hostMatrix").innerHTML = head + `<tbody>${rows}</tbody>`;
 }
 
+// Build a nested tree from a list of {path, last_commit} entries.
+function buildFileTree(files) {
+  const root = {};
+  for (const f of files) {
+    const parts = f.path.split("/");
+    let node = root;
+    parts.forEach((part, i) => {
+      node.children ??= {};
+      const leaf = i === parts.length - 1;
+      node.children[part] ??= leaf
+        ? { leaf: true, date: f.last_commit }
+        : {};
+      node = node.children[part];
+    });
+  }
+  return root;
+}
+
+function renderFileTree(node, depth = 0) {
+  if (!node.children) return "";
+  return Object.keys(node.children)
+    .sort()
+    .map((name) => {
+      const child = node.children[name];
+      const pad = `padding-left:${depth * 0.9}rem`;
+      if (child.leaf) {
+        return `
+          <div class="flex items-baseline justify-between gap-3 text-xs" style="${pad}">
+            <span class="text-zinc-400">${name}</span>
+            <span class="shrink-0 text-zinc-600">${child.date || ""}</span>
+          </div>`;
+      }
+      return (
+        `<div class="text-xs text-zinc-500" style="${pad}">${name}/</div>` +
+        renderFileTree(child, depth + 1)
+      );
+    })
+    .join("");
+}
+
 function renderModules(modules) {
   const byCat = {};
   for (const m of modules.modules) (byCat[m.category] ??= []).push(m);
@@ -152,9 +192,9 @@ function renderModules(modules) {
       const items = byCat[cat]
         .map(
           (m) => `
-          <li class="flex flex-col gap-0.5 border-l border-edge py-1 pl-3">
+          <li class="flex flex-col gap-1 border-l border-edge py-1 pl-3">
             <span class="text-zinc-200">${m.name}</span>
-            ${m.files.map((f) => `<span class="text-xs text-zinc-500">${f}</span>`).join("")}
+            <div class="space-y-0.5">${renderFileTree(buildFileTree(m.files))}</div>
           </li>`
         )
         .join("");
@@ -186,9 +226,10 @@ function renderScripts(scripts) {
           const name = s.path.split("/").pop();
           return `
             <tr class="border-t border-edge/60">
-              <td class="py-1.5 pr-3 text-zinc-200">${name}</td>
-              <td class="py-1.5 pr-3"><span class="rounded px-1.5 py-0.5 text-xs ${badge}">${s.lang}</span></td>
-              <td class="py-1.5 text-zinc-400">${s.description || '<span class="text-zinc-700">—</span>'}</td>
+              <td class="py-1.5 pr-3 align-top text-zinc-200">${name}</td>
+              <td class="py-1.5 pr-3 align-top"><span class="rounded px-1.5 py-0.5 text-xs ${badge}">${s.lang}</span></td>
+              <td class="py-1.5 pr-3 align-top text-zinc-400">${s.description || '<span class="text-zinc-700">—</span>'}</td>
+              <td class="whitespace-nowrap py-1.5 align-top text-right text-xs text-zinc-600">${s.last_commit || ""}</td>
             </tr>`;
         })
         .join("");
