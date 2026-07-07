@@ -113,6 +113,26 @@ brew bundle cleanup --global
 
 ## Misc
 
+### Formatting
+
+Format all Nix files:
+
+```sh
+nix fmt .
+```
+
+Format all Lua files:
+
+```sh
+stylua .
+```
+
+Format all shell scripts:
+
+```sh
+shfmt -w $(shfmt -f .)
+```
+
 ### Stress testing
 
 Run stress test on the CPU:

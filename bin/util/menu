@@ -7,16 +7,16 @@ prompt=''
 
 while getopts 'wp' opt; do
     case ${opt} in
-    w)
-        wm_mode=1
-        ;;
-    p)
-        prompt=1
-        ;;
-    ?)
-        echo "Invalid option: -${OPTARG}."
-        exit 1
-        ;;
+        w)
+            wm_mode=1
+            ;;
+        p)
+            prompt=1
+            ;;
+        ?)
+            echo "Invalid option: -${OPTARG}."
+            exit 1
+            ;;
     esac
 done
 

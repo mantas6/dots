@@ -58,4 +58,3 @@ copy-line-to-clipboard() {
 
 zle -N copy-line-to-clipboard
 bindkey '^Xy' copy-line-to-clipboard
-

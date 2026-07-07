@@ -9,23 +9,23 @@ opts="$FZF_DEFAULT_OPTS"
 
 while getopts 'd:go:h' opt; do
     case ${opt} in
-    d)
-        dir="${OPTARG}"
-        ;;
-    g)
-        files_cmd='git ls-files --others --cached --exclude-standard'
-        ;;
-    o)
-        opts="$opts ${OPTARG}"
-        ;;
-    h)
-        echo "$(basename "$0") [-g] [-d directory] [fragment]..."
-        exit 0
-        ;;
-    ?)
-        echo "Invalid option: -${OPTARG}."
-        exit 1
-        ;;
+        d)
+            dir="${OPTARG}"
+            ;;
+        g)
+            files_cmd='git ls-files --others --cached --exclude-standard'
+            ;;
+        o)
+            opts="$opts ${OPTARG}"
+            ;;
+        h)
+            echo "$(basename "$0") [-g] [-d directory] [fragment]..."
+            exit 0
+            ;;
+        ?)
+            echo "Invalid option: -${OPTARG}."
+            exit 1
+            ;;
     esac
 done
 

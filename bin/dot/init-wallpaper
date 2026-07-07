@@ -9,12 +9,12 @@ force_set=false
 
 while getopts 'f' opt; do
     case ${opt} in
-    f)
-        force_set=true
-        ;;
-    ?)
-        exit 1
-        ;;
+        f)
+            force_set=true
+            ;;
+        ?)
+            exit 1
+            ;;
     esac
 done
 

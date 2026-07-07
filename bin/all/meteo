@@ -45,39 +45,39 @@ eval set -- "$options"
 
 while true; do
     case $1 in
-    -L | --list-places)
-        shift
-        list_places
-        exit 0
-        ;;
-    -p | --place)
-        shift
-        place_code="$1"
-        ;;
-    -n | --length)
-        shift
-        forecast_length="$1"
-        ;;
-    -s | --write-place)
-        shift
-        mkdir -pv "$(dirname "$place_file")"
-        echo "$1" >"$place_file"
-        exit 0
-        ;;
-    -r | --raw)
-        shift
-        forecast=$(get_forecast)
-        expand_forecast "$forecast"
-        exit 0
-        ;;
-    --)
-        shift
-        forecast=$(get_forecast)
-        expanded=$(expand_forecast "$forecast")
-        print_header "$forecast"
-        format_forecast "$expanded" | head -n "$forecast_length"
-        break
-        ;;
+        -L | --list-places)
+            shift
+            list_places
+            exit 0
+            ;;
+        -p | --place)
+            shift
+            place_code="$1"
+            ;;
+        -n | --length)
+            shift
+            forecast_length="$1"
+            ;;
+        -s | --write-place)
+            shift
+            mkdir -pv "$(dirname "$place_file")"
+            echo "$1" >"$place_file"
+            exit 0
+            ;;
+        -r | --raw)
+            shift
+            forecast=$(get_forecast)
+            expand_forecast "$forecast"
+            exit 0
+            ;;
+        --)
+            shift
+            forecast=$(get_forecast)
+            expanded=$(expand_forecast "$forecast")
+            print_header "$forecast"
+            format_forecast "$expanded" | head -n "$forecast_length"
+            break
+            ;;
     esac
     shift
 done

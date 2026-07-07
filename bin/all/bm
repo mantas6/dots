@@ -23,29 +23,29 @@ action='default'
 
 while getopts 'elrf:' opt; do
     case ${opt} in
-    f)
-        list=${OPTARG}
-        [ ! -f "$list" ] && touch "$list"
-        ;;
-    e)
-        action='edit'
-        ;;
-    l)
-        action='list'
-        ;;
-    r)
-        if [ "$(uname)" = 'Darwin' ]; then
-            search_cmd='choose'
-            input_cmd=(choose)
-        else
-            search_cmd='rofi -dmenu'
-            input_cmd=(rofi -dmenu -p '> ')
-        fi
-        ;;
-    ?)
-        show_help
-        exit 1
-        ;;
+        f)
+            list=${OPTARG}
+            [ ! -f "$list" ] && touch "$list"
+            ;;
+        e)
+            action='edit'
+            ;;
+        l)
+            action='list'
+            ;;
+        r)
+            if [ "$(uname)" = 'Darwin' ]; then
+                search_cmd='choose'
+                input_cmd=(choose)
+            else
+                search_cmd='rofi -dmenu'
+                input_cmd=(rofi -dmenu -p '> ')
+            fi
+            ;;
+        ?)
+            show_help
+            exit 1
+            ;;
     esac
 done
 

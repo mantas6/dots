@@ -23,16 +23,16 @@ sketchybar --bar position=top height=22 \
 # https://felixkratz.github.io/SketchyBar/config/items
 
 default=(
-  padding_left=5
-  padding_right=5
-  icon.font="JetBrains Mono Nerd:Bold:16.0"
-  label.font="JetBrains Mono Nerd:Bold:16.0"
-  icon.color=0xffffffff
-  label.color=0xffffffff
-  icon.padding_left=4
-  icon.padding_right=4
-  label.padding_left=2
-  label.padding_right=0
+    padding_left=5
+    padding_right=5
+    icon.font="JetBrains Mono Nerd:Bold:16.0"
+    label.font="JetBrains Mono Nerd:Bold:16.0"
+    icon.color=0xffffffff
+    label.color=0xffffffff
+    icon.padding_left=4
+    icon.padding_right=4
+    label.padding_left=2
+    label.padding_right=0
 )
 
 sketchybar --default "${default[@]}"
@@ -53,10 +53,10 @@ sketchybar --add event aerospace_workspace_change
 # done
 
 sketchybar --add item tg left \
-           --set tg update_freq=5 script="$PLUGIN_DIR/tg"
+    --set tg update_freq=5 script="$PLUGIN_DIR/tg"
 
 sketchybar --add item bar right \
-           --set bar update_freq=2 script="$PLUGIN_DIR/bar"
+    --set bar update_freq=2 script="$PLUGIN_DIR/bar"
 
 sketchybar --hotload true
 

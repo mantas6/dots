@@ -28,19 +28,19 @@ EOF
 }
 
 case "$1" in
--r | --reset)
-    upper=100
-    lower=0
-    ;;
--w | --wide)
-    upper=80
-    lower=50
-    ;;
--s | --set)
-    upper=$3
-    lower=$2
-    ;;
--h | --help) show-usage ;;
+    -r | --reset)
+        upper=100
+        lower=0
+        ;;
+    -w | --wide)
+        upper=80
+        lower=50
+        ;;
+    -s | --set)
+        upper=$3
+        lower=$2
+        ;;
+    -h | --help) show-usage ;;
 esac
 
 [ -d "$bat0" ] && set-limit "$bat0"

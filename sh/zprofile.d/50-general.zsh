@@ -60,5 +60,4 @@ export COMPOSER_HOME="$HOME/.config/composer"
 
 [ -d "$HOME/.local/share/cargo/bin" ] && export PATH="$HOME/.local/share/cargo/bin:$PATH"
 
-
 [ -f '/etc/profile.d/nix.sh' ] && source '/etc/profile.d/nix.sh'

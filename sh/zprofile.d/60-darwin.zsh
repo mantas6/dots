@@ -24,14 +24,14 @@ if [ -d "$HOME/.local/brew" ]; then
     eval "$(brew shellenv)"
 fi
 
-[ -d "$HOME/.config/herd-lite/bin" ] && \
-    export PATH="$HOME/.config/herd-lite/bin:$PATH"
+[ -d "$HOME/.config/herd-lite/bin" ] \
+    && export PATH="$HOME/.config/herd-lite/bin:$PATH"
 
-[ -d "$HOME/.docker/bin" ] && \
-    export PATH="$HOME/.docker/bin:$PATH"
+[ -d "$HOME/.docker/bin" ] \
+    && export PATH="$HOME/.docker/bin:$PATH"
 
-[ -d "$HOME/Applications/Docker.app/Contents/Resources/bin" ] && \
-    export PATH="$HOME/Applications/Docker.app/Contents/Resources/bin:$PATH"
+[ -d "$HOME/Applications/Docker.app/Contents/Resources/bin" ] \
+    && export PATH="$HOME/Applications/Docker.app/Contents/Resources/bin:$PATH"
 
 export NVM_DIR="$HOME/.local/share/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"

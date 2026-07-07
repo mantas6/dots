@@ -8,16 +8,16 @@ dev_type="part"
 
 while getopts 'n:d:' opt; do
     case ${opt} in
-    n)
-        count="${OPTARG}"
-        ;;
-    d)
-        dev_type="${OPTARG}"
-        ;;
-    ?)
-        echo "Invalid option: -${OPTARG}."
-        exit 1
-        ;;
+        n)
+            count="${OPTARG}"
+            ;;
+        d)
+            dev_type="${OPTARG}"
+            ;;
+        ?)
+            echo "Invalid option: -${OPTARG}."
+            exit 1
+            ;;
     esac
 done
 

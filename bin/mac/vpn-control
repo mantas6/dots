@@ -10,17 +10,17 @@ tell application \"System Events\"
   end tell
 end tell
 " 2>&1) || {
-	echo "error: could not read menu items — check Accessibility permissions"
-	exit 1
+    echo "error: could not read menu items — check Accessibility permissions"
+    exit 1
 }
 
 if echo "$items" | grep -qi "disconnect"; then
-	action="Disconnect"
+    action="Disconnect"
 elif echo "$items" | grep -qi "connect"; then
-	action="Connect"
+    action="Connect"
 else
-	echo "error: could not determine VPN state from menu items: $items"
-	exit 1
+    echo "error: could not determine VPN state from menu items: $items"
+    exit 1
 fi
 
 echo "$action..."
