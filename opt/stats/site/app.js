@@ -320,6 +320,19 @@ function renderCommits(commits) {
     .join("");
 }
 
+function renderStale(stale) {
+  const rows = stale
+    .map(
+      (f) => `
+      <div class="flex items-baseline justify-between gap-4 px-4 py-3">
+        <span class="min-w-0 truncate text-sm text-zinc-200" title="${escapeHtml(f.path)}">${escapeHtml(f.path)}</span>
+        <span class="shrink-0 text-xs text-zinc-600">${f.last_commit || ""}</span>
+      </div>`
+    )
+    .join("");
+  $("#stale").innerHTML = `<div class="divide-y divide-edge">${rows}</div>`;
+}
+
 function escapeHtml(s) {
   return String(s).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
 }
@@ -340,12 +353,13 @@ function wireMetricButtons(langs) {
 
 async function main() {
   try {
-    const [langs, hosts, modules, scripts, commits, meta] = await Promise.all([
+    const [langs, hosts, modules, scripts, commits, stale, meta] = await Promise.all([
       loadJSON("./data/languages.json"),
       loadJSON("./data/hosts.json"),
       loadJSON("./data/modules.json"),
       loadJSON("./data/scripts.json"),
       loadJSON("./data/commits.json"),
+      loadJSON("./data/stale.json"),
       loadJSON("./data/meta.json"),
     ]);
 
@@ -358,6 +372,7 @@ async function main() {
     renderHostMatrix(hosts);
     renderModules(modules);
     renderScripts(scripts);
+    renderStale(stale);
   } catch (err) {
     document.body.insertAdjacentHTML(
       "afterbegin",
