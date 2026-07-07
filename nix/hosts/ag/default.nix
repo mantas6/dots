@@ -11,6 +11,7 @@
     imports = with self.nixosModules; [
       base
       disks-normal
+      services-docker
       purposes-app-server
     ];
 
