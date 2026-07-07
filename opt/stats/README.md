@@ -36,7 +36,7 @@ python3 -m http.server -d opt/stats/out
 - `site/` — static page (Tailwind + Chart.js via CDN) that fetches the JSON.
 
 Tools (`tokei`, `jq`, `git`) are pinned via the `stats` devShell in
-`nix/stats.nix`, so a given commit always produces the same data.
+`nix/shells/stats.nix`, so a given commit always produces the same data.
 
 ## One-time setup (manual)
 
