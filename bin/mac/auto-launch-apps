@@ -18,7 +18,12 @@ count-windows() {
 }
 
 await-windows() {
+    local elapsed=0
+
     while [ "$(count-windows)" -lt "$1" ]; do
+        [ "$elapsed" -ge 100 ] && exit 1
+        elapsed=$((elapsed + 1))
+
         sleep 0.1
     done
 }
