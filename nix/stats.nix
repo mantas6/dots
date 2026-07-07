@@ -1,6 +1,6 @@
 {...}: {
   perSystem = {pkgs, ...}: {
-    devShells.dash = pkgs.mkShell {
+    devShells.stats = pkgs.mkShell {
       packages = with pkgs; [tokei jq git];
     };
   };

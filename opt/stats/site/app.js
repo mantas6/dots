@@ -63,22 +63,24 @@ function renderMeta(meta) {
 
 function renderLanguages(langs) {
   const list = langs.current.languages || [];
-  $("#languages").innerHTML = list
+  const prev = langs.series[langs.series.length - 2]?.by_language ?? {};
+  const rows = list
     .map(
       (l) => `
-      <div class="rounded-lg border border-edge bg-panel p-4">
-        <div class="mb-2 truncate text-sm font-semibold text-zinc-100" title="${l.name}">${l.name}</div>
-        <div class="flex items-baseline justify-between">
-          <span class="text-xl font-bold text-zinc-50">${nf.format(l.code)}</span>
-          <span class="text-xs uppercase tracking-wide text-zinc-500">lines</span>
+      <div class="flex items-center justify-between gap-4 px-4 py-3">
+        <div class="min-w-0">
+          <div class="truncate text-sm font-semibold text-zinc-100" title="${l.name}">${l.name}</div>
+          <div class="mt-0.5 text-xs text-zinc-500">${nf.format(l.files)} file${l.files === 1 ? "" : "s"}</div>
         </div>
-        <div class="mt-1 flex items-baseline justify-between">
-          <span class="text-sm text-zinc-300">${nf.format(l.files)}</span>
-          <span class="text-xs uppercase tracking-wide text-zinc-600">file${l.files === 1 ? "" : "s"}</span>
+        <div class="shrink-0 text-right">
+          <div class="text-lg font-bold text-zinc-50">${nf.format(l.code)} <span class="text-xs font-normal uppercase tracking-wide text-zinc-500">lines</span></div>
+          <div class="mt-0.5 text-xs">${delta(l.code, prev[l.name] ?? null)}</div>
         </div>
       </div>`
     )
     .join("");
+  $("#languages").innerHTML = `
+    <div class="divide-y divide-edge rounded-lg border border-edge bg-panel">${rows}</div>`;
 }
 
 let langChart;

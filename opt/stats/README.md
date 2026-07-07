@@ -1,4 +1,4 @@
-# dash
+# stats
 
 Deterministic stats dashboard for this repository, deployed to GitHub Pages on
 a weekly schedule (and on manual `workflow_dispatch`).
@@ -16,14 +16,14 @@ a weekly schedule (and on manual `workflow_dispatch`).
 ## Generate locally
 
 ```sh
-nix develop .#dash -c ./opt/dash/generate.sh opt/dash/out
+nix develop .#stats -c ./opt/stats/generate.sh opt/stats/out
 ```
 
-Output goes to `opt/dash/out/` (gitignored): the static `site/` plus
+Output goes to `opt/stats/out/` (gitignored): the static `site/` plus
 `data/*.json`. Serve it with any static server, e.g.:
 
 ```sh
-python3 -m http.server -d opt/dash/out
+python3 -m http.server -d opt/stats/out
 ```
 
 ## How it works
@@ -35,8 +35,8 @@ python3 -m http.server -d opt/dash/out
 - `lib/scripts.sh` — scans `bin/**` → `data/scripts.json`.
 - `site/` — static page (Tailwind + Chart.js via CDN) that fetches the JSON.
 
-Tools (`tokei`, `jq`, `git`) are pinned via the `dash` devShell in
-`nix/dash.nix`, so a given commit always produces the same data.
+Tools (`tokei`, `jq`, `git`) are pinned via the `stats` devShell in
+`nix/stats.nix`, so a given commit always produces the same data.
 
 ## One-time setup (manual)
 

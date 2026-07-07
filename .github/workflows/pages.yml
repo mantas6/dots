@@ -24,10 +24,10 @@ jobs:
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Generate dashboard
-        run: nix develop .#dash -c ./opt/dash/generate.sh opt/dash/out
+        run: nix develop .#stats -c ./opt/stats/generate.sh opt/stats/out
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: opt/dash/out
+          path: opt/stats/out
 
   deploy:
     needs: build
