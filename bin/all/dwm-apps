@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# Auto-start apps (dwm)
+
+tag() {
+    xsetroot -name "fsignal:$1"
+    sleep 0.2
+}
+run() {
+    sh -c "$1" >/dev/null 2>&1 &
+    sleep 0.5
+}
+
+term="alacritty -e tmux"
+
+if printf '%s' "$(uname -n)" | grep -q 'tp'; then
+    tag 1
+    run "sessionizer connect generic"
+    run "$term attach-session -t generic"
+
+    tag 2
+    run "qutebrowser"
+
+    tag 3
+    run "qutebrowser"
+else
+    tag 1
+    run "chromium --new-window"
+    run "sessionizer connect generic"
+    run "$term attach-session -t generic"
+
+    tag 2
+    run "chromium --app=https://messenger.com"
+    run "chromium --new-window https://meteofor.lt/weather-alytus-4152/month"
+
+    tag 3
+    run "firefox --new-window https://www.youtube.com/feed/subscriptions"
+    run "chromium --new-window https://www.icloud.com/reminders"
+
+    tag 4
+    run "sessionizer connect large"
+    run "alacritty -o font.size=50 -e tmux attach-session -t large"
+
+    tag 9
+    run "chromium --app=http://gal/$(date +%Y).html"
+fi
+
+tag 1

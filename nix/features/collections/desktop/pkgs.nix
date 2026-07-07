@@ -1,7 +1,8 @@
 {...}: {
   flake.nixosModules."collections-desktop" = {pkgs, ...}: {
     environment.systemPackages = with pkgs; [
-      xorg.xinit
+      xinit
+      xsetroot
       xclip
       arandr
       autorandr
