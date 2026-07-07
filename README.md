@@ -1,6 +1,8 @@
 # dots
 
-dotfiles
+Personal dotfiles managing configuration for NixOS Linux and macOS.
+
+[Repository stats](https://mantas6.github.io/dots)
 
 ## Setup
 
