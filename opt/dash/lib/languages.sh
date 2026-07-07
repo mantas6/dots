@@ -54,8 +54,12 @@ for month in "${sorted_months[@]}"; do
     run_tokei "$work" | jq -c --arg month "$month" "$tokei_reduce + {month: \$month}" >>"$series"
 done
 
-# current snapshot from the working tree at HEAD
-current="$(run_tokei "$REPO" | jq -c "$tokei_reduce")"
+# current snapshot from HEAD (tracked files only, matching the series)
+work="$tmp/work"
+rm -rf "$work"
+mkdir -p "$work"
+git -C "$REPO" archive HEAD | tar -x -C "$work"
+current="$(run_tokei "$work" | jq -c "$tokei_reduce")"
 
 jq -n \
     --slurpfile series "$series" \

@@ -18,6 +18,7 @@ bash "$HERE/lib/languages.sh" "$REPO" "$DATA/languages.json"
 bash "$HERE/lib/nix-modules.sh" "$REPO" "$DATA/modules.json"
 bash "$HERE/lib/hosts.sh" "$REPO" "$DATA/hosts.json"
 bash "$HERE/lib/scripts.sh" "$REPO" "$DATA/scripts.json"
+bash "$HERE/lib/commits.sh" "$REPO" "$DATA/commits.json"
 
 # Build metadata
 jq -n \

@@ -25,13 +25,28 @@ function card(label, value, sub) {
     </div>`;
 }
 
+// Colored +/- delta vs the previous month.
+function delta(cur, prev) {
+  if (prev == null) return "";
+  const d = cur - prev;
+  if (d === 0) return `<span class="text-zinc-600">±0 vs last month</span>`;
+  const sign = d > 0 ? "+" : "−";
+  const color = d > 0 ? "text-emerald-400" : "text-red-400";
+  return `<span class="${color}">${sign}${nf.format(Math.abs(d))}</span> <span class="text-zinc-600">vs last month</span>`;
+}
+
+function countLangs(byLang) {
+  return Object.values(byLang || {}).filter((v) => v > 0).length;
+}
+
 function renderOverview(langs, hosts, modules, scripts) {
   const cur = langs.current;
-  const nLangs = Object.keys(cur.by_language).length;
+  const prev = langs.series[langs.series.length - 2] || null;
+  const nLangs = countLangs(cur.by_language);
   $("#overview").innerHTML = [
-    card("Lines of code", nf.format(cur.total_lines)),
-    card("Files", nf.format(cur.total_files)),
-    card("Languages", nf.format(nLangs)),
+    card("Lines of code", nf.format(cur.total_lines), delta(cur.total_lines, prev?.total_lines ?? null)),
+    card("Files", nf.format(cur.total_files), delta(cur.total_files, prev?.total_files ?? null)),
+    card("Languages", nf.format(nLangs), delta(nLangs, prev ? countLangs(prev.by_language) : null)),
     card("Nix hosts", nf.format(hosts.hosts.length)),
     card("Nix modules", nf.format(modules.modules.length)),
     card("Scripts", nf.format(scripts.length)),
@@ -161,6 +176,21 @@ function buildFileTree(files) {
   return root;
 }
 
+// Collapse chains of single-child directories into one label,
+// e.g. nix -> features -> collections -> desktop => "nix/features/collections/desktop".
+function collapseChain(name, node) {
+  let label = name;
+  let cur = node;
+  while (cur.children && Object.keys(cur.children).length === 1) {
+    const key = Object.keys(cur.children)[0];
+    const child = cur.children[key];
+    if (child.leaf) break; // stop before a file
+    label += "/" + key;
+    cur = child;
+  }
+  return { label, node: cur };
+}
+
 function renderFileTree(node, depth = 0) {
   if (!node.children) return "";
   return Object.keys(node.children)
@@ -175,9 +205,10 @@ function renderFileTree(node, depth = 0) {
             <span class="shrink-0 text-zinc-600">${child.date || ""}</span>
           </div>`;
       }
+      const { label, node: collapsed } = collapseChain(name, child);
       return (
-        `<div class="text-xs text-zinc-500" style="${pad}">${name}/</div>` +
-        renderFileTree(child, depth + 1)
+        `<div class="text-xs text-zinc-500" style="${pad}">${label}/</div>` +
+        renderFileTree(collapsed, depth + 1)
       );
     })
     .join("");
@@ -242,6 +273,33 @@ function renderScripts(scripts) {
     .join("");
 }
 
+const TYPE_BADGE = "bg-zinc-500/15 text-zinc-300";
+
+function renderCommits(commits) {
+  $("#commits").innerHTML = commits
+    .map((c) => {
+      const types = c.filetypes
+        .map((t) => `<span class="rounded px-1.5 py-0.5 text-xs ${TYPE_BADGE}">${t}</span>`)
+        .join(" ");
+      return `
+        <div class="rounded-lg border border-edge bg-panel p-3">
+          <div class="flex items-baseline justify-between gap-3">
+            <span class="text-sm text-zinc-200">${escapeHtml(c.subject)}</span>
+            <span class="shrink-0 text-xs text-zinc-600">${c.date} · ${c.sha}</span>
+          </div>
+          <div class="mt-2 flex flex-wrap items-center gap-1.5">
+            <span class="mr-1 text-xs text-zinc-600">${c.files_changed} file${c.files_changed === 1 ? "" : "s"}:</span>
+            ${types}
+          </div>
+        </div>`;
+    })
+    .join("");
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+}
+
 function wireMetricButtons(langs) {
   document.querySelectorAll(".metric-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -258,11 +316,12 @@ function wireMetricButtons(langs) {
 
 async function main() {
   try {
-    const [langs, hosts, modules, scripts, meta] = await Promise.all([
+    const [langs, hosts, modules, scripts, commits, meta] = await Promise.all([
       loadJSON("./data/languages.json"),
       loadJSON("./data/hosts.json"),
       loadJSON("./data/modules.json"),
       loadJSON("./data/scripts.json"),
+      loadJSON("./data/commits.json"),
       loadJSON("./data/meta.json"),
     ]);
 
@@ -270,6 +329,7 @@ async function main() {
     renderOverview(langs, hosts, modules, scripts);
     renderLangChart(langs, "lines");
     wireMetricButtons(langs);
+    renderCommits(commits);
     renderHostMatrix(hosts);
     renderModules(modules);
     renderScripts(scripts);

@@ -28,7 +28,7 @@ categorize() {
 }
 
 # modules: [{name, category, files:[{path, last_commit}]}]
-# `path` is relative to the nix/ directory.
+# `path` is relative to the repository root (e.g. nix/features/...).
 modules="$tmp/modules.json"
 : >"$modules"
 while IFS= read -r name; do
@@ -37,7 +37,7 @@ while IFS= read -r name; do
     files_json="$(
         for f in "${fs[@]}"; do
             date="$(git log -1 --format=%cs -- "$f" 2>/dev/null || true)"
-            jq -nc --arg path "${f#nix/}" --arg date "$date" \
+            jq -nc --arg path "$f" --arg date "$date" \
                 '{path: $path, last_commit: $date}'
         done | jq -s .
     )"
