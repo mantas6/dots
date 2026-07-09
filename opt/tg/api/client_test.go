@@ -276,41 +276,61 @@ func TestProjectByID(t *testing.T) {
 }
 
 func TestProjectTasksBareArray(t *testing.T) {
-	var pages []string
+	// The project-scoped tasks endpoint is NOT paginated: it returns every task
+	// as a single bare JSON array. ProjectTasks must issue exactly one request
+	// and must not send page/per_page (walking pages would loop forever, since
+	// the endpoint ignores them and returns the full list for every page).
+	var calls int
+	var gotActive, gotPage string
 	c := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
 		if !strings.HasPrefix(r.URL.Path, "/workspaces/1/projects/42/tasks") {
 			t.Errorf("path = %q, want project tasks endpoint", r.URL.Path)
 		}
-		if got := r.URL.Query().Get("active"); got != "both" {
-			t.Errorf("active = %q, want both", got)
-		}
-		pages = append(pages, r.URL.Query().Get("page"))
-		// This project-scoped endpoint returns a bare JSON array (no envelope).
-		w.Write([]byte(pageTasksBare(r.URL.Query().Get("page"))))
+		calls++
+		gotActive = r.URL.Query().Get("active")
+		gotPage = r.URL.Query().Get("page")
+		w.Write([]byte(projectTasksBare()))
 	})
 	tasks, err := c.ProjectTasks(1, 42, true)
 	if err != nil {
 		t.Fatalf("ProjectTasks: %v", err)
 	}
+	if calls != 1 {
+		t.Errorf("requests = %d, want 1 (endpoint is not paginated)", calls)
+	}
+	if gotPage != "" {
+		t.Errorf("page = %q, want no page param (endpoint is not paginated)", gotPage)
+	}
+	// includeInactive omits the active filter so inactive tasks are returned.
+	if gotActive != "" {
+		t.Errorf("active = %q, want empty when including inactive", gotActive)
+	}
 	if len(tasks) != perPage+1 {
 		t.Errorf("tasks = %d, want %d", len(tasks), perPage+1)
 	}
-	if len(pages) != 2 || pages[0] != "1" || pages[1] != "2" {
-		t.Errorf("requested pages = %v, want [1 2]", pages)
+}
+
+func TestProjectTasksActiveFilter(t *testing.T) {
+	var gotActive string
+	c := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		gotActive = r.URL.Query().Get("active")
+		w.Write([]byte(`[]`))
+	})
+	if _, err := c.ProjectTasks(1, 42, false); err != nil {
+		t.Fatalf("ProjectTasks: %v", err)
+	}
+	if gotActive != "true" {
+		t.Errorf("active = %q, want true when excluding inactive", gotActive)
 	}
 }
 
-// pageTasksBare renders the project-scoped tasks endpoint (a bare array): page 1
-// is a full batch and page 2 is the short final page.
-func pageTasksBare(page string) string {
+// projectTasksBare renders the project-scoped tasks endpoint response: a single
+// bare JSON array holding every task (the endpoint is not paginated), here more
+// than perPage items to prove ProjectTasks no longer walks pages.
+func projectTasksBare() string {
 	var items []string
-	switch page {
-	case "1":
-		for i := 0; i < perPage; i++ {
-			items = append(items, fmt.Sprintf(`{"id":%d,"project_id":42,"name":"T%d","active":true}`, i+1, i+1))
-		}
-	case "2":
-		items = []string{`{"id":9001,"project_id":42,"name":"Last","active":true}`}
+	for i := 0; i < perPage+1; i++ {
+		items = append(items, fmt.Sprintf(`{"id":%d,"project_id":42,"name":"T%d","active":true}`, i+1, i+1))
 	}
 	return "[" + strings.Join(items, ",") + "]"
 }

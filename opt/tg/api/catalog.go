@@ -55,10 +55,25 @@ func (c *Client) Project(workspaceID, projectID int64) (Project, error) {
 }
 
 // ProjectTasks returns the tasks of a single project (active only unless
-// includeInactive). Unlike the workspace tasks endpoint (a {data, ...}
-// envelope), this project-scoped endpoint returns a bare JSON array.
+// includeInactive). Unlike the workspace tasks endpoint (which paginates inside
+// a {data, ...} envelope), this project-scoped endpoint is NOT paginated: it
+// accepts only an `active` filter and returns every task as a bare JSON array
+// in a single response. It must therefore be fetched with one request — walking
+// pages here would loop forever, because the endpoint ignores page/per_page and
+// returns the full list again for every page, so no page is ever short enough
+// to terminate a getPaged-style walk once a project has perPage+ tasks.
 func (c *Client) ProjectTasks(workspaceID, projectID int64, includeInactive bool) ([]Task, error) {
-	return getPaged[Task](c, fmt.Sprintf("/workspaces/%d/projects/%d/tasks", workspaceID, projectID), includeInactive)
+	path := fmt.Sprintf("/workspaces/%d/projects/%d/tasks", workspaceID, projectID)
+	// The endpoint returns all tasks unless active=true is set; omitting the
+	// filter (includeInactive) yields both active and inactive tasks.
+	if !includeInactive {
+		path += "?active=true"
+	}
+	var tasks []Task
+	if err := c.do("GET", path, nil, &tasks); err != nil {
+		return nil, err
+	}
+	return tasks, nil
 }
 
 // tasksResponse is the paginated envelope returned by the workspace tasks
