@@ -396,6 +396,124 @@ func TestResolvePullProjectNone(t *testing.T) {
 	}
 }
 
+func TestResolvePullScopeUnscopedMeansAll(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	// No env id and a blank fragment means "pull every project": nil scope.
+	got, err := resolvePullScope(s, nil, "   ")
+	if err != nil {
+		t.Fatalf("resolve: %v", err)
+	}
+	if got != nil {
+		t.Errorf("resolved = %v, want nil (pull all projects)", got)
+	}
+}
+
+func TestResolvePullScopeEnvWins(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	pid := int64(2)
+	got, err := resolvePullScope(s, &pid, "")
+	if err != nil {
+		t.Fatalf("resolve: %v", err)
+	}
+	if got == nil || *got != 2 {
+		t.Errorf("resolved = %v, want 2 (env scopes the pull)", got)
+	}
+}
+
+func TestResolvePullScopeFragment(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	got, err := resolvePullScope(s, nil, "pay")
+	if err != nil {
+		t.Fatalf("resolve: %v", err)
+	}
+	if got == nil || *got != 2 {
+		t.Errorf("resolved = %v, want 2 (Payments)", got)
+	}
+}
+
+// TestPullAllProjectsUnscoped verifies `tg pull` with no project scope
+// reconciles entries from every project in one pass and advances last_pull.
+func TestPullAllProjectsUnscoped(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`[
+		  {"id":1,"workspace_id":1,"project_id":1,"description":"a",
+		   "start":"2026-01-02T09:00:00Z","stop":"2026-01-02T09:30:00Z",
+		   "duration":1800,"at":"2026-01-02T09:30:00Z"},
+		  {"id":2,"workspace_id":1,"project_id":2,"description":"b",
+		   "start":"2026-01-02T10:00:00Z","stop":"2026-01-02T10:30:00Z",
+		   "duration":1800,"at":"2026-01-02T10:30:00Z"}]`))
+	}))
+	defer srv.Close()
+	c := api.New("tok", api.WithBaseURL(srv.URL), api.WithHTTPClient(srv.Client()))
+
+	since := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
+	now := time.Date(2026, 1, 2, 12, 0, 0, 0, time.UTC)
+	var buf bytes.Buffer
+	// nil env id + empty fragment => pull every project.
+	if err := cmdPull(&buf, s, c, nil, "", since, now, false); err != nil {
+		t.Fatalf("pull: %v", err)
+	}
+	if !strings.Contains(buf.String(), "2 inserted") {
+		t.Errorf("output = %q, want 2 inserted", buf.String())
+	}
+	if got, _ := s.EntryByRemoteID(1); got == nil {
+		t.Error("project 1 entry should be inserted")
+	}
+	if got, _ := s.EntryByRemoteID(2); got == nil {
+		t.Error("project 2 entry should be inserted")
+	}
+	// A full (unscoped) pull advances the watermark.
+	if _, ok, _ := s.GetMeta(store.MetaLastPull); !ok {
+		t.Error("unscoped pull should advance last_pull")
+	}
+}
+
+// TestPullScopedByFragment verifies a fragment still scopes the pull to one
+// project (backwards compatible) and leaves the watermark untouched.
+func TestPullScopedByFragment(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`[
+		  {"id":1,"workspace_id":1,"project_id":1,"description":"backend",
+		   "start":"2026-01-02T09:00:00Z","stop":"2026-01-02T09:30:00Z",
+		   "duration":1800,"at":"2026-01-02T09:30:00Z"},
+		  {"id":2,"workspace_id":1,"project_id":2,"description":"payments",
+		   "start":"2026-01-02T10:00:00Z","stop":"2026-01-02T10:30:00Z",
+		   "duration":1800,"at":"2026-01-02T10:30:00Z"}]`))
+	}))
+	defer srv.Close()
+	c := api.New("tok", api.WithBaseURL(srv.URL), api.WithHTTPClient(srv.Client()))
+
+	since := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
+	now := time.Date(2026, 1, 2, 12, 0, 0, 0, time.UTC)
+	var buf bytes.Buffer
+	// "back" resolves to Backend (project 1); only its entry is reconciled.
+	if err := cmdPull(&buf, s, c, nil, "back", since, now, false); err != nil {
+		t.Fatalf("pull: %v", err)
+	}
+	if got, _ := s.EntryByRemoteID(1); got == nil {
+		t.Error("backend entry should be inserted")
+	}
+	if got, _ := s.EntryByRemoteID(2); got != nil {
+		t.Error("payments entry should be ignored under a backend-scoped pull")
+	}
+	// A scoped pull is partial and must not advance the watermark.
+	if _, ok, _ := s.GetMeta(store.MetaLastPull); ok {
+		t.Error("scoped pull should not advance last_pull")
+	}
+}
+
 func TestResolveStartProjectUnique(t *testing.T) {
 	s := newStore(t)
 	seedCatalog(t, s)

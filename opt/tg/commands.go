@@ -223,12 +223,14 @@ func cmdPush(w io.Writer, st *store.Store, c *api.Client, now time.Time, jsonOut
 	return nil
 }
 
-// cmdPull reconciles a single project's remote entries into the local store
-// (LWW). The project is chosen by projectID (from TOGGL_PROJECT_ID) when set;
-// otherwise fragment must uniquely match a cached project name. Pulling every
-// project at once is intentionally disallowed (see resolvePullProject).
+// cmdPull reconciles remote entries into the local store (LWW). With no project
+// scope (neither TOGGL_PROJECT_ID nor a project-name fragment) it pulls EVERY
+// project's entries in a single pass and advances the last_pull watermark. When
+// a project is given — via projectID (TOGGL_PROJECT_ID) or a fragment that
+// uniquely matches a cached project name — the pull is scoped to that one
+// project (and, being partial, leaves the watermark untouched).
 func cmdPull(w io.Writer, st *store.Store, c *api.Client, projectID *int64, fragment string, since, now time.Time, jsonOut bool) error {
-	pid, err := resolvePullProject(st, projectID, fragment)
+	pid, err := resolvePullScope(st, projectID, fragment)
 	if err != nil {
 		return err
 	}
@@ -274,8 +276,20 @@ func resolveCachedProject(st *store.Store, projectID *int64, fragment string, em
 	}
 }
 
-// resolvePullProject decides which project `pull` scopes to (see
-// resolveCachedProject).
+// resolvePullScope decides which project(s) `tg pull` reconciles. A nil result
+// means "all projects", which is the default when no scope is requested
+// (neither TOGGL_PROJECT_ID nor a project-name fragment). Otherwise the pull is
+// scoped to exactly one cached project (see resolvePullProject).
+func resolvePullScope(st *store.Store, projectID *int64, fragment string) (*int64, error) {
+	if projectID == nil && strings.TrimSpace(fragment) == "" {
+		return nil, nil // no scope -> pull every project
+	}
+	return resolvePullProject(st, projectID, fragment)
+}
+
+// resolvePullProject resolves the single-project scope requested for `tg pull`
+// (an env id or a project-name fragment); see resolveCachedProject. The
+// unscoped "pull all projects" case is handled earlier by resolvePullScope.
 func resolvePullProject(st *store.Store, projectID *int64, fragment string) (*int64, error) {
 	return resolveCachedProject(st, projectID, fragment,
 		errors.New("pull requires a project-name fragment (or set TOGGL_PROJECT_ID)"),

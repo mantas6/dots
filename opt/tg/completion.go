@@ -66,7 +66,7 @@ _tg() {
         "update:refresh one project's tasks"
         'update-projects:sync all workspace projects'
         'push:send local changes to Toggl'
-        "pull:fetch one project's changes"
+        "pull:fetch remote changes (all projects, or one)"
         'completion:print a shell completion script'
         'help:show usage'
       )
