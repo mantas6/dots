@@ -496,6 +496,80 @@ func TestUpdateScopedToOneProject(t *testing.T) {
 	}
 }
 
+// TestUpdateProjectsSyncsWholeWorkspace verifies update-projects walks the
+// entire workspace project list and upserts it (without wiping other cached
+// projects) while never fetching tasks.
+func TestUpdateProjectsSyncsWholeWorkspace(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	var paths []string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		paths = append(paths, r.URL.Path)
+		if r.URL.Path != "/workspaces/1/projects" {
+			t.Errorf("unexpected path %q (update-projects must not fetch tasks)", r.URL.Path)
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+		w.Write([]byte(`[{"id":2,"workspace_id":1,"name":"Payments","billable":true,"active":true},{"id":3,"workspace_id":1,"name":"Frontend","active":true}]`))
+	}))
+	defer srv.Close()
+	c := api.New("tok", api.WithBaseURL(srv.URL), api.WithHTTPClient(srv.Client()))
+
+	var buf bytes.Buffer
+	if err := cmdUpdateProjects(&buf, s, c, 1, false, false); err != nil {
+		t.Fatalf("update-projects: %v", err)
+	}
+	if !strings.Contains(buf.String(), "2 projects") {
+		t.Errorf("output = %q, want project count", buf.String())
+	}
+
+	// Only the workspace projects endpoint was hit; tasks were never fetched.
+	for _, p := range paths {
+		if p != "/workspaces/1/projects" {
+			t.Errorf("unexpected request path %q", p)
+		}
+	}
+
+	// The fetched project was added and the pre-existing project 1 (Backend,
+	// not in the response) is left untouched by the upsert.
+	projects, _ := s.ListProjects(false)
+	names := map[string]bool{}
+	for _, p := range projects {
+		names[p.Name] = true
+	}
+	for _, want := range []string{"Backend", "Payments", "Frontend"} {
+		if !names[want] {
+			t.Errorf("project %q missing after sync: %+v", want, projects)
+		}
+	}
+
+	// Cached tasks are untouched: update-projects never syncs tasks.
+	p1 := int64(1)
+	backend, _ := s.ListTasks(false, &p1)
+	if len(backend) == 0 {
+		t.Error("project 1 tasks should be untouched by update-projects")
+	}
+}
+
+func TestUpdateProjectsJSON(t *testing.T) {
+	s := newStore(t)
+
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`[{"id":2,"workspace_id":1,"name":"Payments","active":true}]`))
+	}))
+	defer srv.Close()
+	c := api.New("tok", api.WithBaseURL(srv.URL), api.WithHTTPClient(srv.Client()))
+
+	var buf bytes.Buffer
+	if err := cmdUpdateProjects(&buf, s, c, 1, false, true); err != nil {
+		t.Fatalf("update-projects --json: %v", err)
+	}
+	if !strings.Contains(buf.String(), `"projects":1`) {
+		t.Errorf("json output = %q, want projects count", buf.String())
+	}
+}
+
 func TestProjectsCommand(t *testing.T) {
 	s := newStore(t)
 	seedCatalog(t, s)

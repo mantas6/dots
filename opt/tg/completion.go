@@ -63,7 +63,8 @@ _tg() {
         "ls:show today's entries"
         'tasks:list cached tasks'
         'projects:list cached projects with ids'
-        'update:refresh the project/task catalog'
+        "update:refresh one project's tasks"
+        'update-projects:sync all workspace projects'
         'push:send local changes to Toggl'
         "pull:fetch one project's changes"
         'completion:print a shell completion script'
@@ -90,6 +91,9 @@ _tg() {
           ;;
         update)
           _arguments '--all[include inactive tasks]' '--json[emit JSON]' '*:project fragment:'
+          ;;
+        update-projects)
+          _arguments '--all[include inactive projects]' '--json[emit JSON]'
           ;;
         pull)
           _arguments '--since[pull entries modified since DATE]:date (YYYY-MM-DD):' '--json[emit JSON]' '*:project fragment:'

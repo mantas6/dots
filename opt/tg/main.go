@@ -48,6 +48,8 @@ func run(cmd string, args []string) error {
 		return runProjects(args)
 	case "update":
 		return runUpdate(args)
+	case "update-projects":
+		return runUpdateProjects(args)
 	case "push":
 		return runPush(args)
 	case "pull":
@@ -188,6 +190,25 @@ func runUpdate(args []string) error {
 	defer st.Close()
 	fragment := strings.Join(fs.Args(), " ")
 	return cmdUpdate(os.Stdout, st, api.New(cfg.APIToken), cfg.WorkspaceID, projectIDFromEnv(), fragment, *all, *jsonOut)
+}
+
+func runUpdateProjects(args []string) error {
+	fs := newFlagSet("update-projects")
+	all := fs.Bool("all", false, "include inactive projects")
+	jsonOut := fs.Bool("json", false, "emit JSON")
+	if err := fs.Parse(args); err != nil {
+		return err
+	}
+	cfg, err := config.Load()
+	if err != nil {
+		return err
+	}
+	st, err := openStore()
+	if err != nil {
+		return err
+	}
+	defer st.Close()
+	return cmdUpdateProjects(os.Stdout, st, api.New(cfg.APIToken), cfg.WorkspaceID, *all, *jsonOut)
 }
 
 func runPush(args []string) error {
@@ -333,6 +354,7 @@ func printUsage(w io.Writer) {
 	fmt.Fprintln(w, "  tasks                     list cached tasks                 [--all] [--json]")
 	fmt.Fprintln(w, "  projects                  list cached projects with ids     [--all] [--json]")
 	fmt.Fprintln(w, "  update <project>          refresh one project's tasks       [--all] [--json]")
+	fmt.Fprintln(w, "  update-projects           sync all workspace projects       [--all] [--json]")
 	fmt.Fprintln(w, "  push                      send local changes to Toggl       [--json]")
 	fmt.Fprintln(w, "  pull <project>            fetch one project's changes [--since DATE] [--json]")
 	fmt.Fprintln(w, "  completion zsh            print the zsh completion script")

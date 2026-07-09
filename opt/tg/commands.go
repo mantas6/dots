@@ -175,6 +175,28 @@ func cmdUpdate(w io.Writer, st *store.Store, c *api.Client, workspaceID int64, p
 	return nil
 }
 
+// cmdUpdateProjects syncs the WHOLE workspace project catalog: every available
+// project is fetched from Toggl and upserted into the local store. Unlike
+// cmdUpdate (which is deliberately scoped to a single project), this walks the
+// entire workspace, but it never fetches tasks — refresh a project's tasks with
+// `tg update`. `--all` includes inactive projects.
+func cmdUpdateProjects(w io.Writer, st *store.Store, c *api.Client, workspaceID int64, all, jsonOut bool) error {
+	projects, err := c.Projects(workspaceID, all)
+	if err != nil {
+		return err
+	}
+	for _, p := range projects {
+		if err := st.PutProject(toStoreProject(p)); err != nil {
+			return err
+		}
+	}
+	if jsonOut {
+		return writeJSON(w, map[string]any{"projects": len(projects)})
+	}
+	fmt.Fprintf(w, "Updated project catalog: %d projects.\n", len(projects))
+	return nil
+}
+
 // cmdPush sends dirty local entries to Toggl.
 func cmdPush(w io.Writer, st *store.Store, c *api.Client, now time.Time, jsonOut bool) error {
 	res, err := sync.Push(st, c, now)
