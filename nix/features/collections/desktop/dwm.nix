@@ -23,11 +23,11 @@
           ];
         })
         .overrideAttrs (_: {
-          version = "6.6";
+          version = "6.8";
           src = pkgs.fetchgit {
             url = "https://git.suckless.org/dwm";
-            rev = "693d94d350c806e77677c35958e18590c26e19d2"; # tag: 6.6
-            hash = "sha256-fD97OpObSOBTAMc3teejS0u2h4hCkMVYJrNZ6F4IaFs=";
+            rev = "f63cde9354504ee9cfecc07517c03736d0f90c26"; # tag: 6.8
+            hash = "sha256-mkMFmqV9NVGTdDGqW8f+T7r0YQNU1KDsn6uRcacoNco=";
           };
         });
     };
