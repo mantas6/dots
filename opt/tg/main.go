@@ -79,7 +79,22 @@ func runStart(args []string) error {
 		return err
 	}
 	defer st.Close()
-	return cmdStart(os.Stdout, st, cfg.WorkspaceID, projectIDFromEnv(), strings.Join(fs.Args(), " "), time.Now())
+
+	// Two positional args mean `tg start <project> <task>`: the first scopes to
+	// a project (overriding TOGGL_PROJECT_ID) and the second is the task
+	// fragment. Any other count is the task fragment alone, scoped by env.
+	rest := fs.Args()
+	projectID := projectIDFromEnv()
+	fragment := strings.Join(rest, " ")
+	if len(rest) == 2 {
+		pid, err := resolveStartProject(st, rest[0])
+		if err != nil {
+			return err
+		}
+		projectID = pid
+		fragment = rest[1]
+	}
+	return cmdStart(os.Stdout, st, cfg.WorkspaceID, projectID, fragment, time.Now())
 }
 
 func runStop(args []string) error {
@@ -157,7 +172,7 @@ func runProjects(args []string) error {
 
 func runUpdate(args []string) error {
 	fs := newFlagSet("update")
-	all := fs.Bool("all", false, "include inactive projects/tasks")
+	all := fs.Bool("all", false, "include inactive tasks")
 	jsonOut := fs.Bool("json", false, "emit JSON")
 	if err := fs.Parse(args); err != nil {
 		return err
@@ -171,7 +186,8 @@ func runUpdate(args []string) error {
 		return err
 	}
 	defer st.Close()
-	return cmdUpdate(os.Stdout, st, api.New(cfg.APIToken), cfg.WorkspaceID, *all, *jsonOut)
+	fragment := strings.Join(fs.Args(), " ")
+	return cmdUpdate(os.Stdout, st, api.New(cfg.APIToken), cfg.WorkspaceID, projectIDFromEnv(), fragment, *all, *jsonOut)
 }
 
 func runPush(args []string) error {
@@ -309,20 +325,21 @@ func printUsage(w io.Writer) {
 	fmt.Fprintln(w, "usage: tg <command> [flags]")
 	fmt.Fprintln(w, "")
 	fmt.Fprintln(w, "commands:")
-	fmt.Fprintln(w, "  auth [token]          verify a Toggl API token and store config")
-	fmt.Fprintln(w, "  start <fragment>      start tracking the task matching <fragment>")
-	fmt.Fprintln(w, "  stop                  stop the running entry (rounds up to 5m)")
-	fmt.Fprintln(w, "  current | status      show the running entry            [--json]")
-	fmt.Fprintln(w, "  today   | list | ls   show today's entries     [--days N] [--json]")
-	fmt.Fprintln(w, "  tasks                 list cached tasks                 [--all] [--json]")
-	fmt.Fprintln(w, "  projects              list cached projects with ids     [--all] [--json]")
-	fmt.Fprintln(w, "  update                refresh the project/task catalog  [--all] [--json]")
-	fmt.Fprintln(w, "  push                  send local changes to Toggl       [--json]")
-	fmt.Fprintln(w, "  pull <project>        fetch one project's changes [--since DATE] [--json]")
-	fmt.Fprintln(w, "  completion zsh        print the zsh completion script")
+	fmt.Fprintln(w, "  auth [token]              verify a Toggl API token and store config")
+	fmt.Fprintln(w, "  start [project] <task>    start tracking the task matching <task>")
+	fmt.Fprintln(w, "  stop                      stop the running entry (rounds up to 5m)")
+	fmt.Fprintln(w, "  current | status          show the running entry            [--json]")
+	fmt.Fprintln(w, "  today   | list | ls       show today's entries     [--days N] [--json]")
+	fmt.Fprintln(w, "  tasks                     list cached tasks                 [--all] [--json]")
+	fmt.Fprintln(w, "  projects                  list cached projects with ids     [--all] [--json]")
+	fmt.Fprintln(w, "  update <project>          refresh one project's tasks       [--all] [--json]")
+	fmt.Fprintln(w, "  push                      send local changes to Toggl       [--json]")
+	fmt.Fprintln(w, "  pull <project>            fetch one project's changes [--since DATE] [--json]")
+	fmt.Fprintln(w, "  completion zsh            print the zsh completion script")
 	fmt.Fprintln(w, "")
 	fmt.Fprintln(w, "sync: run `tg pull` then `tg push` for correct last-writer-wins.")
-	fmt.Fprintln(w, "env:  TOGGL_PROJECT_ID scopes `start`/`tasks`/`pull` to one project")
-	fmt.Fprintln(w, "      (and sets the project on entries created by `start`). When it is")
-	fmt.Fprintln(w, "      unset, `pull` requires a unique <project> name fragment.")
+	fmt.Fprintln(w, "env:  TOGGL_PROJECT_ID scopes `start`/`tasks`/`update`/`pull` to one")
+	fmt.Fprintln(w, "      project (and sets the project on entries created by `start`).")
+	fmt.Fprintln(w, "      When unset, `update`/`pull` require a unique <project> name, and")
+	fmt.Fprintln(w, "      `start` accepts `<project> <task>` to scope by project name.")
 }

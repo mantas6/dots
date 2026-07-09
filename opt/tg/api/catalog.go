@@ -45,6 +45,22 @@ func (c *Client) Projects(workspaceID int64, includeInactive bool) ([]Project, e
 	return getPaged[Project](c, fmt.Sprintf("/workspaces/%d/projects", workspaceID), includeInactive)
 }
 
+// Project returns a single workspace project by id. It is used by the
+// project-scoped `tg update` to refresh (or bootstrap) one project's metadata
+// without listing the whole workspace.
+func (c *Client) Project(workspaceID, projectID int64) (Project, error) {
+	var p Project
+	err := c.do("GET", fmt.Sprintf("/workspaces/%d/projects/%d", workspaceID, projectID), nil, &p)
+	return p, err
+}
+
+// ProjectTasks returns the tasks of a single project (active only unless
+// includeInactive). Unlike the workspace tasks endpoint (a {data, ...}
+// envelope), this project-scoped endpoint returns a bare JSON array.
+func (c *Client) ProjectTasks(workspaceID, projectID int64, includeInactive bool) ([]Task, error) {
+	return getPaged[Task](c, fmt.Sprintf("/workspaces/%d/projects/%d/tasks", workspaceID, projectID), includeInactive)
+}
+
 // tasksResponse is the paginated envelope returned by the workspace tasks
 // endpoint. Unlike projects (a bare array), tasks arrive wrapped in
 // {data, total_count, per_page}; decoding into a slice is what previously

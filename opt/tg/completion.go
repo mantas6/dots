@@ -89,7 +89,7 @@ _tg() {
           _arguments '--all[include inactive projects]' '--json[emit JSON]'
           ;;
         update)
-          _arguments '--all[include inactive projects/tasks]' '--json[emit JSON]'
+          _arguments '--all[include inactive tasks]' '--json[emit JSON]' '*:project fragment:'
           ;;
         pull)
           _arguments '--since[pull entries modified since DATE]:date (YYYY-MM-DD):' '--json[emit JSON]' '*:project fragment:'

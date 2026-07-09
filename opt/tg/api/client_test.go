@@ -259,6 +259,62 @@ func TestTasksPaginationEnvelope(t *testing.T) {
 	}
 }
 
+func TestProjectByID(t *testing.T) {
+	c := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/workspaces/1/projects/42" {
+			t.Errorf("path = %q, want /workspaces/1/projects/42", r.URL.Path)
+		}
+		w.Write([]byte(`{"id":42,"workspace_id":1,"name":"Payments","billable":true,"active":true}`))
+	})
+	p, err := c.Project(1, 42)
+	if err != nil {
+		t.Fatalf("Project: %v", err)
+	}
+	if p.ID != 42 || p.Name != "Payments" || !p.Billable {
+		t.Errorf("project = %+v, want id 42 Payments billable", p)
+	}
+}
+
+func TestProjectTasksBareArray(t *testing.T) {
+	var pages []string
+	c := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		if !strings.HasPrefix(r.URL.Path, "/workspaces/1/projects/42/tasks") {
+			t.Errorf("path = %q, want project tasks endpoint", r.URL.Path)
+		}
+		if got := r.URL.Query().Get("active"); got != "both" {
+			t.Errorf("active = %q, want both", got)
+		}
+		pages = append(pages, r.URL.Query().Get("page"))
+		// This project-scoped endpoint returns a bare JSON array (no envelope).
+		w.Write([]byte(pageTasksBare(r.URL.Query().Get("page"))))
+	})
+	tasks, err := c.ProjectTasks(1, 42, true)
+	if err != nil {
+		t.Fatalf("ProjectTasks: %v", err)
+	}
+	if len(tasks) != perPage+1 {
+		t.Errorf("tasks = %d, want %d", len(tasks), perPage+1)
+	}
+	if len(pages) != 2 || pages[0] != "1" || pages[1] != "2" {
+		t.Errorf("requested pages = %v, want [1 2]", pages)
+	}
+}
+
+// pageTasksBare renders the project-scoped tasks endpoint (a bare array): page 1
+// is a full batch and page 2 is the short final page.
+func pageTasksBare(page string) string {
+	var items []string
+	switch page {
+	case "1":
+		for i := 0; i < perPage; i++ {
+			items = append(items, fmt.Sprintf(`{"id":%d,"project_id":42,"name":"T%d","active":true}`, i+1, i+1))
+		}
+	case "2":
+		items = []string{`{"id":9001,"project_id":42,"name":"Last","active":true}`}
+	}
+	return "[" + strings.Join(items, ",") + "]"
+}
+
 func TestErrorMapping(t *testing.T) {
 	t.Run("forbidden", func(t *testing.T) {
 		c := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {

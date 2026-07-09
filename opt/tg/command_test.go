@@ -396,6 +396,106 @@ func TestResolvePullProjectNone(t *testing.T) {
 	}
 }
 
+func TestResolveStartProjectUnique(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	got, err := resolveStartProject(s, "pay")
+	if err != nil {
+		t.Fatalf("resolve: %v", err)
+	}
+	if got == nil || *got != 2 {
+		t.Errorf("resolved = %v, want project 2 (Payments)", got)
+	}
+}
+
+func TestResolveStartProjectNone(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	_, err := resolveStartProject(s, "nonexistent")
+	if err == nil || !strings.Contains(err.Error(), "tg update") {
+		t.Errorf("err = %v, want suggestion to run `tg update`", err)
+	}
+}
+
+func TestResolveUpdateProjectEnvWins(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	pid := int64(2)
+	got, err := resolveUpdateProject(s, &pid, "backend")
+	if err != nil {
+		t.Fatalf("resolve: %v", err)
+	}
+	if got == nil || *got != 2 {
+		t.Errorf("resolved = %v, want 2 (env wins)", got)
+	}
+}
+
+func TestResolveUpdateProjectRequiresScope(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	_, err := resolveUpdateProject(s, nil, "  ")
+	if err == nil || !strings.Contains(err.Error(), "TOGGL_PROJECT_ID") {
+		t.Errorf("err = %v, want required-argument error mentioning TOGGL_PROJECT_ID", err)
+	}
+}
+
+// TestUpdateScopedToOneProject verifies update fetches only the selected
+// project's metadata and tasks (never the whole workspace) and upserts them
+// without wiping other projects' cached tasks.
+func TestUpdateScopedToOneProject(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	var paths []string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		paths = append(paths, r.URL.Path)
+		switch r.URL.Path {
+		case "/workspaces/1/projects/2":
+			w.Write([]byte(`{"id":2,"workspace_id":1,"name":"Payments","billable":true,"active":true}`))
+		case "/workspaces/1/projects/2/tasks":
+			w.Write([]byte(`[{"id":21,"workspace_id":1,"project_id":2,"name":"New payment task","active":true}]`))
+		default:
+			t.Errorf("unexpected path %q (update must not sync all projects)", r.URL.Path)
+			w.WriteHeader(http.StatusNotFound)
+		}
+	}))
+	defer srv.Close()
+	c := api.New("tok", api.WithBaseURL(srv.URL), api.WithHTTPClient(srv.Client()))
+
+	pid := int64(2)
+	var buf bytes.Buffer
+	if err := cmdUpdate(&buf, s, c, 1, &pid, "", false, false); err != nil {
+		t.Fatalf("update: %v", err)
+	}
+	if !strings.Contains(buf.String(), "Payments") {
+		t.Errorf("output = %q, want project name", buf.String())
+	}
+
+	// Only the single-project endpoints were hit.
+	for _, p := range paths {
+		if p != "/workspaces/1/projects/2" && p != "/workspaces/1/projects/2/tasks" {
+			t.Errorf("unexpected request path %q", p)
+		}
+	}
+
+	// Project 2's tasks were replaced with the fetched one...
+	p2 := int64(2)
+	scoped, _ := s.ListTasks(false, &p2)
+	if len(scoped) != 1 || scoped[0].ID != 21 {
+		t.Errorf("project 2 tasks = %+v, want only id 21", scoped)
+	}
+	// ...while project 1's cached tasks are untouched.
+	p1 := int64(1)
+	backend, _ := s.ListTasks(false, &p1)
+	if len(backend) == 0 {
+		t.Error("project 1 tasks should be untouched by a project-2 update")
+	}
+}
+
 func TestProjectsCommand(t *testing.T) {
 	s := newStore(t)
 	seedCatalog(t, s)

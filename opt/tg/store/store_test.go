@@ -309,6 +309,54 @@ func TestCatalogFullReplace(t *testing.T) {
 	}
 }
 
+func TestReplaceProjectTasksScoped(t *testing.T) {
+	s := openTest(t)
+	if err := s.ReplaceTasks([]Task{
+		{ID: 10, WorkspaceID: 1, ProjectID: 1, Name: "Backend A", Active: true},
+		{ID: 11, WorkspaceID: 1, ProjectID: 1, Name: "Backend B", Active: true},
+		{ID: 20, WorkspaceID: 1, ProjectID: 2, Name: "Payments A", Active: true},
+	}); err != nil {
+		t.Fatalf("seed tasks: %v", err)
+	}
+
+	// Replacing project 1's tasks must leave project 2 untouched.
+	if err := s.ReplaceProjectTasks(1, []Task{
+		{ID: 12, WorkspaceID: 1, ProjectID: 1, Name: "Backend C", Active: true},
+	}); err != nil {
+		t.Fatalf("replace project tasks: %v", err)
+	}
+
+	all, err := s.activeTasks()
+	if err != nil {
+		t.Fatalf("active tasks: %v", err)
+	}
+	ids := map[int64]bool{}
+	for _, task := range all {
+		ids[task.ID] = true
+	}
+	if len(all) != 2 || !ids[12] || !ids[20] {
+		t.Fatalf("tasks after scoped replace = %+v, want only 12 (proj 1) and 20 (proj 2)", all)
+	}
+}
+
+func TestPutProjectFullUpsert(t *testing.T) {
+	s := openTest(t)
+	if err := s.PutProject(Project{ID: 5, WorkspaceID: 1, Name: "Old", Active: true, Billable: false}); err != nil {
+		t.Fatalf("put project: %v", err)
+	}
+	// A second put must fully overwrite mutable fields (name, billable, active).
+	if err := s.PutProject(Project{ID: 5, WorkspaceID: 1, Name: "New", Active: false, Billable: true}); err != nil {
+		t.Fatalf("put project 2: %v", err)
+	}
+	p, err := s.ProjectByID(5)
+	if err != nil {
+		t.Fatalf("project by id: %v", err)
+	}
+	if p == nil || p.Name != "New" || !p.Billable || p.Active {
+		t.Fatalf("project = %+v, want New billable inactive", p)
+	}
+}
+
 func TestFindTasksByFragment(t *testing.T) {
 	s := openTest(t)
 	tasks := []Task{

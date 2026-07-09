@@ -349,6 +349,29 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
 	return tx.Commit()
 }
 
+// ReplaceProjectTasks atomically replaces the cached tasks of a single project,
+// leaving every other project's tasks untouched. It backs the project-scoped
+// `tg update`, which never refreshes the whole workspace.
+func (s *Store) ReplaceProjectTasks(projectID int64, tasks []Task) error {
+	tx, err := s.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+	if _, err := tx.Exec("DELETE FROM tasks WHERE project_id = ?", projectID); err != nil {
+		return err
+	}
+	for _, t := range tasks {
+		if _, err := tx.Exec(`
+INSERT INTO tasks (id, workspace_id, project_id, name, active, at)
+VALUES (?, ?, ?, ?, ?, ?)`,
+			t.ID, t.WorkspaceID, t.ProjectID, t.Name, boolToInt(t.Active), t.At); err != nil {
+			return err
+		}
+	}
+	return tx.Commit()
+}
+
 // ReplaceTasks atomically replaces the entire tasks mirror.
 func (s *Store) ReplaceTasks(tasks []Task) error {
 	tx, err := s.db.Begin()
@@ -368,6 +391,23 @@ VALUES (?, ?, ?, ?, ?, ?)`,
 		}
 	}
 	return tx.Commit()
+}
+
+// PutProject inserts or fully updates a single project row by id, refreshing
+// every display and state field (name, color, client, active, billable, at).
+// Unlike UpsertProject (which is a conservative self-heal from meta pulls),
+// this is authoritative and backs the project-scoped `tg update`.
+func (s *Store) PutProject(p Project) error {
+	_, err := s.db.Exec(`
+INSERT INTO projects (id, workspace_id, name, color, client_name, active, billable, at)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+ON CONFLICT(id) DO UPDATE SET
+  workspace_id = excluded.workspace_id, name = excluded.name, color = excluded.color,
+  client_name = excluded.client_name, active = excluded.active,
+  billable = excluded.billable, at = excluded.at`,
+		p.ID, p.WorkspaceID, p.Name, p.Color, p.ClientName,
+		boolToInt(p.Active), boolToInt(p.Billable), p.At)
+	return err
 }
 
 // UpsertProject inserts or updates a single project row by id, refreshing the

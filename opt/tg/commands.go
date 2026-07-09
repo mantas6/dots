@@ -16,8 +16,10 @@ import (
 // cmdStart resolves a task-title fragment to a single task and starts tracking
 // it: 1 match -> auto-stop the running entry and create a new running entry
 // (empty description, task + project set); many -> error listing candidates;
-// none -> error suggesting `tg update`. projectID (from TOGGL_PROJECT_ID)
-// scopes the candidates when set.
+// none -> error suggesting `tg update`. projectID scopes the candidates when
+// set; it comes from TOGGL_PROJECT_ID or, for the 2-argument form
+// (`tg start <project> <task>`), from the resolved project-name argument (see
+// runStart / resolveStartProject).
 func cmdStart(w io.Writer, st *store.Store, workspaceID int64, projectID *int64, fragment string, now time.Time) error {
 	fragment = strings.TrimSpace(fragment)
 	if fragment == "" {
@@ -141,27 +143,35 @@ func cmdProjects(w io.Writer, st *store.Store, all, jsonOut bool) error {
 	return nil
 }
 
-// cmdUpdate mirrors the Toggl catalog (projects + tasks) via full replace.
-func cmdUpdate(w io.Writer, st *store.Store, c *api.Client, workspaceID int64, all, jsonOut bool) error {
-	projects, err := c.Projects(workspaceID, all)
+// cmdUpdate refreshes the cached catalog for a SINGLE project (never the whole
+// workspace): its metadata plus its tasks are fetched and upserted. The project
+// is chosen by projectID (from TOGGL_PROJECT_ID) when set; otherwise fragment
+// must uniquely match a cached project name. Refreshing every project at once
+// is intentionally disallowed (see resolveUpdateProject).
+func cmdUpdate(w io.Writer, st *store.Store, c *api.Client, workspaceID int64, projectID *int64, fragment string, all, jsonOut bool) error {
+	pid, err := resolveUpdateProject(st, projectID, fragment)
 	if err != nil {
 		return err
 	}
-	tasks, err := c.Tasks(workspaceID, all)
+	project, err := c.Project(workspaceID, *pid)
 	if err != nil {
 		return err
 	}
-	if err := st.ReplaceProjects(toStoreProjects(projects)); err != nil {
+	tasks, err := c.ProjectTasks(workspaceID, *pid, all)
+	if err != nil {
 		return err
 	}
-	if err := st.ReplaceTasks(toStoreTasks(tasks)); err != nil {
+	if err := st.PutProject(toStoreProject(project)); err != nil {
+		return err
+	}
+	if err := st.ReplaceProjectTasks(*pid, toStoreTasks(tasks)); err != nil {
 		return err
 	}
 
 	if jsonOut {
-		return writeJSON(w, map[string]int{"projects": len(projects), "tasks": len(tasks)})
+		return writeJSON(w, map[string]any{"project": project.Name, "tasks": len(tasks)})
 	}
-	fmt.Fprintf(w, "Updated catalog: %d projects, %d tasks.\n", len(projects), len(tasks))
+	fmt.Fprintf(w, "Updated catalog for %s: %d tasks.\n", project.Name, len(tasks))
 	return nil
 }
 
@@ -199,18 +209,20 @@ func cmdPull(w io.Writer, st *store.Store, c *api.Client, projectID *int64, frag
 	return nil
 }
 
-// resolvePullProject decides which project `pull` scopes to. When projectID is
-// set (from TOGGL_PROJECT_ID) it wins and fragment is ignored. Otherwise a
-// fragment is required and must resolve to exactly one cached project: none ->
-// error suggesting `tg update`; many -> error listing candidates. This keeps
-// `pull` from ever fetching every project's entries at once.
-func resolvePullProject(st *store.Store, projectID *int64, fragment string) (*int64, error) {
+// resolveCachedProject resolves an optional env project id or a project-name
+// fragment to exactly one cached project id. When projectID (TOGGL_PROJECT_ID)
+// is non-nil it wins and fragment is ignored. Otherwise fragment is required
+// (emptyErr is returned verbatim when it is blank) and must resolve to exactly
+// one cached project: none -> error + noMatchHint; many -> error listing
+// candidates. This is the shared machinery that keeps `start`, `pull`, and
+// `update` scoped to a single project rather than the whole workspace.
+func resolveCachedProject(st *store.Store, projectID *int64, fragment string, emptyErr error, noMatchHint string) (*int64, error) {
 	if projectID != nil {
 		return projectID, nil
 	}
 	fragment = strings.TrimSpace(fragment)
 	if fragment == "" {
-		return nil, errors.New("pull requires a project-name fragment (or set TOGGL_PROJECT_ID)")
+		return nil, emptyErr
 	}
 	projects, err := st.FindProjectsByFragment(fragment)
 	if err != nil {
@@ -218,13 +230,40 @@ func resolvePullProject(st *store.Store, projectID *int64, fragment string) (*in
 	}
 	switch len(projects) {
 	case 0:
-		return nil, fmt.Errorf("no project matches %q; run `tg update` to refresh the catalog", fragment)
+		return nil, fmt.Errorf("no project matches %q%s", fragment, noMatchHint)
 	case 1:
 		id := projects[0].ID
 		return &id, nil
 	default:
 		return nil, fmt.Errorf("multiple projects match %q:\n%s", fragment, projectCandidateList(projects))
 	}
+}
+
+// resolvePullProject decides which project `pull` scopes to (see
+// resolveCachedProject).
+func resolvePullProject(st *store.Store, projectID *int64, fragment string) (*int64, error) {
+	return resolveCachedProject(st, projectID, fragment,
+		errors.New("pull requires a project-name fragment (or set TOGGL_PROJECT_ID)"),
+		"; run `tg update` to refresh the catalog")
+}
+
+// resolveUpdateProject decides which single project `tg update` refreshes. When
+// TOGGL_PROJECT_ID is set it wins; otherwise the project-name argument must
+// uniquely match a cached project. This keeps update from ever refreshing every
+// project at once.
+func resolveUpdateProject(st *store.Store, projectID *int64, fragment string) (*int64, error) {
+	return resolveCachedProject(st, projectID, fragment,
+		errors.New("update requires a project-name argument (or set TOGGL_PROJECT_ID)"),
+		"; set TOGGL_PROJECT_ID to its id to update a project not yet cached")
+}
+
+// resolveStartProject resolves the project-name argument accepted by the 2-arg
+// form of `tg start` (`tg start <project> <task>`) to exactly one cached
+// project id, so the task search can be scoped to it.
+func resolveStartProject(st *store.Store, fragment string) (*int64, error) {
+	return resolveCachedProject(st, nil, fragment,
+		errors.New("usage: tg start [project] <task-fragment>"),
+		"; run `tg update` to refresh the catalog")
 }
 
 // cmdAuth acquires a token (via tokenSource), verifies it against GET /me, and
@@ -279,16 +318,12 @@ func startOfDay(t time.Time, loc *time.Location) time.Time {
 	return time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, loc)
 }
 
-func toStoreProjects(ps []api.Project) []store.Project {
-	out := make([]store.Project, len(ps))
-	for i, p := range ps {
-		out[i] = store.Project{
-			ID: p.ID, WorkspaceID: p.WorkspaceID, Name: p.Name,
-			Color: p.Color, ClientName: p.ClientName, Active: p.Active,
-			Billable: p.Billable, At: p.At,
-		}
+func toStoreProject(p api.Project) store.Project {
+	return store.Project{
+		ID: p.ID, WorkspaceID: p.WorkspaceID, Name: p.Name,
+		Color: p.Color, ClientName: p.ClientName, Active: p.Active,
+		Billable: p.Billable, At: p.At,
 	}
-	return out
 }
 
 func toStoreTasks(ts []api.Task) []store.Task {
