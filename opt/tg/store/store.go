@@ -412,15 +412,18 @@ ON CONFLICT(id) DO UPDATE SET
 
 // UpsertProject inserts or updates a single project row by id, refreshing the
 // display fields. It is used to self-heal the catalog from meta-enriched pulls
-// so entries always resolve a project name, even before a full `tg update`.
-// It deliberately leaves active/at untouched on conflict so an authoritative
-// `tg update` is never downgraded.
+// so entries always resolve a project name (and color), even before a full
+// `tg update`. It deliberately leaves active/at untouched on conflict so an
+// authoritative `tg update` is never downgraded. Color is only refreshed when a
+// non-empty value is supplied, so a meta payload lacking a color never clobbers
+// a color already stored by an authoritative update.
 func (s *Store) UpsertProject(p Project) error {
 	_, err := s.db.Exec(`
 INSERT INTO projects (id, workspace_id, name, color, client_name, active, billable, at)
 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 ON CONFLICT(id) DO UPDATE SET
-  workspace_id = excluded.workspace_id, name = excluded.name`,
+  workspace_id = excluded.workspace_id, name = excluded.name,
+  color = COALESCE(NULLIF(excluded.color, ''), color)`,
 		p.ID, p.WorkspaceID, p.Name, p.Color, p.ClientName,
 		boolToInt(p.Active), boolToInt(p.Billable), p.At)
 	return err

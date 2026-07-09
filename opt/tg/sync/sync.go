@@ -148,9 +148,9 @@ func Push(st *store.Store, c *api.Client, now time.Time) (PushResult, error) {
 }
 
 // healCatalog upserts the project/task referenced by a (non-deleted) remote
-// entry using the names from its meta=true payload. Missing names or ids are
-// skipped, so this is a no-op when meta is absent. A task is only healed when
-// its project id is known, since the catalog requires it.
+// entry using the names (and project color) from its meta=true payload. Missing
+// names or ids are skipped, so this is a no-op when meta is absent. A task is
+// only healed when its project id is known, since the catalog requires it.
 func healCatalog(st *store.Store, r api.TimeEntry) error {
 	if r.Deleted() {
 		return nil
@@ -160,6 +160,7 @@ func healCatalog(st *store.Store, r api.TimeEntry) error {
 			ID:          *r.ProjectID,
 			WorkspaceID: r.WorkspaceID,
 			Name:        r.ProjectName,
+			Color:       r.ProjectColor,
 			Active:      true,
 		}); err != nil {
 			return err

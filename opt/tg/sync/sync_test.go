@@ -298,7 +298,8 @@ func TestPullSkipsRemoteDeletedWithNoLocal(t *testing.T) {
 func TestPullSelfHealsCatalog(t *testing.T) {
 	st, c := setup(t, func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`[{"id":950,"workspace_id":1,"project_id":5,"task_id":7,
-		  "project_name":"Backend","task_name":"Fix login bug","description":"",
+		  "project_name":"Backend","project_color":"#0B83D9",
+		  "task_name":"Fix login bug","description":"",
 		  "start":"2026-01-02T09:00:00Z","stop":"2026-01-02T09:30:00Z",
 		  "duration":1800,"at":"2026-01-02T09:30:00Z"}]`))
 	})
@@ -319,6 +320,10 @@ func TestPullSelfHealsCatalog(t *testing.T) {
 	}
 	if entries[0].ProjectName != "Backend" {
 		t.Errorf("project name = %q, want %q", entries[0].ProjectName, "Backend")
+	}
+	// The meta=true project color is healed too, so `tg ls` renders its block.
+	if entries[0].ProjectColor != "#0B83D9" {
+		t.Errorf("project color = %q, want %q", entries[0].ProjectColor, "#0B83D9")
 	}
 
 	// And the healed task is discoverable for `start`.

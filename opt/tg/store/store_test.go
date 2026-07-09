@@ -357,6 +357,43 @@ func TestPutProjectFullUpsert(t *testing.T) {
 	}
 }
 
+// TestUpsertProjectColor covers the self-heal upsert used by pulls: it must
+// populate the color on first insert, keep an authoritative color when a later
+// meta payload carries none (no clobber), and refresh it when a color is given.
+func TestUpsertProjectColor(t *testing.T) {
+	s := openTest(t)
+
+	// First heal (from a meta pull) inserts the project with its color.
+	if err := s.UpsertProject(Project{ID: 7, WorkspaceID: 1, Name: "Backend", Color: "#0B83D9", Active: true}); err != nil {
+		t.Fatalf("upsert insert: %v", err)
+	}
+	p, err := s.ProjectByID(7)
+	if err != nil || p == nil {
+		t.Fatalf("project by id: %v (p=%v)", err, p)
+	}
+	if p.Color != "#0B83D9" {
+		t.Fatalf("color after insert = %q, want %q", p.Color, "#0B83D9")
+	}
+
+	// A later heal without a color (empty) must NOT clobber the stored color.
+	if err := s.UpsertProject(Project{ID: 7, WorkspaceID: 1, Name: "Backend", Color: "", Active: true}); err != nil {
+		t.Fatalf("upsert empty color: %v", err)
+	}
+	p, _ = s.ProjectByID(7)
+	if p.Color != "#0B83D9" {
+		t.Fatalf("color after empty upsert = %q, want preserved %q", p.Color, "#0B83D9")
+	}
+
+	// A heal that carries a (new) color refreshes it.
+	if err := s.UpsertProject(Project{ID: 7, WorkspaceID: 1, Name: "Backend", Color: "#E36A00", Active: true}); err != nil {
+		t.Fatalf("upsert new color: %v", err)
+	}
+	p, _ = s.ProjectByID(7)
+	if p.Color != "#E36A00" {
+		t.Fatalf("color after new upsert = %q, want %q", p.Color, "#E36A00")
+	}
+}
+
 func TestFindTasksByFragment(t *testing.T) {
 	s := openTest(t)
 	tasks := []Task{
