@@ -23,6 +23,7 @@ bash "$HERE/lib/nix-modules.sh" "$REPO" "$DATA/modules.json"
 bash "$HERE/lib/hosts.sh" "$REPO" "$DATA/hosts.json"
 bash "$HERE/lib/scripts.sh" "$REPO" "$DATA/scripts.json"
 bash "$HERE/lib/commits.sh" "$REPO" "$DATA/commits.json"
+bash "$HERE/lib/commits-monthly.sh" "$REPO" "$DATA/commits-monthly.json"
 bash "$HERE/lib/stale.sh" "$REPO" "$DATA/stale.json"
 
 # Build metadata

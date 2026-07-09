@@ -17,13 +17,18 @@ async function loadJSON(path) {
 
 const nf = new Intl.NumberFormat("en-US");
 
-// Human-readable relative age from a YYYY-MM-DD date string.
+// Human-readable relative age from a YYYY-MM-DD date or full ISO timestamp.
 function relativeTime(dateStr) {
   if (!dateStr) return "";
-  const then = new Date(dateStr + "T00:00:00Z");
+  const then = new Date(dateStr.includes("T") ? dateStr : dateStr + "T00:00:00Z");
   if (isNaN(then)) return "";
-  const days = Math.floor((Date.now() - then.getTime()) / 86400000);
-  if (days <= 0) return "today";
+  const secs = Math.floor((Date.now() - then.getTime()) / 1000);
+  if (secs < 60) return "just now";
+  const mins = Math.floor(secs / 60);
+  if (mins < 60) return mins === 1 ? "1 minute ago" : `${mins} minutes ago`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return hours === 1 ? "1 hour ago" : `${hours} hours ago`;
+  const days = Math.floor(hours / 24);
   if (days === 1) return "1 day ago";
   if (days < 30) return `${days} days ago`;
   const months = Math.floor(days / 30);
@@ -92,8 +97,7 @@ function renderOverview(langs, hosts, modules, scripts) {
 
 function renderMeta(meta) {
   const short = meta.commit.slice(0, 8);
-  const when = new Date(meta.generated).toISOString().replace("T", " ").slice(0, 16);
-  $("#meta").textContent = `commit ${short} · generated ${when} UTC`;
+  $("#meta").textContent = `commit ${short} · generated ${relativeTime(meta.generated)}`;
 }
 
 function renderLanguages(langs) {
@@ -193,6 +197,39 @@ function renderLangChart(langs, metric) {
   langChart = new Chart($("#langChart"), cfg);
 }
 
+let commitsChart;
+function renderCommitsChart(monthly) {
+  const labels = monthly.map((m) => m.month);
+  const counts = monthly.map((m) => m.count);
+  const cfg = {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "commits",
+          data: counts,
+          backgroundColor: PALETTE[2] + "aa",
+          borderColor: PALETTE[2],
+          borderWidth: 1,
+          borderRadius: 3,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { grid: { color: "#26262b" }, ticks: { color: "#a1a1aa", maxRotation: 0, autoSkip: true } },
+        y: { beginAtZero: true, grid: { color: "#26262b" }, ticks: { color: "#a1a1aa", precision: 0 } },
+      },
+      plugins: { legend: { display: false } },
+    },
+  };
+  if (commitsChart) commitsChart.destroy();
+  commitsChart = new Chart($("#commitsChart"), cfg);
+}
+
 function renderHostMatrix(hosts) {
   const { hosts: hs, modules, matrix } = hosts;
   const head = `
@@ -261,7 +298,7 @@ function renderFileTree(node, depth = 0) {
         return `
           <div class="flex items-baseline justify-between gap-3 text-xs" style="${pad}">
             <span class="text-zinc-400">${name}</span>
-            <span class="shrink-0 text-zinc-600">${child.date || ""}</span>
+            <span class="shrink-0 text-zinc-600">${relativeTime(child.date)}</span>
           </div>`;
       }
       const { label, node: collapsed } = collapseChain(name, child);
@@ -319,7 +356,7 @@ function renderScripts(scripts) {
               <td class="py-1.5 pr-3 align-top text-zinc-200">${name}</td>
               <td class="py-1.5 pr-3 align-top"><span class="rounded px-1.5 py-0.5 text-xs ${badge}">${s.lang}</span></td>
               <td class="py-1.5 pr-3 align-top text-zinc-400">${s.description || '<span class="text-zinc-700">—</span>'}</td>
-              <td class="whitespace-nowrap py-1.5 align-top text-right text-xs text-zinc-600">${s.last_commit || ""}</td>
+              <td class="whitespace-nowrap py-1.5 align-top text-right text-xs text-zinc-600">${relativeTime(s.last_commit)}</td>
             </tr>`;
         })
         .join("");
@@ -342,7 +379,7 @@ function renderCommits(commits) {
         <div class="rounded-lg border border-edge bg-panel p-3">
           <div class="flex items-baseline justify-between gap-3">
             <span class="text-sm text-zinc-200">${escapeHtml(c.subject)}</span>
-            <span class="shrink-0 text-sm text-zinc-400">${c.date} · ${relativeTime(c.date)} · ${c.sha}</span>
+            <span class="shrink-0 text-sm text-zinc-400">${relativeTime(c.date)} · ${c.sha}</span>
           </div>
           <div class="mt-2 flex flex-wrap items-center gap-1.5">
             <span class="mr-1 text-xs text-zinc-600">${c.files_changed} file${c.files_changed === 1 ? "" : "s"}:</span>
@@ -359,7 +396,7 @@ function renderStale(stale) {
       (f) => `
       <div class="flex items-baseline justify-between gap-4 px-4 py-3">
         <span class="min-w-0 truncate text-base text-zinc-200" title="${escapeHtml(f.path)}">${escapeHtml(f.path)}</span>
-        <span class="shrink-0 text-sm text-zinc-400">${f.last_commit || ""} · ${relativeTime(f.last_commit)}</span>
+        <span class="shrink-0 text-sm text-zinc-400">${relativeTime(f.last_commit)}</span>
       </div>`
     )
     .join("");
@@ -386,12 +423,13 @@ function wireMetricButtons(langs) {
 
 async function main() {
   try {
-    const [langs, hosts, modules, scripts, commits, stale, meta] = await Promise.all([
+    const [langs, hosts, modules, scripts, commits, commitsMonthly, stale, meta] = await Promise.all([
       loadJSON("./data/languages.json"),
       loadJSON("./data/hosts.json"),
       loadJSON("./data/modules.json"),
       loadJSON("./data/scripts.json"),
       loadJSON("./data/commits.json"),
+      loadJSON("./data/commits-monthly.json"),
       loadJSON("./data/stale.json"),
       loadJSON("./data/meta.json"),
     ]);
@@ -400,6 +438,7 @@ async function main() {
     renderOverview(langs, hosts, modules, scripts);
     renderLangChart(langs, "lines");
     wireMetricButtons(langs);
+    renderCommitsChart(commitsMonthly);
     renderLanguages(langs);
     renderCommits(commits);
     renderHostMatrix(hosts);
