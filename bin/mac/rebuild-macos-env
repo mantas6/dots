@@ -101,7 +101,7 @@ fn-node() {
     if [ -x "$(command -v npm)" ]; then
         local pkgs=(
             opencode-ai
-            intelephense
+            # intelephense
             bash-language-server
             typescript
             typescript-language-server
