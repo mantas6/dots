@@ -112,13 +112,22 @@ func renderToday(w io.Writer, entries []store.Entry, now time.Time, loc *time.Lo
 		return
 	}
 
+	// leadPad is the blank lead-in that matches the width of a color block plus
+	// its trailing space (the block is one display column). It keeps lines
+	// without a project color aligned with colored ones in color mode, and is
+	// empty when color is off so plain output carries no stray indentation.
+	leadPad := ""
+	if color {
+		leadPad = "  "
+	}
+
 	var total time.Duration
 	anyRunning := false
 	for i, e := range entries {
 		if i > 0 {
 			if gap := gapBetween(entries[i-1], e, loc); gap > 0 {
 				// Indented to the duration column so it reads as a filler row.
-				fmt.Fprintf(w, "%-12s(gap %s)\n", "", formatHM(gap))
+				fmt.Fprintf(w, "%s%-12s(gap %s)\n", leadPad, "", formatHM(gap))
 			}
 		}
 		startClk := formatClock(e.Start, loc)
@@ -135,14 +144,17 @@ func renderToday(w io.Writer, entries []store.Entry, now time.Time, loc *time.Lo
 		project := ""
 		if e.ProjectName != "" {
 			project = "[" + e.ProjectName + "]"
-			if color {
-				if block := colorBlock(e.ProjectColor); block != "" {
-					project = block + " " + project
-				}
+		}
+		// Lead the line with the project's color block (padded to leadPad so
+		// entries without a color still line up).
+		lead := leadPad
+		if color {
+			if block := colorBlock(e.ProjectColor); block != "" {
+				lead = block + " "
 			}
 		}
-		fmt.Fprintf(w, "%-12s%-7s%-17s%s\n",
-			startClk+"-"+stopClk, formatHM(dur), label, project)
+		fmt.Fprintf(w, "%s%-12s%-7s%-17s%s\n",
+			lead, startClk+"-"+stopClk, formatHM(dur), label, project)
 	}
 
 	fmt.Fprintln(w, todayDivider)

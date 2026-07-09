@@ -224,10 +224,10 @@ func TestRenderTodayColor(t *testing.T) {
 		entries[i].ProjectColor = "#0B83D9"
 	}
 
-	// color enabled: a tinted block precedes the project name.
+	// color enabled: a tinted block leads the line, followed by a space.
 	var buf bytes.Buffer
 	renderToday(&buf, entries, now, time.UTC, true)
-	if want := "\x1b[38;2;11;131;217m\u25a0\x1b[0m [Backend]"; !strings.Contains(buf.String(), want) {
+	if want := "\x1b[38;2;11;131;217m\u25a0\x1b[0m 09:15-10:30"; !strings.Contains(buf.String(), want) {
 		t.Errorf("colored output missing %q:\n%q", want, buf.String())
 	}
 
