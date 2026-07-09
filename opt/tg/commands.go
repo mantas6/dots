@@ -153,9 +153,17 @@ func cmdUpdate(w io.Writer, st *store.Store, c *api.Client, workspaceID int64, p
 	if err != nil {
 		return err
 	}
+	// Progress lines go to the same writer as the summary, but only in human
+	// mode: suppressing them under --json keeps the JSON output clean.
+	if !jsonOut {
+		fmt.Fprintln(w, "Fetching project...")
+	}
 	project, err := c.Project(workspaceID, *pid)
 	if err != nil {
 		return err
+	}
+	if !jsonOut {
+		fmt.Fprintln(w, "Fetching tasks...")
 	}
 	tasks, err := c.ProjectTasks(workspaceID, *pid, all)
 	if err != nil {
@@ -181,6 +189,11 @@ func cmdUpdate(w io.Writer, st *store.Store, c *api.Client, workspaceID int64, p
 // entire workspace, but it never fetches tasks — refresh a project's tasks with
 // `tg update`. `--all` includes inactive projects.
 func cmdUpdateProjects(w io.Writer, st *store.Store, c *api.Client, workspaceID int64, all, jsonOut bool) error {
+	// Progress line goes to the writer only in human mode; under --json it is
+	// suppressed so the JSON output stays clean (see cmdUpdate).
+	if !jsonOut {
+		fmt.Fprintln(w, "Fetching projects...")
+	}
 	projects, err := c.Projects(workspaceID, all)
 	if err != nil {
 		return err
