@@ -110,7 +110,6 @@ brew "zsh-completions"
 brew "zsh-syntax-highlighting"
 brew "fzf"
 brew "direnv"
-brew "starship"
 
 brew "choose-gui"
 

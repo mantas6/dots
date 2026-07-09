@@ -19,7 +19,6 @@
     };
 
     environment.systemPackages = with pkgs-unstable; [
-      starship
       eza
 
       gum
