@@ -12,7 +12,7 @@
     // https://github.com/griffinmartin/opencode-claude-auth
     "opencode-claude-auth@v1.5.4"
     // https://github.com/ex-machina-co/opencode-anthropic-auth
-    // "@ex-machina/opencode-anthropic-auth@1.6.1"
+    // "@ex-machina/opencode-anthropic-auth@2.0.0"
   ],
   "permission": {
     "read": {
