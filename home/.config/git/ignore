@@ -5,6 +5,8 @@
 .null-ls_*
 .conform.*
 
+/.phpactor.json
+
 node_modules
 vendor
 
