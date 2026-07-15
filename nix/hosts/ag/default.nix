@@ -14,7 +14,7 @@
       disks-normal
       jobs-updates
       services-docker
-      purposes-app-server
+      # purposes-app-server
     ];
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
