@@ -12,6 +12,7 @@
       base
       base-home
       disks-normal
+      jobs-updates
       services-docker
       purposes-app-server
     ];
