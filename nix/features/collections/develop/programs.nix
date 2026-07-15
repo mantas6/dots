@@ -9,7 +9,7 @@
       system = pkgs-unstable.stdenv.hostPlatform.system;
       config.allowUnfreePredicate = pkg:
         builtins.elem (lib.getName pkg) [
-          # "intelephense"
+          "intelephense"
           "claude-code"
         ];
     };
@@ -102,8 +102,8 @@
       gopls
       pyright
       lua-language-server
-      # pkgs-unstable-unfree.intelephense
-      phpactor
+      pkgs-unstable-unfree.intelephense
+      # phpactor
       bash-language-server
       typescript-language-server
       dockerfile-language-server

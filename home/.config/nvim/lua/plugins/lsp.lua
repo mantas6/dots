@@ -39,8 +39,8 @@ return {
 
     ---@type table<string, vim.lsp.Config>
     local servers = {
-      -- intelephense = {},
-      phpactor = {},
+      intelephense = {},
+      -- phpactor = {},
       bashls = {},
       dockerls = {},
       cssls = {},

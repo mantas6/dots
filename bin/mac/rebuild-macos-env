@@ -101,7 +101,7 @@ fn-node() {
     if [ -x "$(command -v npm)" ]; then
         local pkgs=(
             opencode-ai
-            # intelephense
+            intelephense
             bash-language-server
             typescript
             typescript-language-server
@@ -117,17 +117,17 @@ fn-node() {
 fn-php() {
     bash -c "$(curl -fsSL https://php.new/install/mac/8.5)"
 
-    local bin="$HOME/.local/bin/phpactor"
-    local tmp
-
-    tmp="$(mktemp)"
-
-    if curl -fsSLo "$tmp" https://github.com/phpactor/phpactor/releases/latest/download/phpactor.phar; then
-        mv "$tmp" "$bin"
-        chmod a+x "$bin"
-    else
-        echo 'Failed to download phpactor' >&2
-    fi
+    # local bin="$HOME/.local/bin/phpactor"
+    # local tmp
+    #
+    # tmp="$(mktemp)"
+    #
+    # if curl -fsSLo "$tmp" https://github.com/phpactor/phpactor/releases/latest/download/phpactor.phar; then
+    #     mv "$tmp" "$bin"
+    #     chmod a+x "$bin"
+    # else
+    #     echo 'Failed to download phpactor' >&2
+    # fi
 }
 
 fn-misc() {
