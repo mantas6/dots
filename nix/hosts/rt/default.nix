@@ -13,7 +13,6 @@
       base-home
       disks-normal
       jobs-updates
-      progs-shell
       services-hermes
       # purposes-app-server
       # services-docker
