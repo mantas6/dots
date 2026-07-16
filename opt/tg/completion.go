@@ -55,7 +55,7 @@ _tg() {
       commands=(
         'auth:verify a Toggl API token and store config'
         'start:start tracking the task matching a fragment'
-        'stop:stop the running entry (rounds up to 5m)'
+        'stop:stop the running entry (snaps to 5m)'
         'current:show the running entry'
         'status:show the running entry'
         "today:show today's entries"

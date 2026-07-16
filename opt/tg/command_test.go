@@ -222,7 +222,7 @@ func TestProjectIDFromEnv(t *testing.T) {
 	}
 }
 
-func TestStopQuantizes(t *testing.T) {
+func TestStopSnaps(t *testing.T) {
 	s := newStore(t)
 	seedCatalog(t, s)
 
@@ -232,12 +232,12 @@ func TestStopQuantizes(t *testing.T) {
 	}
 
 	var stopBuf bytes.Buffer
-	now := testStart.Add(46 * time.Minute) // -> rounds up to 50m
+	now := testStart.Add(46 * time.Minute) // 09:46 -> snaps back to 09:45
 	if err := cmdStop(&stopBuf, s, now); err != nil {
 		t.Fatalf("stop: %v", err)
 	}
-	if !strings.Contains(stopBuf.String(), "0h50m") {
-		t.Errorf("stop output = %q, want 0h50m", stopBuf.String())
+	if !strings.Contains(stopBuf.String(), "0h45m") {
+		t.Errorf("stop output = %q, want 0h45m", stopBuf.String())
 	}
 
 	entries, _ := s.EntriesBetween(testStart.Add(-time.Hour), testStart.Add(24*time.Hour))
@@ -245,12 +245,31 @@ func TestStopQuantizes(t *testing.T) {
 		t.Fatalf("entries = %d, want 1", len(entries))
 	}
 	e := entries[0]
-	if e.Duration != 3000 {
-		t.Errorf("duration = %d, want 3000", e.Duration)
+	if e.Duration != 2700 {
+		t.Errorf("duration = %d, want 2700", e.Duration)
 	}
-	wantStop := testStart.Add(50 * time.Minute)
+	wantStop := testStart.Add(45 * time.Minute)
 	if e.Stop == nil || !e.Stop.Equal(wantStop) {
 		t.Errorf("stop = %v, want %v", e.Stop, wantStop)
+	}
+}
+
+// TestStartSnapsStart verifies the entry's start time is snapped to the nearest
+// 5-minute wall-clock mark at creation.
+func TestStartSnapsStart(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	var buf bytes.Buffer
+	// 09:03 should snap up to 09:05.
+	start := time.Date(2026, 1, 2, 9, 3, 0, 0, time.UTC)
+	if err := cmdStart(&buf, s, 1, nil, "login", start); err != nil {
+		t.Fatalf("start: %v", err)
+	}
+	r, _ := s.Running()
+	want := time.Date(2026, 1, 2, 9, 5, 0, 0, time.UTC)
+	if r == nil || !r.Start.Equal(want) {
+		t.Fatalf("start = %v, want %v", r.Start, want)
 	}
 }
 

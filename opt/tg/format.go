@@ -11,13 +11,18 @@ import (
 	"mantas6/tg/store"
 )
 
-// ceil5 rounds a duration up to the next 5 minutes, minimum 5 minutes.
-func ceil5(d time.Duration) time.Duration {
-	const s = 5 * time.Minute
-	if d <= 0 {
-		return s
-	}
-	return ((d + s - 1) / s) * s
+// snap5 rounds t to the nearest wall-clock 5-minute boundary: minutes land on
+// {00,05,10,...,55} with seconds and sub-second components zeroed. Exact ties
+// (e.g. HH:02:30) round up. Boundaries carry across hour and day rollovers
+// (e.g. 10:58 -> 11:00, 23:58 -> 00:00 the next day). Snapping happens in t's
+// own location so the result sits on a wall-clock mark, not a UTC one.
+func snap5(t time.Time) time.Time {
+	const step = 5 * time.Minute
+	// Top of t's hour, in its own location; offset within the hour is snapped.
+	hour := time.Date(t.Year(), t.Month(), t.Day(), t.Hour(), 0, 0, 0, t.Location())
+	off := t.Sub(hour)
+	snapped := ((off + step/2) / step) * step
+	return hour.Add(snapped)
 }
 
 // formatHM renders a duration as "<h>h<mm>m" (e.g. 75m -> "1h15m", 50m ->
@@ -79,8 +84,8 @@ func colorBlock(hex string) string {
 }
 
 // gapThreshold is the smallest stop-to-start distance rendered as a gap line.
-// Durations are quantized to 5-minute blocks (ceil5), so sub-minute gaps are
-// rounding noise from adjacent entries rather than real idle time.
+// Start/stop times snap to 5-minute wall-clock marks (snap5), so sub-minute
+// gaps are snapping noise from adjacent entries rather than real idle time.
 const gapThreshold = time.Minute
 
 // gapBetween returns the idle time between prev and next worth showing, or 0.

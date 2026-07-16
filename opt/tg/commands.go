@@ -36,7 +36,7 @@ func cmdStart(w io.Writer, st *store.Store, workspaceID int64, projectID *int64,
 		return fmt.Errorf("no task matches %q; run `tg update` to refresh the catalog", fragment)
 	case 1:
 		task := tasks[0]
-		if _, err := st.StopRunning(now, ceil5); err != nil {
+		if _, err := st.StopRunning(now, snap5); err != nil {
 			return err
 		}
 		taskID := task.ID
@@ -52,7 +52,7 @@ func cmdStart(w io.Writer, st *store.Store, workspaceID int64, projectID *int64,
 			ProjectID:   &projID,
 			TaskID:      &taskID,
 			Description: "",
-			Start:       now,
+			Start:       snap5(now),
 			Duration:    -1,
 			Billable:    billable,
 			UpdatedAt:   now,
@@ -67,9 +67,10 @@ func cmdStart(w io.Writer, st *store.Store, workspaceID int64, projectID *int64,
 	}
 }
 
-// cmdStop finalizes the running entry (rounding up to the next 5 minutes).
+// cmdStop finalizes the running entry (snapping start/end to the nearest
+// 5-minute wall-clock mark).
 func cmdStop(w io.Writer, st *store.Store, now time.Time) error {
-	stopped, err := st.StopRunning(now, ceil5)
+	stopped, err := st.StopRunning(now, snap5)
 	if err != nil {
 		return err
 	}

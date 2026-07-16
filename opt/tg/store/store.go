@@ -267,23 +267,30 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 	return res.LastInsertId()
 }
 
-// StopRunning finalizes the running entry: duration = round(now - start),
-// stop = start + duration, marking it dirty with updated_at = now. It returns
-// the stopped entry, or nil if nothing was running. round lets the caller inject
-// the rounding policy (ceil5) while keeping the field-setting logic here.
-func (s *Store) StopRunning(now time.Time, round func(time.Duration) time.Duration) (*Entry, error) {
+// StopRunning finalizes the running entry: both the start and the stop are
+// snapped to 5-minute wall-clock marks (snap), duration = snappedStop -
+// snappedStart, marking it dirty with updated_at = now. It returns the stopped
+// entry, or nil if nothing was running. snap lets the caller inject the snapping
+// policy (snap5) while keeping the field-setting logic here. When both ends snap
+// to the same mark the entry is clamped to a single 5-minute block so a duration
+// is never zero or negative.
+func (s *Store) StopRunning(now time.Time, snap func(time.Time) time.Time) (*Entry, error) {
 	e, err := s.Running()
 	if err != nil || e == nil {
 		return nil, err
 	}
-	dur := round(now.Sub(e.Start))
-	stop := e.Start.Add(dur)
-	secs := int64(dur / time.Second)
+	start := snap(e.Start)
+	stop := snap(now)
+	if !stop.After(start) {
+		stop = start.Add(5 * time.Minute)
+	}
+	secs := int64(stop.Sub(start) / time.Second)
 	if _, err := s.db.Exec(`
-UPDATE entries SET stop = ?, duration = ?, dirty = 1, updated_at = ? WHERE id = ?`,
-		fmtTime(stop), secs, fmtTime(now), e.ID); err != nil {
+UPDATE entries SET start = ?, stop = ?, duration = ?, dirty = 1, updated_at = ? WHERE id = ?`,
+		fmtTime(start), fmtTime(stop), secs, fmtTime(now), e.ID); err != nil {
 		return nil, err
 	}
+	e.Start = start
 	e.Stop = &stop
 	e.Duration = secs
 	e.Dirty = true

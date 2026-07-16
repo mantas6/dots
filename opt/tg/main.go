@@ -348,7 +348,7 @@ func printUsage(w io.Writer) {
 	fmt.Fprintln(w, "commands:")
 	fmt.Fprintln(w, "  auth [token]              verify a Toggl API token and store config")
 	fmt.Fprintln(w, "  start [project] <task>    start tracking the task matching <task>")
-	fmt.Fprintln(w, "  stop                      stop the running entry (rounds up to 5m)")
+	fmt.Fprintln(w, "  stop                      stop the running entry (snaps to 5m)")
 	fmt.Fprintln(w, "  current | status          show the running entry            [--json]")
 	fmt.Fprintln(w, "  today   | list | ls       show today's entries     [--days N] [--json]")
 	fmt.Fprintln(w, "  tasks                     list cached tasks                 [--all] [--json]")

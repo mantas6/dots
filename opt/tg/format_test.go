@@ -36,23 +36,48 @@ func assertGolden(t *testing.T, name, got string) {
 	}
 }
 
-func TestCeil5(t *testing.T) {
+func TestSnap5(t *testing.T) {
+	// Fixed reference day in UTC; only the time-of-day matters per case.
+	at := func(h, m, s int) time.Time {
+		return time.Date(2026, 1, 2, h, m, s, 0, time.UTC)
+	}
 	cases := []struct {
-		in   time.Duration
-		want time.Duration
+		name     string
+		in, want time.Time
 	}{
-		{0, 5 * time.Minute},
-		{1 * time.Second, 5 * time.Minute},
-		{5 * time.Minute, 5 * time.Minute},
-		{5*time.Minute + 1*time.Second, 10 * time.Minute},
-		{46 * time.Minute, 50 * time.Minute},
-		{45 * time.Minute, 45 * time.Minute},
-		{-3 * time.Minute, 5 * time.Minute},
+		{"already on mark", at(10, 5, 0), at(10, 5, 0)},
+		{"round down", at(10, 2, 0), at(10, 0, 0)},
+		{"round up", at(10, 3, 0), at(10, 5, 0)},
+		{"tie rounds up", at(10, 2, 30), at(10, 5, 0)},
+		{"just under tie rounds down", at(10, 2, 29), at(10, 0, 0)},
+		{"seconds zeroed on mark", at(10, 5, 42), at(10, 5, 0)},
+		{"nearest lower", at(10, 6, 0), at(10, 5, 0)},
+		{"nearest upper", at(10, 8, 0), at(10, 10, 0)},
+		{"hour rollover", at(10, 58, 0), at(11, 0, 0)},
+		{"day rollover", at(23, 58, 0), time.Date(2026, 1, 3, 0, 0, 0, 0, time.UTC)},
 	}
 	for _, c := range cases {
-		if got := ceil5(c.in); got != c.want {
-			t.Errorf("ceil5(%v) = %v, want %v", c.in, got, c.want)
+		if got := snap5(c.in); !got.Equal(c.want) {
+			t.Errorf("%s: snap5(%v) = %v, want %v", c.name, c.in, got, c.want)
 		}
+	}
+}
+
+func TestSnap5WallClockLocation(t *testing.T) {
+	// Non-UTC zone: snapping must land on a wall-clock 5-minute mark, and the
+	// result must keep t's location.
+	loc, err := time.LoadLocation("Asia/Kolkata") // UTC+05:30
+	if err != nil {
+		t.Skipf("tzdata unavailable: %v", err)
+	}
+	in := time.Date(2026, 1, 2, 10, 3, 0, 0, loc)
+	got := snap5(in)
+	want := time.Date(2026, 1, 2, 10, 5, 0, 0, loc)
+	if !got.Equal(want) {
+		t.Errorf("snap5(%v) = %v, want %v", in, got, want)
+	}
+	if got.Location() != loc {
+		t.Errorf("location = %v, want %v", got.Location(), loc)
 	}
 }
 

@@ -9,13 +9,13 @@ import (
 
 func ptrInt(v int64) *int64 { return &v }
 
-// ceil5 mirrors the production rounding so stop assertions are realistic.
-func ceil5(d time.Duration) time.Duration {
-	const s = 5 * time.Minute
-	if d <= 0 {
-		return s
-	}
-	return ((d + s - 1) / s) * s
+// snap5 mirrors the production wall-clock snapping so stop assertions are
+// realistic (nearest 5-minute mark, seconds zeroed, ties round up).
+func snap5(t time.Time) time.Time {
+	const step = 5 * time.Minute
+	hour := time.Date(t.Year(), t.Month(), t.Day(), t.Hour(), 0, 0, 0, t.Location())
+	off := t.Sub(hour)
+	return hour.Add(((off + step/2) / step) * step)
 }
 
 func openTest(t *testing.T) *Store {
@@ -138,18 +138,18 @@ func TestStopRunningSetsFields(t *testing.T) {
 		Duration: -1, UpdatedAt: start, Dirty: true,
 	})
 
-	now := start.Add(46 * time.Minute)
-	stopped, err := s.StopRunning(now, ceil5)
+	now := start.Add(46 * time.Minute) // 09:46 -> snaps back to 09:45
+	stopped, err := s.StopRunning(now, snap5)
 	if err != nil {
 		t.Fatalf("stop: %v", err)
 	}
 	if stopped == nil || stopped.ID != id {
 		t.Fatalf("stopped entry mismatch: %+v", stopped)
 	}
-	if stopped.Duration != int64((50 * time.Minute).Seconds()) {
-		t.Errorf("duration = %d, want %d", stopped.Duration, int64((50 * time.Minute).Seconds()))
+	if stopped.Duration != int64((45 * time.Minute).Seconds()) {
+		t.Errorf("duration = %d, want %d", stopped.Duration, int64((45 * time.Minute).Seconds()))
 	}
-	wantStop := start.Add(50 * time.Minute)
+	wantStop := start.Add(45 * time.Minute)
 	if stopped.Stop == nil || !stopped.Stop.Equal(wantStop) {
 		t.Errorf("stop = %v, want %v", stopped.Stop, wantStop)
 	}
@@ -165,14 +165,14 @@ func TestStopRunningSetsFields(t *testing.T) {
 		t.Errorf("expected nothing running, got %+v", r)
 	}
 	// Stopping again is a no-op returning nil.
-	if again, err := s.StopRunning(now, ceil5); err != nil || again != nil {
+	if again, err := s.StopRunning(now, snap5); err != nil || again != nil {
 		t.Errorf("second stop: entry=%v err=%v", again, err)
 	}
 }
 
 func TestStopRunningNothing(t *testing.T) {
 	s := openTest(t)
-	got, err := s.StopRunning(time.Now(), ceil5)
+	got, err := s.StopRunning(time.Now(), snap5)
 	if err != nil || got != nil {
 		t.Fatalf("stop with nothing running: entry=%v err=%v", got, err)
 	}
@@ -184,7 +184,7 @@ func TestSingleRunningInvariant(t *testing.T) {
 	mustCreate(t, s, Entry{WorkspaceID: 1, Start: base, Duration: -1, UpdatedAt: base, Dirty: true})
 
 	// Auto-stop before starting another, mirroring the start command.
-	if _, err := s.StopRunning(base.Add(10*time.Minute), ceil5); err != nil {
+	if _, err := s.StopRunning(base.Add(10*time.Minute), snap5); err != nil {
 		t.Fatalf("auto-stop: %v", err)
 	}
 	mustCreate(t, s, Entry{WorkspaceID: 1, Start: base.Add(10 * time.Minute), Duration: -1, UpdatedAt: base, Dirty: true})
