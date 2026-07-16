@@ -22,6 +22,7 @@
       # services-photosync
       quirks-prevent-sleep
       services-sat-backups
+      services-hermes-backup
     ];
 
     disko.devices.disk.main-disk.device = "/dev/sda";
