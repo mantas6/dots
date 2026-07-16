@@ -16,12 +16,18 @@
       extraDependencyGroups = ["messaging" "voice"];
 
       settings = {
-        model.default = "openai/gpt-5.5";
-        stt.enabled = false;
+        model.default = "openai/gpt-5.6-terra";
+
+        agent = {
+          reasoning_effort = "medium";
+        };
+
         approvals = {
           mode = "off";
           cron_mode = "approve";
         };
+
+        stt.enabled = false;
       };
 
       extraPackages = with pkgs-unstable; [
