@@ -20,7 +20,13 @@ import (
 // set; it comes from TOGGL_PROJECT_ID or, for the 2-argument form
 // (`tg start <project> <task>`), from the resolved project-name argument (see
 // runStart / resolveStartProject).
-func cmdStart(w io.Writer, st *store.Store, workspaceID int64, projectID *int64, fragment string, now time.Time) error {
+//
+// When c is non-nil the newly created running entry (and any just auto-stopped
+// entry) is pushed to Toggl immediately so the entry shows as running in the
+// web app with its task_id set, rather than waiting for a later `tg push`. The
+// push is best-effort: a sync failure leaves the entries dirty (a warning is
+// printed) so the local-first flow still works offline.
+func cmdStart(w io.Writer, st *store.Store, c *api.Client, workspaceID int64, projectID *int64, fragment string, now time.Time) error {
 	fragment = strings.TrimSpace(fragment)
 	if fragment == "" {
 		return errors.New("usage: tg start <task-fragment>")
@@ -61,6 +67,14 @@ func cmdStart(w io.Writer, st *store.Store, workspaceID int64, projectID *int64,
 			return err
 		}
 		fmt.Fprintf(w, "Started: %s\n", task.Name)
+		// Push the running entry (and any just auto-stopped entry) so Toggl
+		// shows it as running with its task set. Best-effort: keep the local
+		// entry dirty for a later `tg push` if the sync fails.
+		if c != nil {
+			if _, err := sync.Push(st, c, now); err != nil {
+				fmt.Fprintf(w, "warning: could not sync to Toggl: %v\n", err)
+			}
+		}
 		return nil
 	default:
 		return fmt.Errorf("multiple tasks match %q:\n%s", fragment, candidateList(tasks))

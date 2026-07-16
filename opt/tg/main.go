@@ -96,7 +96,7 @@ func runStart(args []string) error {
 		projectID = pid
 		fragment = rest[1]
 	}
-	return cmdStart(os.Stdout, st, cfg.WorkspaceID, projectID, fragment, time.Now())
+	return cmdStart(os.Stdout, st, api.New(cfg.APIToken), cfg.WorkspaceID, projectID, fragment, time.Now())
 }
 
 func runStop(args []string) error {

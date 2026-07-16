@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -52,7 +54,7 @@ func TestStartSingleMatch(t *testing.T) {
 	seedCatalog(t, s)
 
 	var buf bytes.Buffer
-	if err := cmdStart(&buf, s, 1, nil, "login", testStart); err != nil {
+	if err := cmdStart(&buf, s, nil, 1, nil, "login", testStart); err != nil {
 		t.Fatalf("start: %v", err)
 	}
 	if !strings.Contains(buf.String(), "Started: Fix login bug") {
@@ -80,16 +82,99 @@ func TestStartSingleMatch(t *testing.T) {
 	}
 }
 
+// TestStartPushesRunningEntryWithTaskID verifies that when a client is
+// supplied, `start` immediately POSTs the running entry to Toggl carrying its
+// task_id (so the web app shows it running against the right task), and that
+// the pushed entry is marked synced locally.
+func TestStartPushesRunningEntryWithTaskID(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	var body map[string]any
+	var gotMethod string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		gotMethod = r.Method
+		raw, _ := io.ReadAll(r.Body)
+		json.Unmarshal(raw, &body)
+		w.Write([]byte(`{"id":9001,"at":"2026-01-02T09:00:00Z"}`))
+	}))
+	defer srv.Close()
+	c := api.New("tok", api.WithBaseURL(srv.URL), api.WithHTTPClient(srv.Client()))
+
+	var buf bytes.Buffer
+	if err := cmdStart(&buf, s, c, 1, nil, "login", testStart); err != nil {
+		t.Fatalf("start: %v", err)
+	}
+	if gotMethod != http.MethodPost {
+		t.Errorf("method = %s, want POST", gotMethod)
+	}
+	// The running entry must be pushed with its task_id set (JSON numbers
+	// decode to float64).
+	if v, ok := body["task_id"].(float64); !ok || int64(v) != 10 {
+		t.Errorf("task_id = %v, want 10", body["task_id"])
+	}
+	if v, ok := body["project_id"].(float64); !ok || int64(v) != 1 {
+		t.Errorf("project_id = %v, want 1", body["project_id"])
+	}
+	if v, ok := body["duration"].(float64); !ok || int64(v) != -1 {
+		t.Errorf("duration = %v, want -1 (running)", body["duration"])
+	}
+
+	// The pushed entry is marked synced locally (remote id set, clean).
+	r, _ := s.EntryByRemoteID(9001)
+	if r == nil {
+		t.Fatal("expected the running entry to be synced with its remote id")
+	}
+	if r.Dirty {
+		t.Error("running entry should be clean after a successful push")
+	}
+	if r.TaskID == nil || *r.TaskID != 10 {
+		t.Errorf("task_id = %v, want 10", r.TaskID)
+	}
+}
+
+// TestStartSyncFailureIsNonFatal verifies a push failure on start does not fail
+// the command: the running entry is still created locally (dirty) for a later
+// `tg push`, and a warning is surfaced.
+func TestStartSyncFailureIsNonFatal(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusInternalServerError)
+	}))
+	defer srv.Close()
+	c := api.New("tok", api.WithBaseURL(srv.URL), api.WithHTTPClient(srv.Client()))
+
+	var buf bytes.Buffer
+	if err := cmdStart(&buf, s, c, 1, nil, "login", testStart); err != nil {
+		t.Fatalf("start should not fail on a sync error: %v", err)
+	}
+	if !strings.Contains(buf.String(), "warning") {
+		t.Errorf("output = %q, want a sync warning", buf.String())
+	}
+	r, _ := s.Running()
+	if r == nil {
+		t.Fatal("expected a running entry despite the sync failure")
+	}
+	if !r.Dirty {
+		t.Error("running entry should stay dirty for a later push")
+	}
+	if r.RemoteID != nil {
+		t.Errorf("remote_id = %v, want nil (never synced)", r.RemoteID)
+	}
+}
+
 func TestStartAutoStops(t *testing.T) {
 	s := newStore(t)
 	seedCatalog(t, s)
 
 	var buf bytes.Buffer
-	if err := cmdStart(&buf, s, 1, nil, "login", testStart); err != nil {
+	if err := cmdStart(&buf, s, nil, 1, nil, "login", testStart); err != nil {
 		t.Fatalf("first start: %v", err)
 	}
 	second := testStart.Add(30 * time.Minute)
-	if err := cmdStart(&buf, s, 1, nil, "review", second); err != nil {
+	if err := cmdStart(&buf, s, nil, 1, nil, "review", second); err != nil {
 		t.Fatalf("second start: %v", err)
 	}
 
@@ -119,7 +204,7 @@ func TestStartExactWins(t *testing.T) {
 
 	var buf bytes.Buffer
 	// "Fix" exactly matches task 11 even though it is a substring of others.
-	if err := cmdStart(&buf, s, 1, nil, "Fix", testStart); err != nil {
+	if err := cmdStart(&buf, s, nil, 1, nil, "Fix", testStart); err != nil {
 		t.Fatalf("start: %v", err)
 	}
 	r, _ := s.Running()
@@ -133,7 +218,7 @@ func TestStartManyAmbiguous(t *testing.T) {
 	seedCatalog(t, s)
 
 	var buf bytes.Buffer
-	err := cmdStart(&buf, s, 1, nil, "write", testStart)
+	err := cmdStart(&buf, s, nil, 1, nil, "write", testStart)
 	if err == nil {
 		t.Fatal("expected ambiguity error")
 	}
@@ -150,7 +235,7 @@ func TestStartNoneSuggestsUpdate(t *testing.T) {
 	seedCatalog(t, s)
 
 	var buf bytes.Buffer
-	err := cmdStart(&buf, s, 1, nil, "nonexistent", testStart)
+	err := cmdStart(&buf, s, nil, 1, nil, "nonexistent", testStart)
 	if err == nil || !strings.Contains(err.Error(), "tg update") {
 		t.Errorf("error = %v, want suggestion to run `tg update`", err)
 	}
@@ -163,7 +248,7 @@ func TestStartProjectScope(t *testing.T) {
 	pid := int64(2)
 	var buf bytes.Buffer
 	// "fix" matches several tasks, but scoping to project 2 leaves only one.
-	if err := cmdStart(&buf, s, 1, &pid, "fix", testStart); err != nil {
+	if err := cmdStart(&buf, s, nil, 1, &pid, "fix", testStart); err != nil {
 		t.Fatalf("start: %v", err)
 	}
 	r, _ := s.Running()
@@ -183,7 +268,7 @@ func TestStartCarriesProjectBillable(t *testing.T) {
 	// entry so the workspace accepts it.
 	pid := int64(2)
 	var buf bytes.Buffer
-	if err := cmdStart(&buf, s, 1, &pid, "fix", testStart); err != nil {
+	if err := cmdStart(&buf, s, nil, 1, &pid, "fix", testStart); err != nil {
 		t.Fatalf("start billable: %v", err)
 	}
 	r, _ := s.Running()
@@ -198,7 +283,7 @@ func TestStartNonBillableProject(t *testing.T) {
 
 	// A task in a non-billable project (Backend, id 1) stays non-billable.
 	var buf bytes.Buffer
-	if err := cmdStart(&buf, s, 1, nil, "login", testStart); err != nil {
+	if err := cmdStart(&buf, s, nil, 1, nil, "login", testStart); err != nil {
 		t.Fatalf("start: %v", err)
 	}
 	r, _ := s.Running()
@@ -227,7 +312,7 @@ func TestStopSnaps(t *testing.T) {
 	seedCatalog(t, s)
 
 	var buf bytes.Buffer
-	if err := cmdStart(&buf, s, 1, nil, "login", testStart); err != nil {
+	if err := cmdStart(&buf, s, nil, 1, nil, "login", testStart); err != nil {
 		t.Fatalf("start: %v", err)
 	}
 
@@ -263,7 +348,7 @@ func TestStartSnapsStart(t *testing.T) {
 	var buf bytes.Buffer
 	// 09:03 should snap up to 09:05.
 	start := time.Date(2026, 1, 2, 9, 3, 0, 0, time.UTC)
-	if err := cmdStart(&buf, s, 1, nil, "login", start); err != nil {
+	if err := cmdStart(&buf, s, nil, 1, nil, "login", start); err != nil {
 		t.Fatalf("start: %v", err)
 	}
 	r, _ := s.Running()
