@@ -19,7 +19,7 @@
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 
-    features.swapSizeInGB = 4;
+    features.swapSizeInGB = 2;
 
     networking.hostName = "ag";
 
