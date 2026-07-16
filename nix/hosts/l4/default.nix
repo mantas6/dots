@@ -14,6 +14,7 @@
       disks-normal
       jobs-updates
       hardware-backlight
+      services-auto-brightness
       progs-shell
       services-docker
       services-memos
