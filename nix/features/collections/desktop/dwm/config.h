@@ -140,6 +140,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_m,          spawn,            {.v = emojicmd } },
 	{ MODKEY,                       XK_n,          spawn,            {.v = passcmd } },
 	{ MODKEY,                       XK_g,          spawn,            SHCMD("bm -r") },
+	{ MODKEY,                       XK_s,          spawn,            SHCMD("steam-launcher") },
 	{ MODKEY,                       XK_u,          spawn,            SHCMD("maim -s | xclip -selection clipboard -t image/png -i") },
 	{ MODKEY,                       XK_r,          spawn,            {.v = browsercmd } },
 	{ MODKEY,                       XK_t,          spawn,            {.v = incognitocmd } },
