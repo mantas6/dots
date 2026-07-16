@@ -19,6 +19,8 @@
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 
+    features.swapSizeInGB = 4;
+
     networking.hostName = "ag";
 
     system.stateVersion = "26.05";
