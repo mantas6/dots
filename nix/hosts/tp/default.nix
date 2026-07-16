@@ -4,11 +4,11 @@
   ...
 }: {
   flake.nixosConfigurations.tp = inputs.nixpkgs.lib.nixosSystem {
-    modules = [self.nixosModules."host-tp"];
+    modules = [self.modules.nixos."host-tp"];
   };
 
-  flake.nixosModules."host-tp" = {...}: {
-    imports = with self.nixosModules; [
+  flake.modules.nixos."host-tp" = {...}: {
+    imports = with self.modules.nixos; [
       base
       base-home
       disks-encrypted

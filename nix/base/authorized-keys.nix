@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules.base = let
+  flake.modules.nixos.base = let
     keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKwmj+D1NO4kg3E6JH4ck0q+C65hTiTh69POfqXMROhF mantas@X13"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC5k7rbC+vefo20If2RHDFMxztdC6tkeUaN88tentEeh mantas@MacBookPro.lan"

@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."host-tp" = {
+  flake.modules.nixos."host-tp" = {
     config,
     lib,
     modulesPath,

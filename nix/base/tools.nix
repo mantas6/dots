@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules.base = {pkgs, ...}: {
+  flake.modules.nixos.base = {pkgs, ...}: {
     environment.systemPackages = with pkgs; [
       vim
       wget

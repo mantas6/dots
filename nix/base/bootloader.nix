@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules.base = {lib, ...}: {
+  flake.modules.nixos.base = {lib, ...}: {
     boot.loader = {
       grub = {
         enable = true;

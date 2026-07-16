@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."services-speedtest" = {
+  flake.modules.nixos."services-speedtest" = {
     lib,
     config,
     ...

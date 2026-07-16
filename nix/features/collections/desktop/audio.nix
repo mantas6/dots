@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."collections-desktop" = {pkgs, ...}: {
+  flake.modules.nixos."collections-desktop" = {pkgs, ...}: {
     # rtkit is optional but recommended
     security.rtkit.enable = true;
 

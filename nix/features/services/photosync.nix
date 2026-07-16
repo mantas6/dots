@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."services-photosync" = {
+  flake.modules.nixos."services-photosync" = {
     lib,
     config,
     ...

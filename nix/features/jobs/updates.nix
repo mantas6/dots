@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."jobs-updates" = {
+  flake.modules.nixos."jobs-updates" = {
     lib,
     config,
     ...

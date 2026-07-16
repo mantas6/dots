@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."host-l4" = {
+  flake.modules.nixos."host-l4" = {
     config,
     lib,
     modulesPath,

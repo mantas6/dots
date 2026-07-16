@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."services-memos" = {
+  flake.modules.nixos."services-memos" = {
     lib,
     config,
     ...

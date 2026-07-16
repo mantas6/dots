@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."purposes-monitor" = {
+  flake.modules.nixos."purposes-monitor" = {
     config,
     pkgs,
     ...

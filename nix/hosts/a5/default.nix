@@ -4,11 +4,11 @@
   ...
 }: {
   flake.nixosConfigurations.a5 = inputs.nixpkgs.lib.nixosSystem {
-    modules = [self.nixosModules."host-a5"];
+    modules = [self.modules.nixos."host-a5"];
   };
 
-  flake.nixosModules."host-a5" = {...}: {
-    imports = with self.nixosModules; [
+  flake.modules.nixos."host-a5" = {...}: {
+    imports = with self.modules.nixos; [
       base
       base-home
       disks-normal

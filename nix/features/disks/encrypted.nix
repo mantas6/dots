@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."disks-encrypted" = {
+  flake.modules.nixos."disks-encrypted" = {
     lib,
     config,
     ...

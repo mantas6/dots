@@ -4,11 +4,11 @@
   ...
 }: {
   flake.nixosConfigurations.pd = inputs.nixpkgs.lib.nixosSystem {
-    modules = [self.nixosModules."host-pd"];
+    modules = [self.modules.nixos."host-pd"];
   };
 
-  flake.nixosModules."host-pd" = {...}: {
-    imports = with self.nixosModules; [
+  flake.modules.nixos."host-pd" = {...}: {
+    imports = with self.modules.nixos; [
       base
       disks-normal
       jobs-updates

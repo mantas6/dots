@@ -4,16 +4,16 @@
   ...
 }: {
   flake.nixosConfigurations.iso = inputs.nixpkgs.lib.nixosSystem {
-    modules = [self.nixosModules."host-iso"];
+    modules = [self.modules.nixos."host-iso"];
   };
 
-  flake.nixosModules."host-iso" = {
+  flake.modules.nixos."host-iso" = {
     pkgs,
     modulesPath,
     ...
   }: {
     imports =
-      (with self.nixosModules; [
+      (with self.modules.nixos; [
         base
         base-home
       ])

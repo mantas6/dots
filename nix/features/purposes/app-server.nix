@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."purposes-app-server" = {pkgs, ...}: let
+  flake.modules.nixos."purposes-app-server" = {pkgs, ...}: let
     userName = "mantas";
 
     phpConfigured = pkgs.php85.buildEnv {

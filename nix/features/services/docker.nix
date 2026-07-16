@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."services-docker" = {
+  flake.modules.nixos."services-docker" = {
     lib,
     config,
     ...

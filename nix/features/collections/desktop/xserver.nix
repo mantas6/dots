@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."collections-desktop" = {
+  flake.modules.nixos."collections-desktop" = {
     environment.variables.XCURSOR_SIZE = "16";
 
     services = {

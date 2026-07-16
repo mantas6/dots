@@ -4,11 +4,11 @@
   ...
 }: {
   flake.nixosConfigurations.ix = inputs.nixpkgs.lib.nixosSystem {
-    modules = [self.nixosModules."host-ix"];
+    modules = [self.modules.nixos."host-ix"];
   };
 
-  flake.nixosModules."host-ix" = {...}: {
-    imports = with self.nixosModules; [
+  flake.modules.nixos."host-ix" = {...}: {
+    imports = with self.modules.nixos; [
       base
       base-home
       hardware-amd

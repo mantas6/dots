@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."purposes-router" = {
+  flake.modules.nixos."purposes-router" = {
     self,
     pkgs,
     pkgs-unstable,

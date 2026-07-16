@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."collections-develop" = {pkgs-unstable, ...}: let
+  flake.modules.nixos."collections-develop" = {pkgs-unstable, ...}: let
     serviceName = "tldr-update";
   in {
     environment.systemPackages = with pkgs-unstable; [

@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."collections-desktop" = {pkgs, ...}: {
+  flake.modules.nixos."collections-desktop" = {pkgs, ...}: {
     services.xserver.windowManager.dwm = {
       enable = true;
       package =

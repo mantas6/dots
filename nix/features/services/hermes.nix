@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.nixosModules."services-hermes" = {pkgs-unstable, ...}: {
+  flake.modules.nixos."services-hermes" = {pkgs-unstable, ...}: {
     imports = [
       inputs.hermes-agent.nixosModules.default
     ];

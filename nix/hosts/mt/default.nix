@@ -4,11 +4,11 @@
   ...
 }: {
   flake.nixosConfigurations.mt = inputs.nixpkgs.lib.nixosSystem {
-    modules = [self.nixosModules."host-mt"];
+    modules = [self.modules.nixos."host-mt"];
   };
 
-  flake.nixosModules."host-mt" = {...}: {
-    imports = with self.nixosModules; [
+  flake.modules.nixos."host-mt" = {...}: {
+    imports = with self.modules.nixos; [
       base
       base-home
       disks-normal

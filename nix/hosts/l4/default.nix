@@ -4,11 +4,11 @@
   ...
 }: {
   flake.nixosConfigurations.l4 = inputs.nixpkgs.lib.nixosSystem {
-    modules = [self.nixosModules."host-l4"];
+    modules = [self.modules.nixos."host-l4"];
   };
 
-  flake.nixosModules."host-l4" = {pkgs, ...}: {
-    imports = with self.nixosModules; [
+  flake.modules.nixos."host-l4" = {pkgs, ...}: {
+    imports = with self.modules.nixos; [
       base
       base-home
       disks-normal

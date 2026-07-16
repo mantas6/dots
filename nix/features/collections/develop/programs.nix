@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."collections-develop" = {
+  flake.modules.nixos."collections-develop" = {
     pkgs-unstable,
     lib,
     inputs,
