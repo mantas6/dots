@@ -48,6 +48,20 @@ func entryLabel(e store.Entry) string {
 	return e.Description
 }
 
+// statusNameMax caps the task name shown by `status`/`current` so the terse
+// status line stays short enough for a status bar.
+const statusNameMax = 30
+
+// truncName shortens s to at most max runes, appending an ellipsis when it
+// overflows. The returned string (ellipsis included) never exceeds max runes.
+func truncName(s string, max int) string {
+	r := []rune(s)
+	if len(r) <= max {
+		return s
+	}
+	return string(r[:max-1]) + "…"
+}
+
 // displayDuration is the duration shown for an entry: live (un-rounded) elapsed
 // while running, otherwise the stored quantized duration.
 func displayDuration(e store.Entry, now time.Time) time.Duration {
@@ -199,11 +213,11 @@ func renderCurrent(w io.Writer, e *store.Entry, now time.Time, loc *time.Locatio
 		return nil
 	}
 	elapsed := formatHM(now.Sub(e.Start))
-	label := entryLabel(*e)
+	label := truncName(entryLabel(*e), statusNameMax)
 	if e.ProjectName != "" {
 		label += " [" + e.ProjectName + "]"
 	}
-	fmt.Fprintf(w, "Running: %s since %s (%s)\n", label, formatClock(e.Start, loc), elapsed)
+	fmt.Fprintf(w, "run %s (%s)\n", label, elapsed)
 	return nil
 }
 

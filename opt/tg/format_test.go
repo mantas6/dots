@@ -299,6 +299,51 @@ func TestRenderCurrentGolden(t *testing.T) {
 	assertGolden(t, "current.json", js.String())
 }
 
+func TestTruncName(t *testing.T) {
+	cases := []struct {
+		name     string
+		in       string
+		max      int
+		want     string
+		wantRune int
+	}{
+		{"short unchanged", "Code review", 30, "Code review", 11},
+		{"exact fits", "123456789012345678901234567890", 30, "123456789012345678901234567890", 30},
+		{"overflow truncated", "This task name is definitely way too long", 30, "This task name is definitely …", 30},
+		{"multibyte counted by rune", strings.Repeat("é", 40), 30, strings.Repeat("é", 29) + "…", 30},
+	}
+	for _, c := range cases {
+		got := truncName(c.in, c.max)
+		if got != c.want {
+			t.Errorf("%s: truncName(%q, %d) = %q, want %q", c.name, c.in, c.max, got, c.want)
+		}
+		if n := len([]rune(got)); n > c.max {
+			t.Errorf("%s: result %q has %d runes, exceeds max %d", c.name, got, n, c.max)
+		}
+	}
+}
+
+func TestRenderCurrentTruncatesName(t *testing.T) {
+	start := time.Date(2026, 1, 2, 10, 30, 0, 0, time.UTC)
+	now := time.Date(2026, 1, 2, 11, 15, 0, 0, time.UTC)
+	e := store.Entry{
+		ID: 12, TaskName: "This task name is definitely way too long",
+		ProjectName: "Backend", Start: start, Duration: -1,
+	}
+	var buf bytes.Buffer
+	if err := renderCurrent(&buf, &e, now, time.UTC, false); err != nil {
+		t.Fatal(err)
+	}
+	got := buf.String()
+	if strings.Contains(got, "since") {
+		t.Errorf("status line still shows wall-clock start: %q", got)
+	}
+	want := "run This task name is definitely … [Backend] (0h45m)\n"
+	if got != want {
+		t.Errorf("status line = %q, want %q", got, want)
+	}
+}
+
 // sampleTasks builds the catalog-listing fixture (project name joined),
 // pre-sorted by project then task name as ListTasks returns them.
 func sampleTasks() []store.Task {
