@@ -14,8 +14,6 @@
       disks-normal
       jobs-updates
       services-hermes
-      # purposes-app-server
-      # services-docker
     ];
 
     disko.devices.disk.main-disk.device = "/dev/sda";
