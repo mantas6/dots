@@ -52,7 +52,7 @@ if workspace 2; then
 fi
 
 if workspace 3; then
-    open -n "/Applications/Safari.app"
+    open -na "/Applications/Safari.app" "https://track.toggl.com/timer"
     open -n "$HOME/Applications/Zen.app"
     await-windows 2
 fi
