@@ -4,26 +4,29 @@
     nightBrightness = "1%";
     coordinates = "54.0N 23.0E";
 
-    sunBrightness =
-      pkgs.writeShellScript "sun-brightness"
-      /*
-      bash
-      */
-      ''
-        #!${pkgs.runtimeShell}
-        ${pkgs.sunwait}/bin/sunwait poll civil ${coordinates}
-        case $? in
-          2) ${pkgs.brightnessctl}/bin/brightnessctl set ${dayBrightness} ;;
-          3) ${pkgs.brightnessctl}/bin/brightnessctl set ${nightBrightness} ;;
-        esac
-      '';
+    sunBrightness = pkgs.writeShellApplication {
+      name = "sun-brightness";
+      runtimeInputs = [pkgs.sunwait pkgs.brightnessctl];
+      text =
+        /*
+        bash
+        */
+        ''
+          rc=0
+          sunwait poll civil ${coordinates} || rc=$?
+          case $rc in
+            2) brightnessctl set ${dayBrightness} ;;
+            3) brightnessctl set ${nightBrightness} ;;
+          esac
+        '';
+    };
   in {
     systemd.services.sun-brightness = {
       description = "Adjust screen brightness by sun position";
       serviceConfig = {
         Type = "oneshot";
         User = "mantas";
-        ExecStart = "${sunBrightness}";
+        ExecStart = "${sunBrightness}/bin/sun-brightness";
       };
     };
 
