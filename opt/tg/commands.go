@@ -239,13 +239,13 @@ func cmdPush(w io.Writer, st *store.Store, c *api.Client, now time.Time, jsonOut
 }
 
 // cmdPull reconciles remote entries into the local store (LWW). With no project
-// scope (neither TOGGL_PROJECT_ID nor a project-name fragment) it pulls EVERY
-// project's entries in a single pass and advances the last_pull watermark. When
-// a project is given — via projectID (TOGGL_PROJECT_ID) or a fragment that
-// uniquely matches a cached project name — the pull is scoped to that one
-// project (and, being partial, leaves the watermark untouched).
-func cmdPull(w io.Writer, st *store.Store, c *api.Client, projectID *int64, fragment string, since, now time.Time, jsonOut bool) error {
-	pid, err := resolvePullScope(st, projectID, fragment)
+// argument it pulls EVERY project's entries in a single pass and advances the
+// last_pull watermark. Unlike start/tasks/update, `tg pull` deliberately
+// ignores TOGGL_PROJECT_ID: scoping happens only via an explicit project-name
+// fragment that uniquely matches a cached project, and such a scoped (partial)
+// pull leaves the watermark untouched.
+func cmdPull(w io.Writer, st *store.Store, c *api.Client, fragment string, since, now time.Time, jsonOut bool) error {
+	pid, err := resolvePullScope(st, fragment)
 	if err != nil {
 		return err
 	}
@@ -291,23 +291,26 @@ func resolveCachedProject(st *store.Store, projectID *int64, fragment string, em
 	}
 }
 
-// resolvePullScope decides which project(s) `tg pull` reconciles. A nil result
-// means "all projects", which is the default when no scope is requested
-// (neither TOGGL_PROJECT_ID nor a project-name fragment). Otherwise the pull is
-// scoped to exactly one cached project (see resolvePullProject).
-func resolvePullScope(st *store.Store, projectID *int64, fragment string) (*int64, error) {
-	if projectID == nil && strings.TrimSpace(fragment) == "" {
-		return nil, nil // no scope -> pull every project
+// resolvePullScope decides which project(s) `tg pull` reconciles from its
+// optional project-name argument. A nil result means "all projects", which is
+// the default when no argument is given. TOGGL_PROJECT_ID is intentionally NOT
+// consulted here, so pull spans every project unless a name is given
+// explicitly. Otherwise the pull is scoped to exactly one cached project (see
+// resolvePullProject).
+func resolvePullScope(st *store.Store, fragment string) (*int64, error) {
+	if strings.TrimSpace(fragment) == "" {
+		return nil, nil // no argument -> pull every project
 	}
-	return resolvePullProject(st, projectID, fragment)
+	return resolvePullProject(st, fragment)
 }
 
-// resolvePullProject resolves the single-project scope requested for `tg pull`
-// (an env id or a project-name fragment); see resolveCachedProject. The
-// unscoped "pull all projects" case is handled earlier by resolvePullScope.
-func resolvePullProject(st *store.Store, projectID *int64, fragment string) (*int64, error) {
-	return resolveCachedProject(st, projectID, fragment,
-		errors.New("pull requires a project-name fragment (or set TOGGL_PROJECT_ID)"),
+// resolvePullProject resolves the single-project scope requested by `tg pull`'s
+// explicit project-name argument; see resolveCachedProject. The unscoped "pull
+// all projects" case is handled earlier by resolvePullScope. Unlike other
+// commands, pull never falls back to TOGGL_PROJECT_ID.
+func resolvePullProject(st *store.Store, fragment string) (*int64, error) {
+	return resolveCachedProject(st, nil, fragment,
+		errors.New("pull requires a project-name argument"),
 		"; run `tg update` to refresh the catalog")
 }
 

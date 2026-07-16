@@ -434,28 +434,18 @@ func TestTasksCommandProjectScope(t *testing.T) {
 	}
 }
 
-func TestResolvePullProjectEnvWins(t *testing.T) {
-	s := newStore(t)
-	seedCatalog(t, s)
-
-	// With the env project id set, the fragment is ignored entirely.
-	pid := int64(2)
-	got, err := resolvePullProject(s, &pid, "backend")
-	if err != nil {
-		t.Fatalf("resolve: %v", err)
-	}
-	if got == nil || *got != 2 {
-		t.Errorf("resolved = %v, want 2 (env wins)", got)
-	}
-}
-
 func TestResolvePullProjectRequiresFragment(t *testing.T) {
 	s := newStore(t)
 	seedCatalog(t, s)
 
-	_, err := resolvePullProject(s, nil, "  ")
-	if err == nil || !strings.Contains(err.Error(), "TOGGL_PROJECT_ID") {
-		t.Errorf("err = %v, want a required-fragment error mentioning TOGGL_PROJECT_ID", err)
+	// pull ignores TOGGL_PROJECT_ID, so a blank argument is a hard error that
+	// must NOT suggest the env var as a fallback.
+	_, err := resolvePullProject(s, "  ")
+	if err == nil || !strings.Contains(err.Error(), "project-name argument") {
+		t.Errorf("err = %v, want a required-argument error", err)
+	}
+	if strings.Contains(err.Error(), "TOGGL_PROJECT_ID") {
+		t.Errorf("err = %v, should not mention TOGGL_PROJECT_ID (pull ignores it)", err)
 	}
 }
 
@@ -463,7 +453,7 @@ func TestResolvePullProjectUnique(t *testing.T) {
 	s := newStore(t)
 	seedCatalog(t, s)
 
-	got, err := resolvePullProject(s, nil, "back")
+	got, err := resolvePullProject(s, "back")
 	if err != nil {
 		t.Fatalf("resolve: %v", err)
 	}
@@ -481,7 +471,7 @@ func TestResolvePullProjectAmbiguous(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	_, err := resolvePullProject(s, nil, "back")
+	_, err := resolvePullProject(s, "back")
 	if err == nil {
 		t.Fatal("expected ambiguity error")
 	}
@@ -494,7 +484,7 @@ func TestResolvePullProjectNone(t *testing.T) {
 	s := newStore(t)
 	seedCatalog(t, s)
 
-	_, err := resolvePullProject(s, nil, "nonexistent")
+	_, err := resolvePullProject(s, "nonexistent")
 	if err == nil || !strings.Contains(err.Error(), "tg update") {
 		t.Errorf("err = %v, want suggestion to run `tg update`", err)
 	}
@@ -504,8 +494,8 @@ func TestResolvePullScopeUnscopedMeansAll(t *testing.T) {
 	s := newStore(t)
 	seedCatalog(t, s)
 
-	// No env id and a blank fragment means "pull every project": nil scope.
-	got, err := resolvePullScope(s, nil, "   ")
+	// A blank argument means "pull every project": nil scope.
+	got, err := resolvePullScope(s, "   ")
 	if err != nil {
 		t.Fatalf("resolve: %v", err)
 	}
@@ -514,17 +504,20 @@ func TestResolvePullScopeUnscopedMeansAll(t *testing.T) {
 	}
 }
 
-func TestResolvePullScopeEnvWins(t *testing.T) {
+// TestResolvePullScopeIgnoresEnv verifies pull's scope resolution never falls
+// back to TOGGL_PROJECT_ID: with the env set but no argument, the scope is nil
+// (all projects), unlike the env-honoring resolvers for start/update.
+func TestResolvePullScopeIgnoresEnv(t *testing.T) {
 	s := newStore(t)
 	seedCatalog(t, s)
 
-	pid := int64(2)
-	got, err := resolvePullScope(s, &pid, "")
+	t.Setenv("TOGGL_PROJECT_ID", "2")
+	got, err := resolvePullScope(s, "")
 	if err != nil {
 		t.Fatalf("resolve: %v", err)
 	}
-	if got == nil || *got != 2 {
-		t.Errorf("resolved = %v, want 2 (env scopes the pull)", got)
+	if got != nil {
+		t.Errorf("resolved = %v, want nil (pull ignores TOGGL_PROJECT_ID)", got)
 	}
 }
 
@@ -532,7 +525,7 @@ func TestResolvePullScopeFragment(t *testing.T) {
 	s := newStore(t)
 	seedCatalog(t, s)
 
-	got, err := resolvePullScope(s, nil, "pay")
+	got, err := resolvePullScope(s, "pay")
 	if err != nil {
 		t.Fatalf("resolve: %v", err)
 	}
@@ -562,8 +555,8 @@ func TestPullAllProjectsUnscoped(t *testing.T) {
 	since := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
 	now := time.Date(2026, 1, 2, 12, 0, 0, 0, time.UTC)
 	var buf bytes.Buffer
-	// nil env id + empty fragment => pull every project.
-	if err := cmdPull(&buf, s, c, nil, "", since, now, false); err != nil {
+	// empty argument => pull every project.
+	if err := cmdPull(&buf, s, c, "", since, now, false); err != nil {
 		t.Fatalf("pull: %v", err)
 	}
 	if !strings.Contains(buf.String(), "2 inserted") {
@@ -603,7 +596,7 @@ func TestPullScopedByFragment(t *testing.T) {
 	now := time.Date(2026, 1, 2, 12, 0, 0, 0, time.UTC)
 	var buf bytes.Buffer
 	// "back" resolves to Backend (project 1); only its entry is reconciled.
-	if err := cmdPull(&buf, s, c, nil, "back", since, now, false); err != nil {
+	if err := cmdPull(&buf, s, c, "back", since, now, false); err != nil {
 		t.Fatalf("pull: %v", err)
 	}
 	if got, _ := s.EntryByRemoteID(1); got == nil {
@@ -615,6 +608,53 @@ func TestPullScopedByFragment(t *testing.T) {
 	// A scoped pull is partial and must not advance the watermark.
 	if _, ok, _ := s.GetMeta(store.MetaLastPull); ok {
 		t.Error("scoped pull should not advance last_pull")
+	}
+}
+
+// TestPullIgnoresProjectEnv verifies `tg pull` reconciles entries from EVERY
+// project even when TOGGL_PROJECT_ID is set. Unlike start/tasks/update, pull
+// deliberately ignores the env project and spans the whole workspace, so an
+// entry belonging to a project other than the env one is still pulled and the
+// last_pull watermark advances (a full pull).
+func TestPullIgnoresProjectEnv(t *testing.T) {
+	s := newStore(t)
+	seedCatalog(t, s)
+
+	// Scope the env to a single project; pull must NOT honor it.
+	t.Setenv("TOGGL_PROJECT_ID", "1")
+
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`[
+		  {"id":1,"workspace_id":1,"project_id":1,"description":"a",
+		   "start":"2026-01-02T09:00:00Z","stop":"2026-01-02T09:30:00Z",
+		   "duration":1800,"at":"2026-01-02T09:30:00Z"},
+		  {"id":2,"workspace_id":1,"project_id":2,"description":"b",
+		   "start":"2026-01-02T10:00:00Z","stop":"2026-01-02T10:30:00Z",
+		   "duration":1800,"at":"2026-01-02T10:30:00Z"}]`))
+	}))
+	defer srv.Close()
+	c := api.New("tok", api.WithBaseURL(srv.URL), api.WithHTTPClient(srv.Client()))
+
+	since := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
+	now := time.Date(2026, 1, 2, 12, 0, 0, 0, time.UTC)
+	var buf bytes.Buffer
+	if err := cmdPull(&buf, s, c, "", since, now, false); err != nil {
+		t.Fatalf("pull: %v", err)
+	}
+	if !strings.Contains(buf.String(), "2 inserted") {
+		t.Errorf("output = %q, want 2 inserted (all projects)", buf.String())
+	}
+	// The env project's entry is pulled...
+	if got, _ := s.EntryByRemoteID(1); got == nil {
+		t.Error("project 1 entry should be inserted")
+	}
+	// ...and so is the entry for a project other than TOGGL_PROJECT_ID.
+	if got, _ := s.EntryByRemoteID(2); got == nil {
+		t.Error("project 2 entry should be inserted despite TOGGL_PROJECT_ID=1")
+	}
+	// Ignoring the env means this is a full pull: the watermark advances.
+	if _, ok, _ := s.GetMeta(store.MetaLastPull); !ok {
+		t.Error("pull ignoring env should be a full pull and advance last_pull")
 	}
 }
 

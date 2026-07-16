@@ -27,10 +27,10 @@ type PushResult struct {
 }
 
 // Pull fetches remote entries modified since `since`, applies LWW against local
-// state, and advances last_pull to `now`. A non-nil projectID (from
-// TOGGL_PROJECT_ID) scopes the pull to a single project: entries belonging to
-// other projects (or to none) are ignored, and last_pull is left untouched so a
-// later full pull still reconciles those other projects.
+// state, and advances last_pull to `now`. A non-nil projectID scopes the pull
+// to a single project: entries belonging to other projects (or to none) are
+// ignored, and last_pull is left untouched so a later full pull still
+// reconciles those other projects. Callers pass nil to reconcile every project.
 func Pull(st *store.Store, c *api.Client, projectID *int64, since, now time.Time) (PullResult, error) {
 	var res PullResult
 	remotes, err := c.List(since)

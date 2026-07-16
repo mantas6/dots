@@ -252,7 +252,10 @@ func runPull(args []string) error {
 		return err
 	}
 	fragment := strings.Join(fs.Args(), " ")
-	return cmdPull(os.Stdout, st, api.New(cfg.APIToken), projectIDFromEnv(), fragment, since, now, *jsonOut)
+	// pull deliberately ignores TOGGL_PROJECT_ID (unlike start/tasks/update):
+	// it always reconciles every project. Scoping happens only via an explicit
+	// <project> argument, so the env project id is never passed through here.
+	return cmdPull(os.Stdout, st, api.New(cfg.APIToken), fragment, since, now, *jsonOut)
 }
 
 func runAuth(args []string) error {
@@ -360,9 +363,10 @@ func printUsage(w io.Writer) {
 	fmt.Fprintln(w, "  completion zsh            print the zsh completion script")
 	fmt.Fprintln(w, "")
 	fmt.Fprintln(w, "sync: run `tg pull` then `tg push` for correct last-writer-wins.")
-	fmt.Fprintln(w, "env:  TOGGL_PROJECT_ID scopes `start`/`tasks`/`update`/`pull` to one")
-	fmt.Fprintln(w, "      project (and sets the project on entries created by `start`).")
-	fmt.Fprintln(w, "      When unset, `update` requires a unique <project> name, `pull`")
-	fmt.Fprintln(w, "      pulls all projects (or the named one), and `start` accepts")
+	fmt.Fprintln(w, "env:  TOGGL_PROJECT_ID scopes `start`/`tasks`/`update` to one project")
+	fmt.Fprintln(w, "      (and sets the project on entries created by `start`). `pull`")
+	fmt.Fprintln(w, "      ignores it and always reconciles every project; pass a")
+	fmt.Fprintln(w, "      <project> name to `pull` to scope it explicitly. When unset,")
+	fmt.Fprintln(w, "      `update` requires a unique <project> name and `start` accepts")
 	fmt.Fprintln(w, "      `<project> <task>` to scope by project name.")
 }
