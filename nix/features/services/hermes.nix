@@ -34,6 +34,7 @@
         # python313
         # python313Packages.pip
 
+        git
         curl
         wget
         jq
