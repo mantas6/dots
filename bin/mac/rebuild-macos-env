@@ -148,6 +148,7 @@ fn-misc() {
     brew services start sketchybar
 
     go install github.com/mantas6/mcal@latest
+    go install github.com/mantas6/tg@latest
 }
 
 fn-docker() {

@@ -1,3 +1,0 @@
-- tg pull should only pull current dir project id
-- the project env should scope tasks cmd as well
-- command to list projects (with id data)
