@@ -5,16 +5,35 @@ tag() {
     xsetroot -name "fsignal:$1"
     sleep 0.2
 }
+
+win_count() {
+    xprop -root _NET_CLIENT_LIST 2>/dev/null | grep -o '0x[0-9a-f]*' | wc -l
+}
+
 run() {
+    local before timeout=${2:-10} waited=0
+    before=$(win_count)
+
     sh -c "$1" >/dev/null 2>&1 &
-    sleep 0.5
+
+    while [ "$(win_count)" -le "$before" ]; do
+        sleep 0.2
+
+        waited=$((waited + 1))
+        [ "$waited" -ge $((timeout * 5)) ] && break
+    done
+}
+
+bg() {
+    sh -c "$1" >/dev/null 2>&1 &
+    sleep 0.3
 }
 
 term="alacritty -e tmux"
 
 if printf '%s' "$(uname -n)" | grep -q 'tp'; then
     tag 1
-    run "sessionizer connect generic"
+    bg "sessionizer connect generic"
     run "$term attach-session -t generic"
 
     tag 2
@@ -25,7 +44,7 @@ if printf '%s' "$(uname -n)" | grep -q 'tp'; then
 else
     tag 1
     run "chromium --new-window"
-    run "sessionizer connect generic"
+    bg "sessionizer connect generic"
     run "$term attach-session -t generic"
 
     tag 2
@@ -37,7 +56,7 @@ else
     run "firefox --new-window https://www.youtube.com/feed/subscriptions"
 
     tag 4
-    run "sessionizer connect large"
+    bg "sessionizer connect large"
     run "alacritty -o font.size=50 -e tmux attach-session -t large"
 
     tag 9
