@@ -146,6 +146,8 @@ fn-misc() {
     fi
 
     brew services start sketchybar
+
+    go install github.com/mantas6/mcal@latest
 }
 
 fn-docker() {
