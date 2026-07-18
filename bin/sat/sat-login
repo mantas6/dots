@@ -1,19 +1,22 @@
 #!/usr/bin/env sh
 
 set -e
+umask 077
 
 state=$(sat-state-dir)
 
 [ ! -d "$state" ] && mkdir -pv "$state"
+chmod a-s,u=rwx,go= "$state"
 
 if [ ! -f "$state/url" ]; then
     base_url=$(gum input --placeholder 'Base url' --no-show-help)
-    echo "$base_url" >"$state/url"
+    printf '%s\n' "$base_url" >"$state/url"
 fi
 
 [ -f "$state/token" ] && gum log --level warn 'Token is already defined'
 
 token=$(gum input --placeholder 'Token' --no-show-help)
-echo "$token" >"$state/token"
+printf '%s\n' "$token" >"$state/token"
+chmod 600 "$state/token"
 
 gum log --level info 'Token added successfuly'
