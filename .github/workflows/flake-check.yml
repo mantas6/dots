@@ -5,6 +5,10 @@ on:
     paths:
       - '**.nix'
       - 'flake.lock'
+
+permissions:
+  contents: read
+
 jobs:
   tests:
     runs-on: ubuntu-latest
