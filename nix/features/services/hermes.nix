@@ -27,6 +27,11 @@
           cron_mode = "approve";
         };
 
+        session_reset = {
+          mode = "idle";
+          idleMinutes = 60 * 12;
+        };
+
         stt.enabled = false;
       };
 
