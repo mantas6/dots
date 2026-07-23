@@ -54,11 +54,17 @@
         fd
         uv
 
+        python3
+        sqlite
+        cloudflared
+
         imagemagick
         exiftool
         ffmpeg
         imagemagick
 
+        python313Packages.edge-tts
+        openai-whisper
         sox
         espeak-ng
         yt-dlp
