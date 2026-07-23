@@ -58,7 +58,7 @@
       "type": "local",
       "command": [
         "npx",
-        "@playwright/mcp@0.0.75",
+        "@playwright/mcp@0.0.78",
         "--headless"
       ]
     },
