@@ -8,7 +8,7 @@
     users.users.mantas = {
       isNormalUser = true;
       linger = true;
-      extraGroups = ["wheel" "dialout"];
+      extraGroups = ["wheel"];
     };
 
     environment.variables.EDITOR = "${pkgs.vim}/bin/vim";
