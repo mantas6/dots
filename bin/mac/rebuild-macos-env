@@ -103,7 +103,7 @@ fn-node() {
             opencode-ai
             intelephense
             bash-language-server
-            typescript
+            typescript@5
             typescript-language-server
             vscode-langservers-extracted
             pyright
