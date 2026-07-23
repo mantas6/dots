@@ -1,36 +1,37 @@
 {...}: {
   flake.modules.nixos."services-auto-brightness" = {pkgs, ...}: let
     dayBrightness = "25%";
-    nightBrightness = "1%";
-    coordinates = "54.0N 23.0E";
+    nightBrightness = "5%";
+    nightStart = 23;
+    nightEnd = 7;
 
-    sunBrightness = pkgs.writeShellApplication {
-      name = "sun-brightness";
-      runtimeInputs = [pkgs.sunwait pkgs.brightnessctl];
+    timeBrightness = pkgs.writeShellApplication {
+      name = "time-brightness";
+      runtimeInputs = [pkgs.coreutils pkgs.brightnessctl];
       text =
         /*
         bash
         */
         ''
-          rc=0
-          sunwait poll civil ${coordinates} || rc=$?
-          case $rc in
-            2) brightnessctl set ${dayBrightness} ;;
-            3) brightnessctl set ${nightBrightness} ;;
-          esac
+          hour=$(date +%-H)
+          if [[ $hour -ge ${toString nightStart} || $hour -lt ${toString nightEnd} ]]; then
+            brightnessctl set ${nightBrightness}
+          else
+            brightnessctl set ${dayBrightness}
+          fi
         '';
     };
   in {
-    systemd.services.sun-brightness = {
-      description = "Adjust screen brightness by sun position";
+    systemd.services.time-brightness = {
+      description = "Adjust screen brightness by time of day";
       serviceConfig = {
         Type = "oneshot";
         User = "mantas";
-        ExecStart = "${sunBrightness}/bin/sun-brightness";
+        ExecStart = "${timeBrightness}/bin/time-brightness";
       };
     };
 
-    systemd.timers.sun-brightness = {
+    systemd.timers.time-brightness = {
       wantedBy = ["timers.target"];
       timerConfig = {
         OnBootSec = "1min";
