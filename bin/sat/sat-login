@@ -4,7 +4,8 @@ set -e
 
 state=$(sat-state-dir)
 
-[ ! -d "$state" ] && mkdir -pv "$state"
+mkdir -p -m 700 "$state"
+chmod 700 "$state"
 
 if [ ! -f "$state/url" ]; then
     base_url=$(gum input --placeholder 'Base url' --no-show-help)
