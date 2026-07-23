@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+# Build all NixOS systems defined in the flake
+
+set -e
+cd "$DOTS_DIR"
+
+hosts=$(nix eval --json .#nixosConfigurations --apply builtins.attrNames | tr -d '[]"' | tr ',' ' ')
+
+for host in $hosts; do
+    echo "Building $host"
+    nix build ".#nixosConfigurations.$host.config.system.build.toplevel" --no-link
+done
+
+echo "All systems built"
