@@ -39,6 +39,8 @@
         # python313
         # python313Packages.pip
 
+        coreutils
+        gawk
         git
         curl
         wget
