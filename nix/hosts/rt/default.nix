@@ -14,6 +14,7 @@
       disks-normal
       jobs-updates
       services-hermes
+      services-hermes-backup-source
     ];
 
     disko.devices.disk.main-disk.device = "/dev/sda";
