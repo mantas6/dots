@@ -30,7 +30,7 @@ setopt autocd
 setopt interactive_comments
 
 # Load completions
-autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit -i
 
 [ -n "$ZINIT_HOME" ] && zinit cdreplay -q
 
