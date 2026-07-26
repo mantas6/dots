@@ -4,4 +4,4 @@ set -e
 
 token=$(sat-auth-token)
 
-echo "Authorization: Bearer $token"
+printf 'Authorization: Bearer %s\n' "$token"
