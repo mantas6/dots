@@ -1,6 +1,6 @@
 ---
-description: Build subagent for implementing code changes, Opus 4.8 model
+description: Build subagent for implementing code changes, Opus model
 mode: subagent
-model: anthropic/claude-opus-4-8
+model: anthropic/claude-opus-5
 variant: high
 ---

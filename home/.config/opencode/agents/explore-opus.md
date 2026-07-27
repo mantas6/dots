@@ -1,7 +1,7 @@
 ---
-description: Exploration subagent for finding files and answering questions, Opus 4.8 model
+description: Exploration subagent for finding files and answering questions, Opus model
 mode: subagent
-model: anthropic/claude-opus-4-8
+model: anthropic/claude-opus-5
 variant: high
 permission:
   edit: deny
