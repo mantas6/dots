@@ -167,9 +167,15 @@ agenix --rekey
 
 #### Get host key
 
+Read the host's Ed25519 public key from its console or another trusted session.
+Verify its fingerprint before adding it to `secrets.nix`:
+
 ```sh
-ssh-keyscan __host__
+sudo cat /etc/ssh/ssh_host_ed25519_key.pub
+sudo ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub
 ```
+
+Do not rely on an unverified `ssh-keyscan` result when enrolling a host key.
 
 ### Troubleshooting auto-upgrade
 
