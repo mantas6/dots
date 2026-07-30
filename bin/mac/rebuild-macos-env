@@ -131,10 +131,6 @@ fn-php() {
 }
 
 fn-misc() {
-    if [ ! -x "$(command -v carl)" ]; then
-        cargo install carl
-    fi
-
     rm -rf "$HOME/.qutebrowser"
     ln -s "$HOME/.config/qutebrowser" "$HOME/.qutebrowser"
 
@@ -147,8 +143,14 @@ fn-misc() {
 
     brew services start sketchybar
 
-    go install github.com/mantas6/mcal@latest
-    go install github.com/mantas6/tg@latest
+    # Install direct from GitHub: the public proxy/sumdb 500s and fails
+    # hash verification on these untagged repos
+    (
+        export GOPRIVATE='github.com/mantas6/*'
+
+        go install github.com/mantas6/mcal@latest
+        go install github.com/mantas6/tg@latest
+    )
 }
 
 fn-docker() {
