@@ -18,6 +18,7 @@
         ${pkgs.xset}/bin/xset s noblank
 
         ${pkgs.unclutter}/bin/unclutter &
+        (${pkgs.coreutils}/bin/sleep 3 && ${pkgs.redshift}/bin/redshift -O 4500) &
 
         base_url=$(cat "${config.age.secrets.sat-base-url.path}")
 
