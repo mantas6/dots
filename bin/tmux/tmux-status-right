@@ -15,11 +15,11 @@ if git status | grep -q 'Your branch is ahead of'; then
     unpushed=true
 fi
 
-status=''
+status=$(tmux-bg status "$1") || status=''
 branch=$(git branch --show-current 2>/dev/null)
 
 if $changes; then
-    status='#[fg=pink]*#[default]'
+    status="$status#[fg=pink]*#[default]"
 fi
 
 if $unpushed; then

@@ -1,0 +1,327 @@
+#!/usr/bin/env bash
+# Move tmux panes to a hidden holding session and manage them as background jobs
+
+set -eu
+
+holder=_bg
+state_dir="$HOME/.local/state/tmux-jobs"
+scope_file="$state_dir/.scope"
+
+# Records are separated by US rather than tab: tab counts as IFS whitespace,
+# so runs of them collapse and empty fields would shift every later field
+sep=$'\x1f'
+
+c_reset=$'\033[0m'
+c_gray=$'\033[90m'
+c_blue=$'\033[34m'
+c_pink=$'\033[35m'
+c_yellow=$'\033[33m'
+
+# Human readable duration, e.g. 1h2m3s
+duration() {
+    local -i secs=${1:-0} h m s
+    ((secs < 0)) && secs=0
+    h=$((secs / 3600))
+    m=$(((secs % 3600) / 60))
+    s=$((secs % 60))
+    local out=""
+    ((h)) && out+="${h}h"
+    ((m)) && out+="${m}m"
+    printf '%s%ss' "$out" "$s"
+}
+
+# Name of the shell panes are started with, used to tell idle from busy
+job_shell=""
+shell_name() {
+    if [[ -z $job_shell ]]; then
+        job_shell=$(tmux show-options -gv default-shell 2>/dev/null) || job_shell=${SHELL:-/bin/sh}
+        job_shell=${job_shell##*/}
+    fi
+    printf '%s' "$job_shell"
+}
+
+# Classify a job, setting job_icon, job_colour, job_detail and job_done.
+# Precedence: dead pane > shell integration state > running command.
+read_state() {
+    local pane=$1 dead=$2 dead_status=$3 cmd=$4 since=$5
+    local kind ts exit_code dur text parked=""
+
+    job_done=0
+    kind=""
+
+    # Only shown where there is no more precise timestamp to report
+    [[ -n $since ]] && parked=" ${c_gray}· $(duration $((EPOCHSECONDS - since))) in bg${c_reset}"
+
+    if [[ $dead == 1 ]]; then
+        job_icon='†'
+        job_colour=$c_yellow
+        job_detail="exited ${dead_status:-?}$parked"
+        job_done=1
+        return 0
+    fi
+
+    [[ -r $state_dir/$pane ]] \
+        && IFS=$sep read -r kind ts exit_code dur text <"$state_dir/$pane" || true
+
+    case $kind in
+        R)
+            job_icon='●'
+            job_colour=$c_gray
+            job_detail="$text ${c_gray}· $(duration $((EPOCHSECONDS - ${ts:-0})))${c_reset}"
+            ;;
+        D)
+            job_done=1
+            if [[ ${exit_code:-0} == 0 ]]; then
+                job_icon='✓'
+                job_colour=$c_blue
+                job_detail="$text"
+            else
+                job_icon='✗'
+                job_colour=$c_pink
+                job_detail="$text ${c_pink}exit $exit_code${c_reset}"
+            fi
+            job_detail+=" ${c_gray}· $(duration "${dur:-0}") · $(duration $((EPOCHSECONDS - ${ts:-0}))) ago${c_reset}"
+            ;;
+        *)
+            # No shell integration data, fall back to the running command
+            if [[ $cmd == "$(shell_name)" ]]; then
+                job_icon='○'
+                job_colour=$c_gray
+                job_detail="idle$parked"
+                job_done=1
+            else
+                job_icon='●'
+                job_colour=$c_gray
+                job_detail="$cmd$parked"
+            fi
+            ;;
+    esac
+
+    return 0
+}
+
+# Emit one record per background job in scope
+records() {
+    local scope=$1 id origin name cmd dead dead_status since format
+
+    format="#{pane_id}$sep#{@bgj_session}$sep#{@bgj_name}$sep"
+    format+="#{pane_current_command}$sep#{pane_dead}$sep#{pane_dead_status}$sep#{@bgj_at}"
+
+    tmux list-panes -s -t "=$holder" -F "$format" 2>/dev/null \
+        | while IFS=$sep read -r id origin name cmd dead dead_status since; do
+            # Panes without metadata are not jobs, e.g. a holder placeholder
+            [[ -z $origin ]] && continue
+            [[ $scope != all && $origin != "$scope" ]] && continue
+            printf '%s\n' "$id$sep$origin$sep$name$sep$cmd$sep$dead$sep$dead_status$sep$since"
+        done
+}
+
+# Drop shell state files belonging to panes that no longer exist
+prune() {
+    local live f pane
+    [[ -d $state_dir ]] || return 0
+    live=$(tmux list-panes -a -F '#{pane_id}' 2>/dev/null) || return 0
+    for f in "$state_dir"/%*; do
+        [[ -e $f ]] || continue
+        pane=${f##*/}
+        grep -qxF -- "$pane" <<<"$live" || rm -f "$f"
+    done
+    return 0
+}
+
+placeholder=""
+ensure_holder() {
+    local width=$1 height=$2
+    tmux has-session -t "=$holder" 2>/dev/null && return 0
+    placeholder=$(tmux new-session -d -P -F '#{window_id}' -s "$holder" -x "$width" -y "$height")
+}
+
+cmd_send() {
+    local pane=${1:-$(tmux display -p '#{pane_id}')}
+    local session window name path width height panes layout replacement format
+
+    format="#{session_name}$sep#{window_id}$sep#{window_name}$sep#{pane_current_path}"
+    format+="$sep#{window_width}$sep#{window_height}$sep#{window_panes}"
+
+    IFS=$sep read -r session window name path width height panes < <(
+        tmux display -p -t "$pane" "$format"
+    )
+
+    if [[ $session == "$holder" ]]; then
+        tmux display-message "already a background job"
+        return 0
+    fi
+
+    ensure_holder "$width" "$height"
+
+    if ((panes > 1)); then
+        # Grow a replacement into the slot before moving the original out so
+        # the surrounding layout can be restored verbatim
+        layout=$(tmux display -p -t "$window" '#{window_layout}')
+        if tmux split-window -d -t "$pane" -c "$path" 2>/dev/null; then
+            tmux break-pane -d -a -n "$name" -s "$pane" -t "=$holder:"
+            tmux select-layout -t "$window" "$layout" 2>/dev/null || true
+        else
+            tmux break-pane -d -a -n "$name" -s "$pane" -t "=$holder:"
+        fi
+    else
+        # Create the replacement first: breaking the only pane of the only
+        # window would destroy the session and detach the client
+        replacement=$(tmux new-window -d -P -F '#{window_id}' -a -t "$window" -n "$name" -c "$path")
+        tmux break-pane -d -a -n "$name" -s "$pane" -t "=$holder:"
+        # break-pane does not trigger renumber-windows, so the replacement
+        # only slides into the original index once we renumber explicitly
+        tmux move-window -r -t "=$session:"
+        tmux select-window -t "$replacement"
+    fi
+
+    # Detached sessions size windows from default-size (80x24), which would
+    # squash the job. Pin it to the geometry it had in the foreground.
+    tmux resize-window -t "$pane" -x "$width" -y "$height"
+
+    tmux set -p -t "$pane" @bgj_session "$session"
+    tmux set -p -t "$pane" @bgj_name "$name"
+    tmux set -p -t "$pane" @bgj_at "$EPOCHSECONDS"
+
+    [[ -n $placeholder ]] && tmux kill-window -t "$placeholder"
+
+    tmux refresh-client -S
+    tmux display-message "backgrounded $name"
+}
+
+cmd_list() {
+    local scope=${1:-} id origin name cmd dead dead_status since display
+
+    if [[ -z $scope ]]; then
+        scope=${BGJ_SESSION:-}
+        [[ -r $scope_file && $(<"$scope_file") == all ]] && scope=all
+    fi
+    [[ -z $scope ]] && scope=all
+
+    prune
+
+    records "$scope" | while IFS=$sep read -r id origin name cmd dead dead_status since; do
+        read_state "$id" "$dead" "$dead_status" "$cmd" "$since"
+        display=$(printf '%s %-14.14s %-10.10s' "$job_icon" "$name" "$origin")
+        printf '%s\t%s%s%s %s\n' "$id" "$job_colour" "$display" "$c_reset" "$job_detail"
+    done
+}
+
+cmd_ui() {
+    local session=${1:-$(tmux display -p '#{session_name}')}
+    local window=${2:-$(tmux display -p '#{window_id}')}
+    local out key pane
+
+    export BGJ_SESSION="$session"
+    mkdir -p "$state_dir"
+    printf 'session' >"$scope_file"
+
+    if [[ -z $(cmd_list "$session") ]]; then
+        tmux display-message "no background jobs in $session"
+        return 0
+    fi
+
+    out=$(
+        cmd_list "$session" | fzf-tmux -p 70%,60% \
+            --delimiter='\t' --with-nth=2 --accept-nth=1 \
+            --layout=reverse --no-sort --ansi \
+            --border-label ' background ' --prompt '⚙  ' \
+            --header '  ^a all  ^s session  ^j split  ^d kill' \
+            --expect=ctrl-j \
+            --preview 'tmux capture-pane -pe -t {1} -S -200' \
+            --preview-window 'down,60%' \
+            --bind 'tab:down,btab:up' \
+            --bind "ctrl-a:execute-silent(printf all > '$scope_file')+reload(tmux-bg list)" \
+            --bind "ctrl-s:execute-silent(printf session > '$scope_file')+reload(tmux-bg list)" \
+            --bind 'ctrl-d:execute-silent(tmux kill-window -t {1})+reload(tmux-bg list)'
+    ) || return 0
+
+    key=$(sed -n 1p <<<"$out")
+    pane=$(sed -n 2p <<<"$out")
+    [[ -z $pane ]] && return 0
+
+    if [[ $key == ctrl-j ]]; then
+        cmd_join "$pane" "$window"
+    else
+        cmd_restore "$pane" "$window"
+    fi
+}
+
+# Undo the size pin and metadata before a job rejoins a visible session
+unpin() {
+    local pane=$1
+    tmux set -w -u -t "$pane" window-size
+    tmux set -p -u -t "$pane" @bgj_session
+    tmux set -p -u -t "$pane" @bgj_name
+    tmux set -p -u -t "$pane" @bgj_at
+}
+
+cmd_restore() {
+    local pane=$1
+    local window=${2:-$(tmux display -p '#{window_id}')}
+    local session
+
+    session=$(tmux display -p -t "$window" '#{session_name}')
+
+    unpin "$pane"
+    tmux move-window -a -s "$pane" -t "$window"
+    tmux move-window -r -t "=$session:"
+    tmux select-window -t "$pane"
+    tmux refresh-client -S
+}
+
+cmd_join() {
+    local pane=$1
+    local window=${2:-$(tmux display -p '#{window_id}')}
+
+    unpin "$pane"
+    tmux join-pane -v -s "$pane" -t "$window"
+    tmux refresh-client -S
+}
+
+cmd_kill() {
+    tmux kill-window -t "$1"
+    tmux refresh-client -S
+}
+
+# Compact status line segment: job count, highlighted when one is waiting
+cmd_status() {
+    local scope=${1:-} id origin name cmd dead dead_status since
+    local -i total=0 waiting=0
+
+    [[ -z $scope ]] && return 0
+
+    while IFS=$sep read -r id origin name cmd dead dead_status since; do
+        [[ -z $id ]] && continue
+        total+=1
+        read_state "$id" "$dead" "$dead_status" "$cmd" ""
+        if ((job_done)); then
+            waiting+=1
+        fi
+    done < <(records "$scope")
+
+    ((total == 0)) && return 0
+
+    if ((waiting)); then
+        printf '#[fg=pink]⚙%d#[default] ' "$total"
+    else
+        printf '#[fg=gray]⚙%d#[default] ' "$total"
+    fi
+}
+
+subcommand=${1:-ui}
+(($#)) && shift
+
+case $subcommand in
+    send) cmd_send "$@" ;;
+    list) cmd_list "$@" ;;
+    ui) cmd_ui "$@" ;;
+    restore) cmd_restore "$@" ;;
+    join) cmd_join "$@" ;;
+    kill) cmd_kill "$@" ;;
+    status) cmd_status "$@" ;;
+    *)
+        printf 'usage: tmux-bg {send|list|ui|restore|join|kill|status} [args]\n' >&2
+        exit 1
+        ;;
+esac

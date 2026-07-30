@@ -11,6 +11,10 @@ import (
 	"strings"
 )
 
+// Holding session for backgrounded panes, managed by tmux-bg. It is never
+// meant to be attached to, so it must not show up as a switchable session.
+const hiddenSession = "_bg"
+
 func loadSessions() (sessionItems []*session.Session) {
 	cfg := config.Load()
 
@@ -31,6 +35,9 @@ func loadSessions() (sessionItems []*session.Session) {
 	if err == nil {
 		for _, line := range strings.Split(sessionsText, "\n") {
 			tmuxSessionItem := tmuxsession.NewFromLine(line)
+			if tmuxSessionItem.Name == "" || tmuxSessionItem.Name == hiddenSession {
+				continue
+			}
 			sessionItems = mergeInTmuxSession(sessionItems, tmuxSessionItem)
 		}
 	}

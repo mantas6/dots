@@ -8,7 +8,7 @@ cd "$HOME"
 mkdir -pv \
     .config/{docker,docker-darwin,autorandr,systemd/user,composer} \
     .local/{share,bin,sbin} \
-    .local/state/{bash,zsh} \
+    .local/state/{bash,zsh,tmux-jobs} \
     .local/state/sessions/{llm,calc} \
     .gnupg \
     .claude \
