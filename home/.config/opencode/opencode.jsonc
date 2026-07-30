@@ -27,12 +27,13 @@
       "nix-env*": "deny",
       "sudo*": "deny"
     },
-    "external_diretory": {
+    "external_directory": {
       "*": "deny",
-      "$HOME/Repos/*": "allow",
-      "$HOME/Repos/**": "allow",
-      "$HOME/Downloads/*": "ask",
-      "/tmp": "allow"
+      "~/Repos/*": "allow",
+      "~/Repos/**": "allow",
+      "~/Downloads/*": "ask",
+      "/tmp": "allow",
+      "/tmp/**": "allow"
     }
   },
   "compaction": {
