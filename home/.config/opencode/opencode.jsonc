@@ -31,7 +31,8 @@
       "*": "deny",
       "~/Repos/*": "allow",
       "~/Repos/**": "allow",
-      "~/Downloads/*": "ask",
+      "~/Downloads/*": "allow",
+      "~/Downloads/**": "allow",
       "/tmp": "allow",
       "/tmp/**": "allow"
     }
