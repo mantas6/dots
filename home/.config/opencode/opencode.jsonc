@@ -69,7 +69,7 @@
       "command": [
         "npx",
         "-y",
-        "chrome-devtools-mcp@1.0.1"
+        "chrome-devtools-mcp@1.6.0"
       ]
     }
   }
