@@ -8,7 +8,6 @@
       autorandr
       picom
       dex
-      redshift
       unclutter
       numlockx
       xssstate

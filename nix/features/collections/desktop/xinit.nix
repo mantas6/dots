@@ -18,7 +18,7 @@
 
         ${pkgs.unclutter}/bin/unclutter &
         ${pkgs.lxsession}/bin/lxpolkit &
-        (sleep 3 && ${pkgs.redshift}/bin/redshift -O 4500) &
+        (${pkgs.coreutils}/bin/sleep 3 && ${pkgs.redshift}/bin/redshift -O 4500) &
 
         [ -x "$(command -v auto-suspend)" ] && auto-suspend &
 
