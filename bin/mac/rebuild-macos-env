@@ -143,8 +143,6 @@ fn-misc() {
 
     brew services start sketchybar
 
-    # Install direct from GitHub: the public proxy/sumdb 500s and fails
-    # hash verification on these untagged repos
     (
         export GOPRIVATE='github.com/mantas6/*'
 
