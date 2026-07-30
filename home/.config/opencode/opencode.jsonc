@@ -9,7 +9,7 @@
   // "model": "anthropic/claude-opus-4-7",
   "plugin": [
     // https://github.com/griffinmartin/opencode-claude-auth
-    "opencode-claude-auth@v2.1.4"
+    "opencode-claude-auth@v2.1.5"
     // https://github.com/ex-machina-co/opencode-anthropic-auth
     // "@ex-machina/opencode-anthropic-auth@1.6.1"
   ],
