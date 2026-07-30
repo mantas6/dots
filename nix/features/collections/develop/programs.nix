@@ -39,6 +39,12 @@
     # lua_ls fix
     programs.nix-ld.enable = true;
 
+    # installs direnv, sets up the zsh hook and nix-direnv
+    programs.direnv = {
+      enable = true;
+      package = pkgs-unstable.direnv;
+    };
+
     environment.variables.EDITOR = lib.mkDefault "${pkgs-unstable.neovim}/bin/vim";
 
     services.redis.servers.develop = {
@@ -49,7 +55,6 @@
     environment.systemPackages = with pkgs-unstable; [
       neovim
       tmux
-      direnv
 
       phpConfigured
       phpConfigured.packages.composer
