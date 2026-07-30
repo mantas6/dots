@@ -33,6 +33,8 @@
       "~/Repos/**": "allow",
       "~/Downloads/*": "allow",
       "~/Downloads/**": "allow",
+      "/nix/store/*": "allow",
+      "/nix/store/**": "allow",
       "/tmp": "allow",
       "/tmp/**": "allow"
     }
