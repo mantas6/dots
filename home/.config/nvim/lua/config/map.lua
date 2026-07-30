@@ -99,7 +99,7 @@ vim.api.nvim_set_keymap('n', '<leader>yf', ':silent !basename %:. | xc<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>ya', ':silent !echo %:p | xc<CR>', {})
 
 vim.api.nvim_set_keymap('n', '<leader>ec', ':e composer.json <CR>', {})
-vim.api.nvim_set_keymap('n', '<leader>eP', ':e SCRATCH.md <CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>ep', ':e SCRATCH.md <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>ed', ':e *compose.y* <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>en', ':e .env <CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>er', ':e README.md <CR>', {})
