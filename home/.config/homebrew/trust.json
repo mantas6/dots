@@ -1,8 +1,7 @@
 {
-  "trustedtaps": [
-    "daipeihust/tap",
-    "felixkratz/formulae",
-    "jsdelivr/globalping",
-    "nikitabobko/tap"
+  "trustedformulae": [
+    "daipeihust/tap/im-select",
+    "felixkratz/formulae/sketchybar",
+    "jsdelivr/globalping/globalping"
   ]
 }
