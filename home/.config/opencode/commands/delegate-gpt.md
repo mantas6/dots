@@ -1,5 +1,5 @@
 ---
-name: delegate-opus
+name: delegate-gpt
 agent: build
 ---
 
