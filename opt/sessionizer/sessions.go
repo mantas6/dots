@@ -19,10 +19,6 @@ func loadSessions() (sessionItems []*session.Session) {
 		sessionItems = append(sessionItems, session.NewFromConfig(configSession))
 	}
 
-	for _, configRemote := range cfg.Remotes {
-		sessionItems = append(sessionItems, session.NewFromRemote(configRemote))
-	}
-
 	for _, configPattern := range cfg.Patterns {
 		resolvedPaths := expandWildcardPaths(configPattern.Pattern)
 
@@ -93,14 +89,6 @@ func switchToSession(name string) {
 }
 
 func createNewSession(item *session.Session) {
-	if item.Source == session.SourceRemote {
-		err := api.NewRemoteSession(item.Name, item.Path, item.Host, item.RemoteSession)
-		if err != nil {
-			log.Fatalf("Failed to create a remote session: %v", err)
-		}
-		return
-	}
-
 	err := api.NewSession(item.Name, item.Path)
 	if err != nil {
 		log.Fatalf("Failed to create a session: %v", err)

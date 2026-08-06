@@ -21,16 +21,9 @@ type Session struct {
 	Cmd  string `toml:"cmd"`
 }
 
-type Remote struct {
-	Name    string `toml:"name"`
-	Host    string `toml:"host"`
-	Session string `toml:"session"`
-}
-
 type Config struct {
 	Patterns []Pattern `toml:"patterns"`
 	Sessions []Session `toml:"session"`
-	Remotes  []Remote  `toml:"remote"`
 }
 
 func Load() Config {

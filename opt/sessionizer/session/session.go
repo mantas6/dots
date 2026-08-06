@@ -11,20 +11,17 @@ type Source int
 const (
 	SourceConfig Source = iota
 	SourcePattern
-	SourceRemote
 	SourceTmux
 )
 
 type Session struct {
-	Name          string
-	Path          string
-	Cmd           string
-	Host          string
-	RemoteSession string
-	LastAttached  int
-	OrderCreated  int
-	Active        bool
-	Source        Source
+	Name         string
+	Path         string
+	Cmd          string
+	LastAttached int
+	OrderCreated int
+	Active       bool
+	Source       Source
 }
 
 func (s *Session) SetActive(lastAttached int) {
@@ -52,16 +49,6 @@ func NewFromConfig(item config.Session) *Session {
 		Path:   item.Path,
 		Cmd:    item.Cmd,
 		Source: SourceConfig,
-	}
-}
-
-func NewFromRemote(item config.Remote) *Session {
-	return &Session{
-		Name:          item.Name,
-		Path:          "~",
-		Host:          item.Host,
-		RemoteSession: item.Session,
-		Source:        SourceRemote,
 	}
 }
 

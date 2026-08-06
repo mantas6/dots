@@ -36,7 +36,7 @@ name = "Notes"
 path = "~"
 cmd = "nvim NOTES.md"
 
-# [[remote]]
+# [[session]]
 # name = "remote-a5"
-# host = "a5"
-# session = "main"
+# path = "~"
+# cmd = "exec remote-tmux-session a5 main"
