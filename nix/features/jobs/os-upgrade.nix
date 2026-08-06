@@ -1,9 +1,5 @@
 {...}: {
-  flake.modules.nixos."jobs-os-upgrade" = {
-    lib,
-    config,
-    ...
-  }: {
+  flake.modules.nixos."jobs-os-upgrade" = {lib, ...}: {
     system.autoUpgrade = {
       enable = true;
 
