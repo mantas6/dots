@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+// Evaluate each JavaScript statement and output diagnostics as JSON.
+
+const vm = require("node:vm");
+
+let code = "";
+
+process.stdin.setEncoding("utf8");
+process.stdin.on("data", (chunk) => (code += chunk));
+process.stdin.on("end", () => {
+  const context = vm.createContext();
+  const diagnostics = [];
+  let buffer = "";
+
+  for (const [index, line] of code.split("\n").entries()) {
+    const trimmed = line.trim();
+
+    if (trimmed === "" || trimmed.startsWith("//")) continue;
+
+    buffer += `${buffer === "" ? "" : "\n"}${line}`;
+
+    let script;
+
+    try {
+      script = new vm.Script(buffer);
+    } catch (error) {
+      if (!error.message.includes("Unexpected end of input")) buffer = "";
+      continue;
+    }
+
+    try {
+      const result = script.runInContext(context);
+
+      if (result !== undefined) {
+        diagnostics.push({
+          line: index + 1,
+          message: format(result),
+        });
+      }
+    } catch {
+      // Ignore invalid calculations so they do not interrupt later lines.
+    }
+
+    buffer = "";
+  }
+
+  process.stdout.write(JSON.stringify(diagnostics));
+});
+
+function format(value) {
+  if (typeof value === "string") return JSON.stringify(value);
+  if (typeof value === "object" && value !== null) return JSON.stringify(value);
+
+  return String(value);
+}

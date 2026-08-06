@@ -10,7 +10,7 @@ cmd = "tmux new-window -d; ai"
 [[session]]
 name = "calc"
 path = "~/.local/state/sessions/calc"
-cmd = "nvim main.calc.php"
+cmd = "nvim main.calc.js"
 
 [[session]]
 name = "_dots"

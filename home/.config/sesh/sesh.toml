@@ -43,7 +43,7 @@ startup_command  = "ai"
 [[session]]
 name = "calc"
 path = "~/.local/state/sessions/calc"
-startup_command  = "nvim main.calc.php"
+startup_command  = "nvim main.calc.js"
 
 
 # [[window]]
