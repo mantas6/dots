@@ -4,15 +4,6 @@ terminal() {
     wezterm start
 }
 
-browser() {
-    local app='Applications/Helium.app'
-    if [ -e "$HOME/$app" ]; then
-        open -n "$HOME/$app"
-    else
-        open -n "/$app"
-    fi
-}
-
 count-windows() {
     aerospace list-windows --workspace focused --count
 }
@@ -41,8 +32,7 @@ workspace() {
 
 if workspace 1; then
     terminal
-    browser
-    await-windows 2
+    await-windows 1
 fi
 
 if workspace 2; then
