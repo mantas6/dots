@@ -17,7 +17,6 @@
     servicesIp = "10.0.1.21"; # l4
     wolPort = 5001;
   in {
-    services.fail2ban.enable = true;
     networking.stevenblack = {
       enable = true;
       package = pkgs-unstable.stevenblack-blocklist;
