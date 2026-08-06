@@ -1,5 +1,5 @@
 {...}: {
-  flake.modules.nixos."jobs-updates" = {
+  flake.modules.nixos."jobs-os-upgrade" = {
     lib,
     config,
     ...

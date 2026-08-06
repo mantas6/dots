@@ -12,7 +12,7 @@
       base
       base-home
       disks-normal
-      jobs-updates
+      jobs-os-upgrade
       hardware-backlight
       services-auto-brightness
       progs-shell

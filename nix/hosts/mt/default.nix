@@ -11,7 +11,7 @@
     imports = with self.modules.nixos; [
       base
       disks-normal
-      jobs-updates
+      jobs-os-upgrade
       hardware-backlight
       services-auto-brightness
       quirks-prevent-sleep

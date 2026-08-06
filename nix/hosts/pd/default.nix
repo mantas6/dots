@@ -11,7 +11,7 @@
     imports = with self.modules.nixos; [
       base
       disks-normal
-      jobs-updates
+      jobs-os-upgrade
       purposes-router
       services-sat-backups
     ];
