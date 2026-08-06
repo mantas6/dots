@@ -24,6 +24,8 @@
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 
+    features.wakeOnLanAdapterMAC = "a8:2b:dd:4e:10:2e";
+
     features.swapSizeInGB = 2;
 
     networking.hostName = "ag";
