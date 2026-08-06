@@ -20,3 +20,7 @@ Only read and modify files within this repository. Never read or write files dir
 ## Verification
 
 - After changing any Nix files (`nix/`, `flake.nix`, `flake.lock`), run `nix flake check` to validate the configuration
+
+## Version Control
+
+- When working on a feature branch, after commit/PR move back to `main`
