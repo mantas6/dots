@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3dac6428da4f7c69f00972957fdaf9f0",
+    "content-hash": "63752769165c478c6f720df5bf40afe9",
     "packages": [
         {
             "name": "carbon-cli/carbon-cli",
@@ -816,6 +816,68 @@
                 "source": "https://github.com/laravel/installer/tree/v5.31.1"
             },
             "time": "2026-08-04T19:26:46+00:00"
+        },
+        {
+            "name": "laravel/lsp",
+            "version": "v0.0.29",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/lsp.git",
+                "reference": "aafb3e8a6a1760b998750bd4dd5b1aa0426fd8d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/lsp/zipball/aafb3e8a6a1760b998750bd4dd5b1aa0426fd8d7",
+                "reference": "aafb3e8a6a1760b998750bd4dd5b1aa0426fd8d7",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2.0"
+            },
+            "require-dev": {
+                "amphp/amp": "^3.0",
+                "amphp/byte-stream": "^2.1",
+                "laravel-zero/framework": "^12.0",
+                "laravel/pint": "^1.15.2",
+                "microsoft/tolerant-php-parser": "^0.1.2",
+                "mockery/mockery": "^1.6.11",
+                "pestphp/pest": "^4.0",
+                "stillat/blade-parser": "^2.1"
+            },
+            "bin": [
+                "builds/laravel-lsp"
+            ],
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "App\\": "app/"
+                },
+                "exclude-from-classmap": [
+                    "app/Lsp/Data/Templates/global.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Laravel"
+                }
+            ],
+            "description": "The Laravel language server.",
+            "homepage": "https://github.com/laravel/lsp",
+            "keywords": [
+                "LSP",
+                "language-server",
+                "laravel",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/lsp/issues",
+                "source": "https://github.com/laravel/lsp"
+            },
+            "time": "2026-07-29T18:23:46+00:00"
         },
         {
             "name": "laravel/pint",

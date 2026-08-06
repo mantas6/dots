@@ -50,6 +50,11 @@ return {
       lua_ls = {},
       taplo = {},
       -- clangd = {},
+      laravel_lsp = {
+        cmd = { 'laravel-lsp' },
+        filetypes = { 'php', 'blade' },
+        root_markers = { 'artisan', 'composer.json', '.git' },
+      },
       ts_ls = {
         filetypes = {
           'javascript',
