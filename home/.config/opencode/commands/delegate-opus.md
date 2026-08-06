@@ -1,5 +1,4 @@
 ---
-name: delegate-opus
 agent: build
 ---
 

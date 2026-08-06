@@ -1,5 +1,4 @@
 ---
-name: write-scratch
 agent: build
 ---
 

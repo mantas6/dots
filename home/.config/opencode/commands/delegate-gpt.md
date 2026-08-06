@@ -1,5 +1,4 @@
 ---
-name: delegate-gpt
 agent: build
 ---
 
