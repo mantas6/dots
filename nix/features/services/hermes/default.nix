@@ -16,7 +16,7 @@
       extraDependencyGroups = ["messaging" "voice"];
 
       settings = {
-        model.default = "openai/gpt-5.6-terra";
+        model.default = "openai/gpt-5.6-sol";
 
         agent = {
           reasoning_effort = "medium";
