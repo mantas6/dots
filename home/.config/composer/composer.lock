@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a994d868f687e395b1eabfb2a12cd7d",
+    "content-hash": "3dac6428da4f7c69f00972957fdaf9f0",
     "packages": [
         {
             "name": "carbon-cli/carbon-cli",
@@ -136,6 +136,79 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "cpx/cpx",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/cpx.git",
+                "reference": "bdffc5ce172f402a21d2119ad32180d9bccdf32c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/cpx/zipball/bdffc5ce172f402a21d2119ad32180d9bccdf32c",
+                "reference": "bdffc5ce172f402a21d2119ad32180d9bccdf32c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "require-dev": {
+                "composer/composer": "^2.8",
+                "composer/semver": "^3.4",
+                "laravel/agent-detector": "^2.0",
+                "laravel/pao": "^1.1",
+                "laravel/pint": "^1.29",
+                "laravel/prompts": "^0.3.21",
+                "mockery/mockery": "^1.6",
+                "pestphp/pest": "^4.7",
+                "pestphp/pest-plugin-type-coverage": "^4.0",
+                "phpstan/phpstan": "^2.2",
+                "symfony/console": "^7.4|^8.0",
+                "symfony/process": "^7.4|^8.0"
+            },
+            "bin": [
+                "builds/cpx"
+            ],
+            "type": "project",
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "Cpx\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Run any command from any composer package, even if it's not installed in your project.",
+            "keywords": [
+                "command",
+                "composer",
+                "package",
+                "run"
+            ],
+            "support": {
+                "docs": "https://cpx.dev",
+                "issues": "https://github.com/laravel/cpx/issues",
+                "source": "https://github.com/laravel/cpx"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/imliam",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-07-24T16:24:38+00:00"
         },
         {
             "name": "doctrine/inflector",
