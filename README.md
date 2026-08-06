@@ -199,7 +199,7 @@ To see the status of the upgrade timer:
 systemctl status nixos-upgrade.timer
 ```
 
-### Useful commands
+## Useful commands
 
 Trigger Enter key press on another `tmux` window:
 
