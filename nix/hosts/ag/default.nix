@@ -13,7 +13,7 @@
       base-home
       disks-normal
 
-      jobs-os-upgrade
+      jobs-os-upgrade-desktop
 
       # purposes-app-server
 
