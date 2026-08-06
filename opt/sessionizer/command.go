@@ -17,6 +17,7 @@ const (
 	iconDefault = "-"
 	iconConfig  = "#"
 	iconPattern = "$"
+	iconRemote  = "@"
 	iconTmux    = "-"
 )
 
@@ -34,6 +35,8 @@ func cmdList() {
 			tag = iconConfig
 		case session.SourcePattern:
 			tag = iconPattern
+		case session.SourceRemote:
+			tag = iconRemote
 		case session.SourceTmux:
 			tag = iconTmux
 		}

@@ -35,3 +35,8 @@ path = "~/Downloads"
 name = "Notes"
 path = "~"
 cmd = "nvim NOTES.md"
+
+# [[remote]]
+# name = "remote-a5"
+# host = "a5"
+# session = "main"
