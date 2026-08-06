@@ -37,6 +37,6 @@ path = "~"
 cmd = "nvim NOTES.md"
 
 [[session]]
-name = "a5@_dots"
+name = "ag@_dots"
 path = "~"
-cmd = "exec remote-tmux-session a5 _dots"
+cmd = "exec remote-tmux-session ag _dots"
