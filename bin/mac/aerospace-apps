@@ -45,6 +45,10 @@ if workspace 3; then
     open -na "/Applications/Safari.app" "https://track.toggl.com/timer"
     open -n "$HOME/Applications/Zen.app"
     await-windows 2
+
+    # aerospace layout --workspace 3 --root horizontal
+    aerospace focus --dfs-index 1
+    aerospace resize width +450
 fi
 
 if workspace 4; then
