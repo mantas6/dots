@@ -12,9 +12,14 @@
       base
       base-home
       disks-normal
+
       jobs-updates
+
+      # purposes-app-server
+
+      collections-develop
+      progs-shell
       services-docker
-      purposes-app-server
     ];
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
