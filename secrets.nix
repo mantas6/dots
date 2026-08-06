@@ -5,6 +5,7 @@ let
 
   systems = {
     mt = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO1l4E2BxsfN8rHZnntHirLssQQsQ+gofyrJYo+nMWz5";
+    a5 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII7JlqYzxa8mBF+8gZXqNaMZOviPE1W1oYaSh5xlm0r2";
   };
 
   allSystems = builtins.attrValues systems;
