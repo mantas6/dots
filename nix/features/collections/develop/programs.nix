@@ -1,5 +1,6 @@
 {...}: {
   flake.modules.nixos."collections-develop" = {
+    pkgs,
     pkgs-unstable,
     lib,
     inputs,
@@ -45,7 +46,10 @@
       package = pkgs-unstable.direnv;
     };
 
-    environment.variables.EDITOR = lib.mkDefault "${pkgs-unstable.neovim}/bin/vim";
+    environment.variables = {
+      EDITOR = lib.mkDefault "${pkgs-unstable.neovim}/bin/vim";
+      PLAYWRIGHT_MCP_EXECUTABLE_PATH = "${pkgs.chromium}/bin/chromium";
+    };
 
     services.redis.servers.develop = {
       enable = true;
@@ -95,6 +99,7 @@
 
       opencode
       pkgs-unstable-unfree.claude-code
+      pkgs.chromium
 
       gnumake
       gitleaks

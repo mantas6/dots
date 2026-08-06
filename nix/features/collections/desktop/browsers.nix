@@ -1,7 +1,5 @@
 {...}: {
   flake.modules.nixos."collections-desktop" = {pkgs, ...}: {
-    environment.variables.PLAYWRIGHT_MCP_EXECUTABLE_PATH = "${pkgs.chromium}/bin/chromium";
-
     environment.systemPackages = with pkgs; [
       # (chromium.override {enableWideVine = true;})
       chromium
