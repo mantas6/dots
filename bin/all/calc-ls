@@ -29,7 +29,7 @@ process.stdin.on("end", () => {
     }
 
     try {
-      const result = script.runInContext(context);
+      const result = script.runInContext(context, { timeout: 100 });
 
       if (result !== undefined) {
         diagnostics.push({
