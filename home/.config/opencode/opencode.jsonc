@@ -35,6 +35,8 @@
       "~/Downloads/**": "allow",
       "/nix/store/*": "allow",
       "/nix/store/**": "allow",
+      "/opt": "allow",
+      "/opt/**": "allow",
       "/tmp": "allow",
       "/tmp/**": "allow"
     }
