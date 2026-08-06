@@ -31,6 +31,13 @@ jobs:
       - name: Run flake check
         run: nix flake check --all-systems
 
+      - name: Configure push authentication
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $auth"
+
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
