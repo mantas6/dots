@@ -31,4 +31,4 @@ tmux set-option -t "$TMUX_PANE" @remote-host "$host" \; \
     set-option -t "$TMUX_PANE" status off \; \
     set-option -t "$TMUX_PANE" mouse off
 
-exec ssh -tt -- "$host" "exec \"\$SHELL\" -lc 'unset TMUX TMUX_PANE; exec sessionizer connect $remote_session'"
+exec ssh -tt -- "$host" "exec \"\$SHELL\" -lc 'exec sessionizer connect $remote_session'"
