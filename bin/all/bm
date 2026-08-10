@@ -16,8 +16,8 @@ show_help() {
 }
 
 list="$DOTS_DIR/etc/bm"
-search_cmd='fzf -i'
-input_cmd='gum input'
+search_cmd=(fzf -i)
+input_cmd=(gum input)
 
 action='default'
 
@@ -35,10 +35,10 @@ while getopts 'elrf:' opt; do
             ;;
         r)
             if [ "$(uname)" = 'Darwin' ]; then
-                search_cmd='choose'
+                search_cmd=(choose)
                 input_cmd=(choose)
             else
-                search_cmd='rofi -dmenu'
+                search_cmd=(rofi -dmenu)
                 input_cmd=(rofi -dmenu -p '> ')
             fi
             ;;
@@ -72,7 +72,7 @@ if [ "$action" = 'edit' ]; then
 fi
 
 # Use fzf to select one of the URLs
-url=$(printf '%s\n' "${items[@]}" | $search_cmd)
+url=$(printf '%s\n' "${items[@]}" | "${search_cmd[@]}")
 
 # If selection was canceled then exit
 [ ! "$url" ] && exit 1
@@ -82,7 +82,7 @@ placeholder=$(echo "$url" | grep '{}')
 
 if [ "$placeholder" ]; then
     # Prompt the user for input to replace the placeholder
-    input=$(${input_cmd[*]})
+    input=$("${input_cmd[@]}")
 
     [ ! "$input" ] && exit 1
 
