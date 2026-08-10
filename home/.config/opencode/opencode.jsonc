@@ -2,10 +2,10 @@
   "$schema": "https://opencode.ai/config.json",
   "autoupdate": false,
   "default_agent": "plan",
-  // "enabled_providers": [
-  //   "anthropic",
-  //   "openai"
-  // ],
+  "enabled_providers": [
+    "anthropic",
+    "openai"
+  ],
   // "model": "anthropic/claude-opus-4-7",
   "plugin": [
     // https://github.com/griffinmartin/opencode-claude-auth
