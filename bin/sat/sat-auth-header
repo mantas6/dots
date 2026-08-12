@@ -4,4 +4,9 @@ set -e
 
 token=$(sat-auth-token)
 
-echo "Authorization: Bearer $token"
+if [[ -z $token || $token == *$'\n'* || $token == *$'\r'* ]]; then
+    echo 'Error: Token must be non-empty and contain no newlines' >&2
+    exit 1
+fi
+
+printf 'Authorization: Bearer %s\n' "$token"
