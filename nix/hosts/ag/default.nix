@@ -20,7 +20,6 @@
       collections-develop
       progs-shell
       services-docker
-      services-machine-stats
     ];
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";

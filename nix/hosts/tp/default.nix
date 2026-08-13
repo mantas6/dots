@@ -17,7 +17,6 @@
       collections-develop
       progs-shell
       services-docker
-      services-machine-stats
       hardware-backlight
     ];
 

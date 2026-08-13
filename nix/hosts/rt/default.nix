@@ -14,7 +14,6 @@
       disks-normal
       jobs-os-upgrade
       services-hermes
-      services-machine-stats
     ];
 
     disko.devices.disk.main-disk.device = "/dev/sda";

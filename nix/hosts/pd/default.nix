@@ -13,7 +13,6 @@
       disks-normal
       jobs-os-upgrade
       purposes-router
-      services-machine-stats
       services-sat-backups
     ];
 
