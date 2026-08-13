@@ -45,6 +45,14 @@
     "auto": false,
     "prune": false
   },
+  "server": {
+    "port": 4096,
+    "hostname": "0.0.0.0",
+    "mdns": true,
+    "cors": [
+      "*"
+    ]
+  },
   "mcp": {
     "sentry": {
       "enabled": false,
