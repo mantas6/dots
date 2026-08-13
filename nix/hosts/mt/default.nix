@@ -14,6 +14,7 @@
       jobs-os-upgrade
       hardware-backlight
       services-auto-brightness
+      services-machine-stats
       quirks-prevent-sleep
       purposes-monitor
     ];

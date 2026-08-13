@@ -17,6 +17,7 @@
       services-auto-brightness
       progs-shell
       services-docker
+      services-machine-stats
       services-memos
       services-speedtest
       # services-photosync

@@ -17,6 +17,7 @@
       progs-shell
       # services-printing
       services-docker
+      services-machine-stats
       quirks-amd-sleep
       # progs-gaming
       # disks-normal
