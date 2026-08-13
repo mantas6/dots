@@ -35,8 +35,3 @@ path = "~/Downloads"
 name = "Notes"
 path = "~"
 cmd = "nvim NOTES.md"
-
-[[session]]
-name = "ag@_dots"
-path = "~"
-cmd = "exec remote-tmux-session ag _dots"
