@@ -22,9 +22,8 @@
           exec 3<<<"url = \"$endpoint\""
           printf '{"stats":%s}\n' "$stats" | curl \
             --config /dev/fd/3 \
-            --fail-with-body \
+            --fail \
             --silent \
-            --show-error \
             --header 'Content-Type: application/json' \
             --data-binary @-
         '';
