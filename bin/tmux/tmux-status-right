@@ -6,17 +6,21 @@ export GIT_OPTIONAL_LOCKS=0
 
 changes=false
 unpushed=false
+branch=$(git branch --show-current 2>/dev/null)
 
 if [ "$(git status --short)" != '' ]; then
     changes=true
 fi
 
-if git status | grep -q 'Your branch is ahead of'; then
+if upstream=$(git rev-parse --verify '@{upstream}' 2>/dev/null); then
+    if [ "$(git rev-list --count "$upstream"..HEAD)" -gt 0 ]; then
+        unpushed=true
+    fi
+elif [ -n "$branch" ] && git rev-parse --verify HEAD >/dev/null 2>&1; then
     unpushed=true
 fi
 
 status=''
-branch=$(git branch --show-current 2>/dev/null)
 
 if $changes; then
     status='#[fg=pink]*#[default]'
