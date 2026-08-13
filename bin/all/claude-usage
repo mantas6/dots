@@ -1,0 +1,82 @@
+#!/usr/bin/env sh
+# Show Claude Code usage limits for the session and weekly windows
+
+set -e
+
+api_url="https://api.anthropic.com/api/oauth/usage"
+creds_file="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/.credentials.json"
+
+die() {
+    printf '%s\n' "$1" >&2
+    exit 1
+}
+
+resolve_token() {
+    [ -n "$CLAUDE_CODE_OAUTH_TOKEN" ] && printf '%s' "$CLAUDE_CODE_OAUTH_TOKEN" && return 0
+
+    [ -r "$creds_file" ] && jq -er '.claudeAiOauth.accessToken' "$creds_file" && return 0
+
+    [ "$(uname)" = Darwin ] \
+        && security find-generic-password -s 'Claude Code-credentials' -w 2>/dev/null \
+        | jq -er '.claudeAiOauth.accessToken' && return 0
+
+    return 1
+}
+
+fetch_usage() {
+    curl -sS -w '\n%{http_code}' "$api_url" \
+        -H "Authorization: Bearer $1" \
+        -H 'Content-Type: application/json' \
+        -H 'anthropic-beta: oauth-2025-04-20'
+}
+
+format_usage() {
+    jq -r '
+        def reset($fmt):
+            if . == null then "unknown"
+            else
+                try (sub("\\.[0-9]+"; "") | sub("\\+00:00$"; "Z")
+                    | fromdate | strflocaltime($fmt))
+                catch "unknown"
+            end;
+
+        def pad($n): . + (" " * ($n - length));
+
+        def row($label; $window; $fmt):
+            ($label | pad(9))
+            + (if $window.utilization == null then "-"
+                else "\($window.utilization | round)%" end | pad(5))
+            + "resets " + ($window.resets_at | reset($fmt));
+
+        row("Session"; .five_hour; "%H:%M"),
+        row("Week"; .seven_day; "%a %H:%M")
+    '
+}
+
+case "$1" in
+    -r | --raw) raw=true ;;
+    -h | --help)
+        printf 'usage: %s [-r|--raw]\n' "$(basename "$0")"
+        exit 0
+        ;;
+    "") raw=false ;;
+    *) die "unknown option: $1" ;;
+esac
+
+token=$(resolve_token) || die "no credentials found - run 'claude' to sign in"
+response=$(fetch_usage "$token") || die "request failed"
+
+code=$(printf '%s' "$response" | tail -n 1)
+body=$(printf '%s' "$response" | sed '$d')
+
+case "$code" in
+    200) ;;
+    401) die "token expired - run 'claude' to refresh" ;;
+    *) die "request failed: HTTP $code" ;;
+esac
+
+if $raw; then
+    printf '%s' "$body" | jq .
+else
+    printf '%s' "$body" | format_usage
+fi
