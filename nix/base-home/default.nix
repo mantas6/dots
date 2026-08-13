@@ -9,5 +9,6 @@
     };
 
     networking.firewall.enable = false;
+    services.fail2ban.enable = false;
   };
 }

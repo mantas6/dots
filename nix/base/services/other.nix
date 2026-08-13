@@ -1,6 +1,6 @@
 {...}: {
-  flake.modules.nixos.base = {config, ...}: {
-    services.fail2ban.enable = config.networking.firewall.enable;
+  flake.modules.nixos.base = {lib, ...}: {
+    services.fail2ban.enable = lib.mkDefault true;
     services.fstrim.enable = true;
   };
 }
