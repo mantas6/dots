@@ -29,6 +29,8 @@
     },
     "external_directory": {
       "*": "deny",
+      "~/.dots": "allow",
+      "~/.dots/**": "allow",
       "~/Repos/*": "allow",
       "~/Repos/**": "allow",
       "~/Downloads/*": "allow",
