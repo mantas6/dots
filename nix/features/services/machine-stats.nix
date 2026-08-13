@@ -12,11 +12,8 @@
         bash
         */
         ''
-          set -euo pipefail
-
-          config="''${FASTFETCH_CONFIG:-all.jsonc}"
           BASE_URL=$(<"$CREDENTIALS_DIRECTORY/sat-base-url")
-          stats=$(fastfetch --config "$config" --json)
+          stats=$(fastfetch --config all.jsonc --json)
           endpoint="''${BASE_URL%/}/api/machine/$MACHINE_NAME"
 
           exec 3<<<"url = \"$endpoint\""
@@ -36,7 +33,6 @@
       after = ["network-online.target"];
       wants = ["network-online.target"];
       environment = {
-        FASTFETCH_CONFIG = "all.jsonc";
         MACHINE_NAME = config.networking.hostName;
       };
       serviceConfig = {
