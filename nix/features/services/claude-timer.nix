@@ -33,7 +33,7 @@
       timerConfig = {
         OnCalendar = ["*-*-* 06:00:00" "*-*-* 12:00:00"];
         Persistent = false;
-        RandomizedDelaySec = "2min";
+        RandomizedDelaySec = "5min";
       };
     };
   };
