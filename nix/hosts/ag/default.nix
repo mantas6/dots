@@ -20,6 +20,7 @@
       collections-develop
       progs-shell
       services-docker
+      services-claude-timer
     ];
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
