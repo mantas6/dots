@@ -1,8 +1,0 @@
-#!/usr/bin/env sh
-
-set -u
-
-while true; do
-    ping -c1 "$1" >/dev/null && break
-    sleep 1
-done
