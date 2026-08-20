@@ -42,14 +42,34 @@ format_usage() {
 
         def pad($n): . + (" " * ($n - length));
 
-        def row($label; $window; $fmt):
+        def remaining:
+            if . == null then ""
+            else
+                try (
+                    (sub("\\.[0-9]+"; "") | sub("\\+00:00$"; "Z") | fromdate - now) as $d
+                    | if $d <= 0 then " (resetting)"
+                        else " (" + (($d / 3600) | floor | tostring) + "h "
+                            + ((($d % 3600) / 60) | floor | tostring) + "m left)"
+                        end
+                ) catch ""
+            end;
+
+        def row($label; $window; $fmt; $rem):
             ($label | pad(9))
             + (if $window.utilization == null then "-"
                 else "\($window.utilization | round)%" end | pad(5))
-            + "resets " + ($window.resets_at | reset($fmt));
+            + "resets " + ($window.resets_at | reset($fmt))
+            + (if $rem then ($window.resets_at | remaining) else "" end);
 
-        row("Session"; .five_hour; "%H:%M"),
-        row("Week"; .seven_day; "%a %H:%M")
+        (.limits // []
+            | map(select(.scope.model.display_name == "Fable")) | first) as $fable
+
+        | row("Session"; .five_hour; "%H:%M"; true),
+        row("Week"; .seven_day; "%a %H:%M"; false),
+        (if $fable then
+            row("Fable"; {utilization: $fable.percent, resets_at: $fable.resets_at};
+                "%a %H:%M"; false)
+        else empty end)
     '
 }
 
