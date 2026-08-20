@@ -45,7 +45,7 @@
     systemd.timers.send-machine-stats = {
       wantedBy = ["timers.target"];
       timerConfig = {
-        OnBootSec = "1min";
+        OnBootSec = "10s";
         OnUnitActiveSec = "1min";
       };
     };
