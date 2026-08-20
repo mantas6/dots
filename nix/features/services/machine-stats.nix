@@ -16,13 +16,12 @@
           stats=$(fastfetch --config all.jsonc --json)
           endpoint="''${BASE_URL%/}/api/machine/$MACHINE_NAME"
 
-          exec 3<<<"url = \"$endpoint\""
           printf '{"stats":%s}\n' "$stats" | curl \
-            --config /dev/fd/3 \
             --fail \
             --silent \
             --header 'Content-Type: application/json' \
-            --data-binary @-
+            --data-binary @- \
+            "$endpoint"
         '';
     };
   in {
