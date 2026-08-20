@@ -154,7 +154,7 @@ nix run nixpkgs#s-tui
 Edit/create a secret:
 
 ```sh
-agenix -e lib/secrets/__name__.age
+agenix -e nix/_lib/secrets/__name__.age
 ```
 
 After saving update the `secrets.nix`

@@ -19,7 +19,6 @@
       progs-gaming
       # services-printing
       services-docker
-      services-machine-stats
     ];
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
