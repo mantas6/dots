@@ -24,10 +24,13 @@ resolve_token() {
 }
 
 fetch_usage() {
-    curl -sS -w '\n%{http_code}' "$api_url" \
+    curl -sS -w '\n%{http_code}' \
+        --connect-timeout 5 \
+        --max-time 15 \
         -H "Authorization: Bearer $1" \
         -H 'Content-Type: application/json' \
-        -H 'anthropic-beta: oauth-2025-04-20'
+        -H 'anthropic-beta: oauth-2025-04-20' \
+        "$api_url"
 }
 
 format_usage() {
