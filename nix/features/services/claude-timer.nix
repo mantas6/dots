@@ -31,7 +31,7 @@
       description = "Run claude -p hi at 06:00 and 12:00";
       wantedBy = ["timers.target"];
       timerConfig = {
-        OnCalendar = ["*-*-* 06:00:00" "*-*-* 12:00:00"];
+        OnCalendar = ["*-*-* 05:00:00" "*-*-* 10:15:00"];
         Persistent = false;
         RandomizedDelaySec = "5min";
       };
