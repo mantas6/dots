@@ -3,6 +3,10 @@
 
 cd "$DOTS_DIR" || exit 1
 
+if [ "$(git branch --show-current)" != 'main' ]; then
+    gum log --level=warn 'Dotfiles: Not on main branch'
+fi
+
 changes=false
 unpushed=false
 
