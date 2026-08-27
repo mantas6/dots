@@ -6,14 +6,12 @@
     ...
   }: let
     systems = import ../../_lib/systems.nix;
-    # Mirrors fastfetch's built-in `all.jsonc` preset, minus modules that make
-    # external network calls every run (weather, publicip).
+    # use `fastfetch --format json -s ...` to test modules
     statsConfig = pkgs.writeText "fastfetch-stats.jsonc" (builtins.toJSON {
       "$schema" = "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json";
       logo.padding.top = 2;
       modules = [
         "title"
-        "separator"
         "os"
         "host"
         "bios"
@@ -27,23 +25,8 @@
         "processes"
         "packages"
         "shell"
-        "editor"
         "display"
         "brightness"
-        "monitor"
-        "lm"
-        "de"
-        "wm"
-        "wmtheme"
-        "theme"
-        "icons"
-        "font"
-        "cursor"
-        "wallpaper"
-        "terminal"
-        "terminalfont"
-        "terminalsize"
-        "terminaltheme"
         {
           type = "cpu";
           showPeCoreCount = true;
@@ -76,7 +59,6 @@
         "poweradapter"
         "player"
         "media"
-        # publicip removed (external network call)
         {
           type = "localip";
           showIpv6 = true;
@@ -102,7 +84,6 @@
         "gamepad"
         "mouse"
         "keyboard"
-        # weather removed (external network call)
         "netio"
         "diskio"
         {
@@ -111,10 +92,9 @@
         }
         "tpm"
         "version"
-        "break"
-        "colors"
       ];
     });
+
     sendMachineStats = pkgs.writeShellApplication {
       name = "send-machine-stats";
       runtimeInputs = [pkgs.fastfetch pkgs.curl];
