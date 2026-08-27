@@ -107,7 +107,7 @@
       ];
       extraConfig = ''
         font-engine=pango
-        font-size=31
+        font-size=30
       '';
     };
 
