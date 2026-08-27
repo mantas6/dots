@@ -59,7 +59,7 @@ else
     bg "sessionizer connect large"
     run "alacritty -o font.size=50 -e tmux attach-session -t large"
 
-    tag 5
+    tag 6
     run "alacritty"
 
     tag 9
