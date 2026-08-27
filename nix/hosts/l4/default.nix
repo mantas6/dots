@@ -14,7 +14,7 @@
       disks-normal
       jobs-os-upgrade
       hardware-backlight
-      services-auto-brightness
+      services-auto-brightness-sun
       progs-shell
       services-docker
       services-memos
@@ -108,7 +108,7 @@
       ];
       extraConfig = ''
         font-engine=pango
-        font-size=30
+        font-size=31
       '';
     };
 
