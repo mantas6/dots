@@ -21,6 +21,9 @@
           printf '{"stats":%s}\n' "$stats" | curl \
             --fail \
             --silent \
+            --show-error \
+            --connect-timeout 10 \
+            --max-time 30 \
             --header 'Content-Type: application/json' \
             --data-binary @- \
             "$endpoint"
