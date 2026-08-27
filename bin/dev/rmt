@@ -12,12 +12,15 @@ shift
 user="REMOTE_${name}_USER"
 host="REMOTE_${name}_HOST"
 root="REMOTE_${name}_ROOT"
+safe="REMOTE_${name}_SAFE"
 
 export REMOTE_USER=${!user}
 export REMOTE_HOST=${!host}
 export REMOTE_ROOT=${!root}
 
-printf '%s' "Confirm running cmd in $name environment..."
-read -r || exit 1
+if [ -z "${!safe}" ]; then
+    printf '%s' "Confirm running cmd in $name environment..."
+    read -r || exit 1
+fi
 
 exec "$@"
