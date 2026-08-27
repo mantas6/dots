@@ -2,8 +2,6 @@
 
 Personal dotfiles managing configuration for NixOS Linux and macOS.
 
-[View stats](https://mantas6.github.io/dots)
-
 ## Setup
 
 ### Clone the repo and link
