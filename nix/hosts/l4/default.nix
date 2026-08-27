@@ -96,9 +96,6 @@
 
     console.font = "ter-732n";
 
-    # Never blank/sleep the console display
-    boot.kernelParams = ["consoleblank=0"];
-
     services.kmscon = {
       enable = true;
       hwRender = true;
@@ -111,6 +108,7 @@
       extraConfig = ''
         font-engine=pango
         font-size=30
+        dpms-timeout=0
       '';
     };
 
