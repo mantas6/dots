@@ -53,6 +53,7 @@
         timerConfig = {
           OnBootSec = "10s";
           OnUnitActiveSec = "1min";
+          RandomizedDelaySec = "10s";
         };
       };
     };
