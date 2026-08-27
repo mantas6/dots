@@ -19,7 +19,6 @@
       services-docker
       services-memos
       services-speedtest
-      # services-photosync
       quirks-prevent-sleep
       services-sat-backups
     ];
