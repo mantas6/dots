@@ -9,10 +9,22 @@ fi
 name=${1^^}
 shift
 
+[[ $name =~ ^[A-Z0-9_]+$ ]] || {
+    printf 'Invalid environment name: %s\n' "$name" >&2
+    exit 1
+}
+
 user="REMOTE_${name}_USER"
 host="REMOTE_${name}_HOST"
 root="REMOTE_${name}_ROOT"
 safe="REMOTE_${name}_SAFE"
+
+for variable in "$user" "$host" "$root"; do
+    if [[ -z ${!variable} ]]; then
+        printf 'Required variable is not set: %s\n' "$variable" >&2
+        exit 1
+    fi
+done
 
 export REMOTE_USER=${!user}
 export REMOTE_HOST=${!host}
