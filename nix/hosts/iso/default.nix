@@ -23,6 +23,8 @@
 
     nixpkgs.hostPlatform = "x86_64-linux";
 
+    boot.zfs.forceImportRoot = false;
+
     environment.systemPackages = [pkgs.vim];
   };
 }
