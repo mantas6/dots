@@ -10,4 +10,15 @@ cd "$dir"
 
 [ -f "$name" ] && exit 0
 
-curl -fsSL "https://ftp.nluug.nl/pub/vim/runtime/spell/$name" -o "$name"
+tmp=$(mktemp ".$name.XXXXXX")
+cleanup() {
+    status=$?
+    trap - EXIT
+    rm -f "$tmp"
+    exit "$status"
+}
+trap cleanup EXIT
+
+curl -fsSL "https://ftp.nluug.nl/pub/vim/runtime/spell/$name" -o "$tmp"
+mv "$tmp" "$name"
+trap - EXIT
