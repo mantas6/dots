@@ -8,6 +8,26 @@ dir="$HOME/.config/nvim/spell"
 mkdir -p "$dir"
 cd "$dir"
 
-[ -f "$name" ] && exit 0
+is_spell_file() {
+    [ -f "$1" ] && [ "$(dd if="$1" bs=8 count=1 2>/dev/null)" = 'VIMspell' ]
+}
 
-curl -fsSL "https://ftp.nluug.nl/pub/vim/runtime/spell/$name" -o "$name"
+is_spell_file "$name" && exit 0
+
+tmp=$(mktemp ".$name.XXXXXX")
+cleanup() {
+    status=$?
+    trap - EXIT
+    rm -f "$tmp"
+    exit "$status"
+}
+trap cleanup EXIT
+
+curl -fsSL "https://ftp.nluug.nl/pub/vim/runtime/spell/$name" -o "$tmp"
+if [ "$(dd if="$tmp" bs=8 count=1 2>/dev/null)" != 'VIMspell' ]; then
+    echo 'Downloaded file is not a Vim spell dictionary' >&2
+    exit 1
+fi
+
+mv "$tmp" "$name"
+trap - EXIT
