@@ -8,7 +8,11 @@ dir="$HOME/.config/nvim/spell"
 mkdir -p "$dir"
 cd "$dir"
 
-[ -f "$name" ] && exit 0
+is_spell_file() {
+    [ -f "$1" ] && [ "$(dd if="$1" bs=8 count=1 2>/dev/null)" = 'VIMspell' ]
+}
+
+is_spell_file "$name" && exit 0
 
 tmp=$(mktemp ".$name.XXXXXX")
 cleanup() {
