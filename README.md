@@ -147,6 +147,38 @@ Monitor temperatures:
 nix run nixpkgs#s-tui
 ```
 
+### Benchmarking
+
+Benchmark CPU single-threaded (prime number computation on one core):
+
+```sh
+nix run nixpkgs#sysbench -- cpu --cpu-max-prime=20000 --threads=1 run
+```
+
+Benchmark CPU multi-threaded (prime number computation across all cores):
+
+```sh
+nix run nixpkgs#sysbench -- cpu --cpu-max-prime=20000 --threads=$(nproc) run
+```
+
+Benchmark memory throughput:
+
+```sh
+nix run nixpkgs#sysbench -- memory --memory-block-size=1M --memory-total-size=100G run
+```
+
+Benchmark disk (random read/write IOPS, latency and throughput):
+
+```sh
+nix run nixpkgs#fio -- --name=test --ioengine=libaio --rw=randrw --bs=4k --size=1G --numjobs=4 --runtime=60 --group_reporting
+```
+
+Remove the test file afterwards:
+
+```sh
+trash test.*.0
+```
+
 ### Secrets management
 
 Edit/create a secret:
