@@ -40,9 +40,11 @@
         description = "Send machine statistics";
         after = ["network-online.target"];
         wants = ["network-online.target"];
+
         environment = {
           MACHINE_NAME = config.networking.hostName;
         };
+
         serviceConfig = {
           Type = "oneshot";
           DynamicUser = true;
@@ -54,6 +56,7 @@
 
       systemd.timers.send-machine-stats = {
         wantedBy = ["timers.target"];
+
         timerConfig = {
           OnBootSec = "10s";
           OnUnitActiveSec = "1min";
