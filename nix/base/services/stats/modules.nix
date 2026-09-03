@@ -99,11 +99,11 @@
               ''
                 log=$(journalctl -b -1 -q 2>/dev/null)
                 if [ $? -ne 0 ]; then
-                  echo Unknown
+                  echo ShutdownUnknown
                 elif printf '%s' "$log" | grep -qE 'Reached target.*(Shutdown|Reboot|Power-Off)|systemd-shutdown'; then
-                  echo Clean
+                  echo ShutdownClean
                 else
-                  echo Unclean
+                  echo ShutdownDirty
                 fi
               '';
           }
