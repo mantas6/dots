@@ -8,14 +8,14 @@ last_checksum=''
 text=''
 exit_code=0
 
-cleanup() {
-    tput cnorm 2>/dev/null
-    tput rmcup 2>/dev/null
-}
-trap cleanup EXIT
-
-tput smcup 2>/dev/null
-tput civis 2>/dev/null
+# cleanup() {
+#     tput cnorm 2>/dev/null
+#     tput rmcup 2>/dev/null
+# }
+# trap cleanup EXIT
+#
+# tput smcup 2>/dev/null
+# tput civis 2>/dev/null
 
 while true; do
     received=$(
