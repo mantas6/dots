@@ -9,11 +9,7 @@ host="$REMOTE_USER@$REMOTE_HOST"
 echo "Host: $host"
 
 if [ -z "$1" ]; then
-    files=()
-
-    for file in $(git diff --cached --name-only); do
-        files+=("$file")
-    done
+    mapfile -d '' -t files < <(git diff --cached --name-only -z)
 else
     files=("$@")
 fi
