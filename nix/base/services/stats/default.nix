@@ -11,7 +11,7 @@
 
     sendMachineStats = pkgs.writeShellApplication {
       name = "send-machine-stats";
-      runtimeInputs = [pkgs.fastfetch pkgs.curl];
+      runtimeInputs = [pkgs.fastfetch pkgs.curl pkgs.systemd pkgs.gnugrep];
       text =
         /*
         bash
@@ -46,6 +46,7 @@
         serviceConfig = {
           Type = "oneshot";
           DynamicUser = true;
+          SupplementaryGroups = ["systemd-journal"];
           LoadCredential = "sat-base-url:${config.age.secrets.sat-base-url.path}";
           ExecStart = "${sendMachineStats}/bin/send-machine-stats";
         };

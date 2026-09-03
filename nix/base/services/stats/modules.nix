@@ -88,6 +88,25 @@
           }
           "tpm"
           "version"
+          {
+            type = "command";
+            key = "Last Shutdown";
+            # Clean shutdowns log a shutdown/reboot target in the previous boot.
+            text =
+              /*
+              bash
+              */
+              ''
+                log=$(journalctl -b -1 -q 2>/dev/null)
+                if [ $? -ne 0 ]; then
+                  echo Unknown
+                elif printf '%s' "$log" | grep -qE 'Reached target.*(Shutdown|Reboot|Power-Off)|systemd-shutdown'; then
+                  echo Clean
+                else
+                  echo Unclean
+                fi
+              '';
+          }
         ];
       };
     };
