@@ -8,20 +8,25 @@
   };
 
   flake.modules.nixos."host-ag" = {...}: {
-    imports = with self.modules.nixos; [
-      base
-      base-home
-      disks-normal
+    imports =
+      (with self.modules.nixos; [
+        base
+        base-home
+        disks-normal
 
-      jobs-os-upgrade-desktop
+        jobs-os-upgrade-desktop
 
-      # purposes-app-server
-
-      collections-develop
-      progs-shell
-      services-docker
-      services-claude-timer
-    ];
+        collections-develop
+        progs-shell
+        services-docker
+        services-claude-timer
+      ])
+      ++ [
+        # (self.factory.app-server {
+        #   name = "sat";
+        #   hostName = "http://ag";
+        # })
+      ];
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 
