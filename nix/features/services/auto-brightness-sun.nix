@@ -17,6 +17,7 @@
           case $rc in
             2) brightnessctl set ${dayBrightness} ;;
             3) brightnessctl set ${nightBrightness} ;;
+            *) printf 'sunwait failed with status %d\n' "$rc" >&2; exit "$rc" ;;
           esac
         '';
     };
