@@ -236,3 +236,9 @@ Trigger Enter key press on another `tmux` window:
 ```sh
 tmux send-keys -t ":llm" C-m
 ```
+
+Serve the current directory over HTTP with `caddy`:
+
+```sh
+nix run nixpkgs#caddy -- file-server --listen :8080 --browse
+```
