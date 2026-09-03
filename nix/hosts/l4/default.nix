@@ -17,8 +17,8 @@
       services-auto-brightness-sun
       progs-shell
       services-docker
-      services-memos
-      services-speedtest
+      containers-memos
+      containers-speedtest
       quirks-prevent-sleep
       services-sat-backups
     ];
