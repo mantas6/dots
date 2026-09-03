@@ -8,9 +8,19 @@ last_checksum=''
 text=''
 exit_code=0
 
+cleanup() {
+    tput cnorm 2>/dev/null
+    tput rmcup 2>/dev/null
+}
+trap cleanup EXIT
+
+tput smcup 2>/dev/null
+tput civis 2>/dev/null
+
 while true; do
     received=$(
         curl -sSf \
+            --max-time 10 \
             -H "$(sat-auth-header)" \
             "$(sat-base-url)/api/dash" \
             2>/dev/null
@@ -24,7 +34,8 @@ while true; do
         [ -n "$received" ] && text="$received"
 
         clear
-        echo "$text"
+        cols=$(tput cols 2>/dev/null || echo 80)
+        echo "$text" | cut -c "1-$cols"
 
         [ "$exit_code" != 0 ] && echo -e '\e[41;97m <!> \e[0m'
 
