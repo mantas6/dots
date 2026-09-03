@@ -12,12 +12,12 @@
         bash
         */
         ''
-          rc=0
-          sunwait poll civil ${coordinates} || rc=$?
-          case $rc in
+          status=0
+          sunwait poll civil ${coordinates} || status=$?
+          case $status in
             2) brightnessctl set ${dayBrightness} ;;
             3) brightnessctl set ${nightBrightness} ;;
-            *) printf 'sunwait failed with status %d\n' "$rc" >&2; exit "$rc" ;;
+            *) printf 'sunwait failed with status %d\n' "$status" >&2; exit "$status" ;;
           esac
         '';
     };
