@@ -124,9 +124,6 @@ brew "felixkratz/formulae/sketchybar", trusted: true
 tap "jsdelivr/globalping"
 brew "jsdelivr/globalping/globalping", trusted: true
 
-tap "atlassian/homebrew-acli"
-brew "atlassian/homebrew-acli/acli", trusted: true
-
 cask "ngrok"
 brew "cloudflared"
 
