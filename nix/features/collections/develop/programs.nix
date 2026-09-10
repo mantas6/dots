@@ -98,6 +98,7 @@
       onefetch
 
       opencode
+      codex
       pkgs-unstable-unfree.claude-code
       pkgs.chromium
 
