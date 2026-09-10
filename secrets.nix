@@ -19,12 +19,12 @@ in {
     armor = true;
   };
 
-  "${basePath}/opencode-auth.age" = {
+  "${basePath}/agent-opencode-auth.age" = {
     publicKeys = users ++ [systems.ag];
     armor = true;
   };
 
-  "${basePath}/gh-token.age" = {
+  "${basePath}/agent-gh-token.age" = {
     publicKeys = users ++ [systems.ag];
     armor = true;
   };

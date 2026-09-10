@@ -6,8 +6,8 @@
     pkgs-unstable,
     ...
   }: let
-    opencodeAuthSecret = ../../../_lib/secrets/opencode-auth.age;
-    ghTokenSecret = ../../../_lib/secrets/gh-token.age;
+    opencodeAuthSecret = ../../../_lib/secrets/agent-opencode-auth.age;
+    ghTokenSecret = ../../../_lib/secrets/agent-gh-token.age;
 
     opencodeConfig = pkgs.writeText "opencode.json" (builtins.toJSON {
       "$schema" = "https://opencode.ai/config.json";
