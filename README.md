@@ -9,7 +9,7 @@ Personal dotfiles managing configuration for NixOS Linux and macOS.
 ```sh
 git clone https://github.com/mantas6/dots.git "$HOME/.dots"
 cd "$HOME/.dots"
-./bin/dot/stw
+./bin/stw
 ```
 
 If stow fails, remove conflicting files (preferably to trash) and run again. Pay close attention to the output to make sure that the links that it creates make sense.
@@ -55,9 +55,9 @@ Run when need to migrate old version of dotfiles structure
 
 ```sh
 cd "$HOME/.dots"
-./bin/dot/stw -D
+./bin/stw -D
 git pull
-./bin/dot/stw
+./bin/stw
 ```
 
 ### Reinstall bootloader for NixOS
@@ -81,14 +81,14 @@ To initialize new environment run:
 ```sh
 git clone https://github.com/mantas6/dots.git "$HOME/.dots"
 cd "$HOME/.dots"
-./bin/mac/rebuild-macos-env brew
+./bin/rebuild-macos-env brew
 ```
 
 Restart the shell and run stow:
 
 ```sh
 cd "$HOME/.dots"
-./bin/dot/stw
+./bin/stw
 ```
 
 Run the script again to continue setup:
