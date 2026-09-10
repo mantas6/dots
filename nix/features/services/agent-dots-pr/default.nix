@@ -81,14 +81,6 @@
           # Save any rotated token back to the persistent store on exit.
           trap 'install -Dm600 "$auth_dst" "$auth_persist" 2>/dev/null || true' EXIT
 
-          # Skip (spending no tokens) if an agent PR is already open.
-          open_count=$(gh pr list -R mantas6/dots --state open --json headRefName \
-            --jq '[.[]|select(.headRefName|startswith("agent/"))]|length')
-          if [[ "$open_count" -gt 0 ]]; then
-            echo "open agent/* PR exists, skipping"
-            exit 0
-          fi
-
           work=$(mktemp -d)
           git clone https://github.com/mantas6/dots "$work/dots"
           cd "$work/dots"
