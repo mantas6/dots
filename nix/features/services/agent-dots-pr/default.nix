@@ -8,9 +8,6 @@
   }: let
     opencodeAuthSecret = ../../../_lib/secrets/opencode-auth.age;
     ghTokenSecret = ../../../_lib/secrets/gh-token.age;
-    secretsPresent =
-      builtins.pathExists opencodeAuthSecret
-      && builtins.pathExists ghTokenSecret;
 
     opencodeConfig = pkgs.writeText "opencode.json" (builtins.toJSON {
       "$schema" = "https://opencode.ai/config.json";
@@ -19,27 +16,9 @@
       plugin = [];
       share = "disabled";
       permission = {
-        bash = {
-          "*" = "allow";
-          "sudo*" = "deny";
-          "nix-env*" = "deny";
-          "gpg*" = "deny";
-          "git push --force*" = "deny";
-          "git push -f*" = "deny";
-          "gh pr merge*" = "deny";
-          "gh repo delete*" = "deny";
-        };
-        edit = {
-          "*" = "allow";
-          "secrets.nix" = "deny";
-          "nix/_lib/secrets/*" = "deny";
-          "flake.lock" = "deny";
-          ".github/workflows/*" = "deny";
-        };
-        read = {
-          "*" = "allow";
-          "*.env*" = "deny";
-        };
+        bash = "allow";
+        edit = "allow";
+        read = "allow";
       };
     });
 
@@ -116,89 +95,83 @@
             "$(<${./prompt.md})"
         '';
     };
-  in
-    lib.mkMerge [
-      (lib.mkIf secretsPresent {
-        age.secrets.opencode-auth.file = opencodeAuthSecret;
-        age.secrets.gh-token.file = ghTokenSecret;
+  in {
+    age.secrets.opencode-auth.file = opencodeAuthSecret;
+    age.secrets.gh-token.file = ghTokenSecret;
 
-        systemd.services.agent-dots-pr = {
-          description = "Open a low-risk PR on mantas6/dots via opencode";
-          after = ["network-online.target"];
-          wants = ["network-online.target"];
-          restartIfChanged = false;
+    systemd.services.agent-dots-pr = {
+      description = "Open a low-risk PR on mantas6/dots via opencode";
+      after = ["network-online.target"];
+      wants = ["network-online.target"];
+      restartIfChanged = false;
 
-          environment = {
-            HOME = "/var/lib/agent-dots-pr";
-            XDG_DATA_HOME = "/var/lib/agent-dots-pr/.local/share";
-            XDG_CONFIG_HOME = "/var/lib/agent-dots-pr/.config";
-            XDG_CACHE_HOME = "/var/cache/agent-dots-pr";
-            OPENCODE_CONFIG = "${opencodeConfig}";
-            GIT_CONFIG_GLOBAL = "${gitConfig}";
-            GH_CONFIG_DIR = "/var/lib/agent-dots-pr/gh";
-            GH_NO_UPDATE_NOTIFIER = "1";
-            GH_PROMPT_DISABLED = "1";
-            GIT_TERMINAL_PROMPT = "0";
-            OPENCODE_DISABLE_AUTOUPDATE = "1";
-            OPENCODE_DISABLE_LSP_DOWNLOAD = "1";
-            OPENCODE_DISABLE_CLAUDE_CODE = "1";
-            NO_COLOR = "1";
-          };
+      environment = {
+        HOME = "/var/lib/agent-dots-pr";
+        XDG_DATA_HOME = "/var/lib/agent-dots-pr/.local/share";
+        XDG_CONFIG_HOME = "/var/lib/agent-dots-pr/.config";
+        XDG_CACHE_HOME = "/var/cache/agent-dots-pr";
+        OPENCODE_CONFIG = "${opencodeConfig}";
+        GIT_CONFIG_GLOBAL = "${gitConfig}";
+        GH_CONFIG_DIR = "/var/lib/agent-dots-pr/gh";
+        GH_NO_UPDATE_NOTIFIER = "1";
+        GH_PROMPT_DISABLED = "1";
+        GIT_TERMINAL_PROMPT = "0";
+        OPENCODE_DISABLE_AUTOUPDATE = "1";
+        OPENCODE_DISABLE_LSP_DOWNLOAD = "1";
+        OPENCODE_DISABLE_CLAUDE_CODE = "1";
+        NO_COLOR = "1";
+      };
 
-          serviceConfig = {
-            Type = "oneshot";
-            ExecStart = lib.getExe agentDotsPr;
-            DynamicUser = true;
-            StateDirectory = "agent-dots-pr";
-            CacheDirectory = "agent-dots-pr";
-            LoadCredential = [
-              "opencode-auth:${config.age.secrets.opencode-auth.path}"
-              "gh-token:${config.age.secrets.gh-token.path}"
-            ];
-            WorkingDirectory = "/tmp";
-            TimeoutStartSec = "3h";
-            Nice = 10;
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = lib.getExe agentDotsPr;
+        DynamicUser = true;
+        StateDirectory = "agent-dots-pr";
+        CacheDirectory = "agent-dots-pr";
+        LoadCredential = [
+          "opencode-auth:${config.age.secrets.opencode-auth.path}"
+          "gh-token:${config.age.secrets.gh-token.path}"
+        ];
+        WorkingDirectory = "/tmp";
+        TimeoutStartSec = "3h";
+        Nice = 10;
 
-            # Hardening.
-            NoNewPrivileges = true;
-            PrivateTmp = true;
-            PrivateDevices = true;
-            DevicePolicy = "closed";
-            ProtectSystem = "strict";
-            ProtectHome = true;
-            ProtectKernelTunables = true;
-            ProtectKernelModules = true;
-            ProtectKernelLogs = true;
-            ProtectControlGroups = true;
-            ProtectClock = true;
-            ProtectHostname = true;
-            ProtectProc = "invisible";
-            ProcSubset = "pid";
-            RestrictAddressFamilies = ["AF_UNIX" "AF_INET" "AF_INET6"];
-            RestrictNamespaces = true;
-            RestrictRealtime = true;
-            RestrictSUIDSGID = true;
-            LockPersonality = true;
-            RemoveIPC = true;
-            CapabilityBoundingSet = "";
-            AmbientCapabilities = "";
-            SystemCallArchitectures = "native";
-            SystemCallFilter = ["@system-service" "~@privileged"];
-            UMask = "0077";
-            MemoryDenyWriteExecute = false;
-          };
-        };
+        # Hardening.
+        NoNewPrivileges = true;
+        PrivateTmp = true;
+        PrivateDevices = true;
+        DevicePolicy = "closed";
+        ProtectSystem = "strict";
+        ProtectHome = true;
+        ProtectKernelTunables = true;
+        ProtectKernelModules = true;
+        ProtectKernelLogs = true;
+        ProtectControlGroups = true;
+        ProtectClock = true;
+        ProtectHostname = true;
+        ProtectProc = "invisible";
+        ProcSubset = "pid";
+        RestrictAddressFamilies = ["AF_UNIX" "AF_INET" "AF_INET6"];
+        RestrictNamespaces = true;
+        RestrictRealtime = true;
+        RestrictSUIDSGID = true;
+        LockPersonality = true;
+        RemoveIPC = true;
+        CapabilityBoundingSet = "";
+        AmbientCapabilities = "";
+        SystemCallArchitectures = "native";
+        SystemCallFilter = ["@system-service" "~@privileged"];
+        UMask = "0077";
+        MemoryDenyWriteExecute = false;
+      };
+    };
 
-        systemd.timers.agent-dots-pr = {
-          wantedBy = ["timers.target"];
-          timerConfig = {
-            OnCalendar = "*-*-* 05:00:00";
-            Persistent = false;
-          };
-        };
-      })
-      (lib.mkIf (!secretsPresent) {
-        warnings = ["agent-dots-pr: secrets missing, service disabled"];
-      })
-    ];
+    systemd.timers.agent-dots-pr = {
+      wantedBy = ["timers.target"];
+      timerConfig = {
+        OnCalendar = "*-*-* 05:00:00";
+        Persistent = false;
+      };
+    };
+  };
 }
