@@ -7,7 +7,7 @@ state="$HOME/.local/state/dots/glz/$repo"
 mkdir -p "$state"
 
 branch=$(git branch --show-current)
-msg_file="$state/$branch"
+msg_file="$state/${branch//\//_}"
 
 add=true
 
