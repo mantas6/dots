@@ -60,19 +60,26 @@
           GH_TOKEN=$(<"$CREDENTIALS_DIRECTORY/gh-token")
           export GH_TOKEN
 
-          # Seed opencode auth. Codex OAuth rotates the refresh token and rewrites
-          # auth.json, so only overwrite when the seeded credential changed or the
-          # local copy is missing; otherwise keep the rotated tokens in place.
+          # Seed opencode auth. The token is the only state persisted across runs
+          # (in StateDirectory); everything else is ephemeral. Codex OAuth rotates
+          # the refresh token and rewrites auth.json, so prefer the persisted copy
+          # and only re-seed from the credential when it changed (fresh login) or
+          # no persisted copy exists yet.
           auth_src="$CREDENTIALS_DIRECTORY/opencode-auth"
+          auth_persist="$STATE_DIRECTORY/auth.json"
           auth_dst="$XDG_DATA_HOME/opencode/auth.json"
           seed_file="$STATE_DIRECTORY/.auth-seed"
           new_hash=$(sha256sum "$auth_src" | cut -d' ' -f1)
           old_hash=""
           [[ -f "$seed_file" ]] && old_hash=$(<"$seed_file")
-          if [[ "$new_hash" != "$old_hash" || ! -f "$auth_dst" ]]; then
-            install -Dm600 "$auth_src" "$auth_dst"
+          if [[ "$new_hash" != "$old_hash" || ! -f "$auth_persist" ]]; then
+            install -Dm600 "$auth_src" "$auth_persist"
             printf '%s\n' "$new_hash" >"$seed_file"
           fi
+          install -Dm600 "$auth_persist" "$auth_dst"
+
+          # Save any rotated token back to the persistent store on exit.
+          trap 'install -Dm600 "$auth_dst" "$auth_persist" 2>/dev/null || true' EXIT
 
           # Skip (spending no tokens) if an agent PR is already open.
           open_count=$(gh pr list -R mantas6/dots --state open --json headRefName \
@@ -106,13 +113,15 @@
       restartIfChanged = false;
 
       environment = {
-        HOME = "/var/lib/agent-dots-pr";
-        XDG_DATA_HOME = "/var/lib/agent-dots-pr/.local/share";
-        XDG_CONFIG_HOME = "/var/lib/agent-dots-pr/.config";
-        XDG_CACHE_HOME = "/var/cache/agent-dots-pr";
+        # Everything except the persisted auth token lives in the ephemeral
+        # RuntimeDirectory (/run/agent-dots-pr), wiped after each run.
+        HOME = "/run/agent-dots-pr";
+        XDG_DATA_HOME = "/run/agent-dots-pr/.local/share";
+        XDG_CONFIG_HOME = "/run/agent-dots-pr/.config";
+        XDG_CACHE_HOME = "/run/agent-dots-pr/.cache";
         OPENCODE_CONFIG = "${opencodeConfig}";
         GIT_CONFIG_GLOBAL = "${gitConfig}";
-        GH_CONFIG_DIR = "/var/lib/agent-dots-pr/gh";
+        GH_CONFIG_DIR = "/run/agent-dots-pr/gh";
         GH_NO_UPDATE_NOTIFIER = "1";
         GH_PROMPT_DISABLED = "1";
         GIT_TERMINAL_PROMPT = "0";
@@ -126,8 +135,8 @@
         Type = "oneshot";
         ExecStart = lib.getExe agentDotsPr;
         DynamicUser = true;
+        RuntimeDirectory = "agent-dots-pr";
         StateDirectory = "agent-dots-pr";
-        CacheDirectory = "agent-dots-pr";
         LoadCredential = [
           "opencode-auth:${config.age.secrets.opencode-auth.path}"
           "gh-token:${config.age.secrets.gh-token.path}"
