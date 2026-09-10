@@ -139,33 +139,18 @@
         TimeoutStartSec = "3h";
         Nice = 10;
 
-        # Hardening.
+        # Hardening beyond DynamicUser defaults.
         NoNewPrivileges = true;
         PrivateTmp = true;
         PrivateDevices = true;
-        DevicePolicy = "closed";
         ProtectSystem = "strict";
         ProtectHome = true;
-        ProtectKernelTunables = true;
-        ProtectKernelModules = true;
         ProtectKernelLogs = true;
-        ProtectControlGroups = true;
-        ProtectClock = true;
-        ProtectHostname = true;
         ProtectProc = "invisible";
-        ProcSubset = "pid";
-        RestrictAddressFamilies = ["AF_UNIX" "AF_INET" "AF_INET6"];
         RestrictNamespaces = true;
-        RestrictRealtime = true;
-        RestrictSUIDSGID = true;
         LockPersonality = true;
-        RemoveIPC = true;
-        CapabilityBoundingSet = "";
-        AmbientCapabilities = "";
         SystemCallArchitectures = "native";
-        SystemCallFilter = ["@system-service" "~@privileged"];
         UMask = "0077";
-        MemoryDenyWriteExecute = false;
       };
     };
 
