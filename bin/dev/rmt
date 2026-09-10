@@ -19,7 +19,7 @@ export REMOTE_HOST=${!host}
 export REMOTE_ROOT=${!root}
 
 if [ -z "${!safe}" ]; then
-    printf '%s' "Confirm running cmd in $name environment..."
+    printf '%s' "Confirm running cmd in $name environment..." >&2
     read -r || exit 1
 fi
 
