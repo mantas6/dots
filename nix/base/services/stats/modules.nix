@@ -97,8 +97,7 @@
               bash
               */
               ''
-                log=$(journalctl -b -1 -q 2>/dev/null)
-                if [ $? -ne 0 ]; then
+                if ! log=$(journalctl -b -1 -q 2>/dev/null); then
                   echo ShutdownUnknown
                 elif printf '%s' "$log" | grep -qE 'Reached target.*(Shutdown|Reboot|Power-Off)|systemd-shutdown'; then
                   echo ShutdownClean
