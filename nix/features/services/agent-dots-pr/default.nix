@@ -16,9 +16,7 @@
       plugin = [];
       share = "disabled";
       permission = {
-        bash = "allow";
-        edit = "allow";
-        read = "allow";
+        external_directory = "allow";
       };
     });
 
