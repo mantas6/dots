@@ -17,37 +17,16 @@ it. Good candidates:
 
 Constraints on the change:
 
-- Cap around 50 changed lines.
 - Single topic only.
-
-## Forbidden
-
-Never touch or change:
-
-- `secrets.nix`
-- `nix/_lib/secrets/`
-- `flake.lock`
-- `.github/workflows/`
-- password hashes or keys
-- behavioural changes to disks, bootloader, network, or hardware
-- dependency bumps
-- refactors
-- adding new features
-
-## Verify
-
-- Shell scripts: `shellcheck` and `shfmt -d`.
-- Nix files: `alejandra --check` and `nix flake check`.
 
 ## Deliver
 
 1. Create a branch named `agent/<slug>`.
-2. Make one commit. Match the style of `git log --oneline -10` (imperative,
    capitalized, no trailing period).
-3. Push the branch.
-4. Open the PR with `gh pr create --base main`, using sections: What / Why /
+2. Push the branch.
+3. Open the PR with `gh pr create --base main`, using sections: What / Why /
    Verification / Risk.
-5. Never merge. Never force-push.
+4. Never merge. Never force-push.
 
 If nothing qualifies, print `NO_CHANGES` and exit without pushing or creating any
 branches.
