@@ -1,0 +1,57 @@
+name: Composer update
+
+on:
+  schedule:
+    - cron: "0 0 * * 4"
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    permissions:
+      contents: write
+
+    defaults:
+      run:
+        working-directory: home/.config/composer
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.5"
+          tools: composer:v2
+
+      - name: Update dependencies
+        run: composer update --no-interaction --no-progress
+
+      - name: Bump constraints in composer.json
+        run: composer bump --no-interaction
+
+      - name: Configure push authentication
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $auth"
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Bump composer.json
+          branch: main
+          commit_options: '--no-verify --signoff'
+          file_pattern: home/.config/composer/composer.json
+          commit_user_name: Composer Bot # defaults to "GitHub Actions"
+          commit_author: Composer Bot <actions@github.com> # defaults to author of the commit that triggered the run
+          skip_dirty_check: false
+          skip_fetch: true
