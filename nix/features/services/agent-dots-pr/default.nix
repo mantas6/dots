@@ -67,13 +67,17 @@
           auth_persist="$STATE_DIRECTORY/auth.json"
           auth_dst="$XDG_DATA_HOME/opencode/auth.json"
           seed_file="$STATE_DIRECTORY/.auth-seed"
+
           new_hash=$(sha256sum "$auth_src" | cut -d' ' -f1)
           old_hash=""
+
           [[ -f "$seed_file" ]] && old_hash=$(<"$seed_file")
+
           if [[ "$new_hash" != "$old_hash" || ! -f "$auth_persist" ]]; then
             install -Dm600 "$auth_src" "$auth_persist"
             printf '%s\n' "$new_hash" >"$seed_file"
           fi
+
           install -Dm600 "$auth_persist" "$auth_dst"
 
           # Save any rotated token back to the persistent store on exit.
