@@ -1,7 +1,24 @@
 {...}: {
-  flake.modules.nixos."purposes-app-server" = {pkgs, ...}: let
-    userName = "mantas";
-
+  # Factory aspect: instantiate one or more Laravel "app servers" on a machine.
+  #
+  # Usage (in a host feature):
+  #   imports = [
+  #     (self.factory.app-server {
+  #       name = "sat";
+  #       hostName = "http://ag";
+  #       port = 8000;
+  #       redisPort = 6379;
+  #     })
+  #   ];
+  config.flake.factory.app-server = {
+    name ? "app",
+    userName ? "mantas",
+    workingDirectory ? "/home/${userName}/${name}/current",
+    hostName ? "http://${name}",
+    port ? 8000,
+    workers ? 8,
+    redisPort ? 6379,
+  }: {pkgs, ...}: let
     phpConfigured = pkgs.php85.buildEnv {
       extensions = {
         enabled,
@@ -44,7 +61,7 @@
 
     defaultServiceConfig = {
       User = userName;
-      WorkingDirectory = "/home/${userName}/Sat/current";
+      WorkingDirectory = workingDirectory;
       Restart = "always";
       RestartSec = 1;
 
@@ -91,23 +108,23 @@
       #     encode zstd br gzip
       #     php_server
       # }
-      virtualHosts.app = {
-        hostName = "http://ag";
+      virtualHosts.${name} = {
+        inherit hostName;
         # hostName = "{$APP_DOMAIN}";
         extraConfig = ''
           encode zstd gzip
-          reverse_proxy 127.0.0.1:8000
+          reverse_proxy 127.0.0.1:${toString port}
         '';
       };
     };
 
-    services.redis.servers.main = {
+    services.redis.servers.${name} = {
       enable = true;
-      port = 6379;
+      port = redisPort;
     };
 
-    # - sat-schedule: redirects all output to /dev/null - you'll never see scheduler errors. At minimum send stderr somewhere useful.
-    systemd.services.sat-schedule =
+    # - ${name}-schedule: redirects all output to /dev/null - you'll never see scheduler errors. At minimum send stderr somewhere useful.
+    systemd.services."${name}-schedule" =
       defaultServiceOptions
       // {
         script = "php artisan schedule:run >> /dev/null 2>&1";
@@ -125,15 +142,15 @@
         startAt = "minutely";
       };
 
-    # - sat-octane: no ExecReload for graceful worker restart (useful for deploys). Octane supports --max-requests to prevent memory leaks - not set here.
-    systemd.services.sat-octane =
+    # - ${name}-octane: no ExecReload for graceful worker restart (useful for deploys). Octane supports --max-requests to prevent memory leaks - not set here.
+    systemd.services."${name}-octane" =
       defaultServiceOptions
       // {
-        script = "php artisan octane:start --workers=8";
+        script = "php artisan octane:start --workers=${toString workers} --port=${toString port}";
       };
 
-    # - sat-horizon: the 3600s stop timeout is good, but there's no ExecStop = php artisan horizon:terminate for graceful shutdown signaling.
-    systemd.services.sat-horizon =
+    # - ${name}-horizon: the 3600s stop timeout is good, but there's no ExecStop = php artisan horizon:terminate for graceful shutdown signaling.
+    systemd.services."${name}-horizon" =
       defaultServiceOptions
       // {
         script = "php artisan horizon";
