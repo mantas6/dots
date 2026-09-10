@@ -136,6 +136,6 @@ cask "wezterm"
 cask "gimp"
 
 cask "claude-code"
-brew "codex"
+cask "codex"
 
 cask "font-jetbrains-mono-nerd-font"
