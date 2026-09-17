@@ -7,7 +7,7 @@ cd "$HOME"
 
 mkdir -pv \
     .config/{docker,docker-darwin,autorandr,systemd/user,composer} \
-    .local/{share,bin,sbin} \
+    .local/{share,bin} \
     .local/state/{bash,zsh} \
     .local/state/sessions/{llm,calc} \
     .gnupg \

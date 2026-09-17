@@ -3,6 +3,6 @@
 
 export DOTS_DIR="$HOME/.dots"
 
-export PATH="$PATH:$HOME/.local/sbin"
+export PATH="$PATH:$DOTS_DIR/bin:$DOTS_DIR/opt/sat/bin"
 
 exec "$@"

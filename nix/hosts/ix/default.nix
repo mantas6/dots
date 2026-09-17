@@ -11,42 +11,31 @@
     imports = with self.modules.nixos; [
       base
       base-home
+      disks-normal
       hardware-amd
-      # collections-desktop
+      collections-desktop
       collections-develop
       progs-shell
+      progs-gaming
       # services-printing
       services-docker
-      quirks-amd-sleep
-      # progs-gaming
-      # disks-normal
     ];
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 
     # Hibernation
-    # boot.kernelParams = ["resume_offset=149282816"];
-    # boot.resumeDevice = "/dev/disk/by-uuid/50c2c21f-5bf5-45a0-978b-941d00d2079e";
-    # features.swapSizeInGB = 36;
-    # services.logind.settings.Login.HandlePowerKey = "hibernate";
-    # powerManagement.enable = true;
+    # https://nixos.wiki/wiki/Hibernation
+    boot.kernelParams = ["resume_offset=457809920"];
+    boot.resumeDevice = "/dev/disk/by-uuid/c0c994a8-1809-4a81-8440-743be7370aeb";
+    features.swapSizeInGB = 36;
+    services.logind.settings.Login.HandlePowerKey = "hibernate";
 
-    # services.ollama = {
-    #   enable = true;
-    #   package = pkgs-unstable.ollama-cpu;
-    # };
-
-    # try pkgs.linuxPackages_6_10 to prevent sleep issues
-    # boot.kernelPackages = pkgs.linuxPackages_6_10;
-    # https://www.reddit.com/r/Fedora/comments/1gj29ub/is_anyone_having_this_suspendwake_up_problem_as/
-    # https://www.reddit.com/r/Fedora/comments/1g7ke8e/workaround_sleep_issues_with_kernel_611/
-
-    features.wakeOnLanAdapterMAC = "10:ff:e0:6d:48:60";
+    features.wakeOnLanAdapterMAC = "04:7c:16:4f:88:ea";
 
     # services.xserver.dpi = 100;
 
     networking.hostName = "ix";
 
-    system.stateVersion = "24.05";
+    system.stateVersion = "25.05";
   };
 }
