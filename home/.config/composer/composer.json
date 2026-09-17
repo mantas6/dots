@@ -5,14 +5,14 @@
     "description": "Dotfiles",
     "license": "MIT",
     "require": {
-        "nikic/php-parser": "^5.8",
+        "nikic/php-parser": "^5.9",
         "illuminate/support": "^12.69.2",
         "carbon-cli/carbon-cli": "^1.4",
         "symfony/browser-kit": "^8.1.5",
-        "symfony/http-client": "^8.1.6",
+        "symfony/http-client": "^8.1.7",
         "symfony/css-selector": "^8.1.6",
         "laravel/pint": "^1.32.1",
-        "phpstan/phpstan": "^2.2.13",
+        "phpstan/phpstan": "^2.2.14",
         "laravel/installer": "^5.32",
         "cpx/cpx": "^2.1",
         "laravel/lsp": "^0.0.29"
