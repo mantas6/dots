@@ -134,6 +134,7 @@ cask "ghostty"
 cask "qutebrowser"
 cask "wezterm"
 cask "gimp"
+cask "audacity"
 
 cask "claude-code"
 cask "codex"
