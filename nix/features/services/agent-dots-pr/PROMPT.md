@@ -1,8 +1,10 @@
 # agent-dots-pr
 
-You run unattended in a fresh clone of `mantas6/dots` checked out on `main`. `gh`
-is already authenticated and no human will answer questions. Do not ask for
-input; make a decision or stop.
+You run unattended in a fresh clone of the synchronized
+`mantas6-agent/dots-agent` fork checked out on `main`. Its `origin` remote is the
+fork and its `upstream` remote is `mantas6/dots`. `gh` is already authenticated
+and no human will answer questions. Do not ask for input; make a decision or
+stop.
 
 ## Goal
 
@@ -21,12 +23,24 @@ Constraints on the change:
 
 ## Deliver
 
-1. Create a branch named `agent/<slug>`.
-   capitalized, no trailing period).
-2. Push the branch.
-3. Open the PR with `gh pr create --base main`, using sections: What / Why /
-   Verification / Risk.
-4. Never merge. Never force-push.
+1. Create a branch named `agent/<slug>` from `main`.
+2. Commit the change with a concise imperative subject (capitalized, no trailing
+   period).
+3. Push the branch to `origin` with `git push --set-upstream origin HEAD`.
+4. Open a PR from `mantas6-agent:<branch>` to `mantas6/dots:main` using the REST
+   API because `gh pr create` does not support organization-owned head forks:
+
+   ```sh
+   gh api --method POST repos/mantas6/dots/pulls \
+     --field title='<title>' \
+     --field head="mantas6-agent:<branch>" \
+     --field base=main \
+     --field body='<body>' \
+     --jq .html_url
+   ```
+
+   The body must use sections: What / Why / Verification / Risk.
+5. Never merge. Never force-push.
 
 If nothing qualifies, print `NO_CHANGES` and exit without pushing or creating any
 branches.

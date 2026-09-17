@@ -83,9 +83,14 @@
           # Save any rotated token back to the persistent store on exit.
           trap 'install -Dm600 "$auth_dst" "$auth_persist" 2>/dev/null || true' EXIT
 
+          gh repo sync mantas6-agent/dots-agent \
+            --source mantas6/dots \
+            --branch main
+
           work=$(mktemp -d)
-          git clone https://github.com/mantas6/dots "$work/dots"
+          git clone https://github.com/mantas6-agent/dots-agent "$work/dots"
           cd "$work/dots"
+          git remote add upstream https://github.com/mantas6/dots
 
           opencode run \
             --agent build \
