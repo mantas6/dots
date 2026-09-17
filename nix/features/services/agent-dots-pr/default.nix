@@ -7,7 +7,8 @@
     ...
   }: let
     opencodeAuthSecret = ../../../_lib/secrets/agent-opencode-auth.age;
-    ghTokenSecret = ../../../_lib/secrets/agent-gh-token.age;
+    ghForkTokenSecret = ../../../_lib/secrets/agent-gh-fork-token.age;
+    ghUpstreamTokenSecret = ../../../_lib/secrets/agent-gh-upstream-token.age;
 
     opencodeConfig = pkgs.writeText "opencode.json" (builtins.toJSON {
       "$schema" = "https://opencode.ai/config.json";
@@ -54,9 +55,12 @@
         bash
         */
         ''
-          # Load the GitHub token (command substitution strips trailing newlines).
-          GH_TOKEN=$(<"$CREDENTIALS_DIRECTORY/gh-token")
+          # Use separate fine-grained tokens for the fork and upstream repository.
+          # Command substitution strips trailing newlines from both credentials.
+          GH_TOKEN=$(<"$CREDENTIALS_DIRECTORY/gh-fork-token")
+          UPSTREAM_GH_TOKEN=$(<"$CREDENTIALS_DIRECTORY/gh-upstream-token")
           export GH_TOKEN
+          export UPSTREAM_GH_TOKEN
 
           # Seed opencode auth. The token is the only state persisted across runs
           # (in StateDirectory); everything else is ephemeral. Codex OAuth rotates
@@ -103,7 +107,8 @@
     };
   in {
     age.secrets.opencode-auth.file = opencodeAuthSecret;
-    age.secrets.gh-token.file = ghTokenSecret;
+    age.secrets.gh-fork-token.file = ghForkTokenSecret;
+    age.secrets.gh-upstream-token.file = ghUpstreamTokenSecret;
 
     systemd.services.agent-dots-pr = {
       description = "Open a low-risk PR on mantas6/dots via opencode";
@@ -138,7 +143,8 @@
         StateDirectory = "agent-dots-pr";
         LoadCredential = [
           "opencode-auth:${config.age.secrets.opencode-auth.path}"
-          "gh-token:${config.age.secrets.gh-token.path}"
+          "gh-fork-token:${config.age.secrets.gh-fork-token.path}"
+          "gh-upstream-token:${config.age.secrets.gh-upstream-token.path}"
         ];
         WorkingDirectory = "/tmp";
         TimeoutStartSec = "3h";

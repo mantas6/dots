@@ -24,7 +24,12 @@ in {
     armor = true;
   };
 
-  "${basePath}/agent-gh-token.age" = {
+  "${basePath}/agent-gh-fork-token.age" = {
+    publicKeys = users ++ [systems.ag];
+    armor = true;
+  };
+
+  "${basePath}/agent-gh-upstream-token.age" = {
     publicKeys = users ++ [systems.ag];
     armor = true;
   };

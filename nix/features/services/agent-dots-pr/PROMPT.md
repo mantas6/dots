@@ -31,7 +31,8 @@ Constraints on the change:
    API because `gh pr create` does not support organization-owned head forks:
 
    ```sh
-   gh api --method POST repos/mantas6/dots/pulls \
+   GH_TOKEN="$UPSTREAM_GH_TOKEN" gh api \
+     --method POST repos/mantas6/dots/pulls \
      --field title='<title>' \
      --field head="mantas6-agent:<branch>" \
      --field base=main \
