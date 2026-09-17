@@ -93,7 +93,7 @@
             --variant medium \
             --auto \
             --title "agent-dots-pr" \
-            "$(<${./prompt.md})"
+            "$(<${./PROMPT.md})"
         '';
     };
   in {
