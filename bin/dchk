@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+# Check for changes in dotfiles repo
+
+cd "$DOTS_DIR" || exit 1
+
+if [ "$(git branch --show-current)" != 'main' ]; then
+    gum log --level=warn 'Dotfiles: Not on main branch'
+fi
+
+changes=false
+unpushed=false
+
+if [ "$(git status --short)" != '' ]; then
+    changes=true
+fi
+
+if git status | grep -q 'Your branch is ahead of'; then
+    unpushed=true
+fi
+
+if $changes; then
+    gum log --level=warn 'Dotfiles: There are changes'
+    exit 1
+fi
+
+if $unpushed; then
+    gum log --level=warn 'Dotfiles: There are unpushed changes'
+    exit 1
+fi

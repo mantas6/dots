@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-# Compare files in separate dirs
-
-path="$(pwd)"
-cd "$1" || exit 1
-
-find . -type f -exec diff --color=always "$path/$1/{}" "$path/$2/{}" \;

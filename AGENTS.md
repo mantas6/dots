@@ -23,4 +23,4 @@ Only read and modify files within this repository. Never read or write files dir
 
 ## Version Control
 
-- When working on a feature branch, after commit/PR move back to `main`
+- When working on a feature branch, after work is done move back to `main`

@@ -9,7 +9,7 @@
   // "model": "anthropic/claude-opus-4-7",
   "plugin": [
     // https://github.com/griffinmartin/opencode-claude-auth
-    "opencode-claude-auth@v2.1.6"
+    "opencode-claude-auth@v2.2.0"
     // https://github.com/ex-machina-co/opencode-anthropic-auth
     // "@ex-machina/opencode-anthropic-auth@1.6.1"
   ],
@@ -29,6 +29,8 @@
     },
     "external_directory": {
       "*": "deny",
+      "~/.dots": "allow",
+      "~/.dots/**": "allow",
       "~/Repos/*": "allow",
       "~/Repos/**": "allow",
       "~/Downloads/*": "allow",
@@ -44,6 +46,14 @@
   "compaction": {
     "auto": false,
     "prune": false
+  },
+  "server": {
+    "port": 4096,
+    "hostname": "0.0.0.0",
+    "mdns": true,
+    "cors": [
+      "*"
+    ]
   },
   "mcp": {
     "sentry": {

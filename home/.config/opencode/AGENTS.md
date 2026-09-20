@@ -1,2 +1,3 @@
 - Always format new PHP files with globally installed `pint`
 - Use `trash` instead of `rm` when possible
+- If needed program is not installed use `nix run` (on NixOS only)

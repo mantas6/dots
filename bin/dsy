@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+# Pull down dotfile changes
+
+set -e
+
+cd "$DOTS_DIR"
+
+if [ "$(git branch --show-current)" != 'main' ]; then
+    gum log --level=warn 'Dotfiles: Not on main branch'
+fi
+
+git pull
+stw
+
+init-dots

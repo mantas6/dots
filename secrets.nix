@@ -1,16 +1,13 @@
 let
   users = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA9tV1mcJldS7nCldejKlFBtiL0Zm329wpHeccF8phEw mantas@a5"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA9tV1mcJldS7nCldejKlFBtiL0Zm329wpHeccF8phEw mantas@ix"
   ];
 
-  systems = {
-    mt = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO1l4E2BxsfN8rHZnntHirLssQQsQ+gofyrJYo+nMWz5";
-    a5 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII7JlqYzxa8mBF+8gZXqNaMZOviPE1W1oYaSh5xlm0r2";
-  };
+  systems = import ./nix/_lib/systems.nix;
 
   allSystems = builtins.attrValues systems;
 
-  basePath = "lib/secrets";
+  basePath = "nix/_lib/secrets";
 in {
   "${basePath}/sat-base-url.age" = {
     publicKeys = users ++ allSystems;

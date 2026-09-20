@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+# Run program in user env
+
+export DOTS_DIR="$HOME/.dots"
+
+export PATH="$PATH:$DOTS_DIR/bin:$DOTS_DIR/opt/sat/bin"
+
+exec "$@"

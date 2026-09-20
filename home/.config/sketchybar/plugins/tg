@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-export PATH="$HOME/.local/bin:$HOME/.local/sbin:$HOME/.local/share/go/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.dots/bin:$HOME/.dots/opt/sat/bin:$HOME/.local/share/go/bin:$PATH"
 
 sketchybar --set "$NAME" label="$(tg current)"

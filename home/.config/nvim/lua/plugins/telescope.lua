@@ -101,6 +101,14 @@ return {
 
     vim.keymap.set('n', '<leader>pw', builtin.grep_string, {})
 
+    vim.keymap.set('x', '<leader>pw', function()
+      local save = vim.fn.getreg('v')
+      vim.cmd('noautocmd normal! "vy')
+      local text = vim.fn.getreg('v')
+      vim.fn.setreg('v', save)
+      builtin.grep_string({ search = text })
+    end, {})
+
     vim.keymap.set('n', '<leader>pb', builtin.buffers, {})
     vim.keymap.set('n', '<leader>pz', builtin.oldfiles, {})
     vim.keymap.set('n', '<leader>ps', builtin.git_status, {})
