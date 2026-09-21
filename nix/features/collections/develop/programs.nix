@@ -59,6 +59,7 @@
     environment.systemPackages = with pkgs-unstable; [
       neovim
       tmux
+      herdr
 
       phpConfigured
       phpConfigured.packages.composer

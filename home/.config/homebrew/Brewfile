@@ -90,6 +90,7 @@ brew "lua-language-server"
 brew "dockerfile-language-server"
 
 brew "tmux"
+brew "herdr"
 
 brew "eza"
 brew "jq"
