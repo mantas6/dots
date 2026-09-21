@@ -30,7 +30,7 @@
       postInstall = ''
         mv $out/bin/sat-cli $out/bin/sat
         wrapProgram $out/bin/sat \
-          --suffix PATH : ${pkgs.lib.makeBinPath [pkgs.neovim pkgs.openssh]}
+          --suffix PATH : ${pkgs.lib.makeBinPath [goPkgs.neovim pkgs.openssh]}
       '';
 
       meta = {
