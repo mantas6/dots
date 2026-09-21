@@ -1,0 +1,34 @@
+name: "No binaries"
+on: [pull_request, push]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check for binary files
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            range="origin/${{ github.base_ref }}...HEAD"
+          else
+            before="${{ github.event.before }}"
+            if [ -z "$before" ] || [ "$before" = "0000000000000000000000000000000000000000" ]; then
+              range="${{ github.event.after }}~1...${{ github.event.after }}"
+            else
+              range="$before...${{ github.event.after }}"
+            fi
+          fi
+          bins=$(git diff --numstat --diff-filter=d "$range" | awk -F'\t' '$1=="-" && $2=="-" {print $3}')
+          if [ -n "$bins" ]; then
+            echo "Binary files detected in commits:"
+            echo "$bins"
+            exit 1
+          fi
+          echo "No binaries found."
