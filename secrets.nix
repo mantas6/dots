@@ -26,4 +26,14 @@ in {
     publicKeys = users ++ [systems.l4];
     armor = true;
   };
+
+  "${basePath}/cli-proxy-api-keys.age" = {
+    publicKeys = users ++ allSystems;
+    armor = true;
+  };
+
+  "${basePath}/cli-proxy-mgmt-key.age" = {
+    publicKeys = users ++ allSystems;
+    armor = true;
+  };
 }
