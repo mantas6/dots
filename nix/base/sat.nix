@@ -1,13 +1,14 @@
 {...}: {
-  flake.modules.nixos.base = {
+  perSystem = {
     pkgs,
-    inputs,
+    inputs',
     ...
   }: let
     rev = "422008eaa78d8cffec34d1a291905fa52eb1d8d7";
     # sat-cli's go.mod requires go 1.26.7, which nixpkgs-unstable provides.
-    goPkgs = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-    sat = goPkgs.buildGoModule {
+    goPkgs = inputs'.nixpkgs-unstable.legacyPackages;
+  in {
+    packages.sat = goPkgs.buildGoModule {
       pname = "sat";
       version = "0-unstable-${builtins.substring 0 7 rev}";
 
@@ -38,7 +39,15 @@
         mainProgram = "sat";
       };
     };
-  in {
-    environment.systemPackages = [sat];
+  };
+
+  flake.modules.nixos.base = {
+    pkgs,
+    self,
+    ...
+  }: {
+    environment.systemPackages = [
+      self.packages.${pkgs.stdenv.hostPlatform.system}.sat
+    ];
   };
 }
