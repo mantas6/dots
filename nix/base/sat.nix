@@ -1,4 +1,3 @@
-# sat: Go CLI client for Satellite, built from github.com/mantas6/sat-cli
 {...}: {
   flake.modules.nixos.base = {
     pkgs,
