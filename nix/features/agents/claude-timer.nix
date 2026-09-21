@@ -1,5 +1,5 @@
 {...}: {
-  flake.modules.nixos."services-claude-timer" = {
+  flake.modules.nixos."agents-claude-timer" = {
     pkgs-unstable,
     lib,
     inputs,
