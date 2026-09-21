@@ -21,7 +21,7 @@
 
       vendorHash = "sha256-KMunnWdq9rOMxBzEzNUiKzXY5AfEDxuuSjc/LrWTchE=";
 
-      ldflags = ["-s" "-w" "-X main.version=${builtins.substring 0 7 rev}"];
+      ldflags = ["-X main.version=${builtins.substring 0 7 rev}"];
 
       nativeBuildInputs = [pkgs.makeWrapper];
 
