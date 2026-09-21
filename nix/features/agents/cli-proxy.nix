@@ -11,7 +11,7 @@
 # The service must be running (so /run/cli-proxy-api/config.yaml exists) before step 2;
 # tokens are written under auth-dir (/var/lib/cli-proxy-api) where the daemon reads them.
 {...}: {
-  flake.modules.nixos."agents-cli-proxy-api" = {
+  flake.modules.nixos."agents-cli-proxy" = {
     self,
     pkgs,
     config,

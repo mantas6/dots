@@ -21,7 +21,7 @@
       progs-shell
       services-docker
       agents-claude-timer
-      agents-cli-proxy-api
+      agents-cli-proxy
     ];
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
