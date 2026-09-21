@@ -18,4 +18,19 @@ in {
     publicKeys = users ++ allSystems;
     armor = true;
   };
+
+  "${basePath}/agent-opencode-auth.age" = {
+    publicKeys = users ++ [systems.ag];
+    armor = true;
+  };
+
+  "${basePath}/agent-gh-fork-token.age" = {
+    publicKeys = users ++ [systems.ag];
+    armor = true;
+  };
+
+  "${basePath}/agent-gh-upstream-token.age" = {
+    publicKeys = users ++ [systems.ag];
+    armor = true;
+  };
 }

@@ -21,6 +21,7 @@
       progs-shell
       services-docker
       services-claude-timer
+      services-agent-dots-pr
     ];
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
