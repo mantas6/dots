@@ -46,6 +46,8 @@ export NB_HIST="$XDG_STATE_HOME/nb/history"
 export MOZ_USE_XINPUT2=1
 export QT_QPA_PLATFORMTHEME=qt6ct
 
+export ANTHROPIC_ENABLE_1M_CONTEXT=true
+
 [ -f "$XDG_CONFIG_HOME/shell/local/profile" ] && . "$XDG_CONFIG_HOME/shell/local/profile"
 
 export PATH="$PATH:$DOTS_DIR/bin:$DOTS_DIR/opt/sat/bin"
