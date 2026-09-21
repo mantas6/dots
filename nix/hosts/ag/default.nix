@@ -29,8 +29,6 @@
 
     features.wakeOnLanAdapterMAC = "a8:2b:dd:4e:10:2e";
 
-    features.swapSizeInGB = 2;
-
     networking.hostName = "ag";
 
     system.stateVersion = "26.05";
