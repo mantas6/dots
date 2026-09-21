@@ -34,7 +34,7 @@
       '';
 
       meta = {
-        description = "Command-line client for Satellite";
+        description = "Command-line client for Sat";
         homepage = "https://github.com/mantas6/sat-cli";
         mainProgram = "sat";
       };
