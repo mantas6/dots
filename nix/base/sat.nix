@@ -5,12 +5,13 @@
     ...
   }: let
     rev = "422008eaa78d8cffec34d1a291905fa52eb1d8d7";
+    shortRev = builtins.substring 0 7 rev;
     # sat-cli's go.mod requires go 1.26.7, which nixpkgs-unstable provides.
     goPkgs = inputs'.nixpkgs-unstable.legacyPackages;
   in {
     packages.sat = goPkgs.buildGoModule {
       pname = "sat";
-      version = "0-unstable-${builtins.substring 0 7 rev}";
+      version = "0-unstable-${shortRev}";
 
       src = pkgs.fetchFromGitHub {
         owner = "mantas6";
@@ -21,7 +22,7 @@
 
       vendorHash = "sha256-KMunnWdq9rOMxBzEzNUiKzXY5AfEDxuuSjc/LrWTchE=";
 
-      ldflags = ["-X main.version=${builtins.substring 0 7 rev}"];
+      ldflags = ["-X main.version=${shortRev}"];
 
       nativeBuildInputs = [pkgs.makeWrapper];
 

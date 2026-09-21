@@ -5,11 +5,12 @@
     ...
   }: let
     rev = "c3eb04cb615dceb1f51ac5b2572d4070dc994249";
+    shortRev = builtins.substring 0 7 rev;
     goPkgs = inputs'.nixpkgs-unstable.legacyPackages;
   in {
     packages.bh = goPkgs.buildGoModule {
       pname = "bh";
-      version = "0-unstable-${builtins.substring 0 7 rev}";
+      version = "0-unstable-${shortRev}";
 
       src = pkgs.fetchFromGitHub {
         owner = "mantas6";
@@ -22,7 +23,7 @@
 
       subPackages = ["cmd/bh"];
 
-      ldflags = ["-X main.version=${builtins.substring 0 7 rev}"];
+      ldflags = ["-X main.version=${shortRev}"];
 
       meta = {
         description = "Command-line client for Bitbucket";
