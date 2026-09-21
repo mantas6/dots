@@ -34,9 +34,6 @@ jobs:
       - name: Update dependencies
         run: composer update --no-interaction --no-progress
 
-      - name: Bump constraints in composer.json
-        run: composer bump --no-interaction
-
       - name: Configure push authentication
         env:
           GH_TOKEN: ${{ github.token }}
@@ -47,10 +44,10 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Bump composer.json
+          commit_message: Update composer dependencies
           branch: main
           commit_options: '--no-verify --signoff'
-          file_pattern: home/.config/composer/composer.json
+          file_pattern: home/.config/composer/composer.json home/.config/composer/composer.lock
           commit_user_name: Composer Bot # defaults to "GitHub Actions"
           commit_author: Composer Bot <actions@github.com> # defaults to author of the commit that triggered the run
           skip_dirty_check: false
