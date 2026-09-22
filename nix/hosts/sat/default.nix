@@ -7,17 +7,19 @@
     modules = [self.modules.nixos."host-sat"];
   };
 
-  flake.modules.nixos."host-sat" = {...}: {
+  flake.modules.nixos."host-sat" = {lib, ...}: {
     imports = with self.modules.nixos; [
       base
-      disks-normal
       jobs-os-upgrade
       # purposes-app-server
     ];
 
-    disko.devices.disk.main-disk.device = "/dev/sda";
+    # Legacy BIOS boot: this host boots in BIOS mode, EFI variables are unavailable.
+    # The disk device for GRUB is provided by disko via the EF02 BIOS-boot partition.
+    boot.loader.grub.efiSupport = lib.mkForce false;
+    boot.loader.efi.canTouchEfiVariables = lib.mkForce false;
 
-    # users.users.mantas.hashedPassword = "$y$j9T$9fIB3RWe.fVkunAycN6jD.$tsgfckKykjuNpmAfvcp5PqmyJdOaJG4NTpg54ESi5p3";
+    users.users.mantas.hashedPassword = "$y$j9T$AwtBNo.coaNT8mW1cSeSX1$OUNE6PgDGwLNJGMCjmCybz94imqMBUwrpoI0gYy8f2.";
 
     networking.hostName = "sat";
 
