@@ -1,6 +1,5 @@
 {...}: {
   flake.modules.nixos."host-sat" = {
-    config,
     lib,
     modulesPath,
     ...
