@@ -14,14 +14,23 @@
       # purposes-app-server
     ];
 
-    # Legacy BIOS boot: this host boots in BIOS mode, EFI variables are unavailable.
-    # The disk device for GRUB is provided by disko via the EF02 BIOS-boot partition.
     boot.loader.grub.efiSupport = lib.mkForce false;
     boot.loader.efi.canTouchEfiVariables = lib.mkForce false;
 
-    users.users.mantas.hashedPassword = "$y$j9T$AwtBNo.coaNT8mW1cSeSX1$OUNE6PgDGwLNJGMCjmCybz94imqMBUwrpoI0gYy8f2.";
+    users.users.mantas.hashedPassword = "$y$j9T$tWZJEW0K.eEV.zQfnBbyh0$ieDjH/01NA6DLLeapQa1VPTnYKtP5rE36mTRi8ueuI5";
 
     networking.hostName = "sat";
+
+    networking.useDHCP = lib.mkForce false;
+    networking.useNetworkd = true;
+    services.resolved.enable = true;
+
+    age.secrets.sat-network = {
+      file = ../../_lib/secrets/sat-network.age;
+      path = "/etc/systemd/network/10-eth0.network";
+      mode = "0444";
+      symlink = false;
+    };
 
     system.stateVersion = "26.05";
   };
