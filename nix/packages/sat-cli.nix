@@ -41,14 +41,4 @@
       };
     };
   };
-
-  flake.modules.nixos.base = {
-    pkgs,
-    self,
-    ...
-  }: {
-    environment.systemPackages = [
-      self.packages.${pkgs.stdenv.hostPlatform.system}.sat
-    ];
-  };
 }

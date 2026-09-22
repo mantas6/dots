@@ -1,5 +1,6 @@
 {...}: {
   flake.modules.nixos."collections-develop" = {
+    self,
     pkgs,
     pkgs-unstable,
     lib,
@@ -126,6 +127,9 @@
       # deadnix
 
       agenix
+    ]
+    ++ [
+      self.packages.${pkgs.stdenv.hostPlatform.system}.bh
     ];
   };
 }

@@ -32,14 +32,4 @@
       };
     };
   };
-
-  flake.modules.nixos."collections-develop" = {
-    pkgs,
-    self,
-    ...
-  }: {
-    environment.systemPackages = [
-      self.packages.${pkgs.stdenv.hostPlatform.system}.bh
-    ];
-  };
 }
