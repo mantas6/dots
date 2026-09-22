@@ -18,7 +18,7 @@
       "*": "allow",
       "*.env": "deny",
       "*.env.*": "deny",
-      ".envrc": "ask",
+      ".envrc": "deny",
       "*.env.example": "allow"
     },
     "bash": {
