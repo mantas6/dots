@@ -1,8 +1,5 @@
 {...}: {
-  flake.modules.nixos.base = {
-    pkgs,
-    ...
-  }: {
+  flake.modules.nixos.base = {pkgs, ...}: {
     users.mutableUsers = false;
 
     users.users.mantas = {
