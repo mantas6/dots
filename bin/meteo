@@ -6,12 +6,20 @@ place_code=$(cat "$place_file")
 lines=$(tput lines)
 forecast_length=$((lines - 10))
 
+fetch() {
+    curl --fail --silent --show-error \
+        --connect-timeout 5 \
+        --max-time 15 \
+        "$1"
+}
+
 list_places() {
-    curl -s https://api.meteo.lt/v1/places | jq -r '.[].code'
+    places=$(fetch https://api.meteo.lt/v1/places) || return
+    printf '%s\n' "$places" | jq -r '.[].code'
 }
 
 get_forecast() {
-    curl -s "https://api.meteo.lt/v1/places/$place_code/forecasts/long-term"
+    fetch "https://api.meteo.lt/v1/places/$place_code/forecasts/long-term"
 }
 
 expand_forecast() {
@@ -47,7 +55,7 @@ while true; do
     case $1 in
         -L | --list-places)
             shift
-            list_places
+            list_places || exit $?
             exit 0
             ;;
         -p | --place)
@@ -66,13 +74,13 @@ while true; do
             ;;
         -r | --raw)
             shift
-            forecast=$(get_forecast)
+            forecast=$(get_forecast) || exit $?
             expand_forecast "$forecast"
             exit 0
             ;;
         --)
             shift
-            forecast=$(get_forecast)
+            forecast=$(get_forecast) || exit $?
             expanded=$(expand_forecast "$forecast")
             print_header "$forecast"
             format_forecast "$expanded" | head -n "$forecast_length"
