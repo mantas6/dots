@@ -18,4 +18,9 @@ in {
     publicKeys = users ++ allSystems;
     armor = true;
   };
+
+  "${basePath}/sat-ssh-allowlist.age" = {
+    publicKeys = users ++ allSystems;
+    armor = true;
+  };
 }
