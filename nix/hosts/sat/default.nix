@@ -12,17 +12,15 @@
       base
       disks-normal
       jobs-os-upgrade
-      purposes-app-server
+      # purposes-app-server
     ];
 
-    disko.devices.disk.main-disk.device = "/dev/nvme0n1";
+    disko.devices.disk.main-disk.device = "/dev/sda";
 
-    users.users.mantas.hashedPassword = "$y$j9T$9fIB3RWe.fVkunAycN6jD.$tsgfckKykjuNpmAfvcp5PqmyJdOaJG4NTpg54ESi5p3";
-
-    system.autoUpgrade.dates = "01:00";
+    # users.users.mantas.hashedPassword = "$y$j9T$9fIB3RWe.fVkunAycN6jD.$tsgfckKykjuNpmAfvcp5PqmyJdOaJG4NTpg54ESi5p3";
 
     networking.hostName = "sat";
 
-    system.stateVersion = "25.05";
+    system.stateVersion = "26.05";
   };
 }
