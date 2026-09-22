@@ -1,5 +1,9 @@
 {...}: {
-  flake.modules.nixos."host-l4" = {pkgs, ...}: {
+  flake.modules.nixos."host-l4" = {
+    self,
+    pkgs,
+    ...
+  }: {
     # TTY monitor dashboard: autologin + kmscon console.
     services.getty.autologinUser = "mantas";
 
@@ -24,5 +28,13 @@
     # Disable the laptop trackpad/trackpoint (PS/2). kmscon otherwise
     # picks it up and draws a pointer.
     boot.blacklistedKernelModules = ["psmouse"];
+
+    # Launch the dashboard on the autologin VT via the `sat` binary.
+    # kmscon uses a pty, so detect the VT with XDG_VTNR rather than tty.
+    environment.loginShellInit = ''
+      if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = "1" ]; then
+        exec ${self.packages.${pkgs.stdenv.hostPlatform.system}.sat}/bin/sat dashboard --follow
+      fi
+    '';
   };
 }
