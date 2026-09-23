@@ -46,9 +46,11 @@ export NB_HIST="$XDG_STATE_HOME/nb/history"
 export MOZ_USE_XINPUT2=1
 export QT_QPA_PLATFORMTHEME=qt6ct
 
+export ANTHROPIC_ENABLE_1M_CONTEXT=true
+
 [ -f "$XDG_CONFIG_HOME/shell/local/profile" ] && . "$XDG_CONFIG_HOME/shell/local/profile"
 
-export PATH="$PATH:$HOME/.local/sbin"
+export PATH="$PATH:$DOTS_DIR/bin:$DOTS_DIR/opt/sat/bin"
 
 [ -x "$(command -v npm)" ] && PATH="$(npm config get prefix)/bin:$PATH"
 
@@ -59,6 +61,6 @@ export COMPOSER_HOME="$HOME/.config/composer"
 [ -d "$HOME/.config/composer/vendor/bin" ] && export PATH="$COMPOSER_HOME/vendor/bin:$PATH"
 
 [ -d "$HOME/.local/share/cargo/bin" ] && export PATH="$HOME/.local/share/cargo/bin:$PATH"
-
+[ -d "$GOPATH/bin" ] && export PATH="$GOPATH/bin:$PATH"
 
 [ -f '/etc/profile.d/nix.sh' ] && source '/etc/profile.d/nix.sh'

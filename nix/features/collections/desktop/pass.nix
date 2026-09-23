@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."collections-desktop" = {pkgs, ...}: let
+  flake.modules.nixos."collections-desktop" = {pkgs, ...}: let
     serviceName = "pass-pull";
   in {
     programs.gnupg = {

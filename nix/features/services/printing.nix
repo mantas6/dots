@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."services-printing" = {
+  flake.modules.nixos."services-printing" = {
     lib,
     config,
     pkgs,

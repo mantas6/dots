@@ -4,14 +4,14 @@
   ...
 }: {
   flake.nixosConfigurations.pd = inputs.nixpkgs.lib.nixosSystem {
-    modules = [self.nixosModules."host-pd"];
+    modules = [self.modules.nixos."host-pd"];
   };
 
-  flake.nixosModules."host-pd" = {...}: {
-    imports = with self.nixosModules; [
+  flake.modules.nixos."host-pd" = {...}: {
+    imports = with self.modules.nixos; [
       base
       disks-normal
-      jobs-updates
+      jobs-os-upgrade
       purposes-router
       services-sat-backups
     ];
@@ -20,7 +20,6 @@
 
     users.users.mantas.hashedPassword = "$y$j9T$9fIB3RWe.fVkunAycN6jD.$tsgfckKykjuNpmAfvcp5PqmyJdOaJG4NTpg54ESi5p3";
 
-    features.swapSizeInGB = 2;
     # powerManagement.powertop.enable = true;
 
     system.autoUpgrade.dates = "01:00";

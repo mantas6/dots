@@ -5,14 +5,15 @@
 .null-ls_*
 .conform.*
 
+/.phpactor.json
+
 node_modules
 vendor
 
 __pycache__
 
-/PRESENTATION.md
-/PLAN.md
-/plan.html
+/SCRATCH.md
+/scratch.html
 
 /.playwright-mcp
 

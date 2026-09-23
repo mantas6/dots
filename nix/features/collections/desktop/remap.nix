@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."collections-desktop" = {
+  flake.modules.nixos."collections-desktop" = {
     services.keyd = {
       enable = true;
 

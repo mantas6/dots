@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."hardware-amd" = {
+  flake.modules.nixos."hardware-amd" = {
     lib,
     config,
     ...

@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."collections-desktop" = {pkgs, ...}: {
+  flake.modules.nixos."collections-desktop" = {pkgs, ...}: {
     fonts = {
       fontDir.enable = true;
       fontconfig.enable = true;

@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."host-mt" = {
+  flake.modules.nixos."host-mt" = {
     config,
     lib,
     pkgs,

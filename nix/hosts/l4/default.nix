@@ -4,19 +4,21 @@
   ...
 }: {
   flake.nixosConfigurations.l4 = inputs.nixpkgs.lib.nixosSystem {
-    modules = [self.nixosModules."host-l4"];
+    modules = [self.modules.nixos."host-l4"];
   };
 
-  flake.nixosModules."host-l4" = {...}: {
-    imports = with self.nixosModules; [
+  flake.modules.nixos."host-l4" = {...}: {
+    imports = with self.modules.nixos; [
       base
+      base-home
       disks-normal
-      jobs-updates
+      jobs-os-upgrade
       hardware-backlight
+      services-auto-brightness-sun
       progs-shell
       services-docker
-      services-memos
-      services-speedtest
+      containers-memos
+      # containers-speedtest
       services-photosync
       quirks-prevent-sleep
       services-sat-backups
@@ -35,10 +37,6 @@
         '';
       };
     };
-
-    services.getty.autologinUser = "mantas";
-
-    console.font = "ter-732n";
 
     networking.hostName = "l4";
 

@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+terminal() {
+    wezterm start
+}
+
+count-windows() {
+    aerospace list-windows --workspace focused --count
+}
+
+await-windows() {
+    local elapsed=0
+
+    while [ "$(count-windows)" -lt "$1" ]; do
+        [ "$elapsed" -ge 100 ] && exit 1
+        elapsed=$((elapsed + 1))
+
+        sleep 0.1
+    done
+}
+
+workspace() {
+    aerospace workspace "$1"
+
+    local count
+    count=$(count-windows)
+
+    [ "$count" -ne 0 ] && return 1
+
+    return 0
+}
+
+if workspace 1; then
+    terminal
+    await-windows 1
+fi
+
+if workspace 2; then
+    open -n "/Applications/Microsoft Teams.app"
+    open -n "/Applications/Microsoft Outlook.app"
+    await-windows 2
+fi
+
+if workspace 3; then
+    open -na "/Applications/Safari.app" "https://track.toggl.com/timer"
+    open -n "$HOME/Applications/Zen.app"
+    await-windows 2
+
+    # aerospace layout --workspace 3 --root horizontal
+    aerospace focus --dfs-index 1
+    aerospace resize width +450
+fi
+
+if workspace 4; then
+    open -n "/Applications/Google Chrome.app"
+    open -n "/Applications/Safari.app"
+    await-windows 2
+fi
+
+if workspace 6; then
+    terminal
+    await-windows 1
+fi
+
+aerospace workspace 1

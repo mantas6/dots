@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# SSH into a host and pick one of its tmux sessions to attach to
+
+host=${1:-}
+
+if [[ -z $host ]]; then
+    printf 'usage: ssh-tmux <host>\n' >&2
+    exit 1
+fi
+
+exec ssh -tt -- "$host" 'exec "$SHELL" -lc "exec e"'

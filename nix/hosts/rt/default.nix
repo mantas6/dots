@@ -4,18 +4,16 @@
   ...
 }: {
   flake.nixosConfigurations.rt = inputs.nixpkgs.lib.nixosSystem {
-    modules = [self.nixosModules."host-rt"];
+    modules = [self.modules.nixos."host-rt"];
   };
 
-  flake.nixosModules."host-rt" = {...}: {
-    imports = with self.nixosModules; [
+  flake.modules.nixos."host-rt" = {...}: {
+    imports = with self.modules.nixos; [
       base
+      base-home
       disks-normal
-      jobs-updates
-      progs-shell
+      jobs-os-upgrade
       services-hermes
-      # purposes-app-server
-      # services-docker
     ];
 
     disko.devices.disk.main-disk.device = "/dev/sda";

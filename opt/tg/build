@@ -1,7 +1,0 @@
-#!/bin/sh
-
-cd "$(dirname "$(realpath "$0")")" || exit 1
-
-[ ! -x "$(command -v go)" ] && exit 0
-
-exec go build -o "$HOME/.local/bin/tg"

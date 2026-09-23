@@ -40,6 +40,7 @@ return {
     ---@type table<string, vim.lsp.Config>
     local servers = {
       intelephense = {},
+      -- phpactor = {},
       bashls = {},
       dockerls = {},
       cssls = {},
@@ -48,6 +49,12 @@ return {
       gopls = {},
       lua_ls = {},
       taplo = {},
+      -- clangd = {},
+      laravel_lsp = {
+        cmd = { 'laravel-lsp' },
+        filetypes = { 'php', 'blade' },
+        root_markers = { 'artisan', 'composer.json', '.git' },
+      },
       ts_ls = {
         filetypes = {
           'javascript',

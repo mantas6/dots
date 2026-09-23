@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+# Execute cmd or sh "main" docker container
+
+if [ -n "$IGNORE_DOCKER" ] || ! docker compose ps >/dev/null 2>&1; then
+    exec "$@"
+fi
+
+names=$(docker compose ps --format '{{.Names}}')
+name=$(echo "$names" | grep -i 'fpm\|laravel.test')
+
+[ ! "$name" ] && name=$(echo "$names" | head -n 1)
+
+if [ -t 0 ]; then
+    flags='-it'
+else
+    flags='-i'
+fi
+
+exec docker exec --detach-keys="ctrl-@" "$flags" "$name" "${@:-bash}"

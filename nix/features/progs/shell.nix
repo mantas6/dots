@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."progs-shell" = {
+  flake.modules.nixos."progs-shell" = {
     lib,
     config,
     pkgs,
@@ -19,7 +19,6 @@
     };
 
     environment.systemPackages = with pkgs-unstable; [
-      starship
       eza
 
       gum

@@ -12,7 +12,7 @@ if [ ! -f '.photosync' ]; then
     exit 0
 fi
 
-tag=$(< .photosync)
+tag=$(<.photosync)
 [ -z "$tag" ] && echo 'Empty tag value' && exit 1
 
 export PHOTOSYNC_CACHE_TAG="$tag"

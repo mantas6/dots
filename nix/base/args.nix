@@ -3,7 +3,7 @@
   self,
   ...
 }: {
-  flake.nixosModules.base = {pkgs, ...}: {
+  flake.modules.nixos.base = {pkgs, ...}: {
     imports = [
       inputs.disko.nixosModules.disko
       inputs.agenix.nixosModules.default

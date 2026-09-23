@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."progs-art" = {
+  flake.modules.nixos."progs-art" = {
     lib,
     config,
     pkgs,

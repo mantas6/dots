@@ -1,19 +1,13 @@
 {...}: {
-  flake.nixosModules.base = {
-    pkgs,
-    lib,
-    ...
-  }: {
+  flake.modules.nixos.base = {pkgs-unstable, ...}: {
     users.mutableUsers = false;
 
     users.users.mantas = {
       isNormalUser = true;
       linger = true;
-      # mkpasswd
-      hashedPassword = lib.mkDefault "$y$j9T$ZhKXn9KIagbM2wzlkOXfz/$RQmrNYqwkbYre0BgLJ83nCHAWr6e/QCABtax5gXN6k.";
-      extraGroups = ["wheel" "dialout"];
+      extraGroups = ["wheel"];
     };
 
-    environment.variables.EDITOR = "${pkgs.vim}/bin/vim";
+    environment.variables.EDITOR = "${pkgs-unstable.neovim}/bin/nvim";
   };
 }

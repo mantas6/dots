@@ -1,0 +1,38 @@
+#!/usr/bin/env sh
+
+set -e
+
+export GIT_OPTIONAL_LOCKS=0
+
+changes=false
+unpushed=false
+noremote=false
+branch=$(git branch --show-current 2>/dev/null)
+
+if [ "$(git status --short)" != '' ]; then
+    changes=true
+fi
+
+if upstream=$(git rev-parse --verify '@{upstream}' 2>/dev/null); then
+    if [ "$(git rev-list --count "$upstream"..HEAD)" -gt 0 ]; then
+        unpushed=true
+    fi
+elif [ -n "$branch" ] && git rev-parse --verify HEAD >/dev/null 2>&1; then
+    noremote=true
+fi
+
+status=''
+
+if $changes; then
+    status='#[fg=pink]*#[default]'
+fi
+
+if $unpushed; then
+    status="$status#[fg=yellow]^#[default]"
+fi
+
+if $noremote; then
+    status="$status#[fg=green]+#[default]"
+fi
+
+printf '%s' "$status$branch"

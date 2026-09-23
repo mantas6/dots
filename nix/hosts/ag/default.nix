@@ -4,17 +4,30 @@
   ...
 }: {
   flake.nixosConfigurations.ag = inputs.nixpkgs.lib.nixosSystem {
-    modules = [self.nixosModules."host-ag"];
+    modules = [self.modules.nixos."host-ag"];
   };
 
-  flake.nixosModules."host-ag" = {...}: {
-    imports = with self.nixosModules; [
+  flake.modules.nixos."host-ag" = {...}: {
+    imports = with self.modules.nixos; [
       base
+      base-home
       disks-normal
-      purposes-app-server
+
+      jobs-os-upgrade-desktop
+
+      # purposes-app-server
+
+      collections-develop
+      progs-shell
+      services-docker
+      agents-claude-timer
     ];
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
+
+    users.users.mantas.hashedPassword = "$y$j9T$Is9kgYLgnNB0KU58g9Xnb.$FavpbfQrGhGZEpKpEBqC0OTaL9DzEzJfoBaoF9a9Fx3";
+
+    features.wakeOnLanAdapterMAC = "a8:2b:dd:4e:10:2e";
 
     networking.hostName = "ag";
 

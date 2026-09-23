@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."host-ag" = {
+  flake.modules.nixos."host-ag" = {
     config,
     lib,
     modulesPath,

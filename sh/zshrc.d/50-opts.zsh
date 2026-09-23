@@ -30,7 +30,7 @@ setopt autocd
 setopt interactive_comments
 
 # Load completions
-autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit -i
 
 [ -n "$ZINIT_HOME" ] && zinit cdreplay -q
 
@@ -40,17 +40,13 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
-precmd() {
-    # next-prompt / previous-prompt
-    # print -n '\033]133;A\033\\'
+autoload -Uz add-zsh-hook
 
-    # echo -n "\\x1b]133;A\\x1b\\"
-    # print -Pn "\e]133;A\e\\"
-
-    if [[ $? -ne 0 ]]; then
-        print -n '\a'
-    fi
+# Ring the bell on command error (uses status captured by the prompt precmd)
+_bell_on_error() {
+    ((_prompt_status)) && print -n '\a'
 }
+add-zsh-hook precmd _bell_on_error
 
 copy-line-to-clipboard() {
     printf '%s' "$BUFFER" | xc
@@ -58,4 +54,3 @@ copy-line-to-clipboard() {
 
 zle -N copy-line-to-clipboard
 bindkey '^Xy' copy-line-to-clipboard
-

@@ -34,7 +34,7 @@ automatically-unhide-macos-hidden-apps = true
     inherit-env-vars = true
 
 [exec.env-vars]
-    PATH = '${HOME}/.local/bin:${HOME}/.local/sbin:${PATH}:${HOME}/.local/brew/bin'
+    PATH = '${HOME}/.local/bin:${HOME}/.dots/bin:${HOME}/.dots/opt/sat/bin:${PATH}:${HOME}/.local/brew/bin'
 
 [key-mapping]
     preset = 'qwerty'
@@ -134,7 +134,7 @@ automatically-unhide-macos-hidden-apps = true
     # cmd-u = 'exec-and-forget ~/Applications/flameshot.app/Contents/MacOS/flameshot gui'
 
     cmd-p = 'exec-and-forget app-launcher'
-    alt-shift-i = 'exec-and-forget auto-launch-apps'
+    alt-shift-i = 'exec-and-forget aerospace-apps'
     cmd-g = 'exec-and-forget bm -r'
     alt-shift-v = 'exec-and-forget vpn-control'
 

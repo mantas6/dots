@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."hardware-backlight" = {
+  flake.modules.nixos."hardware-backlight" = {
     lib,
     config,
     pkgs,

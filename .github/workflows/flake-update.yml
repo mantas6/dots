@@ -17,9 +17,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Install Nix
         uses: cachix/install-nix-action@v27
@@ -29,6 +30,13 @@ jobs:
 
       - name: Run flake check
         run: nix flake check --all-systems
+
+      - name: Configure push authentication
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $auth"
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5

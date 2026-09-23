@@ -5,12 +5,12 @@ pattern = "~/Repos/*"
 [[session]]
 name = "llm"
 path = "~/.local/state/sessions/llm"
-cmd = "tmux new-window -d; ai"
+cmd = "tmux new-window -d; opencode --continue"
 
 [[session]]
 name = "calc"
 path = "~/.local/state/sessions/calc"
-cmd = "nvim main.calc.php"
+cmd = "nvim main.calc.js"
 
 [[session]]
 name = "_dots"

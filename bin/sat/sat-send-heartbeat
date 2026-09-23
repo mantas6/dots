@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-curl -sSfL \
-    -H "$(sat-auth-header)" \
-    -X POST "$(sat-base-url)/api/machine/$(uname -n)" \
-    >/dev/null

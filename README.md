@@ -1,6 +1,6 @@
 # dots
 
-dotfiles
+Personal dotfiles managing configuration for NixOS Linux and macOS.
 
 ## Setup
 
@@ -9,7 +9,7 @@ dotfiles
 ```sh
 git clone https://github.com/mantas6/dots.git "$HOME/.dots"
 cd "$HOME/.dots"
-./bin/dot/stw
+./bin/stw
 ```
 
 If stow fails, remove conflicting files (preferably to trash) and run again. Pay close attention to the output to make sure that the links that it creates make sense.
@@ -55,9 +55,9 @@ Run when need to migrate old version of dotfiles structure
 
 ```sh
 cd "$HOME/.dots"
-./bin/dot/stw -D
+./bin/stw -D
 git pull
-./bin/dot/stw
+./bin/stw
 ```
 
 ### Reinstall bootloader for NixOS
@@ -81,14 +81,14 @@ To initialize new environment run:
 ```sh
 git clone https://github.com/mantas6/dots.git "$HOME/.dots"
 cd "$HOME/.dots"
-./bin/mac/rebuild-macos-env brew
+./bin/rebuild-macos-env brew
 ```
 
 Restart the shell and run stow:
 
 ```sh
 cd "$HOME/.dots"
-./bin/dot/stw
+./bin/stw
 ```
 
 Run the script again to continue setup:
@@ -113,6 +113,26 @@ brew bundle cleanup --global
 
 ## Misc
 
+### Formatting
+
+Format all Nix files:
+
+```sh
+nix fmt .
+```
+
+Format all Lua files:
+
+```sh
+find . -name '*.lua' -exec stylua {} +
+```
+
+Format all shell scripts:
+
+```sh
+shfmt -w $(shfmt -f .)
+```
+
 ### Stress testing
 
 Run stress test on the CPU:
@@ -132,7 +152,7 @@ nix run nixpkgs#s-tui
 Edit/create a secret:
 
 ```sh
-agenix -e lib/secrets/__name__.age
+agenix -e nix/_lib/secrets/__name__.age
 ```
 
 After saving update the `secrets.nix`
@@ -175,4 +195,18 @@ To see the status of the upgrade timer:
 
 ```sh
 systemctl status nixos-upgrade.timer
+```
+
+## Useful commands
+
+Trigger Enter key press on another `tmux` window:
+
+```sh
+tmux send-keys -t ":llm" C-m
+```
+
+Serve the current directory over HTTP with `caddy`:
+
+```sh
+nix run nixpkgs#caddy -- file-server --listen :8080 --browse
 ```

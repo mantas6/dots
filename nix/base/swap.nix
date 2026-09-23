@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules.base = {
+  flake.modules.nixos.base = {
     lib,
     config,
     ...
@@ -9,9 +9,9 @@
     options = {
       features.swapSizeInGB = lib.mkOption {
         type = lib.types.nullOr lib.types.int;
-        default = null;
+        default = 2;
         example = 2;
-        description = "Swapfile size in GB";
+        description = "Swapfile size in GB (set to null to disable)";
       };
     };
     config = lib.mkIf (size != null) {

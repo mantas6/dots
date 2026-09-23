@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."disks-normal" = {
+  flake.modules.nixos."disks-normal" = {
     lib,
     config,
     ...

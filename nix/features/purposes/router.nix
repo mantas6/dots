@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."purposes-router" = {
+  flake.modules.nixos."purposes-router" = {
     self,
     pkgs,
     pkgs-unstable,
@@ -17,7 +17,6 @@
     servicesIp = "10.0.1.21"; # l4
     wolPort = 5001;
   in {
-    services.fail2ban.enable = true;
     networking.stevenblack = {
       enable = true;
       package = pkgs-unstable.stevenblack-blocklist;
@@ -80,6 +79,11 @@
       # "net.ipv6.conf.all.forwarding" = true;
     };
 
+    # Cumulative WAN traffic accounting for the whole home setup.
+    # Query over SSH, e.g. `vnstat -i ${wanIfName}`.
+    services.vnstat.enable = true;
+    environment.systemPackages = [pkgs.vnstat];
+
     services.openssh.settings = {
       ListenAddress = lanIp;
     };
@@ -135,25 +139,6 @@
       path = [pkgs.wakeonlan];
       environment = {
       };
-    };
-  };
-
-  perSystem = {
-    config,
-    inputs',
-    ...
-  }: {
-    packages.wolf = inputs'.nixpkgs-go.legacyPackages.buildGoModule {
-      pname = "wolf";
-      version = "0.1.0";
-      src = ../../../opt/wolf/.;
-      vendorHash = null;
-    };
-
-    apps.wolf = {
-      type = "app";
-      program = "${config.packages.wolf}/bin/wolf";
-      meta.description = "HTTP server that sends Wake-on-LAN packets to hosts resolved from dnsmasq leases";
     };
   };
 }

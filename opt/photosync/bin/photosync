@@ -25,11 +25,11 @@ output_filename="$PHOTOSYNC_ORIGINALS/$photo_path/$output_basename"
 
 if [ ! -f "$output_filename" ]; then
     cp -nv "$source" "$output_filename"
-    echo "$photo_path/$output_basename" >> "$PHOTOSYNC_ORIGINALS/filelist"
+    echo "$photo_path/$output_basename" >>"$PHOTOSYNC_ORIGINALS/filelist"
     photosync-cache "$source"
 else
     cmp "$source" "$output_filename" || exit 1
 
-    echo "$photo_path/$output_basename" >> "$PHOTOSYNC_ORIGINALS/filelist"
+    echo "$photo_path/$output_basename" >>"$PHOTOSYNC_ORIGINALS/filelist"
     photosync-cache "$source"
 fi

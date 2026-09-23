@@ -8,14 +8,14 @@ return {
     local calc_ls = h.make_builtin({
       name = 'calc-ls',
       method = null_ls.methods.DIAGNOSTICS,
-      filetypes = { 'php' },
+      filetypes = { 'javascript' },
       generator_opts = {
         command = 'calc-ls',
         args = {},
         to_stdin = true,
         format = 'json',
         runtime_condition = function(params)
-          return params.bufname:match('%.calc%.php$') ~= nil
+          return params.bufname:match('%.calc%.js$') ~= nil
         end,
         on_output = function(params)
           local diags = {}

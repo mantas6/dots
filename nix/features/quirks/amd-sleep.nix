@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."quirks-amd-sleep" = {
+  flake.modules.nixos."quirks-amd-sleep" = {
     lib,
     config,
     ...

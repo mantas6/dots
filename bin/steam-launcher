@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Launch an installed Steam game via a rofi menu
+
+set -euo pipefail
+
+steam_root="${XDG_DATA_HOME:-$HOME/.local/share}/Steam"
+[ -d "$steam_root" ] || steam_root="$HOME/.steam/steam"
+
+# Non-game entries (runtimes, tools, redistributables) to hide from the menu
+skip_re='^(Proton|Steam Linux Runtime|Steamworks Common Redistributables|SteamVR|Steam Controller)'
+
+# Collect library paths from libraryfolders.vdf, falling back to the default
+libs=$(
+    vdf="$steam_root/steamapps/libraryfolders.vdf"
+    [ -f "$vdf" ] && grep -oP '"path"\s*"\K[^"]+' "$vdf"
+    echo "$steam_root"
+)
+
+# Build a "name<TAB>appid" table from every appmanifest across libraries
+table=$(
+    printf '%s\n' "$libs" | sort -u | while IFS= read -r lib; do
+        [ -n "$lib" ] || continue
+        for acf in "$lib"/steamapps/appmanifest_*.acf; do
+            [ -f "$acf" ] || continue
+            appid=$(grep -oP '"appid"\s*"\K[0-9]+' "$acf" | head -n1)
+            name=$(grep -oP '"name"\s*"\K[^"]+' "$acf" | head -n1)
+            [ -n "$appid" ] && [ -n "$name" ] || continue
+            printf '%s\t%s\n' "$name" "$appid"
+        done
+    done | grep -Ev "$skip_re" | sort -u
+)
+
+[ -n "$table" ] || exit 1 # no installed games found
+
+choice=$(cut -f1 <<<"$table" | rofi -dmenu -i -p 'Play > ')
+[ -n "$choice" ] || exit 1 # cancelled
+
+appid=$(awk -F'\t' -v n="$choice" '$1 == n {print $2; exit}' <<<"$table")
+[ -n "$appid" ] || exit 1
+
+exec steam -applaunch "$appid"

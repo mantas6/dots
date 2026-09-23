@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules."services-sat-backups" = {
+  flake.modules.nixos."services-sat-backups" = {
     lib,
     config,
     pkgs,

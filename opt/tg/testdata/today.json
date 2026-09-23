@@ -1,1 +1,0 @@
-{"entries":[{"id":11,"task":"Fix login bug","project":"Backend","start":"2026-01-02T09:15:00Z","stop":"2026-01-02T10:30:00Z","duration_seconds":4500,"running":false},{"id":12,"task":"Code review","project":"Backend","start":"2026-01-02T10:30:00Z","duration_seconds":2700,"running":true}],"total_seconds":7200}

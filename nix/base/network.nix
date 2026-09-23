@@ -1,8 +1,7 @@
 {...}: {
-  flake.nixosModules.base = {lib, ...}: {
+  flake.modules.nixos.base = {...}: {
     networking = {
       usePredictableInterfaceNames = false;
-      firewall.enable = lib.mkDefault false;
     };
   };
 }

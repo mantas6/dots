@@ -1,5 +1,5 @@
 # vim: ft=ruby
-tap "nikitabobko/tap"
+tap "nikitabobko/tap", trusted: true
 
 brew "libunistring"
 brew "gettext"
@@ -90,6 +90,7 @@ brew "lua-language-server"
 brew "dockerfile-language-server"
 
 brew "tmux"
+brew "herdr"
 
 brew "eza"
 brew "jq"
@@ -110,20 +111,19 @@ brew "zsh-completions"
 brew "zsh-syntax-highlighting"
 brew "fzf"
 brew "direnv"
-brew "starship"
 
 brew "choose-gui"
 
 brew "ffmpeg"
 
 tap "daipeihust/tap"
-brew "im-select"
+brew "daipeihust/tap/im-select", trusted: true
 
 tap "felixkratz/formulae"
-brew "felixkratz/formulae/sketchybar"
+brew "felixkratz/formulae/sketchybar", trusted: true
 
 tap "jsdelivr/globalping"
-brew "globalping"
+brew "jsdelivr/globalping/globalping", trusted: true
 
 cask "ngrok"
 brew "cloudflared"
@@ -135,7 +135,9 @@ cask "ghostty"
 cask "qutebrowser"
 cask "wezterm"
 cask "gimp"
+cask "audacity"
 
 cask "claude-code"
+cask "codex"
 
 cask "font-jetbrains-mono-nerd-font"

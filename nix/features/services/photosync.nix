@@ -1,6 +1,7 @@
 {...}: {
-  flake.nixosModules."services-photosync" = {
+  flake.modules.nixos."services-photosync" = {
     self,
+    config,
     pkgs,
     ...
   }: let
@@ -18,6 +19,11 @@
 
       environment = {
         inherit PHOTOSYNC_CACHE PHOTOSYNC_ORIGINALS PHOTOSYNC_SITE;
+
+        # photosync-notify shells out to the `sat` CLI, which reads the base
+        # URL and auth token from these files. Reuse the l4 dashboard token.
+        SAT_URL_PATH = config.age.secrets.sat-base-url.path;
+        SAT_TOKEN_PATH = config.age.secrets.dashboard-token.path;
       };
 
       serviceConfig = {
@@ -73,7 +79,7 @@
       };
     };
 
-    environment.systemPackages = [photosyncPkg];
+    environment.systemPackages = [photosyncPkg pkgs.exiftool];
   };
 
   perSystem = {
@@ -97,7 +103,7 @@
         for prog in "$out"/bin/*; do
           wrapProgram "$prog" --prefix PATH : ${
           pkgs.lib.makeBinPath [
-            config.packages.sat-notify
+            config.packages.sat
             pkgs.udev
             pkgs.udisks2
             pkgs.util-linux

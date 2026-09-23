@@ -1,5 +1,9 @@
 {...}: {
-  flake.nixosModules."purposes-app-server" = {pkgs, ...}: let
+  flake.modules.nixos."purposes-app-server" = {
+    config,
+    pkgs,
+    ...
+  }: let
     userName = "mantas";
 
     phpConfigured = pkgs.php85.buildEnv {
@@ -47,6 +51,9 @@
       WorkingDirectory = "/home/${userName}/Sat/current";
       Restart = "always";
       RestartSec = 1;
+
+      NoNewPrivileges = true;
+      PrivateTmp = true;
     };
 
     defaultServiceOptions = {
@@ -61,6 +68,8 @@
       wants = ["network-online.target"];
     };
   in {
+    age.secrets.sat-base-url-aux.file = ./../../_lib/secrets/sat-base-url-aux.age;
+
     environment.systemPackages =
       phpEnv
       ++ [
@@ -68,14 +77,30 @@
       ];
 
     networking.firewall = {
-      enable = true;
-      allowedTCPPorts = [22 80 443];
+      # enable = true;
+      allowedTCPPorts = [80 443];
+    };
+
+    # Caddy's environmentFile needs KEY=value, but the secret holds a pure,
+    # reusable URL (e.g. https://abc.com). Convert it before Caddy starts.
+    systemd.services.caddy-env = {
+      before = ["caddy.service"];
+      requiredBy = ["caddy.service"];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        RuntimeDirectory = "caddy-env";
+        LoadCredential = "app-domain:${config.age.secrets.sat-base-url-aux.path}";
+      };
+      script = ''
+        printf 'APP_DOMAIN=%s\n' "$(cat "$CREDENTIALS_DIRECTORY/app-domain")" \
+          > /run/caddy-env/app.env
+      '';
     };
 
     services.caddy = {
       enable = true;
-      # Runtime-only hostname secret, e.g. APP_DOMAIN=example.com
-      # environmentFile = "/var/lib/secrets/caddy.env";
+      environmentFile = "/run/caddy-env/app.env";
 
       # https://caddyserver.com/docs/caddyfile/patterns
       # {
@@ -89,11 +114,10 @@
       #     php_server
       # }
       virtualHosts.app = {
-        hostName = "http://localhost";
-        # hostName = "{$APP_DOMAIN}";
+        hostName = "{$APP_DOMAIN}";
         extraConfig = ''
           encode zstd gzip
-          reverse_proxy localhost:8000
+          reverse_proxy 127.0.0.1:8000
         '';
       };
     };
