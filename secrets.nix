@@ -24,4 +24,9 @@ in {
     publicKeys = users ++ [systems.sat];
     armor = true;
   };
+
+  "${basePath}/dashboard-token.age" = {
+    publicKeys = users ++ [systems.l4];
+    armor = true;
+  };
 }
