@@ -6,15 +6,30 @@
 ssh_port="${2:-22}"
 
 ssh_result=$(timeout 5 ssh "$1" -p "$ssh_port" \
-    -o LogLevel=ERROR \
+    -vv \
+    -o BatchMode=yes \
+    -o NumberOfPasswordPrompts=0 \
     -o PubkeyAuthentication=no \
     -o StrictHostKeyChecking=no \
     -o UserKnownHostsFile=/dev/null 2>&1)
 
-if [[ "$ssh_result" =~ "Permission denied" ]]; then
-    echo -e "SSH \e[32mOK\e[0m $ssh_result"
-    exit 0
-else
-    echo -e "SSH attempt assertion \e[31mfailed\e[0m $ssh_result"
-    exit 1
-fi
+auth_methods=''
+while IFS= read -r line; do
+    [[ $line == *"Authentications that can continue: "* ]] \
+        && auth_methods=${line##*Authentications that can continue: }
+done <<<"$ssh_result"
+auth_methods=${auth_methods%$'\r'}
+
+case ",$auth_methods," in
+    ,publickey,)
+        echo -e "SSH \e[32mOK\e[0m key-only authentication"
+        ;;
+    *,password,* | *,keyboard-interactive,*)
+        echo -e "SSH assertion \e[31mfailed\e[0m server offers: $auth_methods"
+        exit 1
+        ;;
+    *)
+        echo -e "SSH assertion \e[31mfailed\e[0m unable to verify authentication methods"
+        exit 1
+        ;;
+esac
