@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "63752769165c478c6f720df5bf40afe9",
+    "content-hash": "75162087b48fed51f09704a8eee5464a",
     "packages": [
         {
             "name": "carbon-cli/carbon-cli",
@@ -3274,5 +3274,5 @@
     "prefer-lowest": false,
     "platform": {},
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
