@@ -39,7 +39,7 @@ jobs:
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $auth"
 
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Bump flake.lock
           branch: main
