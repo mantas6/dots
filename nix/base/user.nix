@@ -1,5 +1,5 @@
 {...}: {
-  flake.modules.nixos.base = {pkgs, ...}: {
+  flake.modules.nixos.base = {pkgs-unstable, ...}: {
     users.mutableUsers = false;
 
     users.users.mantas = {
@@ -8,6 +8,6 @@
       extraGroups = ["wheel"];
     };
 
-    environment.variables.EDITOR = "${pkgs.vim}/bin/vim";
+    environment.variables.EDITOR = "${pkgs-unstable.neovim}/bin/nvim";
   };
 }

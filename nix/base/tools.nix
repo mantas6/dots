@@ -2,11 +2,11 @@
   flake.modules.nixos.base = {
     self,
     pkgs,
+    pkgs-unstable,
     ...
   }: {
     environment.systemPackages =
       (with pkgs; [
-        vim
         wget
         curl
         unzip
@@ -15,6 +15,7 @@
         killall
       ])
       ++ [
+        pkgs-unstable.neovim
         self.packages.${pkgs.stdenv.hostPlatform.system}.sat
       ];
   };

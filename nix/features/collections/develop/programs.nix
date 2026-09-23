@@ -48,7 +48,6 @@
     };
 
     environment.variables = {
-      EDITOR = lib.mkDefault "${pkgs-unstable.neovim}/bin/vim";
       PLAYWRIGHT_MCP_EXECUTABLE_PATH = "${pkgs.chromium}/bin/chromium";
     };
 
@@ -59,7 +58,6 @@
 
     environment.systemPackages = with pkgs-unstable;
       [
-        neovim
         tmux
         herdr
 
