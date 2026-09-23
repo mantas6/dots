@@ -15,6 +15,11 @@ in {
     armor = true;
   };
 
+  "${basePath}/sat-base-url-aux.age" = {
+    publicKeys = users ++ allSystems;
+    armor = true;
+  };
+
   "${basePath}/sat-network.age" = {
     publicKeys = users ++ [systems.sat];
     armor = true;
