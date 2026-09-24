@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-grep -oP '^[^, ]+' ~/.ssh/known_hosts | while read -r line; do
-    line=$(echo "$line" | sed 's/\[\|\]//g')
+status=0
+
+while read -r line; do
+    line=${line//\[/}
+    line=${line//\]/}
     if [[ $line == *:* ]]; then
         # Split hostname/IP and port
         host=$(echo "$line" | awk -F: '{print $1}')
@@ -11,5 +14,7 @@ grep -oP '^[^, ]+' ~/.ssh/known_hosts | while read -r line; do
         port=22
     fi
 
-    secure-check "$host" "$port"
-done
+    secure-check "$host" "$port" || status=1
+done < <(grep -oP '^[^, ]+' ~/.ssh/known_hosts)
+
+exit "$status"
