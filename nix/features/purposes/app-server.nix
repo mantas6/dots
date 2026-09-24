@@ -79,12 +79,14 @@
     networking.firewall = {
       # enable = true;
       allowedTCPPorts = [80 443];
+      allowedUDPPorts = [443];
     };
 
     services.caddy = {
       enable = true;
-      # KEY=value env file holding APP_DOMAIN and APP_DOMAIN_AUX.
+      # KEY=value env file holding APP_DOMAIN, APP_DOMAIN_AUX and ACME_EMAIL.
       environmentFile = config.age.secrets.sat-caddy-env.path;
+      email = "{$ACME_EMAIL}";
 
       # https://caddyserver.com/docs/caddyfile/patterns
       # {
@@ -98,17 +100,37 @@
       #     php_server
       # }
       virtualHosts.app = {
-        hostName = "{$APP_DOMAIN} {$APP_DOMAIN_AUX}";
+        # Trailing ":" gives the placeholder an empty default so a missing
+        # APP_DOMAIN_AUX does not break the site address.
+        hostName = "{$APP_DOMAIN} {$APP_DOMAIN_AUX:}";
         extraConfig = ''
           encode zstd gzip
-          reverse_proxy 127.0.0.1:8000
+
+          header {
+            -Server
+            Strict-Transport-Security "max-age=31536000; includeSubDomains"
+            X-Content-Type-Options nosniff
+            Referrer-Policy strict-origin-when-cross-origin
+          }
+
+          request_body {
+            max_size 25MB
+          }
+
+          reverse_proxy 127.0.0.1:8000 {
+            # Keep retrying briefly while Octane workers reload on deploy.
+            lb_try_duration 5s
+          }
+
+          log
         '';
       };
     };
 
     services.redis.servers.main = {
       enable = true;
-      port = 6379;
+      # Horizon queues live here; RDB snapshots alone can lose recent jobs.
+      appendOnly = true;
     };
 
     # - sat-schedule: redirects all output to /dev/null - you'll never see scheduler errors. At minimum send stderr somewhere useful.
