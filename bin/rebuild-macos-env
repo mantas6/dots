@@ -150,6 +150,7 @@ fn-misc() {
         go install github.com/mantas6/mcal@latest
         go install github.com/mantas6/tg@latest
         go install github.com/mantas6/bh@latest
+        go install github.com/mantas6/sat@latest
     )
 }
 
