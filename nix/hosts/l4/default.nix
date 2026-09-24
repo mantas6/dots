@@ -7,7 +7,7 @@
     modules = [self.modules.nixos."host-l4"];
   };
 
-  flake.modules.nixos."host-l4" = {pkgs, ...}: {
+  flake.modules.nixos."host-l4" = {...}: {
     imports = with self.modules.nixos; [
       base
       base-home
@@ -19,6 +19,7 @@
       services-docker
       containers-memos
       # containers-speedtest
+      services-photosync
       quirks-prevent-sleep
       services-sat-backups
     ];
@@ -30,15 +31,10 @@
 
     services.caddy = {
       enable = true;
-      # user = "mantas";
       virtualHosts = {
         "http://memos".extraConfig = ''
           reverse_proxy http://localhost:5230
         '';
-
-        # "http://nostalgia".extraConfig = ''
-        #   reverse_proxy http://localhost:8077
-        # '';
       };
     };
 
