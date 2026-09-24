@@ -8,7 +8,7 @@
       serviceConfig = {
         Type = "oneshot";
         WorkingDirectory = "/tmp";
-        ExecStart = "${pkgs-unstable.codex}/bin/codex exec --skip-git-repo-check --ephemeral --sandbox read-only hi";
+        ExecStart = "${pkgs-unstable.codex}/bin/codex exec --skip-git-repo-check --ephemeral --sandbox read-only -m gpt-5.6-luna -c model_reasoning_effort=low hi";
 
         TimeoutStartSec = "5min";
         NoNewPrivileges = true;
