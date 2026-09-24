@@ -1,5 +1,5 @@
 let
-  users = with import ./nix/_lib/users.nix; [ix tp];
+  users = builtins.attrValues (import ./nix/_lib/users.nix).primary;
 
   systems = import ./nix/_lib/systems.nix;
 

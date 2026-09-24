@@ -1,6 +1,6 @@
 {...}: {
   flake.modules.nixos.base-home = let
-    keys = with import ../_lib/users.nix; [mbp w];
+    keys = builtins.attrValues (import ../_lib/users.nix).others;
   in {
     users.users = {
       mantas.openssh.authorizedKeys.keys = keys;
