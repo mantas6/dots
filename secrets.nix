@@ -1,8 +1,5 @@
 let
-  users = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA9tV1mcJldS7nCldejKlFBtiL0Zm329wpHeccF8phEw mantas@ix"
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKwmj+D1NO4kg3E6JH4ck0q+C65hTiTh69POfqXMROhF mantas@X13"
-  ];
+  users = builtins.attrValues (import ./nix/_lib/users.nix).primary;
 
   systems = import ./nix/_lib/systems.nix;
 
@@ -15,8 +12,8 @@ in {
     armor = true;
   };
 
-  "${basePath}/sat-base-url-aux.age" = {
-    publicKeys = users ++ allSystems;
+  "${basePath}/sat-caddy-env.age" = {
+    publicKeys = users ++ [systems.sat];
     armor = true;
   };
 

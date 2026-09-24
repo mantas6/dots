@@ -1,5 +1,5 @@
 {...}: {
-  flake.modules.nixos."host-l4" = {
+  flake.modules.nixos."purposes-dashboard" = {
     self,
     config,
     pkgs,
@@ -10,7 +10,7 @@
     age.secrets = {
       sat-base-url.owner = "mantas";
       dashboard-token = {
-        file = ../../_lib/secrets/dashboard-token.age;
+        file = ./../../_lib/secrets/dashboard-token.age;
         owner = "mantas";
       };
     };

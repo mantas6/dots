@@ -16,6 +16,7 @@
       hardware-backlight
       services-auto-brightness-sun
       progs-shell
+      purposes-dashboard
       services-docker
       containers-memos
       # containers-speedtest
