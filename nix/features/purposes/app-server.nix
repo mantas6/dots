@@ -27,11 +27,6 @@
       extraConfig = ''
         memory_limit = 128M
       '';
-      # - opcache.enable=1, opcache.memory_consumption=256, opcache.max_accelerated_files=20000
-      # - upload_max_filesize / post_max_size (defaults are 2M)
-      # - memory_limit (default 128M may be tight)
-      # - expose_php = Off
-      # - realpath_cache_size = 4096K / realpath_cache_ttl = 600
     };
 
     phpEnv = with pkgs; [
@@ -40,17 +35,11 @@
       sqlite
     ];
 
-    # The services have no sandboxing or resource limits:
-    #
-    # - PrivateTmp = true, ProtectSystem = "strict", ProtectHome = "read-only" - basic hardening
-    # - MemoryMax / CPUQuota - prevent runaway processes
-    # - ReadWritePaths to limit filesystem writes to what's needed
-
     defaultServiceConfig = {
       User = userName;
       WorkingDirectory = "/home/${userName}/Sat/current";
       Restart = "always";
-      RestartSec = 1;
+      RestartSec = 2;
 
       NoNewPrivileges = true;
       PrivateTmp = true;
@@ -64,9 +53,15 @@
       serviceConfig = defaultServiceConfig;
 
       wantedBy = ["multi-user.target"];
-      after = ["network-online.target"];
+      after = ["network-online.target" "redis-main.service"];
       wants = ["network-online.target"];
+      requires = ["redis-main.service"];
+      startLimitIntervalSec = 0;
     };
+
+    artisan = pkgs.writeShellScript "artisan" ''
+      exec php artisan "$@"
+    '';
   in {
     age.secrets.sat-caddy-env.file = ./../../_lib/secrets/sat-caddy-env.age;
 
@@ -77,7 +72,7 @@
       ];
 
     networking.firewall = {
-      # enable = true;
+      enable = true;
       allowedTCPPorts = [80 443];
     };
 
@@ -111,11 +106,10 @@
       port = 6379;
     };
 
-    # - sat-schedule: redirects all output to /dev/null - you'll never see scheduler errors. At minimum send stderr somewhere useful.
     systemd.services.sat-schedule =
       defaultServiceOptions
       // {
-        script = "php artisan schedule:run >> /dev/null 2>&1";
+        script = "php artisan schedule:run --no-interaction";
 
         serviceConfig =
           defaultServiceConfig
@@ -130,14 +124,20 @@
         startAt = "minutely";
       };
 
-    # - sat-octane: no ExecReload for graceful worker restart (useful for deploys). Octane supports --max-requests to prevent memory leaks - not set here.
     systemd.services.sat-octane =
       defaultServiceOptions
       // {
-        script = "php artisan octane:start --workers=8";
+        script = "php artisan octane:start --server=roadrunner --host=127.0.0.1 --port=8000 --workers=auto --max-requests=500";
+
+        serviceConfig =
+          defaultServiceConfig
+          // {
+            ExecReload = "${artisan} octane:reload";
+            ExecStop = "${artisan} octane:stop";
+            TimeoutStopSec = "30s";
+          };
       };
 
-    # - sat-horizon: the 3600s stop timeout is good, but there's no ExecStop = php artisan horizon:terminate for graceful shutdown signaling.
     systemd.services.sat-horizon =
       defaultServiceOptions
       // {
@@ -146,6 +146,8 @@
         serviceConfig =
           defaultServiceConfig
           // {
+            ExecStop = "${artisan} horizon:terminate --wait";
+            KillSignal = "SIGTERM";
             TimeoutStopSec = "3600s";
           };
       };
