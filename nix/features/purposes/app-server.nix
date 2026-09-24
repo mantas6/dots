@@ -121,8 +121,6 @@
             # Keep retrying briefly while Octane workers reload on deploy.
             lb_try_duration 5s
           }
-
-          log
         '';
       };
     };
