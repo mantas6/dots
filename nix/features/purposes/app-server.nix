@@ -149,5 +149,59 @@
             TimeoutStopSec = "3600s";
           };
       };
+
+    # Pre-create the backup dir so the unit's ReadWritePaths resolves on first run.
+    systemd.tmpfiles.rules = [
+      "d /home/${userName}/Sat/backups 0700 ${userName} users -"
+    ];
+
+    systemd.services.sat-db-backup = {
+      description = "SQLite backup of the app databases";
+
+      path = [pkgs.sqlite pkgs.coreutils pkgs.findutils];
+
+      script = ''
+        src=/home/${userName}/Sat/storage/db
+        dest=/home/${userName}/Sat/backups
+        stamp=$(date +%F)
+
+        mkdir -p "$dest"
+
+        for db in "$src"/*; do
+          [[ -f $db ]] || continue
+          case $db in *-wal | *-shm | *-journal) continue ;; esac
+          sqlite3 "$db" ".backup '$dest/$(basename "$db").$stamp'"
+        done
+
+        find "$dest" -type f -mtime +14 -delete
+      '';
+
+      serviceConfig = {
+        Type = "oneshot";
+        User = userName;
+        UMask = "0077";
+
+        NoNewPrivileges = true;
+        PrivateTmp = true;
+        PrivateDevices = true;
+        ProtectSystem = "strict";
+        ProtectHome = "read-only";
+        # The db dir is writable so sqlite can create/read WAL sidecar files.
+        ReadWritePaths = [
+          "/home/${userName}/Sat/storage/db"
+          "/home/${userName}/Sat/backups"
+        ];
+        PrivateNetwork = true;
+      };
+    };
+
+    systemd.timers.sat-db-backup = {
+      wantedBy = ["timers.target"];
+      timerConfig = {
+        OnCalendar = "daily";
+        RandomizedDelaySec = "30m";
+        Persistent = true;
+      };
+    };
   };
 }
