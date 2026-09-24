@@ -11,7 +11,7 @@
     imports = with self.modules.nixos; [
       base
       jobs-os-upgrade
-      # purposes-app-server
+      purposes-app-server
     ];
 
     boot.loader.grub.efiSupport = lib.mkForce false;
