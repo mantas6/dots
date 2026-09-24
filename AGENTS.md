@@ -24,3 +24,4 @@ Only read and modify files within this repository. Never read or write files dir
 ## Version Control
 
 - When working on a feature branch, after work is done move back to `main`
+- When working with worktrees: create inside the repo under `.worktrees/<branch-name>` (gitignored): `git worktree add .worktrees/<name> <branch>`.
