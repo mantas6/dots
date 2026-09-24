@@ -68,7 +68,7 @@
       wants = ["network-online.target"];
     };
   in {
-    age.secrets.sat-base-url-aux.file = ./../../_lib/secrets/sat-base-url-aux.age;
+    age.secrets.sat-caddy-env.file = ./../../_lib/secrets/sat-caddy-env.age;
 
     environment.systemPackages =
       phpEnv
@@ -81,26 +81,10 @@
       allowedTCPPorts = [80 443];
     };
 
-    # Caddy's environmentFile needs KEY=value, but the secret holds a pure,
-    # reusable URL (e.g. https://abc.com). Convert it before Caddy starts.
-    systemd.services.caddy-env = {
-      before = ["caddy.service"];
-      requiredBy = ["caddy.service"];
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-        RuntimeDirectory = "caddy-env";
-        LoadCredential = "app-domain:${config.age.secrets.sat-base-url-aux.path}";
-      };
-      script = ''
-        printf 'APP_DOMAIN=%s\n' "$(cat "$CREDENTIALS_DIRECTORY/app-domain")" \
-          > /run/caddy-env/app.env
-      '';
-    };
-
     services.caddy = {
       enable = true;
-      environmentFile = "/run/caddy-env/app.env";
+      # KEY=value env file holding APP_DOMAIN and APP_DOMAIN_AUX.
+      environmentFile = config.age.secrets.sat-caddy-env.path;
 
       # https://caddyserver.com/docs/caddyfile/patterns
       # {
@@ -114,7 +98,7 @@
       #     php_server
       # }
       virtualHosts.app = {
-        hostName = "{$APP_DOMAIN}";
+        hostName = "{$APP_DOMAIN} {$APP_DOMAIN_AUX}";
         extraConfig = ''
           encode zstd gzip
           reverse_proxy 127.0.0.1:8000
