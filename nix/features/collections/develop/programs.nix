@@ -100,7 +100,6 @@
 
         opencode
         codex
-        t3code
         pkgs-unstable-unfree.claude-code
         pkgs.chromium
 
