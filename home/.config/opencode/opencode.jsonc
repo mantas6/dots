@@ -9,9 +9,9 @@
   // "model": "anthropic/claude-opus-4-7",
   "plugin": [
     // https://github.com/griffinmartin/opencode-claude-auth
-    "opencode-claude-auth@v2.2.0"
+    "opencode-claude-auth@v2.2.1"
     // https://github.com/ex-machina-co/opencode-anthropic-auth
-    // "@ex-machina/opencode-anthropic-auth@1.6.1"
+    // "@ex-machina/opencode-anthropic-auth@1.8.5"
   ],
   "permission": {
     "read": {
@@ -73,7 +73,7 @@
       "type": "local",
       "command": [
         "npx",
-        "@playwright/mcp@0.0.78",
+        "@playwright/mcp@0.0.82",
         "--headless"
       ]
     },
@@ -83,7 +83,7 @@
       "command": [
         "npx",
         "-y",
-        "chrome-devtools-mcp@1.6.0"
+        "chrome-devtools-mcp@1.10.1"
       ]
     }
   }
