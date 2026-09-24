@@ -1,5 +1,5 @@
 {...}: {
-  flake.modules.nixos."services-t3code" = {
+  flake.modules.nixos."agents-t3code" = {
     lib,
     config,
     pkgs-unstable,

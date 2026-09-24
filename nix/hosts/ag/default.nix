@@ -20,8 +20,8 @@
       collections-develop
       progs-shell
       services-docker
-      services-t3code
       agents-claude-timer
+      agents-t3code
     ];
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
