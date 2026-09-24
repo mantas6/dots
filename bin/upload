@@ -26,5 +26,5 @@ fi
 rsync -RPrzcav --keep-dirlinks "${files[@]}" "$host:$REMOTE_ROOT"
 
 if [ -f artisan ]; then
-    ssh "$host" "(cd '$REMOTE_ROOT' && php cachetool.phar opcache:reset --cli; php artisan horizon:terminate; php artisan optimize)"
+    ssh "$host" "(cd '$REMOTE_ROOT' && php artisan optimize && php artisan horizon:terminate && php artisan octane:reload)"
 fi
