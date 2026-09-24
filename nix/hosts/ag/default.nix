@@ -21,6 +21,7 @@
       progs-shell
       services-docker
       agents-claude-timer
+      agents-codex-timer
       agents-t3code
     ];
 
