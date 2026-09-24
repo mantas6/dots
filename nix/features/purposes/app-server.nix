@@ -7,31 +7,33 @@
     userName = "mantas";
 
     phpConfigured = pkgs.php85.buildEnv {
+      # pdo, pdo_sqlite, mbstring, bcmath, curl, zip, intl, pcntl, posix are
+      # already part of the default extension set.
       extensions = {
         enabled,
         all,
       }:
         enabled
         ++ (with all; [
-          pdo
-          # pdo_mysql
-          pdo_sqlite
-          mbstring
-          # xml
-          bcmath
-          curl
-          zip
-          intl
+          redis
         ]);
 
       extraConfig = ''
-        memory_limit = 128M
+        memory_limit = 256M
+        expose_php = Off
+        display_errors = Off
+        log_errors = On
+
+        opcache.enable = 1
+        opcache.enable_cli = 1
+        opcache.validate_timestamps = 0
+        opcache.memory_consumption = 256
+        opcache.interned_strings_buffer = 16
+        opcache.max_accelerated_files = 20000
+
+        realpath_cache_size = 4096K
+        realpath_cache_ttl = 600
       '';
-      # - opcache.enable=1, opcache.memory_consumption=256, opcache.max_accelerated_files=20000
-      # - upload_max_filesize / post_max_size (defaults are 2M)
-      # - memory_limit (default 128M may be tight)
-      # - expose_php = Off
-      # - realpath_cache_size = 4096K / realpath_cache_ttl = 600
     };
 
     phpEnv = with pkgs; [
