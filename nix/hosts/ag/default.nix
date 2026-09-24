@@ -20,6 +20,7 @@
       collections-develop
       progs-shell
       services-docker
+      services-t3code
       agents-claude-timer
     ];
 
