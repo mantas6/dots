@@ -16,7 +16,7 @@ set -e
 file_output=$(echo "$files" | xargs file -E --mime)
 
 set +e
-matches=$(echo "$file_output" | grep 'charset=binary' | grep -v 'inode/x-empty')
+matches=$(echo "$file_output" | grep 'charset=binary' | grep -Ev 'inode/x-empty|inode/symlink')
 set -e
 
 if [ -n "$matches" ]; then
