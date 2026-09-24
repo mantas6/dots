@@ -40,20 +40,35 @@
       sqlite
     ];
 
-    # The services have no sandboxing or resource limits:
-    #
-    # - PrivateTmp = true, ProtectSystem = "strict", ProtectHome = "read-only" - basic hardening
-    # - MemoryMax / CPUQuota - prevent runaway processes
-    # - ReadWritePaths to limit filesystem writes to what's needed
+    appRoot = "/home/${userName}/Sat";
 
     defaultServiceConfig = {
       User = userName;
-      WorkingDirectory = "/home/${userName}/Sat/current";
+      WorkingDirectory = "${appRoot}/current";
       Restart = "always";
       RestartSec = 1;
 
       NoNewPrivileges = true;
       PrivateTmp = true;
+      PrivateDevices = true;
+      ProtectSystem = "strict";
+      # The app lives in $HOME; releases are read-only, writes go to the
+      # shared storage dir and the current release's bootstrap cache.
+      ProtectHome = "read-only";
+      ReadWritePaths = [
+        "${appRoot}/storage"
+        "${appRoot}/current/bootstrap/cache"
+      ];
+      ProtectKernelTunables = true;
+      ProtectKernelModules = true;
+      ProtectControlGroups = true;
+      RestrictAddressFamilies = ["AF_UNIX" "AF_INET" "AF_INET6"];
+      RestrictSUIDSGID = true;
+      LockPersonality = true;
+      UMask = "0027";
+
+      LimitNOFILE = 65536;
+      TasksMax = 4096;
     };
 
     defaultServiceOptions = {
@@ -122,6 +137,7 @@
           // {
             Type = "oneshot";
             Restart = "no";
+            MemoryMax = "512M";
           };
 
         restartIfChanged = false;
@@ -135,6 +151,8 @@
       defaultServiceOptions
       // {
         script = "php artisan octane:start --workers=8";
+
+        serviceConfig = defaultServiceConfig // {MemoryMax = "1G";};
       };
 
     # - sat-horizon: the 3600s stop timeout is good, but there's no ExecStop = php artisan horizon:terminate for graceful shutdown signaling.
@@ -147,6 +165,7 @@
           defaultServiceConfig
           // {
             TimeoutStopSec = "3600s";
+            MemoryMax = "1G";
           };
       };
   };
