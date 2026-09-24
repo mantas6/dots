@@ -1,6 +1,5 @@
 {...}: {
   flake.modules.nixos.base = {
-    self,
     pkgs,
     pkgs-unstable,
     ...
@@ -16,7 +15,6 @@
       ])
       ++ [
         pkgs-unstable.neovim
-        self.packages.${pkgs.stdenv.hostPlatform.system}.sat
       ];
   };
 }
