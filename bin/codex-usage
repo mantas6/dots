@@ -1,0 +1,112 @@
+#!/usr/bin/env sh
+# Show Codex (ChatGPT) usage limits for the session and weekly windows
+
+set -e
+
+api_url="https://chatgpt.com/backend-api/wham/usage"
+auth_file="${CODEX_HOME:-$HOME/.codex}/auth.json"
+
+die() {
+    printf '%s\n' "$1" >&2
+    exit 1
+}
+
+# Decode a JWT payload (base64url) and emit its JSON.
+decode_jwt() {
+    payload=$(printf '%s' "$1" | cut -d. -f2)
+    case $((${#payload} % 4)) in
+        2) payload="${payload}==" ;;
+        3) payload="${payload}=" ;;
+    esac
+    printf '%s' "$payload" | tr '_-' '/+' | base64 -d 2>/dev/null
+}
+
+resolve_token() {
+    [ -n "$CODEX_ACCESS_TOKEN" ] && printf '%s' "$CODEX_ACCESS_TOKEN" && return 0
+    [ -r "$auth_file" ] && jq -er '.tokens.access_token' "$auth_file" && return 0
+    return 1
+}
+
+resolve_account() {
+    [ -n "$CODEX_ACCOUNT_ID" ] && printf '%s' "$CODEX_ACCOUNT_ID" && return 0
+
+    if [ -r "$auth_file" ]; then
+        acc=$(jq -er '.tokens.account_id' "$auth_file" 2>/dev/null) && [ -n "$acc" ] \
+            && printf '%s' "$acc" && return 0
+
+        id_token=$(jq -er '.tokens.id_token' "$auth_file" 2>/dev/null) || return 1
+        decode_jwt "$id_token" \
+            | jq -er '."https://api.openai.com/auth".chatgpt_account_id' && return 0
+    fi
+
+    return 1
+}
+
+fetch_usage() {
+    curl -sS -w '\n%{http_code}' \
+        --connect-timeout 5 \
+        --max-time 15 \
+        -H "Authorization: Bearer $1" \
+        -H "ChatGPT-Account-Id: $2" \
+        -H 'User-Agent: codex-cli' \
+        "$api_url"
+}
+
+format_usage() {
+    jq -r '
+        def reset($fmt):
+            if . == null then "unknown"
+            else (try (strflocaltime($fmt)) catch "unknown")
+            end;
+
+        def pad($n): . + (" " * ($n - length));
+
+        def remaining($secs):
+            if $secs == null then ""
+            elif $secs <= 0 then " (resetting)"
+            else " (" + (($secs / 3600) | floor | tostring) + "h "
+                + ((($secs % 3600) / 60) | floor | tostring) + "m left)"
+            end;
+
+        def row($label; $window; $fmt; $rem):
+            ($label | pad(9))
+            + (if $window == null then "-"
+                else "\($window.used_percent | round)%" end | pad(5))
+            + "resets " + ((if $window then $window.reset_at else null end) | reset($fmt))
+            + (if $rem and $window then remaining($window.reset_after_seconds) else "" end);
+
+        (.rate_limit // {}) as $rl
+        | row("Session"; $rl.primary_window; "%H:%M"; true),
+        row("Week"; $rl.secondary_window; "%a %H:%M"; false),
+        (if .plan_type then "plan      " + .plan_type else empty end)
+    '
+}
+
+case "$1" in
+    -r | --raw) raw=true ;;
+    -h | --help)
+        printf 'usage: %s [-r|--raw]\n' "$(basename "$0")"
+        exit 0
+        ;;
+    "") raw=false ;;
+    *) die "unknown option: $1" ;;
+esac
+
+token=$(resolve_token) || die "no credentials found - run 'codex login' to sign in"
+account=$(resolve_account) || die "no account id found - run 'codex login' to sign in"
+response=$(fetch_usage "$token" "$account") || die "request failed"
+
+code=$(printf '%s' "$response" | tail -n 1)
+body=$(printf '%s' "$response" | sed '$d')
+
+case "$code" in
+    200) ;;
+    401) die "token expired - run 'codex login' to refresh" ;;
+    *) die "request failed: HTTP $code" ;;
+esac
+
+if $raw; then
+    printf '%s' "$body" | jq .
+else
+    printf '%s' "$body" | format_usage
+fi

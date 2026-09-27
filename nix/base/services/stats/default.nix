@@ -11,7 +11,7 @@
 
     sendMachineStats = pkgs.writeShellApplication {
       name = "send-machine-stats";
-      runtimeInputs = [pkgs.fastfetch pkgs.curl];
+      runtimeInputs = [pkgs.fastfetch pkgs.curl pkgs.systemd pkgs.gnugrep];
       text =
         /*
         bash
@@ -40,12 +40,15 @@
         description = "Send machine statistics";
         after = ["network-online.target"];
         wants = ["network-online.target"];
+
         environment = {
           MACHINE_NAME = config.networking.hostName;
         };
+
         serviceConfig = {
           Type = "oneshot";
           DynamicUser = true;
+          SupplementaryGroups = ["systemd-journal"];
           LoadCredential = "sat-base-url:${config.age.secrets.sat-base-url.path}";
           ExecStart = "${sendMachineStats}/bin/send-machine-stats";
         };
@@ -53,6 +56,7 @@
 
       systemd.timers.send-machine-stats = {
         wantedBy = ["timers.target"];
+
         timerConfig = {
           OnBootSec = "10s";
           OnUnitActiveSec = "1min";

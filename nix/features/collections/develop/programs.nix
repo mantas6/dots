@@ -1,5 +1,6 @@
 {...}: {
   flake.modules.nixos."collections-develop" = {
+    self,
     pkgs,
     pkgs-unstable,
     lib,
@@ -47,7 +48,6 @@
     };
 
     environment.variables = {
-      EDITOR = lib.mkDefault "${pkgs-unstable.neovim}/bin/vim";
       PLAYWRIGHT_MCP_EXECUTABLE_PATH = "${pkgs.chromium}/bin/chromium";
     };
 
@@ -56,74 +56,79 @@
       port = 6379;
     };
 
-    environment.systemPackages = with pkgs-unstable; [
-      neovim
-      tmux
+    environment.systemPackages = with pkgs-unstable;
+      [
+        tmux
+        herdr
 
-      phpConfigured
-      phpConfigured.packages.composer
-      sqlite
+        phpConfigured
+        phpConfigured.packages.composer
+        sqlite
 
-      nodejs_24
-      go
-      gcc
-      lua51Packages.lua
-      lua51Packages.luarocks
+        nodejs_24
+        go
+        gcc
+        lua51Packages.lua
+        lua51Packages.luarocks
 
-      # Art
-      python313
-      python313Packages.pip
-      uv
-      imagemagick
-      exiftool
-      ffmpeg
+        # Art
+        python313
+        python313Packages.pip
+        uv
+        imagemagick
+        exiftool
+        ffmpeg
 
-      shellcheck
-      shfmt
-      prettier
-      stylua
-      taplo
-      tree-sitter
+        shellcheck
+        shfmt
+        prettier
+        stylua
+        taplo
+        tree-sitter
 
-      pandoc
-      ripgrep
-      fd
-      entr
+        pandoc
+        ripgrep
+        fd
+        entr
 
-      lazygit
-      # diffnav
-      lazydocker
-      xh
-      pastel
-      onefetch
+        lazygit
+        # diffnav
+        lazydocker
+        xh
+        pastel
+        onefetch
 
-      opencode
-      pkgs-unstable-unfree.claude-code
-      pkgs.chromium
+        opencode
+        codex
+        pkgs-unstable-unfree.claude-code
+        pkgs.chromium
 
-      gnumake
-      gitleaks
-      openssl
-      parallel
-      speedtest-cli
+        gnumake
+        gitleaks
+        openssl
+        parallel
+        speedtest-cli
 
-      # LSP servers
-      nixd
-      gopls
-      pyright
-      lua-language-server
-      pkgs-unstable-unfree.intelephense
-      # phpactor
-      bash-language-server
-      typescript-language-server
-      dockerfile-language-server
-      vscode-langservers-extracted
-      # clang-tools
+        # LSP servers
+        nixd
+        gopls
+        pyright
+        lua-language-server
+        pkgs-unstable-unfree.intelephense
+        # phpactor
+        bash-language-server
+        typescript-language-server
+        dockerfile-language-server
+        vscode-langservers-extracted
+        # clang-tools
 
-      alejandra
-      # deadnix
+        alejandra
+        # deadnix
 
-      agenix
-    ];
+        agenix
+      ]
+      ++ [
+        self.packages.${pkgs.stdenv.hostPlatform.system}.bh
+      ];
   };
 }

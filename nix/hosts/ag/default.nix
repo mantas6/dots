@@ -20,14 +20,15 @@
       collections-develop
       progs-shell
       services-docker
-      services-claude-timer
+      agents-claude-timer
+      agents-t3code
     ];
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 
-    features.wakeOnLanAdapterMAC = "a8:2b:dd:4e:10:2e";
+    users.users.mantas.hashedPassword = "$y$j9T$Is9kgYLgnNB0KU58g9Xnb.$FavpbfQrGhGZEpKpEBqC0OTaL9DzEzJfoBaoF9a9Fx3";
 
-    features.swapSizeInGB = 2;
+    features.wakeOnLanAdapterMAC = "a8:2b:dd:4e:10:2e";
 
     networking.hostName = "ag";
 

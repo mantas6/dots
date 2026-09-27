@@ -1,0 +1,65 @@
+onboarding = false
+
+[theme]
+name = "tokyo-night"
+auto_switch = false
+
+[keys]
+# tmux: set -g prefix C-Space
+prefix = "ctrl+space"
+
+# Tabs (tmux windows)
+new_tab = "prefix+c"                 # tmux: bind c new-window
+previous_tab = "prefix+p"            # tmux: bind C-p previous-window
+next_tab = "prefix+n"                # tmux: bind C-n next-window
+move_tab_previous = "prefix+shift+k" # tmux: bind K swap-window -d -t -1
+move_tab_next = "prefix+shift+j"     # tmux: bind J swap-window -d -t +1
+reload_config = "prefix+shift+r"     # tmux: bind R source-file
+
+# Panes
+focus_pane_left = "prefix+h"         # tmux: bind h select-pane -L
+focus_pane_down = "prefix+j"         # tmux: bind j select-pane -D
+focus_pane_up = "prefix+k"           # tmux: bind k select-pane -U
+focus_pane_right = "prefix+l"        # tmux: bind l select-pane -R
+split_horizontal = "prefix+minus"    # tmux: bind '"' split-window -v
+split_vertical = "prefix+v"          # tmux: bind % split-window -h
+zoom = "prefix+z"                    # tmux default resize-pane -Z (z is respawn-window in tmux.conf)
+
+# Workspaces (tmux sessions)
+workspace_picker = "prefix+e"        # tmux: bind e run-shell 'e'
+detach = "prefix+d"
+
+# prefix+e default was edit_scrollback; freed for workspace_picker
+edit_scrollback = ""
+
+[[keys.command]]
+key = "prefix+shift+s"               # tmux: bind S run-shell 'open-repo'
+type = "shell"
+command = "open-repo"
+
+[terminal]
+new_cwd = "follow"
+
+[ui]
+tab_bar_position = "top"
+window_title = "{workspace}"
+prompt_new_tab_name = false
+mouse_capture = true
+copy_on_select = true
+pane_gaps = false
+pane_scrollbars = false
+pane_outer_borders = false
+pane_borders = "auto"
+accent = "blue"
+status_indicators = "dots"
+hide_tab_bar_when_single_tab = true
+sidebar_collapsed_mode = "hidden"
+
+[ui.sidebar.spaces]
+rows = [["state_icon", "workspace"], ["branch", "git_status"]]
+
+[ui.sound]
+enabled = true
+
+[advanced]
+scrollback_limit_bytes = 10000000

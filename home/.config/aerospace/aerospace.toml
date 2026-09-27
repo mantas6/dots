@@ -34,7 +34,7 @@ automatically-unhide-macos-hidden-apps = true
     inherit-env-vars = true
 
 [exec.env-vars]
-    PATH = '${HOME}/.local/bin:${HOME}/.local/sbin:${PATH}:${HOME}/.local/brew/bin'
+    PATH = '${HOME}/.local/bin:${HOME}/.dots/bin:${HOME}/.dots/opt/sat/bin:${PATH}:${HOME}/.local/brew/bin'
 
 [key-mapping]
     preset = 'qwerty'

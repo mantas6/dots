@@ -1,8 +1,0 @@
-#!/usr/bin/env sh
-# Run program in user env
-
-export DOTS_DIR="$HOME/.dots"
-
-export PATH="$PATH:$HOME/.local/sbin"
-
-exec "$@"

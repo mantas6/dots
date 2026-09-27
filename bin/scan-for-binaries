@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Check for binaries files in repo changes before committing
+
+set -eo 'pipefail'
+
+cd "$(git rev-parse --show-toplevel)"
+
+set +e
+files=$(git status --porcelain --no-renames --untracked-files=all | grep -Ev '^ D|^D' | cut -c4-)
+set -e
+# files=$(git ls-files --others --cached --exclude-standard)
+
+[ -z "$files" ] && exit 0
+
+# will xargs fail if file cmd fails?
+file_output=$(echo "$files" | xargs file -E --mime)
+
+set +e
+matches=$(echo "$file_output" | grep 'charset=binary' | grep -Ev 'inode/x-empty|inode/symlink')
+set -e
+
+if [ -n "$matches" ]; then
+    gum log --level=error 'Binary files detected'
+    echo "$matches"
+    exit 1
+fi
+
+gum log --level=info 'No binary files detected'
+
+exit 0

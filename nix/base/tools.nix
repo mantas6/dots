@@ -1,13 +1,20 @@
 {...}: {
-  flake.modules.nixos.base = {pkgs, ...}: {
-    environment.systemPackages = with pkgs; [
-      vim
-      wget
-      curl
-      unzip
-      htop
-      file
-      killall
-    ];
+  flake.modules.nixos.base = {
+    pkgs,
+    pkgs-unstable,
+    ...
+  }: {
+    environment.systemPackages =
+      (with pkgs; [
+        wget
+        curl
+        unzip
+        htop
+        file
+        killall
+      ])
+      ++ [
+        pkgs-unstable.neovim
+      ];
   };
 }

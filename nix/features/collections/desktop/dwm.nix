@@ -20,6 +20,7 @@
             ./dwm/patches/center.diff
             ./dwm/patches/restartsig.diff
             ./dwm/patches/title-nocolor.diff
+            ./dwm/patches/click-to-focus.diff
           ];
         })
         .overrideAttrs (_: {

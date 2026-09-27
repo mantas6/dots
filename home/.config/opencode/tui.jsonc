@@ -16,5 +16,6 @@
     "history_next": "ctrl+n",
     "command_list": "<leader>p",
     "input_delete": "delete,shift+delete"
-  }
+  },
+  "plugin": ["./herdr-tui-session.js"]
 }

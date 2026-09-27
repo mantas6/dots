@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+timeout=0
+
+[ -n "$1" ] && [ "$1" = '-f' ] && timeout="${2:-5}"
+
+last_checksum=''
+text=''
+exit_code=0
+
+cleanup() {
+    tput smam 2>/dev/null
+    tput cnorm 2>/dev/null
+    tput rmcup 2>/dev/null
+}
+
+if [ "$timeout" != 0 ]; then
+    trap cleanup EXIT
+
+    tput smcup 2>/dev/null
+    tput civis 2>/dev/null
+    tput rmam 2>/dev/null
+fi
+
+while true; do
+    received=$(
+        curl -sSf \
+            --max-time 10 \
+            -H "$(sat-auth-header)" \
+            "$(sat-base-url)/api/dash" \
+            2>/dev/null
+    )
+
+    exit_code=$?
+
+    checksum=$(echo "$received" | md5sum)
+
+    if [ "$checksum" != "$last_checksum" ]; then
+        [ -n "$received" ] && text="$received"
+
+        clear
+        echo "$text"
+
+        [ "$exit_code" != 0 ] && echo -e '\e[41;97m <!> \e[0m'
+
+        last_checksum="$checksum"
+    fi
+
+    ([ "$timeout" != 0 ] && sleep "$timeout") || exit 0
+done

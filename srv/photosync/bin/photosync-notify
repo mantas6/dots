@@ -4,4 +4,4 @@ message="$1"
 
 echo "$message"
 
-sat-notify "$message"
+sat notify "$message"

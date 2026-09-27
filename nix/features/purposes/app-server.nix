@@ -1,5 +1,9 @@
 {...}: {
-  flake.modules.nixos."purposes-app-server" = {pkgs, ...}: let
+  flake.modules.nixos."purposes-app-server" = {
+    config,
+    pkgs,
+    ...
+  }: let
     userName = "mantas";
 
     phpConfigured = pkgs.php85.buildEnv {
@@ -64,6 +68,8 @@
       wants = ["network-online.target"];
     };
   in {
+    age.secrets.sat-caddy-env.file = ./../../_lib/secrets/sat-caddy-env.age;
+
     environment.systemPackages =
       phpEnv
       ++ [
@@ -72,13 +78,13 @@
 
     networking.firewall = {
       # enable = true;
-      allowedTCPPorts = [22 80 443];
+      allowedTCPPorts = [80 443];
     };
 
     services.caddy = {
       enable = true;
-      # Runtime-only hostname secret, e.g. APP_DOMAIN=example.com
-      # environmentFile = "/var/lib/secrets/caddy.env";
+      # KEY=value env file holding APP_DOMAIN and APP_DOMAIN_AUX.
+      environmentFile = config.age.secrets.sat-caddy-env.path;
 
       # https://caddyserver.com/docs/caddyfile/patterns
       # {
@@ -92,8 +98,7 @@
       #     php_server
       # }
       virtualHosts.app = {
-        hostName = "http://ag";
-        # hostName = "{$APP_DOMAIN}";
+        hostName = "{$APP_DOMAIN} {$APP_DOMAIN_AUX}";
         extraConfig = ''
           encode zstd gzip
           reverse_proxy 127.0.0.1:8000
