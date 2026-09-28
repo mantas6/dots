@@ -10,6 +10,7 @@
   flake.modules.nixos."host-sat" = {lib, ...}: {
     imports = with self.modules.nixos; [
       base
+      disks-mbr
       jobs-os-upgrade
       purposes-app-server
     ];
