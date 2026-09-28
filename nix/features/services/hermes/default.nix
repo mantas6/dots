@@ -61,7 +61,6 @@
         imagemagick
         exiftool
         ffmpeg
-        imagemagick
 
         python313Packages.edge-tts
         openai-whisper
