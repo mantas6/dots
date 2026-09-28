@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Build all Go apps
 
+set -e
+
 [[ ! -x "$(command -v go)" ]] && exit 0
 
 for modFile in "$DOTS_DIR"/opt/*/go.mod; do
