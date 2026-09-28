@@ -29,14 +29,27 @@ if [ -z "$(git status --porcelain)" ]; then
     exit 0
 fi
 
-if $add; then
-    git add .
+show_staged() {
+    echo
+    git diff --staged
+    git status --short --branch
+    echo
+}
+
+shown=false
+
+if $add && ! git diff --cached --quiet; then
+    if ! git diff --quiet || [ -n "$(git ls-files --others --exclude-standard)" ]; then
+        show_staged
+        read -rp 'Commit only staged changes? [Y/n] ' reply
+        [[ $reply =~ ^[Nn] ]] && exit 0
+        add=false
+        shown=true
+    fi
 fi
 
-echo
-git diff --staged
-git status --short --branch
-echo
+$add && git add .
+$shown || show_staged
 
 msg=$(gum write --show-line-numbers --height=5 --placeholder 'Commit message' --value="$last_msg")
 
