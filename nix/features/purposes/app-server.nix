@@ -132,6 +132,7 @@
         serviceConfig =
           defaultServiceConfig
           // {
+            # Workers keep the release path resolved at start; deploys switching `current` need a restart.
             ExecReload = "${artisan} octane:reload";
             ExecStop = "${artisan} octane:stop";
             TimeoutStopSec = "30s";
