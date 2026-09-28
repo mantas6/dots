@@ -16,4 +16,4 @@ fi
 token=$(gum input --placeholder 'Token' --no-show-help)
 echo "$token" >"$state/token"
 
-gum log --level info 'Token added successfuly'
+gum log --level info 'Token added successfully'

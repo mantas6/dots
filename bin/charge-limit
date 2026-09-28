@@ -15,7 +15,7 @@ set-limit() {
 
 show-usage() {
     cat <<EOF
-Usage: battery-limit [ACTION] [MIN-THRESHOLD?] [MAX-THRESHOLD?]
+Usage: charge-limit [ACTION] [MIN-THRESHOLD?] [MAX-THRESHOLD?]
 
 Options:
     -h, --help     print this message
