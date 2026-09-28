@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# Build all Go apps in opt (except wolf) into ~/.local/bin
+# Build all Go apps
 
 [[ ! -x "$(command -v go)" ]] && exit 0
 
 for modFile in "$DOTS_DIR"/opt/*/go.mod; do
     appDir="$(dirname "$modFile")"
     app="$(basename "$appDir")"
+
     [[ "$app" == wolf ]] && continue
-    echo "Building $app"
+
     (cd "$appDir" && go build -o "$HOME/.local/bin/$app")
 done
