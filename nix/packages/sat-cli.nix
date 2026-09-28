@@ -1,11 +1,10 @@
-{...}: {
+{inputs, ...}: {
   perSystem = {
     pkgs,
     inputs',
     ...
   }: let
-    rev = "be83b8d4387bd7cbd2a862ca3d182b4ad8fe15f9";
-    shortRev = builtins.substring 0 7 rev;
+    inherit (inputs.sat-cli) shortRev;
     # sat-cli's go.mod requires go 1.26.7, which nixpkgs-unstable provides.
     goPkgs = inputs'.nixpkgs-unstable.legacyPackages;
   in {
@@ -13,13 +12,9 @@
       pname = "sat";
       version = "0-unstable-${shortRev}";
 
-      src = pkgs.fetchFromGitHub {
-        owner = "mantas6";
-        repo = "sat-cli";
-        inherit rev;
-        hash = "sha256-h5prRHvHqCW/OSfGseSCy9hpVIkS/Q5vVlzDxR9pZwE=";
-      };
+      src = inputs.sat-cli;
 
+      # Must be bumped manually if go.mod/go.sum change upstream after `nix flake update`.
       vendorHash = "sha256-KMunnWdq9rOMxBzEzNUiKzXY5AfEDxuuSjc/LrWTchE=";
 
       ldflags = ["-X main.version=${shortRev}"];

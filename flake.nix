@@ -18,6 +18,16 @@
 
     hermes-agent.url = "github:NousResearch/hermes-agent";
 
+    sat-cli = {
+      url = "github:mantas6/sat-cli";
+      flake = false;
+    };
+
+    bh = {
+      url = "github:mantas6/bh";
+      flake = false;
+    };
+
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
   };

@@ -23,6 +23,22 @@
         "type": "github"
       }
     },
+    "bh": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789042634,
+        "narHash": "sha256-tFTELr728EXK27RArz6XMIa4sInmne2ib813gdv4SaU=",
+        "owner": "mantas6",
+        "repo": "bh",
+        "rev": "c3eb04cb615dceb1f51ac5b2572d4070dc994249",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mantas6",
+        "repo": "bh",
+        "type": "github"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -334,13 +350,31 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "bh": "bh",
         "disko": "disko",
         "flake-parts": "flake-parts",
         "hermes-agent": "hermes-agent",
         "import-tree": "import-tree",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-go": "nixpkgs-go",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "sat-cli": "sat-cli"
+      }
+    },
+    "sat-cli": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790231889,
+        "narHash": "sha256-h5prRHvHqCW/OSfGseSCy9hpVIkS/Q5vVlzDxR9pZwE=",
+        "owner": "mantas6",
+        "repo": "sat-cli",
+        "rev": "be83b8d4387bd7cbd2a862ca3d182b4ad8fe15f9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mantas6",
+        "repo": "sat-cli",
+        "type": "github"
       }
     },
     "systems": {
