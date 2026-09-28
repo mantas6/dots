@@ -44,7 +44,7 @@
       User = userName;
       WorkingDirectory = "${appRoot}/current";
       Restart = "always";
-      RestartSec = 1;
+      RestartSec = 2;
 
       NoNewPrivileges = true;
       PrivateTmp = true;
@@ -67,6 +67,9 @@
 
       LimitNOFILE = 65536;
       TasksMax = 4096;
+
+      # Shared writable state outside the app, at /var/lib/sat.
+      StateDirectory = "sat";
     };
 
     defaultServiceOptions = {
@@ -77,9 +80,14 @@
       serviceConfig = defaultServiceConfig;
 
       wantedBy = ["multi-user.target"];
-      after = ["network-online.target"];
-      wants = ["network-online.target"];
+      after = ["network-online.target" "redis-main.service"];
+      wants = ["network-online.target" "redis-main.service"];
+      startLimitIntervalSec = 0;
     };
+
+    artisan = pkgs.writeShellScript "artisan" ''
+      exec php artisan "$@"
+    '';
   in {
     age.secrets.sat-caddy-env.file = ./../../_lib/secrets/sat-caddy-env.age;
 
@@ -126,11 +134,10 @@
       appendOnly = true;
     };
 
-    # - sat-schedule: redirects all output to /dev/null - you'll never see scheduler errors. At minimum send stderr somewhere useful.
     systemd.services.sat-schedule =
       defaultServiceOptions
       // {
-        script = "php artisan schedule:run >> /dev/null 2>&1";
+        script = "php artisan schedule:run --no-interaction";
 
         serviceConfig =
           defaultServiceConfig
@@ -145,14 +152,27 @@
         startAt = "minutely";
       };
 
-    # - sat-octane: no ExecReload for graceful worker restart (useful for deploys). Octane supports --max-requests to prevent memory leaks - not set here.
     systemd.services.sat-octane =
       defaultServiceOptions
       // {
-        script = "php artisan octane:start --workers=8";
+        # The admin port is moved off 2019, which the system Caddy already uses.
+        script = "php artisan octane:start --server=frankenphp --host=127.0.0.1 --port=8000 --admin-port=2020 --workers=auto --max-requests=500";
+
+        # FrankenPHP's embedded Caddy keeps its config and data outside the read-only home.
+        environment = {
+          XDG_CONFIG_HOME = "/var/lib/sat";
+          XDG_DATA_HOME = "/var/lib/sat";
+        };
+
+        serviceConfig =
+          defaultServiceConfig
+          // {
+            # Workers keep the release path resolved at start; deploys switching `current` need a restart.
+            ExecReload = "${artisan} octane:reload";
+            TimeoutStopSec = "30s";
+          };
       };
 
-    # - sat-horizon: the 3600s stop timeout is good, but there's no ExecStop = php artisan horizon:terminate for graceful shutdown signaling.
     systemd.services.sat-horizon =
       defaultServiceOptions
       // {
