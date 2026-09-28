@@ -54,8 +54,7 @@
 
       wantedBy = ["multi-user.target"];
       after = ["network-online.target" "redis-main.service"];
-      wants = ["network-online.target"];
-      requires = ["redis-main.service"];
+      wants = ["network-online.target" "redis-main.service"];
       startLimitIntervalSec = 0;
     };
 
@@ -134,7 +133,6 @@
           // {
             # Workers keep the release path resolved at start; deploys switching `current` need a restart.
             ExecReload = "${artisan} octane:reload";
-            ExecStop = "${artisan} octane:stop";
             TimeoutStopSec = "30s";
           };
       };
@@ -147,8 +145,6 @@
         serviceConfig =
           defaultServiceConfig
           // {
-            ExecStop = "${artisan} horizon:terminate --wait";
-            KillSignal = "SIGTERM";
             TimeoutStopSec = "3600s";
           };
       };
