@@ -28,7 +28,7 @@
     };
 
     systemd.user.timers.claude-timer = {
-      description = "Run claude -p hi at 06:00 and 12:00";
+      description = "Run claude -p hi at 05:00 and 10:15";
       wantedBy = ["timers.target"];
       timerConfig = {
         OnCalendar = ["*-*-* 05:00:00" "*-*-* 10:15:00"];

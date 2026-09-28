@@ -7,26 +7,29 @@
     userName = "mantas";
 
     phpConfigured = pkgs.php85.buildEnv {
+      # pdo, pdo_sqlite, mbstring, bcmath, curl, zip, intl, pcntl, posix are
+      # already part of the default extension set.
       extensions = {
         enabled,
         all,
       }:
         enabled
         ++ (with all; [
-          pdo
-          # pdo_mysql
-          pdo_sqlite
-          mbstring
-          # xml
-          bcmath
-          curl
-          zip
-          intl
+          redis
         ]);
 
       extraConfig = ''
         memory_limit = 128M
+        expose_php = Off
+        display_errors = Off
+        log_errors = On
+
+        realpath_cache_size = 4096K
+        realpath_cache_ttl = 600
       '';
+      # - opcache.enable=1, opcache.memory_consumption=256, opcache.max_accelerated_files=20000
+      # - upload_max_filesize / post_max_size (defaults are 2M)
+      # - memory_limit (default 128M may be tight)
     };
 
     phpEnv = with pkgs; [
@@ -35,14 +38,35 @@
       sqlite
     ];
 
+    appRoot = "/home/${userName}/Sat";
+
     defaultServiceConfig = {
       User = userName;
-      WorkingDirectory = "/home/${userName}/Sat/current";
+      WorkingDirectory = "${appRoot}/current";
       Restart = "always";
       RestartSec = 2;
 
       NoNewPrivileges = true;
       PrivateTmp = true;
+      PrivateDevices = true;
+      ProtectSystem = "strict";
+      # The app lives in $HOME; releases are read-only, writes go to the
+      # shared storage dir and the current release's bootstrap cache.
+      ProtectHome = "read-only";
+      ReadWritePaths = [
+        "${appRoot}/storage"
+        "${appRoot}/current/bootstrap/cache"
+      ];
+      ProtectKernelTunables = true;
+      ProtectKernelModules = true;
+      ProtectControlGroups = true;
+      RestrictAddressFamilies = ["AF_UNIX" "AF_INET" "AF_INET6"];
+      RestrictSUIDSGID = true;
+      LockPersonality = true;
+      UMask = "0027";
+
+      LimitNOFILE = 65536;
+      TasksMax = 4096;
     };
 
     defaultServiceOptions = {
@@ -73,6 +97,7 @@
     networking.firewall = {
       enable = true;
       allowedTCPPorts = [80 443];
+      allowedUDPPorts = [443];
     };
 
     services.caddy = {
@@ -92,7 +117,7 @@
       #     php_server
       # }
       virtualHosts.app = {
-        hostName = "{$APP_DOMAIN} {$APP_DOMAIN_AUX}";
+        hostName = "{$APP_DOMAIN} {$APP_DOMAIN_AUX:}";
         extraConfig = ''
           encode zstd gzip
           reverse_proxy 127.0.0.1:8000
@@ -103,6 +128,7 @@
     services.redis.servers.main = {
       enable = true;
       port = 6379;
+      appendOnly = true;
     };
 
     systemd.services.sat-schedule =

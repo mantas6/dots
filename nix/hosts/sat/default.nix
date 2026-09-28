@@ -10,8 +10,9 @@
   flake.modules.nixos."host-sat" = {lib, ...}: {
     imports = with self.modules.nixos; [
       base
+      disks-mbr
       jobs-os-upgrade
-      # purposes-app-server
+      purposes-app-server
     ];
 
     boot.loader.grub.efiSupport = lib.mkForce false;
