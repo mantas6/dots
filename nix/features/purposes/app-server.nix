@@ -152,11 +152,20 @@
     systemd.services.sat-octane =
       defaultServiceOptions
       // {
-        script = "php artisan octane:start --server=roadrunner --host=127.0.0.1 --port=8000 --workers=auto --max-requests=500";
+        # The admin port is moved off 2019, which the system Caddy already uses.
+        script = "php artisan octane:start --server=frankenphp --host=127.0.0.1 --port=8000 --admin-port=2020 --workers=auto --max-requests=500";
+
+        # FrankenPHP's embedded Caddy keeps its config and data outside the read-only home.
+        environment = {
+          XDG_CONFIG_HOME = "/var/lib/sat-octane";
+          XDG_DATA_HOME = "/var/lib/sat-octane";
+        };
 
         serviceConfig =
           defaultServiceConfig
           // {
+            StateDirectory = "sat-octane";
+
             # Workers keep the release path resolved at start; deploys switching `current` need a restart.
             ExecReload = "${artisan} octane:reload";
             TimeoutStopSec = "30s";
