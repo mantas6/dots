@@ -32,6 +32,10 @@
       # - memory_limit (default 128M may be tight)
     };
 
+    # Octane downloads a generic, dynamically linked binary when none is on PATH,
+    # which NixOS can't run. This one embeds the same PHP build (ZTS) and extensions.
+    frankenphp = pkgs.frankenphp.override {php = phpConfigured;};
+
     phpEnv = with pkgs; [
       phpConfigured
       phpConfigured.packages.composer
@@ -156,6 +160,8 @@
       defaultServiceOptions
       // {
         # The admin port is moved off 2019, which the system Caddy already uses.
+        path = phpEnv ++ [frankenphp];
+
         script = "php artisan octane:start --server=frankenphp --host=127.0.0.1 --port=8000 --admin-port=2020 --workers=auto --max-requests=500";
 
         # FrankenPHP's embedded Caddy keeps its config and data outside the read-only home.
