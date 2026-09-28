@@ -67,6 +67,9 @@
 
       LimitNOFILE = 65536;
       TasksMax = 4096;
+
+      # Shared writable state outside the app, at /var/lib/sat.
+      StateDirectory = "sat";
     };
 
     defaultServiceOptions = {
@@ -157,15 +160,13 @@
 
         # FrankenPHP's embedded Caddy keeps its config and data outside the read-only home.
         environment = {
-          XDG_CONFIG_HOME = "/var/lib/sat-octane";
-          XDG_DATA_HOME = "/var/lib/sat-octane";
+          XDG_CONFIG_HOME = "/var/lib/sat";
+          XDG_DATA_HOME = "/var/lib/sat";
         };
 
         serviceConfig =
           defaultServiceConfig
           // {
-            StateDirectory = "sat-octane";
-
             # Workers keep the release path resolved at start; deploys switching `current` need a restart.
             ExecReload = "${artisan} octane:reload";
             TimeoutStopSec = "30s";
