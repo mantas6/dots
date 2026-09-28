@@ -77,8 +77,9 @@
       ];
 
     networking.firewall = {
-      # enable = true;
+      enable = true;
       allowedTCPPorts = [80 443];
+      allowedUDPPorts = [443];
     };
 
     services.caddy = {
@@ -98,7 +99,7 @@
       #     php_server
       # }
       virtualHosts.app = {
-        hostName = "{$APP_DOMAIN} {$APP_DOMAIN_AUX}";
+        hostName = "{$APP_DOMAIN} {$APP_DOMAIN_AUX:}";
         extraConfig = ''
           encode zstd gzip
           reverse_proxy 127.0.0.1:8000
@@ -108,7 +109,7 @@
 
     services.redis.servers.main = {
       enable = true;
-      port = 6379;
+      appendOnly = true;
     };
 
     # - sat-schedule: redirects all output to /dev/null - you'll never see scheduler errors. At minimum send stderr somewhere useful.
