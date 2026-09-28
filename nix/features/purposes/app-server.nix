@@ -137,7 +137,6 @@
           // {
             Type = "oneshot";
             Restart = "no";
-            MemoryMax = "512M";
           };
 
         restartIfChanged = false;
@@ -151,8 +150,6 @@
       defaultServiceOptions
       // {
         script = "php artisan octane:start --workers=8";
-
-        serviceConfig = defaultServiceConfig // {MemoryMax = "1G";};
       };
 
     # - sat-horizon: the 3600s stop timeout is good, but there's no ExecStop = php artisan horizon:terminate for graceful shutdown signaling.
@@ -165,7 +162,6 @@
           defaultServiceConfig
           // {
             TimeoutStopSec = "3600s";
-            MemoryMax = "1G";
           };
       };
   };
