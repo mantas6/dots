@@ -5,16 +5,16 @@ set -euo 'pipefail'
 baseurl="$(sat-base-url)"/api/journals/articles
 state=$(sat-state-dir)
 
-options=$(curl -sSfH "$(sat-auth-header)" "$baseurl" |
-    jq -r 'map((.id | tostring) + "\t" + .title + "\t" + (.word_count | tostring) + "w\t" + .created_at + "\t" + .journal.title) | .[]')
+options=$(curl -sSfH "$(sat-auth-header)" "$baseurl" \
+    | jq -r 'map((.id | tostring) + "\t" + .title + "\t" + (.word_count | tostring) + "w\t" + .created_at + "\t" + .journal.title) | .[]')
 
 options="$options$(printf '\n0\tNew')"
 
-id=$(echo "$options" |
-    tac |
-    column -ts $'\t' |
-    fzf --delimiter="\t" |
-    awk '{print $1}')
+id=$(echo "$options" \
+    | tac \
+    | column -ts $'\t' \
+    | fzf --delimiter="\t" \
+    | awk '{print $1}')
 
 mkdir -p "$state/tmp"
 

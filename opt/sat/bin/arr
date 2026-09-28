@@ -10,19 +10,19 @@ if [ ! -f "$state/list" ]; then
 
     options=$(curl -sSf "$baseurl?all=1" \
         -H "$(sat-auth-header)" \
-        -H 'Content-Type: application/json' |
-        jq -r 'map((.id | tostring) + "\t" + .title + "\t" + (.word_count | tostring) + "w\t" + .created_at + "\t" + .journal.title) | .[]')
+        -H 'Content-Type: application/json' \
+        | jq -r 'map((.id | tostring) + "\t" + .title + "\t" + (.word_count | tostring) + "w\t" + .created_at + "\t" + .journal.title) | .[]')
 
     echo "$options" >"$state/list"
 else
     options=$(<"$state/list")
 fi
 
-id=$(echo "$options" |
-    tac |
-    column -ts $'\t' |
-    fzf --delimiter="\t" |
-    awk '{print $1}')
+id=$(echo "$options" \
+    | tac \
+    | column -ts $'\t' \
+    | fzf --delimiter="\t" \
+    | awk '{print $1}')
 
 contents=$(curl -sSfH "$(sat-auth-header)" "$baseurl/$id" | jq -r '.contents')
 

@@ -6,9 +6,9 @@ baseurl="$(sat-base-url)/api/albums"
 state=$(sat-state-dir)
 
 open-finder() {
-    echo "$1" |
-        column -ts $'\t' |
-        fzf --select-1 --delimiter=" " --with-nth=2.. --accept-nth=1
+    echo "$1" \
+        | column -ts $'\t' \
+        | fzf --select-1 --delimiter=" " --with-nth=2.. --accept-nth=1
 }
 
 send-request() {
@@ -19,8 +19,8 @@ send-request() {
 }
 
 update() {
-    send-request '/saved' |
-        jq -r 'map(.line) | .[]' >"$state/tracks"
+    send-request '/saved' \
+        | jq -r 'map(.line) | .[]' >"$state/tracks"
 }
 
 help() {
@@ -35,31 +35,31 @@ help() {
 action="${1:-}"
 
 case "$action" in
--u)
-    update
-    ;;
--s)
-    send-request "/control/pause" PUT
-    ;;
--p)
-    send-request "/control/play" PUT
-    ;;
--f)
-    send-request "/control/next" PUT
-    ;;
--b)
-    send-request "/control/previous" PUT
-    ;;
-help | -h | --help)
-    help
-    ;;
-*)
-    tracks=$(<"$state/tracks")
+    -u)
+        update
+        ;;
+    -s)
+        send-request "/control/pause" PUT
+        ;;
+    -p)
+        send-request "/control/play" PUT
+        ;;
+    -f)
+        send-request "/control/next" PUT
+        ;;
+    -b)
+        send-request "/control/previous" PUT
+        ;;
+    help | -h | --help)
+        help
+        ;;
+    *)
+        tracks=$(<"$state/tracks")
 
-    [ -n "$action" ] && tracks=$(echo "$tracks" | fzf --no-sort --filter="$action")
+        [ -n "$action" ] && tracks=$(echo "$tracks" | fzf --no-sort --filter="$action")
 
-    track_id=$(open-finder "$tracks")
+        track_id=$(open-finder "$tracks")
 
-    send-request "/play/$track_id" PUT
-    ;;
+        send-request "/play/$track_id" PUT
+        ;;
 esac
