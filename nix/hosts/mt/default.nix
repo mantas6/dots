@@ -8,15 +8,17 @@
   };
 
   flake.modules.nixos."host-mt" = {...}: {
-    imports = with self.modules.nixos; [
-      base
-      disks-normal
-      jobs-os-upgrade
-      hardware-backlight
-      services-auto-brightness
-      quirks-prevent-sleep
-      purposes-monitor
-    ];
+    imports =
+      (with self.modules.nixos; [
+        base
+        disks-normal
+        jobs-os-upgrade
+        hardware-backlight
+        services-auto-brightness
+        quirks-prevent-sleep
+        purposes-monitor
+      ])
+      ++ [./_hardware.nix];
 
     disko.devices.disk.main-disk.device = "/dev/sda";
 

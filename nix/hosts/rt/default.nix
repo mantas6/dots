@@ -8,13 +8,15 @@
   };
 
   flake.modules.nixos."host-rt" = {...}: {
-    imports = with self.modules.nixos; [
-      base
-      base-home
-      disks-normal
-      jobs-os-upgrade
-      services-hermes
-    ];
+    imports =
+      (with self.modules.nixos; [
+        base
+        base-home
+        disks-normal
+        jobs-os-upgrade
+        services-hermes
+      ])
+      ++ [./_hardware.nix];
 
     disko.devices.disk.main-disk.device = "/dev/sda";
 
