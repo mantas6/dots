@@ -26,4 +26,9 @@ in {
     publicKeys = users ++ [systems.l4];
     armor = true;
   };
+
+  "${basePath}/machines-token.age" = {
+    publicKeys = users ++ allSystems;
+    armor = true;
+  };
 }
