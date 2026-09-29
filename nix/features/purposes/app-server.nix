@@ -171,7 +171,7 @@
         # inherits; using its ZTS PHP keeps that pointing at ZTS-built extensions.
         path = [frankenphp.php frankenphp];
 
-        script = "php artisan octane:start --server=frankenphp --host=127.0.0.1 --port=8000 --admin-port=2020 --workers=auto --max-requests=500";
+        script = "php artisan octane:start --server=frankenphp --host=127.0.0.1 --port=8000 --admin-port=2020 --workers=8 --max-requests=500";
 
         # FrankenPHP's embedded Caddy keeps its config and data outside the read-only home.
         environment = {
