@@ -37,8 +37,12 @@ case "$1" in
         lower=50
         ;;
     -s | --set)
-        upper=$3
-        lower=$2
+        lower=${2:-}
+        upper=${3:-}
+        if [[ ! $lower =~ ^(0|[1-9][0-9]?|100)$ || ! $upper =~ ^(0|[1-9][0-9]?|100)$ ]] || ((lower >= upper)); then
+            printf 'charge-limit: expected 0 <= MIN-THRESHOLD < MAX-THRESHOLD <= 100\n' >&2
+            exit 2
+        fi
         ;;
     -h | --help) show-usage ;;
 esac
