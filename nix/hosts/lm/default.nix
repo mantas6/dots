@@ -14,6 +14,7 @@
         base-home
         disks-normal
         hardware-nvidia
+        jobs-os-upgrade-desktop
         services-ollama
       ])
       ++ [./_hardware.nix];
