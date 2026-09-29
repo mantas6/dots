@@ -8,13 +8,15 @@
   };
 
   flake.modules.nixos."host-pd" = {...}: {
-    imports = with self.modules.nixos; [
-      base
-      disks-normal
-      jobs-os-upgrade
-      purposes-router
-      services-sat-backups
-    ];
+    imports =
+      (with self.modules.nixos; [
+        base
+        disks-normal
+        jobs-os-upgrade
+        purposes-router
+        services-sat-backups
+      ])
+      ++ [./_hardware.nix];
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 

@@ -27,7 +27,7 @@ Normal setup:
 ```sh
 nix run nixpkgs#nixos-anywhere -- \
     --flake ".#__host__" \
-    --generate-hardware-config nixos-generate-config nix/hosts/__host__/hardware.nix \
+    --generate-hardware-config nixos-generate-config nix/hosts/__host__/_hardware.nix \
     --target-host "root@__host__"
 ```
 
@@ -37,7 +37,7 @@ Encrypted setup:
 nix run nixpkgs#nixos-anywhere -- \
     --flake ".#__host__" \
     --disk-encryption-keys /tmp/secret.key <(pass "hosts/__host__") \
-    --generate-hardware-config nixos-generate-config nix/hosts/"__host__"/hardware.nix \
+    --generate-hardware-config nixos-generate-config nix/hosts/__host__/_hardware.nix \
     --target-host "root@__host__"
 ```
 
