@@ -1,13 +1,9 @@
 {...}: {
-  flake.modules.nixos."hardware-nvidia" = {
-    lib,
-    config,
-    ...
-  }: {
-    nixpkgs.config.allowUnfreePredicate = pkg:
-      builtins.elem (lib.getName pkg) [
-        "nvidia-x11"
-      ];
+  flake.modules.nixos."hardware-nvidia" = {config, ...}: {
+    nixpkgs.config.allowUnfreePackages = [
+      "nvidia-x11"
+      "nvidia-kernel-modules"
+    ];
 
     # Enable OpenGL
     hardware.graphics = {
