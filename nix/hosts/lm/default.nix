@@ -3,11 +3,11 @@
   inputs,
   ...
 }: {
-  flake.nixosConfigurations.ol = inputs.nixpkgs.lib.nixosSystem {
-    modules = [self.modules.nixos."host-ol"];
+  flake.nixosConfigurations.lm = inputs.nixpkgs.lib.nixosSystem {
+    modules = [self.modules.nixos."host-lm"];
   };
 
-  flake.modules.nixos."host-ol" = {...}: {
+  flake.modules.nixos."host-lm" = {...}: {
     imports =
       (with self.modules.nixos; [
         base
@@ -20,9 +20,7 @@
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 
-    features.wakeOnLanAdapterMAC = "04:7c:16:4f:88:ea";
-
-    networking.hostName = "ol";
+    networking.hostName = "lm";
 
     system.stateVersion = "26.05";
   };
