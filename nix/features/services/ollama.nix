@@ -21,6 +21,8 @@
     services.ollama = {
       enable = true;
       package = pkgs-unstable-unfree.ollama-cuda;
+      # QAT build (6.1GB) fits in 8GB VRAM with headroom for context
+      loadModels = ["gemma4:e4b-it-qat"];
     };
   };
 }
