@@ -112,6 +112,13 @@
       # KEY=value env file holding APP_DOMAIN and APP_DOMAIN_AUX.
       environmentFile = config.age.secrets.sat-caddy-env.path;
 
+      # Serve the main certificate to TLS clients that send no SNI. The NodeMCU
+      # release firmware never sets a TLS hostname, and without this Caddy
+      # aborts the handshake (alert 80) before any HTTP is exchanged.
+      globalConfig = ''
+        default_sni {$APP_DOMAIN}
+      '';
+
       # https://caddyserver.com/docs/caddyfile/patterns
       # {
       #     frankenphp
