@@ -160,7 +160,9 @@
       defaultServiceOptions
       // {
         # The admin port is moved off 2019, which the system Caddy already uses.
-        path = phpEnv ++ [frankenphp];
+        # The CLI's wrapper exports PHP_INI_SCAN_DIR, which the spawned frankenphp
+        # inherits; using its ZTS PHP keeps that pointing at ZTS-built extensions.
+        path = [frankenphp.php frankenphp];
 
         script = "php artisan octane:start --server=frankenphp --host=127.0.0.1 --port=8000 --admin-port=2020 --workers=auto --max-requests=500";
 
