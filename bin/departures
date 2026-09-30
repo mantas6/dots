@@ -346,6 +346,7 @@ fclose($fh);
 // ── Step 6: Sort and display ────────────────────────────────────────
 
 usort($departures, fn($a, $b) => $a['time_seconds'] - $b['time_seconds']);
+$totalDepartures = count($departures);
 $departures = array_slice($departures, 0, $limit);
 
 if (empty($departures)) {
@@ -404,4 +405,4 @@ foreach ($departures as $dep) {
 }
 
 echo $sep . "\n";
-printf("  Showing %d of %d upcoming departure(s)\n\n", count($departures), count($departures));
+printf("  Showing %d of %d upcoming departure(s)\n\n", count($departures), $totalDepartures);
