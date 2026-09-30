@@ -1,7 +1,7 @@
 ---
 description: Exploration subagent for finding files and answering questions, GPT Sol model with high reasoning
 mode: subagent
-model: openai/gpt-6-sol
+model: openai/gpt-6.1-sol
 variant: high
 permission:
   edit: deny
