@@ -205,5 +205,14 @@
             TimeoutStopSec = "3600s";
           };
       };
+
+    # The app's workers push telemetry to this agent over 127.0.0.1:2407; the
+    # token comes from the app's env. Workers don't depend on it, since the
+    # client drops data quietly while the agent is down.
+    systemd.services.sat-nightwatch =
+      defaultServiceOptions
+      // {
+        script = "php artisan nightwatch:agent";
+      };
   };
 }
