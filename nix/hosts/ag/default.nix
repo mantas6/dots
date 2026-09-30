@@ -15,6 +15,7 @@
         disks-normal
 
         jobs-os-upgrade-desktop
+        jobs-dots-sync
 
         # purposes-app-server
 
