@@ -189,17 +189,7 @@
         # frankenphp inherits; its own wrapper pins its ini dir so that doesn't leak in.
         path = [phpConfigured frankenphp] ++ serviceTools;
 
-        # Octane's stub Caddyfile sets no grace_period, so `octane:stop` (admin /stop)
-        # refuses new connections but waits forever for in-flight requests; the unit
-        # stays active and never restarts. Derive a Caddyfile from the installed stub
-        # with a bounded drain so FrankenPHP exits and Restart= kicks in.
-        script = ''
-          stub=vendor/laravel/octane/src/Commands/stubs/Caddyfile
-          caddyfile=/var/lib/sat/Caddyfile
-          [[ $(head -n1 "$stub") == '{' ]] || { echo "unexpected Octane Caddyfile stub: $stub" >&2; exit 1; }
-          { echo '{'; printf '\tgrace_period 10s\n'; tail -n +2 "$stub"; } >"$caddyfile"
-          exec php artisan octane:start --server=frankenphp --host=127.0.0.1 --port=8000 --admin-port=2020 --workers=8 --max-requests=500 --caddyfile="$caddyfile"
-        '';
+        script = "php artisan octane:start --server=frankenphp --host=127.0.0.1 --port=8000 --admin-port=2020 --workers=8 --max-requests=500";
 
         # FrankenPHP's embedded Caddy keeps its config and data outside the read-only home.
         environment = {
