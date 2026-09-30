@@ -147,7 +147,12 @@
         hostName = "{$APP_DOMAIN} {$APP_DOMAIN_AUX:}";
         extraConfig = ''
           encode zstd gzip
-          reverse_proxy 127.0.0.1:8000
+          # Deploys run `octane:stop` and systemd restarts sat-octane; hold and
+          # retry requests while the upstream is down instead of returning 502.
+          reverse_proxy 127.0.0.1:8000 {
+            lb_try_duration 30s
+            lb_try_interval 250ms
+          }
         '';
       };
     };
@@ -198,6 +203,8 @@
             # Workers keep the release path resolved at start; deploys switching `current` need a restart.
             ExecReload = "${artisan} octane:reload";
             TimeoutStopSec = "30s";
+            # Deploys run `octane:stop`; come back quickly so Caddy's retries bridge the gap.
+            RestartSec = "500ms";
           };
       };
 
