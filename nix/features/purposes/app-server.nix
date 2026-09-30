@@ -39,6 +39,11 @@
     phpEnv = with pkgs; [
       phpConfigured
       phpConfigured.packages.composer
+    ];
+
+    # Tools the app shells out to, beyond systemd's default service PATH.
+    serviceTools = with pkgs; [
+      gzip
       sqlite
     ];
 
@@ -79,7 +84,7 @@
     defaultServiceOptions = {
       enable = true;
 
-      path = phpEnv;
+      path = phpEnv ++ serviceTools;
 
       serviceConfig = defaultServiceConfig;
 
@@ -97,6 +102,7 @@
 
     environment.systemPackages =
       phpEnv
+      ++ serviceTools
       ++ [
         pkgs.git
       ];
@@ -169,7 +175,7 @@
         # The admin port is moved off 2019, which the system Caddy already uses.
         # The CLI's wrapper exports PHP_INI_SCAN_DIR, which the spawned frankenphp
         # inherits; using its ZTS PHP keeps that pointing at ZTS-built extensions.
-        path = [frankenphp.php frankenphp];
+        path = [frankenphp.php frankenphp] ++ serviceTools;
 
         script = "php artisan octane:start --server=frankenphp --host=127.0.0.1 --port=8000 --admin-port=2020 --workers=8 --max-requests=500";
 
