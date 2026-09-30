@@ -4,6 +4,7 @@
     config,
     pkgs,
     pkgs-unstable,
+    self,
     ...
   }: {
     users.defaultUserShell = pkgs.zsh;
@@ -40,6 +41,8 @@
       pciutils
       usbutils
       lm_sensors
+
+      self.packages.${pkgs.stdenv.hostPlatform.system}.mcal
     ];
   };
 }
