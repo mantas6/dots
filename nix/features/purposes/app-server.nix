@@ -1,5 +1,6 @@
 {...}: {
   flake.modules.nixos."purposes-app-server" = {
+    self,
     config,
     pkgs,
     ...
@@ -36,10 +37,9 @@
     };
 
     # Upstream's prebuilt release (embedded PHP 8.5 with its own extensions),
-    # patched for NixOS. Hydra only caches frankenphp against php84, so building
-    # it on php85 would compile PHP and FrankenPHP from source. Octane looks on
+    # patched for NixOS; see nix/packages/frankenphp-bin.nix. Octane looks on
     # PATH before base_path, so it never downloads its own unpatched binary.
-    frankenphp = pkgs.callPackage ../../packages/_frankenphp-bin.nix {
+    frankenphp = self.packages.${pkgs.stdenv.hostPlatform.system}.frankenphp-bin.override {
       phpExtraConfig = phpIniExtra;
     };
 
