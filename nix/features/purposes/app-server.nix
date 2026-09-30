@@ -6,6 +6,20 @@
   }: let
     userName = "mantas";
 
+    # Shared by the PHP CLI and the PHP embedded in frankenphp.
+    phpIniExtra = ''
+      memory_limit = 128M
+      expose_php = Off
+      display_errors = Off
+      log_errors = On
+
+      realpath_cache_size = 4096K
+      realpath_cache_ttl = 600
+    '';
+    # - opcache.enable=1, opcache.memory_consumption=256, opcache.max_accelerated_files=20000
+    # - upload_max_filesize / post_max_size (defaults are 2M)
+    # - memory_limit (default 128M may be tight)
+
     phpConfigured = pkgs.php85.buildEnv {
       # pdo, pdo_sqlite, mbstring, bcmath, curl, zip, intl, pcntl, posix are
       # already part of the default extension set.
@@ -18,23 +32,16 @@
           redis
         ]);
 
-      extraConfig = ''
-        memory_limit = 128M
-        expose_php = Off
-        display_errors = Off
-        log_errors = On
-
-        realpath_cache_size = 4096K
-        realpath_cache_ttl = 600
-      '';
-      # - opcache.enable=1, opcache.memory_consumption=256, opcache.max_accelerated_files=20000
-      # - upload_max_filesize / post_max_size (defaults are 2M)
-      # - memory_limit (default 128M may be tight)
+      extraConfig = phpIniExtra;
     };
 
-    # Octane downloads a generic, dynamically linked binary when none is on PATH,
-    # which NixOS can't run. This one embeds the same PHP build (ZTS) and extensions.
-    frankenphp = pkgs.frankenphp.override {php = phpConfigured;};
+    # Upstream's prebuilt release (embedded PHP 8.5 with its own extensions),
+    # patched for NixOS. Hydra only caches frankenphp against php84, so building
+    # it on php85 would compile PHP and FrankenPHP from source. Octane looks on
+    # PATH before base_path, so it never downloads its own unpatched binary.
+    frankenphp = pkgs.callPackage ../../packages/_frankenphp-bin.nix {
+      phpExtraConfig = phpIniExtra;
+    };
 
     phpEnv = with pkgs; [
       phpConfigured
@@ -173,9 +180,9 @@
       defaultServiceOptions
       // {
         # The admin port is moved off 2019, which the system Caddy already uses.
-        # The CLI's wrapper exports PHP_INI_SCAN_DIR, which the spawned frankenphp
-        # inherits; using its ZTS PHP keeps that pointing at ZTS-built extensions.
-        path = [frankenphp.php frankenphp] ++ serviceTools;
+        # The php CLI's wrapper exports PHP_INI_SCAN_DIR, which the spawned
+        # frankenphp inherits; its own wrapper pins its ini dir so that doesn't leak in.
+        path = [phpConfigured frankenphp] ++ serviceTools;
 
         script = "php artisan octane:start --server=frankenphp --host=127.0.0.1 --port=8000 --admin-port=2020 --workers=8 --max-requests=500";
 
