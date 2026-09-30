@@ -19,6 +19,13 @@
       '';
     };
 
+    # Replaces the manual ssh-agent bootstrap formerly in sh/zshrc.d/80-ssh-agent.zsh.
+    # SSH_AUTH_SOCK is exported via environment.extraInit (set-environment).
+    programs.ssh = {
+      startAgent = true;
+      agentTimeout = "24h";
+    };
+
     environment.systemPackages = with pkgs-unstable; [
       eza
 
