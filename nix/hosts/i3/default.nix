@@ -11,6 +11,7 @@
     imports =
       (with self.modules.nixos; [
         base
+        base-home
         disks-normal
         jobs-os-upgrade
       ])
