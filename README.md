@@ -44,8 +44,14 @@ nix run nixpkgs#nixos-anywhere -- \
 ### Deploy NixOS on the network
 
 ```sh
-nixos-rebuild --flake .#__host__ --target-host root@__host__ switch
+nixos-rebuild --option accept-flake-config true --flake .#__host__ --target-host root@__host__ switch
 ```
+
+The build machine uses the CUDA binary cache declared in `flake.nix`. Accepting
+the flake configuration enables it for this deployment, including before the
+machine has received the shared NixOS cache settings. On a multi-user Nix
+installation, run as root (for example, with `sudo`) or a trusted Nix user if the
+cache is not already configured in the local daemon.
 
 ## Rescue
 
