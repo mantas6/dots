@@ -1,10 +1,2 @@
-return {
-  {
-    'NMAC427/guess-indent.nvim',
-    opts = {},
-  },
-  {
-    'numToStr/Comment.nvim',
-    opts = {},
-  },
-}
+require('guess-indent').setup({})
+require('Comment').setup({})
