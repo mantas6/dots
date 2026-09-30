@@ -14,6 +14,8 @@
         base-home
         disks-normal
 
+        users-work
+
         jobs-os-upgrade-desktop
         jobs-dots-sync
 
@@ -33,6 +35,7 @@
     users.users.mantas.hashedPassword = "$y$j9T$Is9kgYLgnNB0KU58g9Xnb.$FavpbfQrGhGZEpKpEBqC0OTaL9DzEzJfoBaoF9a9Fx3";
 
     features.wakeOnLanAdapterMAC = "a8:2b:dd:4e:10:2e";
+    features.serviceUser = "work";
 
     networking.hostName = "ag";
 

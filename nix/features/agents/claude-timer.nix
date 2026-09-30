@@ -3,6 +3,7 @@
     pkgs-unstable,
     lib,
     inputs,
+    config,
     ...
   }: let
     pkgs-unstable-unfree = import inputs.nixpkgs-unstable {
@@ -15,7 +16,7 @@
       description = "Run claude -p hi";
       after = ["network-online.target"];
       wants = ["network-online.target"];
-      unitConfig.ConditionUser = "!root";
+      unitConfig.ConditionUser = config.features.serviceUser;
       serviceConfig = {
         Type = "oneshot";
         WorkingDirectory = "/tmp";

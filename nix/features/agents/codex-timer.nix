@@ -1,10 +1,14 @@
 {...}: {
-  flake.modules.nixos."agents-codex-timer" = {pkgs-unstable, ...}: {
+  flake.modules.nixos."agents-codex-timer" = {
+    pkgs-unstable,
+    config,
+    ...
+  }: {
     systemd.user.services.codex-timer = {
       description = "Run codex exec hi";
       after = ["network-online.target"];
       wants = ["network-online.target"];
-      unitConfig.ConditionUser = "!root";
+      unitConfig.ConditionUser = config.features.serviceUser;
       serviceConfig = {
         Type = "oneshot";
         WorkingDirectory = "/tmp";
