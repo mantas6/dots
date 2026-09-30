@@ -6,6 +6,7 @@
       persistent = false;
 
       flake = "github:mantas6/dots";
+      flags = ["--accept-flake-config"];
       dates = lib.mkDefault "02:00";
 
       allowReboot = true;

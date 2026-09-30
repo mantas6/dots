@@ -53,6 +53,19 @@ machine has received the shared NixOS cache settings. On a multi-user Nix
 installation, run as root (for example, with `sudo`) or a trusted Nix user if the
 cache is not already configured in the local daemon.
 
+Desktop automatic upgrades use `boot`, so new daemon cache settings only become
+active after reboot. To bootstrap them immediately, run once on the host:
+
+```sh
+sudo nixos-rebuild switch --option accept-flake-config true --flake .#__host__
+```
+
+Check the active cache settings with:
+
+```sh
+sudo nix config show | rg '^(substituters|trusted-public-keys) ='
+```
+
 ## Rescue
 
 ### Upgrade out-dated dotfiles
