@@ -39,12 +39,12 @@
     phpEnv = with pkgs; [
       phpConfigured
       phpConfigured.packages.composer
-      sqlite
     ];
 
     # Tools the app shells out to, beyond systemd's default service PATH.
     serviceTools = with pkgs; [
       gzip
+      sqlite
     ];
 
     appRoot = "/home/${userName}/Sat";
@@ -102,6 +102,7 @@
 
     environment.systemPackages =
       phpEnv
+      ++ serviceTools
       ++ [
         pkgs.git
       ];
