@@ -11,13 +11,13 @@
         builtins.elem (lib.getName pkg) ["claude-code"];
     };
   in {
-    systemd.user.services.claude-timer = {
+    systemd.services.claude-timer = {
       description = "Run claude -p hi";
       after = ["network-online.target"];
       wants = ["network-online.target"];
-      unitConfig.ConditionUser = "!root";
       serviceConfig = {
         Type = "oneshot";
+        User = "mantas";
         WorkingDirectory = "/tmp";
         ExecStart = "${pkgs-unstable-unfree.claude-code}/bin/claude -p hi";
 
@@ -27,7 +27,7 @@
       };
     };
 
-    systemd.user.timers.claude-timer = {
+    systemd.timers.claude-timer = {
       description = "Run claude -p hi at 05:00 and 10:15";
       wantedBy = ["timers.target"];
       timerConfig = {
