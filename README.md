@@ -44,7 +44,7 @@ nix run nixpkgs#nixos-anywhere -- \
 ### Deploy NixOS on the network
 
 ```sh
-nixos-rebuild --flake .#__host__ --target-host root@__host__ switch
+nixos-rebuild switch --flake .#__host__ --target-host __host__ --ask-sudo-password
 ```
 
 ## Rescue

@@ -4,7 +4,6 @@
   in {
     users.users = {
       mantas.openssh.authorizedKeys.keys = keys;
-      root.openssh.authorizedKeys.keys = keys;
     };
   };
 }
