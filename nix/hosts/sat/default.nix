@@ -28,6 +28,13 @@
     networking.useNetworkd = true;
     services.resolved.enable = true;
 
+    # Public host, nothing legitimately tunnels through it
+    services.openssh.settings = {
+      AllowAgentForwarding = false;
+      AllowTcpForwarding = false;
+      AllowStreamLocalForwarding = false;
+    };
+
     age.secrets.sat-network = {
       file = ../../_lib/secrets/sat-network.age;
       path = "/etc/systemd/network/10-eth0.network";
