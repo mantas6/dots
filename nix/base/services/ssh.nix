@@ -9,6 +9,10 @@
 
         ChallengeResponseAuthentication = false;
         KbdInteractiveAuthentication = false;
+
+        # Drop sessions whose client stopped answering for ~10 min
+        ClientAliveInterval = 300;
+        ClientAliveCountMax = 2;
       };
     };
   };
