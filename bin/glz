@@ -14,17 +14,6 @@ add=true
 last_msg=$branch
 [ -f "$msg_file" ] && last_msg=$(<"$msg_file")
 
-while getopts 'in' opt; do
-    case ${opt} in
-        n)
-            add=false
-            ;;
-        ?)
-            exit 1
-            ;;
-    esac
-done
-
 if [ -z "$(git status --porcelain)" ]; then
     exit 0
 fi
