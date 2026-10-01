@@ -17,14 +17,6 @@
           variant = "linux_aarch64_no-plugin";
           hash = "sha256-+xY/Vd7bQt1DCGONIKB3HGDdukqfxZBIMW5sLrFLGOw=";
         };
-        aarch64-darwin = {
-          variant = "darwin_aarch64";
-          hash = "sha256-30j+am5cYNGWbtN05rBWfLjIcYDfndFN+yX0I2W0uyU=";
-        };
-        x86_64-darwin = {
-          variant = "darwin_amd64";
-          hash = "sha256-ZUmgEOGPNKXXBGTx73z1UG70Ow4mCyZswIaf5Rn7nTQ=";
-        };
       };
 
       inherit
