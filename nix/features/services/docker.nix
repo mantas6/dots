@@ -31,7 +31,7 @@
       serviceConfig = {
         Type = "oneshot";
         Environment = "DOCKER_HOST=unix://%t/docker.sock";
-        ExecStart = "${lib.getExe config.virtualisation.docker.rootless.package} system prune -f";
+        ExecStart = "${lib.getExe config.virtualisation.docker.rootless.package} system prune -f --filter until=168h";
       };
     };
 
