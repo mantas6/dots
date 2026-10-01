@@ -24,7 +24,7 @@
 
     # powerManagement.powertop.enable = true;
 
-    system.autoUpgrade.dates = "01:00";
+    system.autoUpgrade.dates = "01:05";
 
     networking.hostName = "pd";
 
