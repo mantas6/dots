@@ -169,6 +169,28 @@ agenix --rekey
 ssh-keyscan __host__
 ```
 
+### Battery charge thresholds
+
+On laptops with `hardware-battery` TLP keeps the battery between 40% and 60% to prolong its life.
+
+Charge to 100% once (the configured thresholds return on reboot or with `sudo tlp setcharge`):
+
+```sh
+sudo tlp fullcharge
+```
+
+Restore the configured thresholds immediately:
+
+```sh
+sudo tlp setcharge
+```
+
+Check the current thresholds:
+
+```sh
+sudo tlp-stat -b
+```
+
 ### Troubleshooting auto-upgrade
 
 Check that automatic system upgrades run successfully.

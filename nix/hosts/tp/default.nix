@@ -19,6 +19,7 @@
         progs-shell
         services-docker
         hardware-backlight
+        hardware-battery
       ])
       ++ [./_hardware.nix];
 
