@@ -9,8 +9,6 @@ mkdir -p "$state"
 branch=$(git branch --show-current)
 msg_file="$state/${branch//\//_}"
 
-add=true
-
 last_msg=$branch
 [ -f "$msg_file" ] && last_msg=$(<"$msg_file")
 
@@ -26,8 +24,9 @@ show_staged() {
 }
 
 shown=false
+add=true
 
-if $add && ! git diff --cached --quiet; then
+if ! git diff --cached --quiet; then
     if ! git diff --quiet || [ -n "$(git ls-files --others --exclude-standard)" ]; then
         show_staged
         read -rp 'Commit only staged changes? [Y/n] ' reply
