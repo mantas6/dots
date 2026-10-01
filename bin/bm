@@ -2,7 +2,7 @@
 # Access bookmarks and open a browser tab with an optional parameter
 
 show_help() {
-    echo 'bm - boomarkmarks for browser'
+    echo 'bm - bookmarks for browser'
     echo
     echo 'Editing:'
     echo '  -e            Edit global bookmarks list'
@@ -17,11 +17,11 @@ show_help() {
 
 list="$DOTS_DIR/etc/bm"
 search_cmd='fzf -i'
-input_cmd='gum input'
+input_cmd=(gum input)
 
 action='default'
 
-while getopts 'elrf:' opt; do
+while getopts 'helrf:' opt; do
     case ${opt} in
         f)
             list=${OPTARG}
@@ -41,6 +41,10 @@ while getopts 'elrf:' opt; do
                 search_cmd='rofi -dmenu'
                 input_cmd=(rofi -dmenu -p '> ')
             fi
+            ;;
+        h)
+            show_help
+            exit 0
             ;;
         ?)
             show_help
@@ -82,7 +86,7 @@ placeholder=$(echo "$url" | grep '{}')
 
 if [ "$placeholder" ]; then
     # Prompt the user for input to replace the placeholder
-    input=$(${input_cmd[*]})
+    input=$("${input_cmd[@]}")
 
     [ ! "$input" ] && exit 1
 
