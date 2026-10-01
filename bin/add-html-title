@@ -12,7 +12,8 @@ libxml_use_internal_errors(true);
 $dom->loadHTML($html);
 libxml_clear_errors();
 
-$h1 = $dom->createElement('h1', strtoupper($title));
+$h1 = $dom->createElement('h1');
+$h1->appendChild($dom->createTextNode(strtoupper($title)));
 $h1->setAttribute('align', 'center');
 $hr = $dom->createElement('hr');
 
