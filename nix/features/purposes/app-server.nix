@@ -163,22 +163,35 @@
       appendOnly = true;
     };
 
+    # A timer can't start a unit that's still running, so one slow or hung
+    # `schedule:run` would swallow the following ticks. Instead, start a run
+    # in the background at every minute boundary, without waiting for the
+    # previous one; tasks that mustn't overlap need `withoutOverlapping()`.
+    # Each run resolves `current` afresh, so deploys need no restart here.
     systemd.services.sat-schedule =
       defaultServiceOptions
       // {
-        script = "php artisan schedule:run --no-interaction";
+        script = ''
+          running=1
+          trap 'running=' TERM
+          while [[ $running ]]; do
+            sleep $((60 - $(date +%s) % 60)) &
+            sleeper=$!
+            wait "$sleeper"
+            [[ $running ]] || break
+            (cd ${appRoot}/current && exec timeout 1h php artisan schedule:run --no-interaction) &
+          done
+          kill "$sleeper" 2>/dev/null
+          wait
+        '';
 
         serviceConfig =
           defaultServiceConfig
           // {
-            Type = "oneshot";
-            Restart = "no";
+            # Only the loop gets SIGTERM; in-flight runs get time to finish.
+            KillMode = "mixed";
+            TimeoutStopSec = "600s";
           };
-
-        restartIfChanged = false;
-        unitConfig.X-StopOnRemoval = false;
-
-        startAt = "minutely";
       };
 
     systemd.services.sat-octane =
