@@ -1,46 +1,68 @@
 {...}: {
-  perSystem = {
-    pkgs,
-    inputs',
-    ...
-  }: let
-    version = "8.0.8";
-    # go.mod requires Go 1.26; nixpkgs-go pins 1.24, so build with unstable's
-    # buildGoModule (Go 1.26.x) instead of inputs'.nixpkgs-go.
-    goPkgs = inputs'.nixpkgs-unstable.legacyPackages;
-  in {
-    packages.cli-proxy-api = goPkgs.buildGoModule {
-      pname = "cli-proxy-api";
-      inherit version;
-
-      src = pkgs.fetchFromGitHub {
-        owner = "router-for-me";
-        repo = "CLIProxyAPI";
-        tag = "v${version}";
-        hash = "sha256-FfkxVBzw3BCVUku4+U6ICC9fgmTOV7DAKUr54Ln90HM=";
+  perSystem = {pkgs, ...}: {
+    # Upstream's prebuilt CLIProxyAPI release. The linux `no-plugin` builds are
+    # static Go binaries, so they run on NixOS without patching. Chosen over a
+    # source build to avoid needing the Go 1.26 toolchain from nixpkgs-unstable.
+    packages.cli-proxy-api = pkgs.callPackage ({
+      lib,
+      stdenv,
+      fetchurl,
+    }: let
+      sources = {
+        x86_64-linux = {
+          variant = "linux_amd64_no-plugin";
+          hash = "sha256-IZKWhuuO20Bvjqm7FhmY9ErQpFtslACOQwxQWfpRWnA=";
+        };
+        aarch64-linux = {
+          variant = "linux_aarch64_no-plugin";
+          hash = "sha256-+xY/Vd7bQt1DCGONIKB3HGDdukqfxZBIMW5sLrFLGOw=";
+        };
+        aarch64-darwin = {
+          variant = "darwin_aarch64";
+          hash = "sha256-30j+am5cYNGWbtN05rBWfLjIcYDfndFN+yX0I2W0uyU=";
+        };
+        x86_64-darwin = {
+          variant = "darwin_amd64";
+          hash = "sha256-ZUmgEOGPNKXXBGTx73z1UG70Ow4mCyZswIaf5Rn7nTQ=";
+        };
       };
 
-      vendorHash = "sha256-r3yWkdMcM40G9jV7MxW/qNv3E9WrHavFilW24quEf+8=";
+      inherit
+        (sources.${stdenv.hostPlatform.system}
+          or (throw "cli-proxy-api: unsupported system ${stdenv.hostPlatform.system}"))
+        variant
+        hash
+        ;
+    in
+      stdenv.mkDerivation (finalAttrs: {
+        pname = "cli-proxy-api";
+        version = "8.0.8";
 
-      subPackages = ["cmd/server"];
+        src = fetchurl {
+          url = "https://github.com/router-for-me/CLIProxyAPI/releases/download/v${finalAttrs.version}/CLIProxyAPI_${finalAttrs.version}_${variant}.tar.gz";
+          inherit hash;
+        };
 
-      env.CGO_ENABLED = "0";
+        sourceRoot = ".";
 
-      ldflags = [
-        "-s"
-        "-w"
-        "-X main.Version=${version}"
-      ];
+        dontBuild = true;
+        dontStrip = true;
 
-      postInstall = ''
-        mv "$out/bin/server" "$out/bin/cli-proxy-api"
-      '';
+        installPhase = ''
+          runHook preInstall
+          install -Dm755 cli-proxy-api $out/bin/cli-proxy-api
+          install -Dm644 config.example.yaml $out/share/cli-proxy-api/config.example.yaml
+          runHook postInstall
+        '';
 
-      meta = {
-        description = "OpenAI/Gemini/Claude compatible proxy for CLI AI models";
-        homepage = "https://github.com/router-for-me/CLIProxyAPI";
-        mainProgram = "cli-proxy-api";
-      };
-    };
+        meta = {
+          description = "OpenAI/Gemini/Claude compatible proxy for CLI AI models (upstream prebuilt binary)";
+          homepage = "https://github.com/router-for-me/CLIProxyAPI";
+          license = lib.licenses.mit;
+          mainProgram = "cli-proxy-api";
+          platforms = lib.attrNames sources;
+          sourceProvenance = [lib.sourceTypes.binaryNativeCode];
+        };
+      })) {};
   };
 }
