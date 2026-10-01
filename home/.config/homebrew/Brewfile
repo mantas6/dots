@@ -138,5 +138,6 @@ cask "audacity"
 
 cask "claude-code"
 cask "codex"
+cask "t3-code"
 
 cask "font-jetbrains-mono-nerd-font"
