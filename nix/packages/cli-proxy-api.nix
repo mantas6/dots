@@ -4,7 +4,7 @@
     inputs',
     ...
   }: let
-    version = "7.3.10";
+    version = "8.0.8";
     # go.mod requires Go 1.26; nixpkgs-go pins 1.24, so build with unstable's
     # buildGoModule (Go 1.26.x) instead of inputs'.nixpkgs-go.
     goPkgs = inputs'.nixpkgs-unstable.legacyPackages;
@@ -17,7 +17,7 @@
         owner = "router-for-me";
         repo = "CLIProxyAPI";
         tag = "v${version}";
-        hash = "sha256-pKguqvvQA1IVIE4f3qQbZ8VOWEcY4evkyacyYt36+T8=";
+        hash = "sha256-FfkxVBzw3BCVUku4+U6ICC9fgmTOV7DAKUr54Ln90HM=";
       };
 
       vendorHash = "sha256-r3yWkdMcM40G9jV7MxW/qNv3E9WrHavFilW24quEf+8=";
