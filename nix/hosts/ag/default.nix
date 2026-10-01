@@ -23,7 +23,6 @@
       agents-claude-timer
       agents-codex-timer
       agents-t3code
-      agents-cli-proxy
     ];
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
