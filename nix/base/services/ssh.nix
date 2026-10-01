@@ -9,6 +9,9 @@
 
         ChallengeResponseAuthentication = false;
         KbdInteractiveAuthentication = false;
+
+        # Only accounts that hold authorized keys; root stays for remote deploys.
+        AllowUsers = ["mantas" "root"];
       };
     };
   };
