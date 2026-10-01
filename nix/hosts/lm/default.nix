@@ -20,6 +20,8 @@
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 
+    features.wakeOnLanAdapterMAC = "10:ff:e0:6d:48:60";
+
     networking.hostName = "lm";
 
     system.stateVersion = "26.05";
