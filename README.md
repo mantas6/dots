@@ -17,8 +17,10 @@ If stow fails, remove conflicting files (preferably to trash) and run again. Pay
 ### Create NixOS ISO
 
 ```sh
-nix run nixpkgs#nixos-generators -- --format iso --flake '#iso'
+nix build .#nixosConfigurations.iso.config.system.build.isoImage
 ```
+
+The ISO image is placed in `result/iso/`.
 
 ### Install NixOS
 
@@ -49,7 +51,7 @@ nixos-rebuild switch --flake .#__host__ --target-host __host__ --ask-sudo-passwo
 
 ## Rescue
 
-### Upgrade out-dated dotfiles
+### Upgrade outdated dotfiles
 
 Run when need to migrate old version of dotfiles structure
 
@@ -72,7 +74,7 @@ sudo nixos-rebuild --install-bootloader switch --flake .
 trash "$HOME/.local/share/nvim" "$HOME/.local/state/nvim" "$HOME/.cache/nvim"
 ```
 
-## MacOS
+## macOS
 
 ### Setup
 
