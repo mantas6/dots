@@ -30,15 +30,17 @@ $prog = new class
             $doc->loadHTML(file_get_contents($files[$i]));
             libxml_clear_errors();
 
-            if ($head) {
-                $srcHead = $doc->getElementsByTagName('head')->item(0);
-                if ($srcHead) {
-                    foreach ($srcHead->childNodes as $node) {
-                        if ($node->nodeName === 'style'
-                            || ($node->nodeName === 'link' && $node->getAttribute('rel') === 'stylesheet')
-                        ) {
-                            $head->appendChild($out->importNode($node, true));
+            $srcHead = $doc->getElementsByTagName('head')->item(0);
+            if ($srcHead) {
+                foreach ($srcHead->childNodes as $node) {
+                    if ($node->nodeName === 'style'
+                        || ($node->nodeName === 'link' && $node->getAttribute('rel') === 'stylesheet')
+                    ) {
+                        if (! $head) {
+                            $head = $out->createElement('head');
+                            $body->parentNode->insertBefore($head, $body);
                         }
+                        $head->appendChild($out->importNode($node, true));
                     }
                 }
             }
