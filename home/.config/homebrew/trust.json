@@ -3,7 +3,6 @@
     "nikitabobko/tap"
   ],
   "trustedformulae": [
-    "atlassian/acli/acli",
     "daipeihust/tap/im-select",
     "felixkratz/formulae/sketchybar",
     "jsdelivr/globalping/globalping"
