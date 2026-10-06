@@ -21,7 +21,7 @@
         Restart = "always";
         RestartSec = 2;
         NoNewPrivileges = true;
-        PrivateTmp = true;
+        # PrivateTmp = true;
       };
     };
   };
