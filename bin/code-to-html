@@ -11,6 +11,9 @@ for input_file in "$@"; do
         continue
     fi
 
-    nvim -c "TOhtml | write $output_file | qa" "$input_file"
+    # Neovim expands the output path and escapes it for its Ex parser.
+    # shellcheck disable=SC2016
+    CODE_TO_HTML_OUTPUT="$output_file" nvim -c TOhtml \
+        -c 'execute "write " . fnameescape($CODE_TO_HTML_OUTPUT)' -c qa -- "$input_file"
     add-html-title "$output_file" "$input_file"
 done
