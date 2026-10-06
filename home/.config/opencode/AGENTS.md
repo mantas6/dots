@@ -2,4 +2,4 @@
 - Use `trash` instead of `rm` when possible
 - If needed program is not installed use `nix run` (on NixOS only)
 - Before any task, make sure local repo has all remote changes
-- Use `bh` for working with Bitbucket pull requests
+- Use `bh` for working with Bitbucket pull requests / repos
