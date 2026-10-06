@@ -26,6 +26,10 @@ func expandWildcardPaths(pattern string) []string {
 		if strings.HasPrefix(filepath.Base(match), ".") {
 			continue
 		}
+		info, err := os.Stat(match)
+		if err != nil || !info.IsDir() {
+			continue
+		}
 		filtered = append(filtered, match)
 	}
 
