@@ -24,6 +24,8 @@ fn-brew() {
         echo 'Restart the shell, run stow and then re-run this command'
         exit 0
     else
+        local -x HOMEBREW_VERBOSE=1
+
         brew update
         brew bundle --global
         brew bundle upgrade --global
