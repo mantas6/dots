@@ -15,7 +15,7 @@ process.stdin.on("end", () => {
   for (const [index, line] of code.split("\n").entries()) {
     const trimmed = line.trim();
 
-    if (trimmed === "" || trimmed.startsWith("//")) continue;
+    if (buffer === "" && (trimmed === "" || trimmed.startsWith("//"))) continue;
 
     buffer += `${buffer === "" ? "" : "\n"}${line}`;
 
