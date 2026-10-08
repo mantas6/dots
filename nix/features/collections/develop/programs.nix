@@ -59,6 +59,7 @@
     environment.systemPackages = with pkgs-unstable;
       [
         tmux
+        herdr
 
         phpConfigured
         phpConfigured.packages.composer
@@ -128,7 +129,6 @@
       ]
       ++ [
         self.packages.${pkgs.stdenv.hostPlatform.system}.bh
-        self.packages.${pkgs.stdenv.hostPlatform.system}.herdr
       ];
   };
 }
