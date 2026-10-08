@@ -28,6 +28,9 @@
     networking.useNetworkd = true;
     services.resolved.enable = true;
 
+    # nftables backend for the NixOS firewall; sat has no Docker so nothing else programs iptables
+    networking.nftables.enable = true;
+
     age.secrets.sat-network = {
       file = ../../_lib/secrets/sat-network.age;
       path = "/etc/systemd/network/10-eth0.network";
