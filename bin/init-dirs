@@ -6,7 +6,7 @@ set -e
 cd "$HOME"
 
 mkdir -pv \
-    .config/{docker,docker-darwin,autorandr,systemd/user,composer} \
+    .config/{docker,docker-darwin,autorandr,systemd/user,composer,herdr} \
     .local/{share,bin} \
     .local/state/{bash,zsh} \
     .local/state/sessions/{llm,calc} \
