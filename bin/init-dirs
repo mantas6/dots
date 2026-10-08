@@ -12,6 +12,7 @@ mkdir -pv \
     .local/state/sessions/{llm,calc} \
     .gnupg \
     .claude \
+    .codex \
     Repos \
     Volumes \
     Downloads
