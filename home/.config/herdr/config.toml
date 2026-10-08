@@ -63,3 +63,7 @@ enabled = false
 
 [advanced]
 scrollback_limit_bytes = 10000000
+
+[worktrees]
+# Keep sidebar-created git worktrees out of ~/.herdr
+directory = "~/.local/share/herdr/worktrees"
