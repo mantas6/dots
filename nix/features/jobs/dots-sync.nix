@@ -28,7 +28,7 @@
       wantedBy = ["timers.target"];
       timerConfig = {
         OnCalendar = "*-*-* 10:00:00";
-        RandomizedDelaySec = "15min";
+        RandomizedDelaySec = "5min";
       };
     };
   };
