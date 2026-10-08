@@ -52,6 +52,7 @@ pane_outer_borders = false
 pane_borders = "auto"
 accent = "blue"
 status_indicators = "dots"
+agent_panel_sort = "priority"
 hide_tab_bar_when_single_tab = true
 sidebar_collapsed_mode = "hidden"
 
