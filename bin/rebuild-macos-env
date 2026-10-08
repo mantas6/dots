@@ -153,6 +153,9 @@ fn-misc() {
         go install github.com/mantas6/tg@latest
         go install github.com/mantas6/bh/cmd/bh@latest
         go install github.com/mantas6/sat-cli/cmd/sat@latest
+
+        # Pinned: 2.38.1 zsh hook guard breaks precmd loading
+        go install github.com/direnv/direnv/v2@v2.37.1
     )
 }
 
