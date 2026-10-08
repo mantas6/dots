@@ -27,8 +27,7 @@
       description = "Sync dotfiles (dsy) daily";
       wantedBy = ["timers.target"];
       timerConfig = {
-        OnCalendar = "daily";
-        Persistent = true;
+        OnCalendar = "*-*-* 10:00:00";
         RandomizedDelaySec = "15min";
       };
     };
