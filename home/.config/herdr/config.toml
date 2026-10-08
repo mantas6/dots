@@ -59,7 +59,7 @@ sidebar_collapsed_mode = "hidden"
 rows = [["state_icon", "workspace"], ["branch", "git_status"]]
 
 [ui.sound]
-enabled = true
+enabled = false
 
 [advanced]
 scrollback_limit_bytes = 10000000
