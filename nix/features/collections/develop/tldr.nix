@@ -6,7 +6,7 @@
       tealdeer
     ];
 
-    systemd.user.services.${serviceName} = {
+    systemd.services.${serviceName} = {
       script = "${pkgs-unstable.tealdeer}/bin/tldr -u";
 
       after = ["network-online.target"];
@@ -17,12 +17,13 @@
 
       serviceConfig = {
         Type = "oneshot";
+        User = "mantas";
       };
 
       startAt = "weekly";
     };
 
-    systemd.user.timers.${serviceName} = {
+    systemd.timers.${serviceName} = {
       timerConfig = {
         Persistent = true;
         RandomizedDelaySec = "5m";

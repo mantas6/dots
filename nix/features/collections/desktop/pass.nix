@@ -1,5 +1,9 @@
 {...}: {
-  flake.modules.nixos."collections-desktop" = {pkgs, ...}: let
+  flake.modules.nixos."collections-desktop" = {
+    pkgs,
+    config,
+    ...
+  }: let
     serviceName = "pass-pull";
   in {
     programs.gnupg = {
@@ -15,7 +19,7 @@
       pwgen
     ];
 
-    systemd.user.services.${serviceName} = {
+    systemd.services.${serviceName} = {
       script = "${pkgs.pass}/bin/pass git pull";
 
       path = with pkgs; [
@@ -24,7 +28,7 @@
       ];
 
       environment = {
-        PASSWORD_STORE_DIR = "%h/.local/share/password-store";
+        PASSWORD_STORE_DIR = "${config.users.users.mantas.home}/.local/share/password-store";
       };
 
       restartIfChanged = false;
@@ -35,12 +39,13 @@
 
       serviceConfig = {
         Type = "oneshot";
+        User = "mantas";
       };
 
       startAt = "daily";
     };
 
-    systemd.user.timers.${serviceName} = {
+    systemd.timers.${serviceName} = {
       timerConfig = {
         Persistent = true;
         RandomizedDelaySec = "5m";
