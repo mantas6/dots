@@ -1,9 +1,41 @@
 {...}: {
   flake.modules.nixos."services-docker" = {
-    lib,
+    pkgs,
     config,
     ...
-  }: {
+  }: let
+    dockerPrune = pkgs.writeShellApplication {
+      name = "docker-prune";
+
+      runtimeInputs = [
+        config.virtualisation.docker.rootless.package
+        pkgs.coreutils
+        pkgs.findutils
+      ];
+
+      text =
+        /*
+        bash
+        */
+        ''
+          # Containers are pruned by stop time, since `until` filters on creation time
+          # and would remove long-lived containers stopped by a reboot
+          cutoff="$(date -d '7 days ago' +%s)"
+
+          docker ps -aq --filter status=exited --filter status=dead |
+            xargs -r docker inspect --format '{{.Id}} {{.State.FinishedAt}}' |
+            while read -r id finished; do
+              if (($(date -d "$finished" +%s) < cutoff)); then
+                docker rm "$id"
+              fi
+            done
+
+          docker network prune -f --filter until=168h
+          docker image prune -f --filter until=168h
+          docker builder prune -f --filter until=168h
+        '';
+    };
+  in {
     virtualisation.docker = {
       enable = true;
       rootless = {
@@ -31,7 +63,7 @@
       serviceConfig = {
         Type = "oneshot";
         Environment = "DOCKER_HOST=unix://%t/docker.sock";
-        ExecStart = "${lib.getExe config.virtualisation.docker.rootless.package} system prune -f";
+        ExecStart = "${dockerPrune}/bin/docker-prune";
       };
     };
 
