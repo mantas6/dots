@@ -35,9 +35,6 @@
     { "action": "external_directory", "resource": "/tmp", "effect": "allow" },
     { "action": "external_directory", "resource": "/tmp/*", "effect": "allow" }
   ],
-  "compaction": {
-    "auto": false
-  },
   // Server settings moved out of the config in v2, use `opencode service set <hostname|port|cors> <value>`
   "mcp": {
     "servers": {
