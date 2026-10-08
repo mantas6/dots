@@ -128,6 +128,7 @@
       ]
       ++ [
         self.packages.${pkgs.stdenv.hostPlatform.system}.bh
+        self.packages.${pkgs.stdenv.hostPlatform.system}.herdr
       ];
   };
 }
