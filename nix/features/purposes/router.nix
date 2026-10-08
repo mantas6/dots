@@ -16,7 +16,62 @@
 
     servicesIp = "10.0.1.21"; # l4
     wolPort = 5001;
+
+    # Invoked by dnsmasq as `<action> <mac> <ip> [hostname]` on lease changes.
+    dhcpLeaseNotify = pkgs.writeShellApplication {
+      name = "dhcp-lease-notify";
+      runtimeInputs = [pkgs.curl];
+      text =
+        /*
+        bash
+        */
+        ''
+          # "old" is replayed for known leases on start/SIGHUP and "del" is an
+          # expiry, so only "add" means a newly handed out lease.
+          [[ $1 == add ]] || exit 0
+
+          mac=$2
+          ip=$3
+          host=''${4:-''${DNSMASQ_SUPPLIED_HOSTNAME:-unknown}}
+          message="New DHCP lease: $host $ip ($mac)"
+          [[ -n ''${DNSMASQ_VENDOR_CLASS:-} ]] && message+=" [$DNSMASQ_VENDOR_CLASS]"
+
+          notify() {
+            local base_url token
+            base_url=$(<"${config.age.secrets.sat-base-url.path}") || return
+            token=$(<"${config.age.secrets.router-token.path}") || return
+
+            curl \
+              --fail \
+              --silent \
+              --show-error \
+              --connect-timeout 10 \
+              --max-time 30 \
+              --output /dev/null \
+              --header 'Accept: application/json' \
+              --header "Authorization: Bearer $token" \
+              --data-urlencode "message=$message" \
+              "''${base_url%/}/api/notify"
+          }
+
+          # Never fail dnsmasq's script runner; errors land in its journal.
+          notify || echo "dhcp-lease-notify: failed to notify sat about $ip ($mac)" >&2
+        '';
+    };
   in {
+    # The lease script runs as the dnsmasq user (see dhcp-scriptuser below).
+    age.secrets = {
+      router-token = {
+        file = ../../_lib/secrets/router-token.age;
+        group = "dnsmasq";
+        mode = "0440";
+      };
+      sat-base-url = {
+        group = "dnsmasq";
+        mode = "0440";
+      };
+    };
+
     networking.stevenblack = {
       enable = true;
       package = pkgs-unstable.stevenblack-blocklist;
@@ -56,6 +111,9 @@
 
         expand-hosts = true;
         domain-needed = true;
+
+        dhcp-script = "${dhcpLeaseNotify}/bin/dhcp-lease-notify";
+        dhcp-scriptuser = "dnsmasq";
       };
     };
 

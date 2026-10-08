@@ -31,4 +31,9 @@ in {
     publicKeys = users ++ allSystems;
     armor = true;
   };
+
+  "${basePath}/router-token.age" = {
+    publicKeys = users ++ [systems.pd];
+    armor = true;
+  };
 }
