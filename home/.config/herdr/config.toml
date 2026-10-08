@@ -28,6 +28,7 @@ zoom = "prefix+z"                    # tmux default resize-pane -Z (z is respawn
 # Workspaces (tmux sessions)
 workspace_picker = "prefix+e"        # tmux: bind e run-shell 'e'
 detach = "prefix+d"
+last_pane = "prefix+w"               # tmux: bind w sessionizer last / bind a last-window
 
 # prefix+e default was edit_scrollback; freed for workspace_picker
 edit_scrollback = ""
@@ -52,6 +53,7 @@ pane_outer_borders = false
 pane_borders = "auto"
 accent = "blue"
 status_indicators = "dots"
+agent_panel_sort = "priority"
 hide_tab_bar_when_single_tab = true
 sidebar_collapsed_mode = "hidden"
 
@@ -63,3 +65,7 @@ enabled = false
 
 [advanced]
 scrollback_limit_bytes = 10000000
+
+[worktrees]
+# Keep sidebar-created git worktrees out of ~/.herdr
+directory = "~/.local/share/herdr/worktrees"
