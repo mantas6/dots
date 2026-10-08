@@ -92,11 +92,11 @@ func uptime(res json.RawMessage) *Part {
 	time := p.Uptime / 1000 / 60
 	unit := "m"
 
-	if time > 60 {
+	if time >= 60 {
 		time /= 60
 		unit = "h"
 
-		if time > 24 {
+		if time >= 24 {
 			time /= 24
 			unit = "d"
 		}
