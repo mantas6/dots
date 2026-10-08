@@ -15,7 +15,20 @@
 
       extraDependencyGroups = ["messaging" "voice"];
 
+      # Timed session resets are opt-in since Hermes removed the core policy.
+      extraPlugins = [
+        (pkgs-unstable.fetchFromGitHub {
+          name = "hermes-session-reset-policy";
+          owner = "fastfinge";
+          repo = "hermes-session-reset-policy";
+          rev = "493df020496d2782d3fe15308cc3b6672c2224c4";
+          hash = "sha256-Ax//zlao53+YOwP/+v3AOYIH0R30U9ON7ixI3EjEEVI=";
+        })
+      ];
+
       settings = {
+        plugins.enabled = ["hermes-session-reset-policy"];
+
         model.default = "openai/gpt-6.1-sol";
 
         agent = {
@@ -29,7 +42,8 @@
 
         session_reset = {
           mode = "idle";
-          idleMinutes = 60 * 12;
+          # Reset on the first user message after 12 hours of inactivity.
+          idle_minutes = 60 * 12;
         };
 
         stt.enabled = false;
