@@ -5,7 +5,6 @@ return function()
   local focused = awful.screen.focused()
 
   local hostname = io.popen('uname -n'):read('*l')
-  local satUrl = io.popen('sat-base-url'):read('*l')
 
   local apps = {}
 

@@ -50,7 +50,7 @@ export ANTHROPIC_ENABLE_1M_CONTEXT=true
 
 [ -f "$XDG_CONFIG_HOME/shell/local/profile" ] && . "$XDG_CONFIG_HOME/shell/local/profile"
 
-export PATH="$PATH:$DOTS_DIR/bin:$DOTS_DIR/opt/sat/bin"
+export PATH="$PATH:$DOTS_DIR/bin"
 
 [ -x "$(command -v npm)" ] && PATH="$(npm config get prefix)/bin:$PATH"
 
