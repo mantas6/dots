@@ -22,5 +22,10 @@
     "input.delete": "delete,shift+delete"
   },
   // installed by herdr (v2 variant of the ./herdr-tui-session.js entry herdr adds to tui.jsonc)
-  "plugins": ["./herdr-opencode"]
+  "plugins": [
+    "./herdr-opencode"
+  ],
+  "session": {
+    "sidebar": "hide"
+  }
 }
