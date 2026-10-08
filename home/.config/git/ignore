@@ -18,3 +18,4 @@ __pycache__
 /.playwright-mcp
 
 **/.claude/settings.local.json
+**/.claude/worktrees/
