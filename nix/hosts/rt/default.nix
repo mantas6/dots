@@ -16,7 +16,7 @@
         jobs-os-upgrade
         services-hermes
       ])
-      ++ [./_hardware.nix];
+      ++ [./_hardware.nix ./_windows11.nix];
 
     disko.devices.disk.main-disk.device = "/dev/sda";
 
