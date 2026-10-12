@@ -26,7 +26,8 @@
     "./herdr-opencode"
   ],
   "session": {
-    "sidebar": "hide"
+    "sidebar": "hide",
+    "new_location": "inherit"
   },
   "tabs": {
     "indicators": "status",
