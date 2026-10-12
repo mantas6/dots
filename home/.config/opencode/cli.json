@@ -33,6 +33,6 @@
     "indicators": "status",
     "layout": "vertical",
     "scope": "global",
-    "mode": "on"
+    "mode": "auto"
   }
 }
