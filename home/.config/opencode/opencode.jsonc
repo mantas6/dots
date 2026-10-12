@@ -6,7 +6,7 @@
     "anthropic",
     "openai"
   ],
-  // "model": "anthropic/claude-opus-4-7",
+  // "model": "anthropic/claude-opus-5-5",
   "plugins": [
     // https://github.com/ex-machina-co/opencode-anthropic-auth
     // v2 builds are published on the `next` npm tag, pin via `npm view @ex-machina/opencode-anthropic-auth dist-tags.next`
@@ -14,25 +14,25 @@
   ],
   // Ordered rules, last match wins. `*` also matches `/`.
   "permissions": [
-    { "action": "read", "resource": "*", "effect": "allow" },
     { "action": "read", "resource": "*.env", "effect": "deny" },
     { "action": "read", "resource": "*.env.*", "effect": "deny" },
     { "action": "read", "resource": ".envrc", "effect": "deny" },
     { "action": "read", "resource": "*/.envrc", "effect": "deny" },
     { "action": "read", "resource": "*.env.example", "effect": "allow" },
-    { "action": "shell", "resource": "*", "effect": "allow" },
     { "action": "shell", "resource": "gpg*", "effect": "deny" },
     { "action": "shell", "resource": "nix-env*", "effect": "deny" },
     { "action": "shell", "resource": "sudo*", "effect": "deny" },
     { "action": "external_directory", "resource": "*", "effect": "deny" },
-    { "action": "external_directory", "resource": "~/.dots", "effect": "allow" },
+    // Folders opencode itself needs. Global rules are appended after the built-in allows, so the deny above would shadow them.
+    { "action": "external_directory", "resource": "~/.opencode/plan/*", "effect": "allow" },
+    { "action": "external_directory", "resource": "~/.local/share/opencode/tool-output/*", "effect": "allow" },
+    { "action": "external_directory", "resource": "~/.local/share/opencode/shell/*", "effect": "allow" },
+    { "action": "external_directory", "resource": "~/.config/opencode/*", "effect": "allow" },
     { "action": "external_directory", "resource": "~/.dots/*", "effect": "allow" },
     { "action": "external_directory", "resource": "~/Repos/*", "effect": "allow" },
     { "action": "external_directory", "resource": "~/Downloads/*", "effect": "allow" },
     { "action": "external_directory", "resource": "/nix/store/*", "effect": "allow" },
-    { "action": "external_directory", "resource": "/opt", "effect": "allow" },
     { "action": "external_directory", "resource": "/opt/*", "effect": "allow" },
-    { "action": "external_directory", "resource": "/tmp", "effect": "allow" },
     { "action": "external_directory", "resource": "/tmp/*", "effect": "allow" }
   ],
   // Server settings moved out of the config in v2, use `opencode service set <hostname|port|cors> <value>`
@@ -53,7 +53,8 @@
         "type": "local",
         "command": [
           "npx",
-          "@playwright/mcp@0.0.82",
+          "-y",
+          "@playwright/mcp@0.0.83",
           "--headless"
         ]
       },

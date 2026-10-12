@@ -1,4 +1,5 @@
 ---
+description: Run the current plan in GPT subagents
 agent: build
 ---
 

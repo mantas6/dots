@@ -1,4 +1,5 @@
 ---
+description: Run the current plan in Opus subagents
 agent: build
 ---
 
