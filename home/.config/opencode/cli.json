@@ -27,12 +27,13 @@
   ],
   "session": {
     "sidebar": "hide",
-    "new_location": "inherit"
+    "new_location": "launch",
+    "thinking": "hide"
   },
   "tabs": {
     "indicators": "status",
-    "layout": "vertical",
-    "scope": "global",
-    "mode": "auto"
+    "layout": "horizontal",
+    "scope": "cwd",
+    "mode": "off"
   }
 }
