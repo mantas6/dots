@@ -15,6 +15,7 @@
         disks-normal
         jobs-os-upgrade-desktop
         services-ollama
+        services-vllm
       ])
       ++ [./_hardware.nix];
 
