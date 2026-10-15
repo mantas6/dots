@@ -20,7 +20,7 @@
     # Invoked by dnsmasq as `<action> <mac> <ip> [hostname]` on lease changes.
     dhcpLeaseNotify = pkgs.writeShellApplication {
       name = "dhcp-lease-notify";
-      runtimeInputs = [pkgs.curl];
+      runtimeInputs = [self.packages.${pkgs.stdenv.hostPlatform.system}.sat];
       text =
         /*
         bash
@@ -36,26 +36,13 @@
           message="New DHCP lease: $host $ip ($mac)"
           [[ -n ''${DNSMASQ_VENDOR_CLASS:-} ]] && message+=" [$DNSMASQ_VENDOR_CLASS]"
 
-          notify() {
-            local base_url token
-            base_url=$(<"${config.age.secrets.sat-base-url.path}") || return
-            token=$(<"${config.age.secrets.router-token.path}") || return
-
-            curl \
-              --fail \
-              --silent \
-              --show-error \
-              --connect-timeout 10 \
-              --max-time 30 \
-              --output /dev/null \
-              --header 'Accept: application/json' \
-              --header "Authorization: Bearer $token" \
-              --data-urlencode "message=$message" \
-              "''${base_url%/}/api/notify"
-          }
+          export SAT_URL_PATH=${config.age.secrets.sat-base-url.path}
+          export SAT_TOKEN_PATH=${config.age.secrets.router-token.path}
+          # No HOME here and sat needs a state dir to start; notify never touches it.
+          export SAT_JOURNAL_STATE=/var/empty
 
           # Never fail dnsmasq's script runner; errors land in its journal.
-          notify || echo "dhcp-lease-notify: failed to notify sat about $ip ($mac)" >&2
+          sat notify "$message" || echo "dhcp-lease-notify: failed to notify sat about $ip ($mac)" >&2
         '';
     };
   in {
