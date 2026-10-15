@@ -7,7 +7,6 @@
         "$schema" = "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json";
         # Use `fastfetch --format json -s ...` to test modules.
         modules = [
-          "title"
           "os"
           "host"
           "bios"
@@ -15,46 +14,32 @@
           "board"
           "chassis"
           "kernel"
-          "initsystem"
           "uptime"
           "loadavg"
           "processes"
-          "packages"
-          "shell"
           "display"
-          "brightness"
           {
             type = "cpu";
             showPeCoreCount = true;
             temp = true;
           }
-          "cpucache"
           "cpuusage"
           {
             type = "gpu";
             driverSpecific = true;
             temp = true;
           }
-          {
-            type = "codec";
-            splitGPU = true;
-          }
           "memory"
-          "physicalmemory"
           {
             type = "swap";
             separate = true;
           }
           "disk"
-          "btrfs"
-          "zpool"
           {
             type = "battery";
             temp = true;
           }
           "poweradapter"
-          "player"
-          "media"
           {
             type = "localip";
             showIpv6 = true;
@@ -68,26 +53,14 @@
           "dns"
           "wifi"
           "datetime"
-          "locale"
-          "vulkan"
-          "opengl"
-          "opencl"
           "users"
           "bluetooth"
-          "bluetoothradio"
-          "sound"
-          "camera"
-          "gamepad"
-          "mouse"
-          "keyboard"
           "netio"
           "diskio"
           {
             type = "physicaldisk";
             temp = true;
           }
-          "tpm"
-          "version"
           {
             type = "command";
             key = "Last Shutdown";
