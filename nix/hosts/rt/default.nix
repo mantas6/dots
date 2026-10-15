@@ -20,6 +20,8 @@
 
     disko.devices.disk.main-disk.device = "/dev/sda";
 
+    users.users.mantas.hashedPassword = "$y$j9T$CBUDkbjWCNFT9elDItjDs/$C6QtugeloE8JGPFJYJKeMAkhfxDFuiUYaRH4d2CMARB";
+
     # boot.kernelParams = [
     #   "console=ttyS0,115200n8"
     #   "console=ttyS1,115200n8"

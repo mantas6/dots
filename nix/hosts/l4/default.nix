@@ -28,6 +28,8 @@
 
     disko.devices.disk.main-disk.device = "/dev/sda";
 
+    users.users.mantas.hashedPassword = "$y$j9T$U4eWc1xmu7cyfRRNNVhw..$253NIyRnmx6bVSI60udjEOo8INSmMZehhWg90bVWF8B";
+
     features.swapSizeInGB = 8;
     powerManagement.powertop.enable = true;
 
