@@ -18,7 +18,6 @@
         collections-develop
         progs-shell
         progs-gaming
-        # services-printing
         services-docker
       ])
       ++ [./_hardware.nix];

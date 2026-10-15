@@ -20,7 +20,6 @@
         purposes-dashboard
         services-docker
         containers-memos
-        # containers-speedtest
         quirks-prevent-sleep
         services-sat-backups
       ])
