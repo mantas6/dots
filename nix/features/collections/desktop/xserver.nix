@@ -6,8 +6,6 @@
       xserver = {
         enable = true;
 
-        windowManager.awesome.enable = true;
-
         displayManager.startx.enable = true;
 
         autoRepeatDelay = 250;

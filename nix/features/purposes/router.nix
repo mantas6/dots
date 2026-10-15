@@ -16,7 +16,49 @@
 
     servicesIp = "10.0.1.21"; # l4
     wolPort = 5001;
+
+    # Invoked by dnsmasq as `<action> <mac> <ip> [hostname]` on lease changes.
+    dhcpLeaseNotify = pkgs.writeShellApplication {
+      name = "dhcp-lease-notify";
+      runtimeInputs = [self.packages.${pkgs.stdenv.hostPlatform.system}.sat];
+      text =
+        /*
+        bash
+        */
+        ''
+          # "old" is replayed for known leases on start/SIGHUP and "del" is an
+          # expiry, so only "add" means a newly handed out lease.
+          [[ $1 == add ]] || exit 0
+
+          mac=$2
+          ip=$3
+          host=''${4:-''${DNSMASQ_SUPPLIED_HOSTNAME:-unknown}}
+          message="New DHCP lease: $host $ip ($mac)"
+          [[ -n ''${DNSMASQ_VENDOR_CLASS:-} ]] && message+=" [$DNSMASQ_VENDOR_CLASS]"
+
+          export SAT_URL_PATH=${config.age.secrets.sat-base-url.path}
+          export SAT_TOKEN_PATH=${config.age.secrets.notifications-token.path}
+          # No HOME here and sat needs a state dir to start; notify never touches it.
+          export SAT_JOURNAL_STATE=/var/empty
+
+          # Never fail dnsmasq's script runner; errors land in its journal.
+          sat notify "$message" || echo "dhcp-lease-notify: failed to notify sat about $ip ($mac)" >&2
+        '';
+    };
   in {
+    # The lease script runs as the dnsmasq user (see dhcp-scriptuser below).
+    age.secrets = {
+      notifications-token = {
+        file = ../../_lib/secrets/notifications-token.age;
+        group = "dnsmasq";
+        mode = "0440";
+      };
+      sat-base-url = {
+        group = "dnsmasq";
+        mode = "0440";
+      };
+    };
+
     networking.stevenblack = {
       enable = true;
       package = pkgs-unstable.stevenblack-blocklist;
@@ -56,6 +98,9 @@
 
         expand-hosts = true;
         domain-needed = true;
+
+        dhcp-script = "${dhcpLeaseNotify}/bin/dhcp-lease-notify";
+        dhcp-scriptuser = "dnsmasq";
       };
     };
 
