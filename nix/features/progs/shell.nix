@@ -37,7 +37,6 @@
 
       stow
       jq
-      yq-go
 
       git
       fastfetch
