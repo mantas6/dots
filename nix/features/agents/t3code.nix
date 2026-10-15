@@ -16,7 +16,7 @@
       unitConfig.ConditionUser = "!root";
       environment.SHELL = zsh;
       serviceConfig = {
-        ExecStart = "${zsh} -lc 'exec ${t3} serve --mode web --host 0.0.0.0 --no-browser'";
+        ExecStart = "${zsh} -lc 'exec ${t3} serve --mode web --port 3773 --host 0.0.0.0 --no-browser'";
         WorkingDirectory = "%h";
         Restart = "always";
         RestartSec = 2;
