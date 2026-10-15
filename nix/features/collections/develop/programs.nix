@@ -24,22 +24,6 @@
     '';
 
     phpConfigured = pkgs-unstable.php85.buildEnv {
-      extensions = {
-        enabled,
-        all,
-      }:
-        enabled
-        ++ (with all; [
-          pdo
-          pdo_mysql
-          pdo_sqlite
-          mbstring
-          bcmath
-          curl
-          zip
-          intl
-        ]);
-
       extraConfig = "memory_limit = 2G";
     };
   in {
