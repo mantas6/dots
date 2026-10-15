@@ -166,13 +166,17 @@
     systemd.services.sat-schedule =
       defaultServiceOptions
       // {
-        script = "php artisan schedule:run --no-interaction";
+        # Backgrounded so the unit finishes at once and the next tick can start
+        # a new run even if this one is still going; KillMode=process keeps
+        # the run alive after the unit stops.
+        script = "timeout 1h php artisan schedule:run --no-interaction &";
 
         serviceConfig =
           defaultServiceConfig
           // {
             Type = "oneshot";
             Restart = "no";
+            KillMode = "process";
           };
 
         restartIfChanged = false;
