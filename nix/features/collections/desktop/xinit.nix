@@ -30,7 +30,6 @@
         done &
 
         exec ${dwmPkg}/bin/dwm
-        # exec ${config.services.xserver.windowManager.awesome.package}/bin/awesome
       '';
   in {
     environment.variables.XINITRC = "${xinitrc}";

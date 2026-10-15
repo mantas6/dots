@@ -7,7 +7,6 @@
       arandr
       autorandr
       picom
-      dex
       unclutter
       numlockx
       xssstate
