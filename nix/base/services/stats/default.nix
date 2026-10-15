@@ -2,6 +2,7 @@
   flake.modules.nixos.base = {
     config,
     pkgs,
+    pkgs-unstable,
     lib,
     ...
   }: let
@@ -11,7 +12,7 @@
 
     sendMachineStats = pkgs.writeShellApplication {
       name = "send-machine-stats";
-      runtimeInputs = [pkgs.fastfetch pkgs.curl pkgs.systemd pkgs.gnugrep];
+      runtimeInputs = [pkgs-unstable.fastfetch pkgs.curl pkgs.systemd pkgs.gnugrep];
       text =
         /*
         bash
