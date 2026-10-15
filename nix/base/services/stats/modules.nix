@@ -19,7 +19,6 @@
           "uptime"
           "loadavg"
           "processes"
-          "packages"
           "shell"
           "display"
           "brightness"
@@ -35,26 +34,17 @@
             driverSpecific = true;
             temp = true;
           }
-          {
-            type = "codec";
-            splitGPU = true;
-          }
           "memory"
-          "physicalmemory"
           {
             type = "swap";
             separate = true;
           }
           "disk"
-          "btrfs"
-          "zpool"
           {
             type = "battery";
             temp = true;
           }
           "poweradapter"
-          "player"
-          "media"
           {
             type = "localip";
             showIpv6 = true;
@@ -71,11 +61,9 @@
           "locale"
           "vulkan"
           "opengl"
-          "opencl"
           "users"
           "bluetooth"
           "bluetoothradio"
-          "sound"
           "camera"
           "gamepad"
           "mouse"
