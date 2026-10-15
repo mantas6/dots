@@ -78,7 +78,6 @@
 
         # Art
         python313
-        python313Packages.pip
         uv
         imagemagick
         exiftool
