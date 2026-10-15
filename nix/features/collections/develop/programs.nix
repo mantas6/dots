@@ -73,8 +73,6 @@
         nodejs_24
         go
         gcc
-        lua51Packages.lua
-        lua51Packages.luarocks
 
         # Art
         python313

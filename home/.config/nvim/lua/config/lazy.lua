@@ -27,6 +27,8 @@ require('lazy').setup({
   -- automatically check for plugin updates
   checker = { enabled = true, notify = false },
   change_detection = { notify = false },
+  -- no plugins need luarocks; skip it (and its :checkhealth warning)
+  rocks = { enabled = false },
 })
 
 -- nvim native plugins
