@@ -26,6 +26,14 @@
     "./herdr-opencode"
   ],
   "session": {
-    "sidebar": "hide"
+    "sidebar": "hide",
+    "new_location": "launch",
+    "thinking": "hide"
+  },
+  "tabs": {
+    "indicators": "status",
+    "layout": "horizontal",
+    "scope": "cwd",
+    "mode": "off"
   }
 }
