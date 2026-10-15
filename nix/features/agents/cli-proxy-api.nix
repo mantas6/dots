@@ -3,7 +3,7 @@
 #   cli-proxy-api --config <config path from ExecStart> --<provider>-login
 #   systemctl --user restart cli-proxy-api
 {self, ...}: {
-  flake.modules.nixos."services-cli-proxy-api" = {pkgs, ...}: let
+  flake.modules.nixos."agents-cli-proxy-api" = {pkgs, ...}: let
     port = 8317;
     pkg = self.packages.${pkgs.stdenv.hostPlatform.system}.cli-proxy-api;
     configFile = pkgs.writeText "cli-proxy-api-config.yaml" ''

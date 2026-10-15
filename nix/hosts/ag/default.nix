@@ -22,10 +22,10 @@
         collections-develop
         progs-shell
         services-docker
-        services-cli-proxy-api
         agents-claude-timer
         agents-codex-timer
         agents-t3code
+        agents-cli-proxy-api
       ])
       ++ [./_hardware.nix];
 
