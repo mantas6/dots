@@ -1,5 +1,6 @@
 #!/usr/bin/env zsh
 
-if [ -x "$(command -v startx)" ] && [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
+if [[ -o login ]] && [ -z "$TMUX" ] && [ -z "$DISPLAY" ] \
+    && [ "$(tty)" = /dev/tty1 ] && [ -x "$(command -v startx)" ]; then
     exec startx "$XINITRC"
 fi

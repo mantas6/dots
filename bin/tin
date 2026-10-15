@@ -4,7 +4,7 @@
 # cd "$(git rev-parse --show-toplevel)" || exit 1
 
 if [ ! -f composer.json ]; then
-    gum log --level=error 'Current directory is not an PHP application' >&2
+    gum log --level=error 'Current directory is not a PHP application' >&2
     exit 1
 fi
 

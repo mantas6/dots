@@ -9,7 +9,14 @@
       rootless = {
         enable = true;
         setSocketVariable = true;
+        daemon.settings = {
+          ip6tables = false;
+        };
       };
+    };
+
+    environment.sessionVariables = {
+      DOCKER_CONFIG = "$HOME/.config/docker";
     };
 
     boot.kernel.sysctl = {

@@ -18,6 +18,7 @@
         */
         ''
           BASE_URL=$(<"$CREDENTIALS_DIRECTORY/sat-base-url")
+          TOKEN=$(<"$CREDENTIALS_DIRECTORY/machines-token")
           stats=$(fastfetch --config ${statsConfig} --json)
           endpoint="''${BASE_URL%/}/api/machine/$MACHINE_NAME"
 
@@ -28,6 +29,7 @@
             --connect-timeout 10 \
             --max-time 30 \
             --header 'Content-Type: application/json' \
+            --header "Authorization: Bearer $TOKEN" \
             --data-binary @- \
             "$endpoint"
         '';
@@ -35,6 +37,7 @@
   in
     lib.mkIf (builtins.hasAttr config.networking.hostName systems) {
       age.secrets.sat-base-url.file = ../../../_lib/secrets/sat-base-url.age;
+      age.secrets.machines-token.file = ../../../_lib/secrets/machines-token.age;
 
       systemd.services.send-machine-stats = {
         description = "Send machine statistics";
@@ -49,7 +52,10 @@
           Type = "oneshot";
           DynamicUser = true;
           SupplementaryGroups = ["systemd-journal"];
-          LoadCredential = "sat-base-url:${config.age.secrets.sat-base-url.path}";
+          LoadCredential = [
+            "sat-base-url:${config.age.secrets.sat-base-url.path}"
+            "machines-token:${config.age.secrets.machines-token.path}"
+          ];
           ExecStart = "${sendMachineStats}/bin/send-machine-stats";
         };
       };

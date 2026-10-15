@@ -5,7 +5,7 @@
       persistent = true;
 
       flake = "github:mantas6/dots";
-      dates = "09:00";
+      dates = "07:00";
       operation = "boot";
 
       allowReboot = false;

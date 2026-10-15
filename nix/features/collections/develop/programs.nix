@@ -18,23 +18,12 @@
 
     agenix = inputs.agenix.packages.${pkgs-unstable.stdenv.hostPlatform.system}.default;
 
-    phpConfigured = pkgs-unstable.php85.buildEnv {
-      extensions = {
-        enabled,
-        all,
-      }:
-        enabled
-        ++ (with all; [
-          pdo
-          pdo_mysql
-          pdo_sqlite
-          mbstring
-          bcmath
-          curl
-          zip
-          intl
-        ]);
+    # nixpkgs unstable still ships opencode v1, run v2 through npx until it catches up
+    opencode-v2 = pkgs-unstable.writeShellScriptBin "opencode" ''
+      exec ${pkgs-unstable.nodejs_24}/bin/npx -y @opencode/cli@2.0.24 "$@"
+    '';
 
+    phpConfigured = pkgs-unstable.php85.buildEnv {
       extraConfig = "memory_limit = 2G";
     };
   in {
@@ -98,7 +87,7 @@
         pastel
         onefetch
 
-        opencode
+        opencode-v2
         codex
         pkgs-unstable-unfree.claude-code
         pkgs.chromium

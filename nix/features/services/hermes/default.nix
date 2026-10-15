@@ -15,8 +15,22 @@
 
       extraDependencyGroups = ["messaging" "voice"];
 
+      # Timed session resets are opt-in since Hermes removed the core policy.
+      extraPlugins = [
+        (pkgs-unstable.fetchFromGitHub {
+          name = "hermes-session-reset-policy";
+          owner = "fastfinge";
+          repo = "hermes-session-reset-policy";
+          # Skip slash commands so /new after an idle boundary resets only once.
+          rev = "e8d5ea2609742865fcd404476efffadf921ccf38";
+          hash = "sha256-1hCuYcHIr3iudaVsDpHU8FKswgK+SE+fQy3sZu546lI=";
+        })
+      ];
+
       settings = {
-        model.default = "openai/gpt-5.6-sol";
+        plugins.enabled = ["hermes-session-reset-policy"];
+
+        model.default = "openai/gpt-6.1-sol";
 
         agent = {
           reasoning_effort = "medium";
@@ -29,7 +43,8 @@
 
         session_reset = {
           mode = "idle";
-          idleMinutes = 60 * 12;
+          # Reset on the first user message after 12 hours of inactivity.
+          idle_minutes = 60 * 12;
         };
 
         stt.enabled = false;
@@ -61,7 +76,6 @@
         imagemagick
         exiftool
         ffmpeg
-        imagemagick
 
         python313Packages.edge-tts
         openai-whisper

@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-place=${1:-vilnius}
-
-curl -sSfL "$(sat-base-url)/api/wt/$place"

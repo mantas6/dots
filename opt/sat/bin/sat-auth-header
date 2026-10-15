@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-set -e
-
-token=$(sat-auth-token)
-
-echo "Authorization: Bearer $token"

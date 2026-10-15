@@ -45,7 +45,7 @@ Output the result as JSON to @${tasks_file} with this schema:
 }"
 fi
 
-prompt "Write @${init_script} script that initializes enviroment and start development server. If it exists update it if you see that as necessary"
+prompt "Write @${init_script} script that initializes environment and start development server. If it exists update it if you see that as necessary"
 
 prompt "Write @${test_script} script that runs all tests and code quality checks. If it exists update it if you see that as necessary"
 

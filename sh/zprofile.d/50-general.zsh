@@ -50,7 +50,7 @@ export ANTHROPIC_ENABLE_1M_CONTEXT=true
 
 [ -f "$XDG_CONFIG_HOME/shell/local/profile" ] && . "$XDG_CONFIG_HOME/shell/local/profile"
 
-export PATH="$PATH:$DOTS_DIR/bin:$DOTS_DIR/opt/sat/bin"
+export PATH="$PATH:$DOTS_DIR/bin"
 
 [ -x "$(command -v npm)" ] && PATH="$(npm config get prefix)/bin:$PATH"
 
@@ -59,6 +59,8 @@ export PATH="$PATH:$DOTS_DIR/bin:$DOTS_DIR/opt/sat/bin"
 
 export COMPOSER_HOME="$HOME/.config/composer"
 [ -d "$HOME/.config/composer/vendor/bin" ] && export PATH="$COMPOSER_HOME/vendor/bin:$PATH"
+export CPX_HOME="$XDG_STATE_HOME/cpx"
+export T3CODE_HOME="$XDG_DATA_HOME/t3"
 
 [ -d "$HOME/.local/share/cargo/bin" ] && export PATH="$HOME/.local/share/cargo/bin:$PATH"
 [ -d "$GOPATH/bin" ] && export PATH="$GOPATH/bin:$PATH"

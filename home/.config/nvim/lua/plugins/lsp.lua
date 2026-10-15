@@ -7,7 +7,6 @@ return {
       opts = {},
     },
     'mason-org/mason-lspconfig.nvim',
-    -- 'WhoIsSethDaniel/mason-tool-installer.nvim',
     'saghen/blink.cmp',
   },
   config = function()
@@ -35,7 +34,7 @@ return {
     })
 
     local user = os.getenv('USER') or os.getenv('USERNAME')
-    local hostname = vim.loop.os_gethostname()
+    local hostname = vim.uv.os_gethostname()
 
     ---@type table<string, vim.lsp.Config>
     local servers = {
@@ -92,16 +91,6 @@ return {
         },
       },
     }
-
-    local ensure_installed = vim.tbl_filter(function(s)
-      return s ~= 'nixd'
-    end, vim.tbl_keys(servers or {}))
-
-    vim.list_extend(ensure_installed, {
-      -- You can add other tools here that you want Mason to install
-    })
-
-    -- require('mason-tool-installer').setup({ ensure_installed = ensure_installed })
 
     for name, server in pairs(servers) do
       vim.lsp.config(name, server)

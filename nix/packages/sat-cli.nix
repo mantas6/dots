@@ -4,7 +4,7 @@
     inputs',
     ...
   }: let
-    rev = "398b009f397652b92e1a0886b1eba00ac5cb064c";
+    rev = "b5cb3c0789403314855ac4251b5946aee8a3e1a6";
     shortRev = builtins.substring 0 7 rev;
     # sat-cli's go.mod requires go 1.26.7, which nixpkgs-unstable provides.
     goPkgs = inputs'.nixpkgs-unstable.legacyPackages;
@@ -17,19 +17,19 @@
         owner = "mantas6";
         repo = "sat-cli";
         inherit rev;
-        hash = "sha256-1Cerz0CslBcdAPe4J0l3sswkmX/oRRYpV9jHSXoaMXo=";
+        hash = "sha256-PrRcb1ZFwGV4vLhHR7wqEuIHgWeuxDv9GiJU2e3oEUo=";
       };
 
-      vendorHash = "sha256-KMunnWdq9rOMxBzEzNUiKzXY5AfEDxuuSjc/LrWTchE=";
+      vendorHash = "sha256-5Jf9J0G408h3yIzZ8y99SVpfIfm9E0ivgtonMZMy68U=";
+
+      subPackages = ["cmd/sat"];
 
       ldflags = ["-X main.version=${shortRev}"];
 
       nativeBuildInputs = [pkgs.makeWrapper];
 
-      # Binary is named after the module path (sat-cli); rename to `sat` and
-      # ensure the editor (article edit/new) and ssh runtime deps are reachable.
+      # Ensure the editor (article edit/new) and ssh runtime deps are reachable.
       postInstall = ''
-        mv $out/bin/sat-cli $out/bin/sat
         wrapProgram $out/bin/sat \
           --suffix PATH : ${pkgs.lib.makeBinPath [goPkgs.neovim pkgs.openssh]}
       '';

@@ -17,8 +17,10 @@ If stow fails, remove conflicting files (preferably to trash) and run again. Pay
 ### Create NixOS ISO
 
 ```sh
-nix run nixpkgs#nixos-generators -- --format iso --flake '#iso'
+nix build .#nixosConfigurations.iso.config.system.build.isoImage
 ```
+
+The ISO image is placed in `result/iso/`.
 
 ### Install NixOS
 
@@ -27,7 +29,7 @@ Normal setup:
 ```sh
 nix run nixpkgs#nixos-anywhere -- \
     --flake ".#__host__" \
-    --generate-hardware-config nixos-generate-config nix/hosts/__host__/hardware.nix \
+    --generate-hardware-config nixos-generate-config nix/hosts/__host__/_hardware.nix \
     --target-host "root@__host__"
 ```
 
@@ -37,19 +39,19 @@ Encrypted setup:
 nix run nixpkgs#nixos-anywhere -- \
     --flake ".#__host__" \
     --disk-encryption-keys /tmp/secret.key <(pass "hosts/__host__") \
-    --generate-hardware-config nixos-generate-config nix/hosts/"__host__"/hardware.nix \
+    --generate-hardware-config nixos-generate-config nix/hosts/__host__/_hardware.nix \
     --target-host "root@__host__"
 ```
 
 ### Deploy NixOS on the network
 
 ```sh
-nixos-rebuild --flake .#__host__ --target-host root@__host__ switch
+nixos-rebuild switch --flake .#__host__ --target-host __host__ --ask-sudo-password
 ```
 
 ## Rescue
 
-### Upgrade out-dated dotfiles
+### Upgrade outdated dotfiles
 
 Run when need to migrate old version of dotfiles structure
 
@@ -72,7 +74,7 @@ sudo nixos-rebuild --install-bootloader switch --flake .
 trash "$HOME/.local/share/nvim" "$HOME/.local/state/nvim" "$HOME/.cache/nvim"
 ```
 
-## MacOS
+## macOS
 
 ### Setup
 
@@ -167,6 +169,28 @@ agenix --rekey
 
 ```sh
 ssh-keyscan __host__
+```
+
+### Battery charge thresholds
+
+On laptops with `hardware-battery` TLP keeps the battery between 40% and 60% to prolong its life.
+
+Charge to 100% once (the configured thresholds return on reboot or with `sudo tlp setcharge`):
+
+```sh
+sudo tlp fullcharge
+```
+
+Restore the configured thresholds immediately:
+
+```sh
+sudo tlp setcharge
+```
+
+Check the current thresholds:
+
+```sh
+sudo tlp-stat -b
 ```
 
 ### Troubleshooting auto-upgrade

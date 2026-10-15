@@ -8,11 +8,15 @@
   };
 
   flake.modules.nixos."host-sat" = {lib, ...}: {
-    imports = with self.modules.nixos; [
-      base
-      jobs-os-upgrade
-      # purposes-app-server
-    ];
+    imports =
+      (with self.modules.nixos; [
+        base
+        disks-mbr
+        jobs-os-upgrade
+        purposes-app-server
+        quirks-low-resource
+      ])
+      ++ [./_hardware.nix];
 
     boot.loader.grub.efiSupport = lib.mkForce false;
     boot.loader.efi.canTouchEfiVariables = lib.mkForce false;
@@ -21,7 +25,7 @@
 
     networking.hostName = "sat";
 
-    networking.useDHCP = lib.mkForce false;
+    networking.useDHCP = false;
     networking.useNetworkd = true;
     services.resolved.enable = true;
 

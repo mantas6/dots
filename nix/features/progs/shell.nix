@@ -4,6 +4,7 @@
     config,
     pkgs,
     pkgs-unstable,
+    self,
     ...
   }: {
     users.defaultUserShell = pkgs.zsh;
@@ -18,6 +19,13 @@
       '';
     };
 
+    # Replaces the manual ssh-agent bootstrap formerly in sh/zshrc.d/80-ssh-agent.zsh.
+    # SSH_AUTH_SOCK is exported via environment.extraInit (set-environment).
+    programs.ssh = {
+      startAgent = true;
+      agentTimeout = "24h";
+    };
+
     environment.systemPackages = with pkgs-unstable; [
       eza
 
@@ -29,7 +37,6 @@
 
       stow
       jq
-      yq-go
 
       git
       fastfetch
@@ -40,6 +47,8 @@
       pciutils
       usbutils
       lm_sensors
+
+      self.packages.${pkgs.stdenv.hostPlatform.system}.mcal
     ];
   };
 }

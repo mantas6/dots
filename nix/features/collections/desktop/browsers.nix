@@ -24,6 +24,8 @@
         "BrowserSignin" = 0;
         "SyncDisabled" = true;
         "PasswordManagerEnabled" = false;
+        # Treat plain-HTTP t3code on ag as a secure context so navigator.clipboard works
+        "OverrideSecurityRestrictionsOnInsecureOrigin" = ["http://ag:3773"];
       };
     };
 

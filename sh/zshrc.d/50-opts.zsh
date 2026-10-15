@@ -16,7 +16,6 @@ typeset -U PATH
 HISTSIZE=50000
 HISTFILE=~/.local/state/zsh/history
 SAVEHIST=$HISTSIZE
-HISTDUP=erase
 
 setopt appendhistory
 # setopt sharehistory
@@ -31,8 +30,6 @@ setopt interactive_comments
 
 # Load completions
 autoload -Uz compinit && compinit -i
-
-[ -n "$ZINIT_HOME" ] && zinit cdreplay -q
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'

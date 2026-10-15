@@ -8,15 +8,19 @@
   };
 
   flake.modules.nixos."host-rt" = {...}: {
-    imports = with self.modules.nixos; [
-      base
-      base-home
-      disks-normal
-      jobs-os-upgrade
-      services-hermes
-    ];
+    imports =
+      (with self.modules.nixos; [
+        base
+        base-home
+        disks-normal
+        jobs-os-upgrade
+        services-hermes
+      ])
+      ++ [./_hardware.nix];
 
     disko.devices.disk.main-disk.device = "/dev/sda";
+
+    users.users.mantas.hashedPassword = "$y$j9T$CBUDkbjWCNFT9elDItjDs/$C6QtugeloE8JGPFJYJKeMAkhfxDFuiUYaRH4d2CMARB";
 
     # boot.kernelParams = [
     #   "console=ttyS0,115200n8"

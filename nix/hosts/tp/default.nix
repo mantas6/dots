@@ -8,17 +8,20 @@
   };
 
   flake.modules.nixos."host-tp" = {...}: {
-    imports = with self.modules.nixos; [
-      base
-      base-home
-      disks-encrypted
-      hardware-amd
-      collections-desktop
-      collections-develop
-      progs-shell
-      services-docker
-      hardware-backlight
-    ];
+    imports =
+      (with self.modules.nixos; [
+        base
+        base-home
+        disks-encrypted
+        hardware-amd
+        collections-desktop
+        collections-develop
+        progs-shell
+        services-docker
+        hardware-backlight
+        hardware-battery
+      ])
+      ++ [./_hardware.nix];
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 

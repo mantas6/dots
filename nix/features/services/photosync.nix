@@ -12,6 +12,14 @@
 
     photosyncPkg = self.packages.${pkgs.stdenv.hostPlatform.system}.photosync;
   in {
+    age.secrets = {
+      sat-base-url.owner = "mantas";
+      notifications-token = {
+        file = ./../../_lib/secrets/notifications-token.age;
+        owner = "mantas";
+      };
+    };
+
     systemd.services.photosync = {
       description = "Photosync — auto-import photos from external devices";
       wantedBy = ["multi-user.target"];
@@ -21,9 +29,9 @@
         inherit PHOTOSYNC_CACHE PHOTOSYNC_ORIGINALS PHOTOSYNC_SITE;
 
         # photosync-notify shells out to the `sat` CLI, which reads the base
-        # URL and auth token from these files. Reuse the l4 dashboard token.
+        # URL and auth token from these files.
         SAT_URL_PATH = config.age.secrets.sat-base-url.path;
-        SAT_TOKEN_PATH = config.age.secrets.dashboard-token.path;
+        SAT_TOKEN_PATH = config.age.secrets.notifications-token.path;
       };
 
       serviceConfig = {

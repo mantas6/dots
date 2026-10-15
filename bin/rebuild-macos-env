@@ -24,6 +24,8 @@ fn-brew() {
         echo 'Restart the shell, run stow and then re-run this command'
         exit 0
     else
+        local -x HOMEBREW_VERBOSE=1
+
         brew update
         brew bundle --global
         brew bundle upgrade --global
@@ -78,6 +80,10 @@ fn-defaults() {
     # Disable Software Update notifications specifically
     defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 0
 
+    # Treat plain-HTTP t3code on ag as a secure context so navigator.clipboard works in Chrome and Helium
+    defaults write com.google.Chrome OverrideSecurityRestrictionsOnInsecureOrigin -array "http://10.0.1.129:3773"
+    defaults write net.imput.helium OverrideSecurityRestrictionsOnInsecureOrigin -array "http://10.0.1.129:3773"
+
     killall SystemUIServer
     killall Dock
     killall Finder
@@ -101,7 +107,7 @@ fn-node() {
 
     if [ -x "$(command -v npm)" ]; then
         local pkgs=(
-            opencode-ai
+            @opencode/cli
             intelephense
             bash-language-server
             typescript@5
@@ -149,7 +155,11 @@ fn-misc() {
 
         go install github.com/mantas6/mcal@latest
         go install github.com/mantas6/tg@latest
-        go install github.com/mantas6/bh@latest
+        go install github.com/mantas6/bh/cmd/bh@latest
+        go install github.com/mantas6/sat-cli/cmd/sat@latest
+
+        # Pinned: 2.38.1 zsh hook guard breaks precmd loading
+        go install github.com/direnv/direnv/v2@v2.37.1
     )
 }
 
