@@ -37,7 +37,7 @@
           [[ -n ''${DNSMASQ_VENDOR_CLASS:-} ]] && message+=" [$DNSMASQ_VENDOR_CLASS]"
 
           export SAT_URL_PATH=${config.age.secrets.sat-base-url.path}
-          export SAT_TOKEN_PATH=${config.age.secrets.router-token.path}
+          export SAT_TOKEN_PATH=${config.age.secrets.notifications-token.path}
           # No HOME here and sat needs a state dir to start; notify never touches it.
           export SAT_JOURNAL_STATE=/var/empty
 
@@ -48,8 +48,8 @@
   in {
     # The lease script runs as the dnsmasq user (see dhcp-scriptuser below).
     age.secrets = {
-      router-token = {
-        file = ../../_lib/secrets/router-token.age;
+      notifications-token = {
+        file = ../../_lib/secrets/notifications-token.age;
         group = "dnsmasq";
         mode = "0440";
       };

@@ -32,7 +32,7 @@ in {
     armor = true;
   };
 
-  "${basePath}/router-token.age" = {
+  "${basePath}/notifications-token.age" = {
     publicKeys = users ++ [systems.pd];
     armor = true;
   };
