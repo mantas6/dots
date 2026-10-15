@@ -80,8 +80,9 @@ fn-defaults() {
     # Disable Software Update notifications specifically
     defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 0
 
-    # Treat plain-HTTP t3code on ag as a secure context so navigator.clipboard works in Chrome
+    # Treat plain-HTTP t3code on ag as a secure context so navigator.clipboard works in Chrome and Helium
     defaults write com.google.Chrome OverrideSecurityRestrictionsOnInsecureOrigin -array "http://10.0.1.129:3773"
+    defaults write net.imput.helium OverrideSecurityRestrictionsOnInsecureOrigin -array "http://10.0.1.129:3773"
 
     killall SystemUIServer
     killall Dock
