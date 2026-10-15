@@ -3,7 +3,7 @@
   # starves the workload. nixos-upgrade runs as root without NIX_REMOTE, so
   # eval, substitution and builds all run inside its own cgroup: limits on the
   # unit are what matter, nix.daemon* knobs don't apply to it.
-  flake.modules.nixos."quirks-low-resource" = {pkgs, ...}: {
+  flake.modules.nixos."quirks-low-resource" = {
     systemd.services.nixos-upgrade.serviceConfig = {
       Nice = 19;
       CPUSchedulingPolicy = "idle";
@@ -28,8 +28,5 @@
 
     # The slowest locally built derivation, never substitutable for flake systems.
     documentation.nixos.enable = false;
-
-    # Stable neovim avoids fetching and evaluating a second nixpkgs tree.
-    features.neovim.package = pkgs.neovim;
   };
 }

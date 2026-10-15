@@ -1,7 +1,7 @@
 {...}: {
   flake.modules.nixos.base = {
-    config,
     pkgs,
+    pkgs-unstable,
     ...
   }: {
     environment.systemPackages =
@@ -14,7 +14,7 @@
         killall
       ])
       ++ [
-        config.features.neovim.package
+        pkgs-unstable.neovim
       ];
   };
 }
