@@ -4,17 +4,18 @@
     config,
     ...
   }: let
-    zsh = lib.getExe config.users.users.mantas.shell;
+    user = config.users.users.mantas;
+    zsh = lib.getExe user.shell;
   in {
-    systemd.user.services.dots-sync = {
+    systemd.services.dots-sync = {
       description = "Sync dotfiles (dsy)";
       after = ["network-online.target"];
       wants = ["network-online.target"];
-      unitConfig.ConditionUser = "!root";
       environment.SHELL = zsh;
       serviceConfig = {
         Type = "oneshot";
-        WorkingDirectory = "%h";
+        User = "mantas";
+        WorkingDirectory = user.home;
         ExecStart = "${zsh} -lc 'exec dsy'";
 
         TimeoutStartSec = "15min";
@@ -23,7 +24,7 @@
       };
     };
 
-    systemd.user.timers.dots-sync = {
+    systemd.timers.dots-sync = {
       description = "Sync dotfiles (dsy) daily";
       wantedBy = ["timers.target"];
       timerConfig = {
