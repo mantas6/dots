@@ -127,7 +127,6 @@
     # Cumulative WAN traffic accounting for the whole home setup.
     # Query over SSH, e.g. `vnstat -i ${wanIfName}`.
     services.vnstat.enable = true;
-    environment.systemPackages = [pkgs.vnstat];
 
     services.openssh.settings = {
       ListenAddress = lanIp;

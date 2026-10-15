@@ -1,15 +1,10 @@
 {...}: {
   flake.modules.nixos."collections-desktop" = {pkgs, ...}: {
     environment.systemPackages = with pkgs; [
-      xinit
-      xsetroot
       xclip
       arandr
       autorandr
-      picom
       dex
-      unclutter
-      numlockx
       xssstate
       maim
 
