@@ -14,6 +14,7 @@
         disks-mbr
         jobs-os-upgrade
         purposes-app-server
+        quirks-low-resource
       ])
       ++ [./_hardware.nix];
 

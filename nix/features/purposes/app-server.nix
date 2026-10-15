@@ -157,6 +157,10 @@
       };
     };
 
+    # Keep the 162 MiB upstream download out of weekly gc so a stdenv bump
+    # doesn't re-fetch it.
+    system.extraDependencies = [frankenphp.src];
+
     services.redis.servers.main = {
       enable = true;
       port = 6379;
