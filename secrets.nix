@@ -33,7 +33,7 @@ in {
   };
 
   "${basePath}/notifications-token.age" = {
-    publicKeys = users ++ [systems.pd];
+    publicKeys = users ++ [systems.pd systems.l4];
     armor = true;
   };
 }
