@@ -26,11 +26,14 @@
     in
       stdenv.mkDerivation (finalAttrs: {
         pname = "frankenphp-bin";
+        # Upstream rebuilds and re-uploads (--clobber) the *latest* release's
+        # binaries nightly, so its hash drifts daily. Pin a superseded release,
+        # whose assets are frozen.
         version = "1.12.7";
 
         src = fetchurl {
           url = "https://github.com/php/frankenphp/releases/download/v${finalAttrs.version}/frankenphp-linux-x86_64-gnu";
-          hash = "sha256-BFKJa32q8VQKkJujX4YMRMLrAqqgEXcPEGHGPItiYz8=";
+          hash = "sha256-6e4N2+MDyyiI/zenm1gKDgcc3WT/iJDWYtsC3XcIv7U=";
         };
 
         dontUnpack = true;

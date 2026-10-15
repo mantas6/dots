@@ -21,8 +21,9 @@
           name = "hermes-session-reset-policy";
           owner = "fastfinge";
           repo = "hermes-session-reset-policy";
-          rev = "493df020496d2782d3fe15308cc3b6672c2224c4";
-          hash = "sha256-Ax//zlao53+YOwP/+v3AOYIH0R30U9ON7ixI3EjEEVI=";
+          # Skip slash commands so /new after an idle boundary resets only once.
+          rev = "e8d5ea2609742865fcd404476efffadf921ccf38";
+          hash = "sha256-1hCuYcHIr3iudaVsDpHU8FKswgK+SE+fQy3sZu546lI=";
         })
       ];
 

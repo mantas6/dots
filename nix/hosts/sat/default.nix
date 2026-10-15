@@ -24,7 +24,7 @@
 
     networking.hostName = "sat";
 
-    networking.useDHCP = lib.mkForce false;
+    networking.useDHCP = false;
     networking.useNetworkd = true;
     services.resolved.enable = true;
 
