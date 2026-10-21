@@ -13,6 +13,7 @@
       expose_php = Off
       display_errors = Off
       log_errors = On
+      session.upload_progress.enabled = Off
 
       realpath_cache_size = 4096K
       realpath_cache_ttl = 600
