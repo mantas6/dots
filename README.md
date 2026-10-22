@@ -242,7 +242,7 @@ List available voices:
 curl http://lm:8004/v1/audio/voices
 ```
 
-To clone a voice, put a `wav` clip longer than 5 seconds into `/home/mantas/Volumes/chatterbox/reference_audio/` on the host and pass its file name as `voice`.
+To clone a voice, put a `wav` clip longer than 5 seconds into `/var/lib/chatterbox/reference_audio/` on the host and pass its file name as `voice`.
 
 The web UI is at <http://lm:8004/>.
 

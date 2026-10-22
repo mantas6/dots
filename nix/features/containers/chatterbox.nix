@@ -8,7 +8,7 @@
   }: let
     port = 8004;
     backendPort = 18004;
-    dataDir = "/home/mantas/Volumes/chatterbox";
+    dataDir = "/var/lib/chatterbox";
     idleTime = "15min";
   in {
     # Exposes the GPU to containers via CDI (`--device nvidia.com/gpu=all`)
@@ -38,16 +38,16 @@
       ];
     };
 
-    systemd.tmpfiles.rules = [
-      "d ${dataDir} 0755 mantas users -"
-      "d ${dataDir}/hf_cache 0755 mantas users -"
-      "d ${dataDir}/model_cache 0755 mantas users -"
-      "d ${dataDir}/reference_audio 0755 mantas users -"
-    ];
-
     systemd.services.docker-chatterbox = {
       # Stop (and free VRAM) once the proxy no longer needs it
       unitConfig.StopWhenUnneeded = true;
+
+      # Root-owned state under /var/lib/chatterbox (the image runs as root)
+      serviceConfig.StateDirectory = [
+        "chatterbox/hf_cache"
+        "chatterbox/model_cache"
+        "chatterbox/reference_audio"
+      ];
 
       # Hold the proxy until the model is loaded and the API answers;
       # first start also downloads ~4GB of weights (TimeoutStartSec is 0)
