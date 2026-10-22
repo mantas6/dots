@@ -221,6 +221,44 @@ To see the status of the upgrade timer:
 systemctl status nixos-upgrade.timer
 ```
 
+### Chatterbox TTS
+
+Hosts with `containers-chatterbox` (currently `lm`) serve [Chatterbox Turbo](https://github.com/resemble-ai/chatterbox) text-to-speech on port `8004` with an OpenAI-compatible API. The container starts on the first connection and stops after 15 minutes without traffic, so the first request after idle takes a while (tens of seconds, several minutes on the very first run while the model downloads). Use a generous client timeout.
+
+Generate speech with the default female voice:
+
+```sh
+curl -X POST http://lm:8004/v1/audio/speech \
+  -H 'Content-Type: application/json' \
+  -d '{"model":"chatterbox-turbo","input":"Hello from lm. [chuckle]","voice":"Emily.wav","response_format":"mp3"}' \
+  -o out.mp3
+```
+
+Turbo supports tags like `[laugh]`, `[chuckle]`, `[sigh]` and `[cough]` in the text. `response_format` can be `wav`, `mp3` or `opus`.
+
+List available voices:
+
+```sh
+curl http://lm:8004/v1/audio/voices
+```
+
+To clone a voice, put a `wav` clip longer than 5 seconds into `/var/lib/chatterbox/reference_audio/` on the host and pass its file name as `voice`.
+
+The web UI is at <http://lm:8004/>.
+
+Check the state of the service and watch it start:
+
+```sh
+systemctl status chatterbox-proxy.socket docker-chatterbox
+journalctl -fu docker-chatterbox
+```
+
+Stop it manually before the idle timeout:
+
+```sh
+sudo systemctl stop chatterbox-proxy docker-chatterbox
+```
+
 ## Useful commands
 
 Trigger Enter key press on another `tmux` window:
