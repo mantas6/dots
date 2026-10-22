@@ -39,8 +39,16 @@
     };
 
     systemd.services.docker-chatterbox = {
-      # Stop (and free VRAM) once the proxy no longer needs it
-      unitConfig.StopWhenUnneeded = true;
+      unitConfig = {
+        # Stop (and free VRAM) once the proxy no longer needs it
+        StopWhenUnneeded = true;
+
+        # A model that cannot load (bad download, VRAM taken) fails the
+        # readiness probe; stop retrying after a few attempts instead of
+        # churning the GPU on every incoming connection
+        StartLimitIntervalSec = "10min";
+        StartLimitBurst = 3;
+      };
 
       # Root-owned state under /var/lib/chatterbox (the image runs as root)
       serviceConfig.StateDirectory = [
