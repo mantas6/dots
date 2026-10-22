@@ -1,10 +1,10 @@
-# Anonymous file drop for agents and browsers, served as http://up on the LAN.
-# `curl -F file=@x http://up` prints the URL; files are deleted after 24h.
+# Anonymous file drop for agents and browsers, served as http://pb on the LAN.
+# `curl -F file=@x http://pb` prints the URL; files are deleted after 24h.
 {...}: {
   flake.modules.nixos."services-rustypaste" = {pkgs, ...}: let
     port = 8090;
     maxSize = "512MB";
-    url = "http://up";
+    url = "http://pb";
 
     settings = (pkgs.formats.toml {}).generate "rustypaste.toml" {
       config.refresh_rate = "1s";

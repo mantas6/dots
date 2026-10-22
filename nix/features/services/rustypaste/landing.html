@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>up</title>
+    <title>pb</title>
     <style>
       body {
         font-family: system-ui, sans-serif;
@@ -35,13 +35,13 @@
     </style>
   </head>
   <body>
-    <h1>up</h1>
+    <h1>pb</h1>
     <p>Anonymous file drop. Files are deleted after 24 hours.</p>
     <div id="drop">Drop a file here or click to choose</div>
     <input id="file" type="file" hidden />
     <p id="out"></p>
     <p>From a shell:</p>
-    <pre>curl -F file=@example.txt http://up</pre>
+    <pre>curl -F file=@example.txt http://pb</pre>
     <p>Override the expiry with <code>-H 'expire: 1h'</code>.</p>
     <script>
       const drop = document.getElementById("drop");

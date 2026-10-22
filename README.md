@@ -261,19 +261,19 @@ sudo systemctl stop chatterbox-proxy docker-chatterbox
 
 ### File drop
 
-Hosts with `services-rustypaste` (currently `l4`) run [rustypaste](https://github.com/orhun/rustypaste) at <http://up/> on the LAN. There is no auth; uploads get a random name, are not listed anywhere and are deleted after 24 hours. The page at <http://up/> takes drag and drop.
+Hosts with `services-rustypaste` (currently `l4`) run [rustypaste](https://github.com/orhun/rustypaste) at <http://pb/> on the LAN. There is no auth; uploads get a random name, are not listed anywhere and are deleted after 24 hours. The page at <http://pb/> takes drag and drop.
 
 Upload from a shell; the response body is the URL of the file:
 
 ```sh
-curl -F file=@example.txt http://up
+curl -F file=@example.txt http://pb
 ```
 
 Expire sooner, or serve a file only once:
 
 ```sh
-curl -F file=@example.txt -H 'expire: 1h' http://up
-curl -F oneshot=@example.txt http://up
+curl -F file=@example.txt -H 'expire: 1h' http://pb
+curl -F oneshot=@example.txt http://pb
 ```
 
 Files live in `/var/lib/rustypaste` on the host, with the expiry timestamp appended to the file name.
