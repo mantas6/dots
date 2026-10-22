@@ -4,6 +4,7 @@
     pkgs,
     pkgs-unstable,
     config,
+    lib,
     ...
   }: let
     lanIfName = "net0";
@@ -18,38 +19,54 @@
     wolPort = 5001;
 
     # Invoked by dnsmasq as `<action> <mac> <ip> [hostname]` on lease changes.
-    dhcpLeaseNotify = pkgs.writeShellApplication {
-      name = "dhcp-lease-notify";
-      runtimeInputs = [self.packages.${pkgs.stdenv.hostPlatform.system}.sat];
+    # Every event is forwarded as-is; the receiver decides what to do with it.
+    dhcpLeaseReport = pkgs.writeShellApplication {
+      name = "dhcp-lease-report";
+      runtimeInputs = [pkgs.curl];
       text =
         /*
         bash
         */
         ''
-          # "old" is replayed for known leases on start/SIGHUP and "del" is an
-          # expiry, so only "add" means a newly handed out lease.
-          [[ $1 == add ]] || exit 0
+          case "''${1:-}" in
+            add | old | del) ;;
+            *) exit 0 ;;
+          esac
 
-          mac=$2
-          ip=$3
-          host=''${4:-''${DNSMASQ_SUPPLIED_HOSTNAME:-unknown}}
-          message="New DHCP lease: $host $ip ($mac)"
-          [[ -n ''${DNSMASQ_VENDOR_CLASS:-} ]] && message+=" [$DNSMASQ_VENDOR_CLASS]"
+          base_url=$(<${config.age.secrets.sat-base-url.path})
+          token=$(<${config.age.secrets.leases-token.path})
 
-          export SAT_URL_PATH=${config.age.secrets.sat-base-url.path}
-          export SAT_TOKEN_PATH=${config.age.secrets.notifications-token.path}
-          # No HOME here and sat needs a state dir to start; notify never touches it.
-          export SAT_JOURNAL_STATE=/var/empty
-
-          # Never fail dnsmasq's script runner; errors land in its journal.
-          sat notify "$message" || echo "dhcp-lease-notify: failed to notify sat about $ip ($mac)" >&2
+          # Short timeouts: dnsmasq runs lease scripts one at a time, so a slow
+          # receiver would delay later lease events. Never fail the script
+          # runner either; errors land in dnsmasq's journal.
+          curl \
+            --fail \
+            --silent \
+            --show-error \
+            --connect-timeout 3 \
+            --max-time 5 \
+            --output /dev/null \
+            --header 'Accept: application/json' \
+            --header "Authorization: Bearer $token" \
+            --data-urlencode "action=$1" \
+            --data-urlencode "mac=$2" \
+            --data-urlencode "ip=$3" \
+            --data-urlencode "expires_at=''${DNSMASQ_LEASE_EXPIRES:-}" \
+            --data-urlencode "details[hostname]=''${4:-}" \
+            --data-urlencode "details[supplied_hostname]=''${DNSMASQ_SUPPLIED_HOSTNAME:-}" \
+            --data-urlencode "details[vendor_class]=''${DNSMASQ_VENDOR_CLASS:-}" \
+            --data-urlencode "details[client_id]=''${DNSMASQ_CLIENT_ID:-}" \
+            --data-urlencode "details[interface]=''${DNSMASQ_INTERFACE:-}" \
+            --data-urlencode "details[tags]=''${DNSMASQ_TAGS:-}" \
+            "''${base_url%/}/api/leases" \
+            || echo "dhcp-lease-report: failed to report $1 for $3 ($2)" >&2
         '';
     };
   in {
     # The lease script runs as the dnsmasq user (see dhcp-scriptuser below).
     age.secrets = {
-      notifications-token = {
-        file = ../../_lib/secrets/notifications-token.age;
+      leases-token = {
+        file = ../../_lib/secrets/leases-token.age;
         group = "dnsmasq";
         mode = "0440";
       };
@@ -62,6 +79,15 @@
     networking.stevenblack = {
       enable = true;
       package = pkgs-unstable.stevenblack-blocklist;
+    };
+
+    # dnsmasq serves /etc/hosts to LAN clients and those entries override
+    # `address=` rules, so the default `127.0.0.2 pd` line made every client
+    # resolve the router to its own loopback. Map the hostname to the LAN IP
+    # instead.
+    networking.hosts = {
+      "127.0.0.2" = lib.mkForce [];
+      "${lanIp}" = [config.networking.hostName "gw"];
     };
 
     services.dnsmasq = {
@@ -83,6 +109,7 @@
           "/nostalgia/${servicesIp}"
           "/gal/${servicesIp}"
           "/memos/${servicesIp}"
+          "/pb/${servicesIp}"
         ];
 
         interface = "${lanIfName}";
@@ -99,8 +126,10 @@
         expand-hosts = true;
         domain-needed = true;
 
-        dhcp-script = "${dhcpLeaseNotify}/bin/dhcp-lease-notify";
+        dhcp-script = "${dhcpLeaseReport}/bin/dhcp-lease-report";
         dhcp-scriptuser = "dnsmasq";
+        # Also report renewals, so the receiver sees when a device is still around.
+        script-on-renewal = true;
       };
     };
 

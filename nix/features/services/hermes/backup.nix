@@ -35,21 +35,22 @@
         '';
     };
   in {
-    systemd.services.hermes-backup = {
-      description = "Weekly compressed backup of /var/lib/hermes";
+    # Disabled for now
+    # systemd.services.hermes-backup = {
+    #   description = "Weekly compressed backup of /var/lib/hermes";
 
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart = "${hermesBackup}/bin/hermes-backup";
-      };
+    #   serviceConfig = {
+    #     Type = "oneshot";
+    #     ExecStart = "${hermesBackup}/bin/hermes-backup";
+    #   };
 
-      startAt = "weekly";
-    };
+    #   startAt = "weekly";
+    # };
 
-    systemd.timers.hermes-backup = {
-      timerConfig = {
-        Persistent = true;
-      };
-    };
+    # systemd.timers.hermes-backup = {
+    #   timerConfig = {
+    #     Persistent = true;
+    #   };
+    # };
   };
 }

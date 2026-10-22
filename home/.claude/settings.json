@@ -1,7 +1,21 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "^(startup|resume|clear|compact|fork)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/home/mantas/.claude/hooks/herdr-agent-state.sh' session",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
   "tui": "fullscreen",
-  "theme": "dark",
   "autoMemoryEnabled": false,
-  "hooks": {"SessionStart":[{"matcher":"^(startup|resume|clear|compact|fork)$","hooks":[{"type":"command","command":"bash '/home/mantas/.claude/hooks/herdr-agent-state.sh' session","timeout":10}]}]}
+  "theme": "dark",
+  "switchModelsOnFlag": true
 }

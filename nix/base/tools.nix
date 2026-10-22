@@ -12,6 +12,7 @@
         htop
         file
         killall
+        vim
       ])
       ++ [
         pkgs-unstable.neovim

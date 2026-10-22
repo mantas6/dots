@@ -32,8 +32,13 @@ in {
     armor = true;
   };
 
+  "${basePath}/leases-token.age" = {
+    publicKeys = users ++ [systems.pd];
+    armor = true;
+  };
+
   "${basePath}/notifications-token.age" = {
-    publicKeys = users ++ [systems.pd systems.l4];
+    publicKeys = users ++ [systems.l4];
     armor = true;
   };
 }

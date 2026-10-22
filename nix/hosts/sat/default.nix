@@ -12,7 +12,7 @@
       (with self.modules.nixos; [
         base
         disks-mbr
-        jobs-os-upgrade
+        # jobs-os-upgrade
         purposes-app-server
         quirks-low-resource
       ])

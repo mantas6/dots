@@ -1,5 +1,9 @@
 {...}: {
-  flake.modules.nixos."collections-desktop" = {pkgs, ...}: {
+  flake.modules.nixos."collections-desktop" = {
+    pkgs,
+    pkgs-unstable,
+    ...
+  }: {
     environment.systemPackages = with pkgs; [
       xinit
       xsetroot
@@ -29,6 +33,8 @@
 
       zathura
       qrencode
+
+      pkgs-unstable.t3code
     ];
   };
 }
