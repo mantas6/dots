@@ -3,3 +3,4 @@
 - If needed program is not installed use `nix run` (on NixOS only)
 - Before any task, make sure local repo has all remote changes
 - Use `bh` for working with Bitbucket pull requests / repos
+- Public repos code, comments, descriptions should never personal data or details from local systems or other private repos
