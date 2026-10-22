@@ -22,16 +22,28 @@
     { "action": "shell", "resource": "gpg*", "effect": "deny" },
     { "action": "shell", "resource": "nix-env*", "effect": "deny" },
     { "action": "shell", "resource": "sudo*", "effect": "deny" },
+    // A deny is final: it is checked before saved "Always" approvals and never prompts, so any folder not allowed below fails outright
     { "action": "external_directory", "resource": "*", "effect": "deny" },
     // Folders opencode itself needs. Global rules are appended after the built-in allows, so the deny above would shadow them.
     { "action": "external_directory", "resource": "~/.opencode/plan/*", "effect": "allow" },
     { "action": "external_directory", "resource": "~/.local/share/opencode/tool-output/*", "effect": "allow" },
     { "action": "external_directory", "resource": "~/.local/share/opencode/shell/*", "effect": "allow" },
     { "action": "external_directory", "resource": "~/.config/opencode/*", "effect": "allow" },
+    // Built-in tmp allow on macOS ($TMPDIR is realpath'd), shadowed by the deny like the ones above
+    { "action": "external_directory", "resource": "/private/var/folders/*/T/opencode/*", "effect": "allow" },
+    // Skill cache and git references opencode materializes for agents to read
+    { "action": "external_directory", "resource": "~/.cache/opencode/*", "effect": "allow" },
+    { "action": "external_directory", "resource": "~/.local/share/opencode/repos/*", "effect": "allow" },
+    // T3 Code worktrees and attachments
+    { "action": "external_directory", "resource": "~/.local/share/t3/*", "effect": "allow" },
     { "action": "external_directory", "resource": "~/.dots/*", "effect": "allow" },
     { "action": "external_directory", "resource": "~/Repos/*", "effect": "allow" },
     { "action": "external_directory", "resource": "~/Downloads/*", "effect": "allow" },
+    // Paths are matched lexically, symlinks into the store (`which` output, profiles) are not resolved to /nix/store
     { "action": "external_directory", "resource": "/nix/store/*", "effect": "allow" },
+    { "action": "external_directory", "resource": "/run/current-system/*", "effect": "allow" },
+    { "action": "external_directory", "resource": "/etc/profiles/*", "effect": "allow" },
+    { "action": "external_directory", "resource": "~/.nix-profile/*", "effect": "allow" },
     { "action": "external_directory", "resource": "/opt/*", "effect": "allow" },
     { "action": "external_directory", "resource": "/tmp/*", "effect": "allow" }
   ],
