@@ -4,7 +4,7 @@
     inputs',
     ...
   }: let
-    rev = "e1de03a3af63d0f1e77df9f63841339015719641";
+    rev = "dc81dd31a37e009a7ebcf96b91e41230510605d9";
     shortRev = builtins.substring 0 7 rev;
     goPkgs = inputs'.nixpkgs-unstable.legacyPackages;
   in {
@@ -16,10 +16,10 @@
         owner = "mantas6";
         repo = "bh";
         inherit rev;
-        hash = "sha256-gEd2N2n5kLjxYQJVW5wd5V1EGiFouexrcdVMLzhOjp4=";
+        hash = "sha256-H0JIRxUJDTUeT+Fqj0lNGRuDGtvxZvxNj6zw3vaf8Z0=";
       };
 
-      vendorHash = "sha256-EqtrbagCH6DaiRDhfZP+EUeOSERAgIXEsrL1WPsiLqo=";
+      vendorHash = "sha256-55NYpIQvNpY6q/7Y8GZuh6IvknT7pvYHj2oJNw9eRHU=";
 
       subPackages = ["cmd/bh"];
 
