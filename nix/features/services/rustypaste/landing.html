@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>pb</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 40rem;
+        margin: 3rem auto;
+        padding: 0 1rem;
+        color: #222;
+      }
+      #drop {
+        border: 2px dashed #999;
+        border-radius: 8px;
+        padding: 3rem 1rem;
+        text-align: center;
+        cursor: pointer;
+      }
+      #drop.over {
+        border-color: #333;
+        background: #f4f4f4;
+      }
+      #out a {
+        font-family: monospace;
+        word-break: break-all;
+      }
+      pre {
+        background: #f4f4f4;
+        padding: 0.75rem;
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>pb</h1>
+    <p>Anonymous file drop. Files are deleted after 24 hours.</p>
+    <div id="drop">Drop a file here or click to choose</div>
+    <input id="file" type="file" hidden />
+    <p id="out"></p>
+    <p>From a shell:</p>
+    <pre>curl -F file=@example.txt http://pb</pre>
+    <p>Override the expiry with <code>-H 'expire: 1h'</code>.</p>
+    <script>
+      const drop = document.getElementById("drop");
+      const input = document.getElementById("file");
+      const out = document.getElementById("out");
+
+      async function upload(file) {
+        out.textContent = "Uploading " + file.name + "…";
+        const body = new FormData();
+        body.append("file", file);
+        const res = await fetch("/", { method: "POST", body });
+        const text = (await res.text()).trim();
+        if (!res.ok) {
+          out.textContent = "Upload failed: " + text;
+          return;
+        }
+        out.innerHTML = "";
+        const a = document.createElement("a");
+        a.href = a.textContent = text;
+        out.append(a);
+        navigator.clipboard?.writeText(text);
+      }
+
+      drop.onclick = () => input.click();
+      input.onchange = () => input.files[0] && upload(input.files[0]);
+      drop.ondragover = (e) => {
+        e.preventDefault();
+        drop.classList.add("over");
+      };
+      drop.ondragleave = () => drop.classList.remove("over");
+      drop.ondrop = (e) => {
+        e.preventDefault();
+        drop.classList.remove("over");
+        const file = e.dataTransfer.files[0];
+        file && upload(file);
+      };
+    </script>
+  </body>
+</html>
