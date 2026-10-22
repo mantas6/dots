@@ -1,5 +1,3 @@
 {
-    "cliPluginsExtraDirs": [
-        "$HOMEBREW_PREFIX/lib/docker/cli-plugins"
-    ]
+    "detachKeys": "ctrl-z,z"
 }
