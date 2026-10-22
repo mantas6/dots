@@ -54,9 +54,10 @@ brew "entr"
 
 brew "pandoc"
 
-# brew "colima"
-# brew "docker"
-# brew "docker-compose"
+brew "colima"
+brew "docker"
+brew "docker-compose"
+brew "docker-buildx"
 
 brew "parallel"
 brew "pastel"

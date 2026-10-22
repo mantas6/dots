@@ -164,9 +164,20 @@ fn-misc() {
 }
 
 fn-docker() {
-    colima start --cpu 10 --memory 8 --disk 80
+    local plugins="${DOCKER_CONFIG:-$HOME/.config/docker-darwin}/cli-plugins"
+    local brew_plugins
+    brew_plugins="$(brew --prefix)/lib/docker/cli-plugins"
 
-    docker context use colima
+    # config.json does not expand env vars in cliPluginsExtraDirs, so link plugins instead
+    mkdir -p "$plugins"
+    ln -sf "$brew_plugins/docker-compose" "$plugins/docker-compose"
+    ln -sf "$brew_plugins/docker-buildx" "$plugins/docker-buildx"
+
+    # DOCKER_HOST points at the colima socket, so skip writing a context into the stowed config.json
+    if ! colima status &>/dev/null; then
+        colima start --cpus 10 --memory 8 --disk 80 --activate=false
+        colima stop
+    fi
 
     brew services start colima
 }
@@ -203,7 +214,7 @@ fn-init() {
     fn-misc
     fn-defaults
     fn-fastfetch
-    # fn-docker
+    fn-docker
 }
 
 for arg in "$@"; do
