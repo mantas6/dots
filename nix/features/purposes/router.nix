@@ -4,6 +4,7 @@
     pkgs,
     pkgs-unstable,
     config,
+    lib,
     ...
   }: let
     lanIfName = "net0";
@@ -62,6 +63,15 @@
     networking.stevenblack = {
       enable = true;
       package = pkgs-unstable.stevenblack-blocklist;
+    };
+
+    # dnsmasq serves /etc/hosts to LAN clients and those entries override
+    # `address=` rules, so the default `127.0.0.2 pd` line made every client
+    # resolve the router to its own loopback. Map the hostname to the LAN IP
+    # instead.
+    networking.hosts = {
+      "127.0.0.2" = lib.mkForce [];
+      "${lanIp}" = [config.networking.hostName "gw"];
     };
 
     services.dnsmasq = {
