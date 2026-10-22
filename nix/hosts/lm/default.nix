@@ -13,6 +13,8 @@
         base
         base-home
         disks-normal
+        hardware-nvidia-headless
+        containers-chatterbox
         jobs-os-upgrade-desktop
         services-ollama
       ])
