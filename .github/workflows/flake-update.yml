@@ -2,7 +2,7 @@ name: Flake update
 
 on:
   schedule:
-    - cron: "0 20 * * 3"
+    - cron: "0 21 * * 3"
 
   workflow_dispatch:
 
