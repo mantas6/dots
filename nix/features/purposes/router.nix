@@ -109,6 +109,7 @@
           "/nostalgia/${servicesIp}"
           "/gal/${servicesIp}"
           "/memos/${servicesIp}"
+          "/pb/${servicesIp}"
         ];
 
         interface = "${lanIfName}";
