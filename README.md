@@ -246,18 +246,6 @@ To clone a voice, put a `wav` clip longer than 5 seconds into `/home/mantas/Volu
 
 The web UI is at <http://lm:8004/>.
 
-Point Hermes at it instead of edge-tts:
-
-```yaml
-tts:
-  provider: openai
-  openai:
-    base_url: http://lm:8004/v1
-    api_key: none
-    model: chatterbox-turbo
-    voice: Emily.wav
-```
-
 Check the state of the service and watch it start:
 
 ```sh
