@@ -4,9 +4,9 @@
     inputs',
     ...
   }: let
-    rev = "f2b91cacbfa33537a63465165926dce0bf4eb838";
+    rev = "93dd0ac38d5a528990044736ef062da441239471";
     shortRev = builtins.substring 0 7 rev;
-    # sat-cli's go.mod requires go 1.26.7, which nixpkgs-unstable provides.
+    # sat-cli's go.mod requires go 1.26, which nixpkgs-unstable provides.
     goPkgs = inputs'.nixpkgs-unstable.legacyPackages;
   in {
     packages.sat = goPkgs.buildGoModule {
@@ -17,7 +17,7 @@
         owner = "mantas6";
         repo = "sat-cli";
         inherit rev;
-        hash = "sha256-4s4FT3AyLj4KakN/x42lTf7ggEBh6ca7HROc74JxIAk=";
+        hash = "sha256-jsej/szt4RvbG0dPLQgLjKszjbOBOWMsJeJ9N8yLF9g=";
       };
 
       vendorHash = "sha256-5Jf9J0G408h3yIzZ8y99SVpfIfm9E0ivgtonMZMy68U=";
