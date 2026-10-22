@@ -20,7 +20,7 @@
 
     # nixpkgs unstable still ships opencode v1, run v2 through npx until it catches up
     opencode-v2 = pkgs-unstable.writeShellScriptBin "opencode" ''
-      exec ${pkgs-unstable.nodejs_24}/bin/npx -y @opencode/cli@2.0.24 "$@"
+      exec ${pkgs-unstable.nodejs_24}/bin/npx -y @opencode/cli@2.1.2 "$@"
     '';
 
     phpConfigured = pkgs-unstable.php85.buildEnv {
