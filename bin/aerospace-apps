@@ -57,6 +57,11 @@ if workspace 4; then
     await-windows 2
 fi
 
+if workspace 5; then
+    open -nb com.t3tools.t3code
+    await-windows 1
+fi
+
 if workspace 6; then
     terminal
     await-windows 1
