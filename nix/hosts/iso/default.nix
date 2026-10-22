@@ -10,7 +10,6 @@
   flake.modules.nixos."host-iso" = {
     config,
     lib,
-    pkgs,
     modulesPath,
     ...
   }: {
@@ -26,8 +25,6 @@
     nixpkgs.hostPlatform = "x86_64-linux";
 
     boot.zfs.forceImportRoot = false;
-
-    environment.systemPackages = [pkgs.vim];
 
     # Allow key-only root login with the same keys as mantas.
     users.users.root.openssh.authorizedKeys.keys = config.users.users.mantas.openssh.authorizedKeys.keys;
