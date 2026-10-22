@@ -49,12 +49,22 @@
         "chatterbox/reference_audio"
       ];
 
-      # Hold the proxy until the model is loaded and the API answers;
-      # first start also downloads ~4GB of weights (TimeoutStartSec is 0)
+      # Hold the proxy until the API answers and reports the model as loaded.
+      # Upstream loads the model before serving HTTP and never retries, so a
+      # response with `loaded: false` is final and must fail the unit so
+      # systemd restarts the container. The first start also downloads ~4GB
+      # of weights, hence the long bound (TimeoutStartSec is 0).
       serviceConfig.ExecStartPost = pkgs.writeShellScript "wait-chatterbox" ''
-        until ${pkgs.curl}/bin/curl -sf -o /dev/null http://127.0.0.1:${toString backendPort}/api/model-info; do
+        for _ in $(seq 900); do
+          if info=$(${pkgs.curl}/bin/curl -sf http://127.0.0.1:${toString backendPort}/api/model-info); then
+            echo "$info" | ${pkgs.jq}/bin/jq -e '.loaded == true' >/dev/null && exit 0
+            echo "chatterbox: server is up but the model failed to load" >&2
+            exit 1
+          fi
           sleep 2
         done
+        echo "chatterbox: timed out waiting for the API" >&2
+        exit 1
       '';
     };
 
