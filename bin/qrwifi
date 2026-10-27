@@ -2,6 +2,7 @@
 
 ssid='Wildcard'
 
-password=$(pass 'local/wifi' | head -n 1)
+# Escape reserved characters in the Wi-Fi QR payload, not shell syntax.
+password=$(pass 'local/wifi' | head -n 1 | sed 's/[\\;,:"]/\\&/g')
 
 qrencode -o "$ssid.png" "WIFI:S:$ssid;T:WPA;P:$password;;"
