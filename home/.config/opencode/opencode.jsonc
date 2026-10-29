@@ -10,7 +10,7 @@
   "plugins": [
     // https://github.com/ex-machina-co/opencode-anthropic-auth
     // v2 builds are published on the `next` npm tag, pin via `npm view @ex-machina/opencode-anthropic-auth dist-tags.next`
-    "@ex-machina/opencode-anthropic-auth@2.0.0-next.5"
+    "@ex-machina/opencode-anthropic-auth@2.0.0-next.6"
   ],
   // Ordered rules, last match wins. `*` also matches `/`.
   "permissions": [
@@ -76,7 +76,7 @@
         "command": [
           "npx",
           "-y",
-          "chrome-devtools-mcp@1.10.1"
+          "chrome-devtools-mcp@1.12.0"
         ]
       }
     }
