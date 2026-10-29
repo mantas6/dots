@@ -8,6 +8,8 @@
     zsh = lib.getExe config.users.users.mantas.shell;
     t3 = "${pkgs-unstable.t3code}/bin/t3";
   in {
+    environment.systemPackages = [pkgs-unstable.t3code];
+
     systemd.user.services.t3code = {
       description = "T3 Code server";
       wantedBy = ["default.target"];
