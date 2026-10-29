@@ -1,0 +1,15 @@
+config-version: 8
+
+server:
+  host: "127.0.0.1"
+  port: 8317
+
+access:
+  api-keys: []
+
+oauth:
+  auth-dir: "~/.local/state/cli-proxy-auth/"
+
+management:
+  secret-key: ""
+  disable-control-panel: true
