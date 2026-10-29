@@ -1,6 +1,11 @@
 {...}: {
-  flake.modules.nixos."collections-desktop" = {pkgs, ...}: let
+  flake.modules.nixos."collections-desktop" = {
+    config,
+    pkgs,
+    ...
+  }: let
     serviceName = "pass-pull";
+    storeDir = "%h/.local/share/password-store";
   in {
     programs.gnupg = {
       agent = {
@@ -15,6 +20,15 @@
       pwgen
     ];
 
+    # Provide org.freedesktop.secrets on the session bus (Electron safeStorage etc.)
+    # with pass as the backend; secrets land under secret_service/ in the store.
+    services.passSecretService.enable = true;
+
+    systemd.user.services."dbus-org.freedesktop.secrets".serviceConfig.ExecStart = [
+      ""
+      "${config.services.passSecretService.package}/bin/pass_secret_service --path ${storeDir}"
+    ];
+
     systemd.user.services.${serviceName} = {
       script = "${pkgs.pass}/bin/pass git pull";
 
@@ -24,7 +38,7 @@
       ];
 
       environment = {
-        PASSWORD_STORE_DIR = "%h/.local/share/password-store";
+        PASSWORD_STORE_DIR = storeDir;
       };
 
       restartIfChanged = false;
