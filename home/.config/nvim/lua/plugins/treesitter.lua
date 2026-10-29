@@ -29,6 +29,8 @@ return {
       'nix',
       'javascript',
       'caddy',
+      'markdown',
+      'markdown_inline',
     }
 
     require('nvim-treesitter').install(parsers)
