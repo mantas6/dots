@@ -20,6 +20,37 @@
 
     disko.devices.disk.main-disk.device = "/dev/sda";
 
+    # Second NVMe drive holds hermes state; /var/lib/hermes is bind-mounted from it.
+    # Both mounts are neededForBoot because the hermes-agent activation script
+    # writes into /var/lib/hermes before regular fstab mounts happen.
+    disko.devices.disk.hermes = {
+      device = "/dev/nvme0n1";
+      type = "disk";
+      content = {
+        type = "gpt";
+        partitions.hermes = {
+          size = "100%";
+          content = {
+            type = "filesystem";
+            format = "ext4";
+            mountpoint = "/hermes";
+          };
+        };
+      };
+    };
+
+    fileSystems."/hermes".neededForBoot = true;
+
+    fileSystems."/var/lib/hermes" = {
+      device = "/hermes";
+      fsType = "none";
+      options = ["bind"];
+      depends = ["/hermes"];
+      neededForBoot = true;
+    };
+
+    systemd.services.hermes-agent.unitConfig.RequiresMountsFor = ["/var/lib/hermes"];
+
     users.users.mantas.hashedPassword = "$y$j9T$CBUDkbjWCNFT9elDItjDs/$C6QtugeloE8JGPFJYJKeMAkhfxDFuiUYaRH4d2CMARB";
 
     # boot.kernelParams = [
