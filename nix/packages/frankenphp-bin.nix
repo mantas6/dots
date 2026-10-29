@@ -29,11 +29,11 @@
         # Upstream rebuilds and re-uploads (--clobber) the *latest* release's
         # binaries nightly, so its hash drifts daily. Pin a superseded release,
         # whose assets are frozen.
-        version = "1.13.1";
+        version = "1.13.3";
 
         src = fetchurl {
           url = "https://github.com/php/frankenphp/releases/download/v${finalAttrs.version}/frankenphp-linux-x86_64-gnu";
-          hash = "sha256-GiNBqhh+32igUMyf3zemKRYMb/22NFoDYYvcT78RH4k=";
+          hash = "sha256-0hDAa/zX7ZdMBTdvx/qcMAsduM0qfHk77V7Y0Iez8O8=";
         };
 
         dontUnpack = true;
