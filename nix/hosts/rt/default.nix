@@ -7,7 +7,7 @@
     modules = [self.modules.nixos."host-rt"];
   };
 
-  flake.modules.nixos."host-rt" = {...}: {
+  flake.modules.nixos."host-rt" = {lib, ...}: {
     imports =
       (with self.modules.nixos; [
         base
@@ -18,7 +18,12 @@
       ])
       ++ [./_hardware.nix];
 
-    disko.devices.disk.main-disk.device = "/dev/sda";
+    disko.devices.disk.main-disk.device = "/dev/nvme0n1";
+
+    # Install GRUB to the fallback path (\EFI\BOOT\BOOTX64.EFI) so the firmware
+    # boots the NVMe disk without a NixOS-boot NVRAM entry
+    boot.loader.grub.efiInstallAsRemovable = true;
+    boot.loader.efi.canTouchEfiVariables = lib.mkForce false;
 
     users.users.mantas.hashedPassword = "$y$j9T$CBUDkbjWCNFT9elDItjDs/$C6QtugeloE8JGPFJYJKeMAkhfxDFuiUYaRH4d2CMARB";
 
