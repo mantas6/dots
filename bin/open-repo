@@ -4,11 +4,12 @@
 set -e
 
 remote=$(git config --get remote.origin.url)
-#
-if [[ "$remote" =~ ^git@([^:]+):(.+)\.git$ ]]; then
+
+if [[ "$remote" =~ ^git@([^:]+):(.+)$ ]] || [[ "$remote" =~ ^ssh://[^@]+@([^:/]+)(:[0-9]+)?/(.+)$ ]]; then
     host="${BASH_REMATCH[1]}"
-    repo="${BASH_REMATCH[2]}"
-    url="https://$host/$repo"
+    repo="${BASH_REMATCH[-1]}"
+    host="${host#ssh.}"
+    url="https://$host/${repo%.git}"
 elif [[ "$remote" =~ ^https?:// ]]; then
     url="${remote%.git}"
 else
