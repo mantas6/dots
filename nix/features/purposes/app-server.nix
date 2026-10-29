@@ -21,28 +21,7 @@
     # - upload_max_filesize / post_max_size (defaults are 2M)
     # - memory_limit (default 128M may be tight)
 
-    # Built from source, ahead of the version nixpkgs ships. Drop once
-    # nixpkgs' php85 catches up.
-    php = pkgs.php85.override {
-      version = "8.5.12";
-      hash = "sha256-/7YO3EN87WO1E35JhNs3moERxQBJxxFRDYuVgnfvwag=";
-    };
-
-    # These tests, new in 8.5.12, run `php-cgi -n`, which can't load filter
-    # when it's built as a separate extension the way nixpkgs builds it.
-    # (`packageOverrides` given to `.override` above never reaches the
-    # extension set, so it's patched here instead.)
-    patchExtension = ext:
-      if ext.extensionName == "filter"
-      then
-        ext.overrideAttrs (old: {
-          postPatch =
-            (old.postPatch or "")
-            + ''
-              rm ext/filter/tests/oom_filter_{default_encoded,input,input_array}.phpt
-            '';
-        })
-      else ext;
+    php = pkgs.php85;
 
     phpConfigured = php.buildEnv {
       # pdo, pdo_sqlite, mbstring, bcmath, curl, zip, intl, pcntl, posix are
@@ -51,7 +30,7 @@
         enabled,
         all,
       }:
-        map patchExtension enabled
+        enabled
         ++ (with all; [
           redis
         ]);
