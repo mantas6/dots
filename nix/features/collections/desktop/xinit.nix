@@ -14,6 +14,9 @@
       ''
         #!${pkgs.runtimeShell}
 
+        # Let D-Bus activated user services (pass-secret-service, pinentry) reach X
+        ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd DISPLAY XAUTHORITY
+
         ${pkgs.xset}/bin/xset -b
 
         ${pkgs.unclutter}/bin/unclutter &
