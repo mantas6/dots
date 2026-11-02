@@ -20,6 +20,7 @@
         progs-gaming
         # services-printing
         services-docker
+        services-beamng-mcp
       ])
       ++ [./_hardware.nix];
 
