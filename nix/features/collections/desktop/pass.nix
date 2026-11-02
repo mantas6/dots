@@ -6,6 +6,8 @@
       agent = {
         enable = true;
         pinentryPackage = pkgs.pinentry-gtk2;
+        # Hide pinentry's "Save in password manager" checkbox (gnome-keyring)
+        settings.no-allow-external-cache = "";
       };
     };
 
