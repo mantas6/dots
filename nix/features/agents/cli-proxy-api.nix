@@ -1,0 +1,43 @@
+# CLIProxyAPI as a user service, API endpoints require no client auth.
+# One-time login (as mantas on ag):
+#   cli-proxy-api --config <config path from ExecStart> --<provider>-login
+#   systemctl --user restart cli-proxy-api
+{self, ...}: {
+  flake.modules.nixos."agents-cli-proxy-api" = {pkgs, ...}: let
+    port = 8317;
+    pkg = self.packages.${pkgs.stdenv.hostPlatform.system}.cli-proxy-api;
+    configFile = (pkgs.formats.yaml {}).generate "cli-proxy-api-config.yaml" {
+      config-version = 8;
+      server = {
+        host = "0.0.0.0";
+        inherit port;
+      };
+      management = {
+        secret-key = "";
+        disable-control-panel = true;
+      };
+      access.api-keys = [];
+      # XDG_DATA_HOME, upstream only expands a leading ~
+      oauth.auth-dir = "~/.local/share/cli-proxy-api";
+    };
+  in {
+    environment.systemPackages = [pkg];
+
+    networking.firewall.allowedTCPPorts = [port];
+
+    systemd.user.services.cli-proxy-api = {
+      description = "CLIProxyAPI";
+      wantedBy = ["default.target"];
+      after = ["network-online.target"];
+      wants = ["network-online.target"];
+      unitConfig.ConditionUser = "!root";
+      serviceConfig = {
+        ExecStart = "${pkg}/bin/cli-proxy-api --config ${configFile}";
+        WorkingDirectory = "%h";
+        Restart = "always";
+        RestartSec = 2;
+        NoNewPrivileges = true;
+      };
+    };
+  };
+}
