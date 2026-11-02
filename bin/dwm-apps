@@ -60,10 +60,7 @@ else
     run "alacritty -o font.size=50 -e tmux attach-session -t large"
 
     tag 5
-    run "chromium --new-window http://ag:3773"
-
-    tag 6
-    run "alacritty"
+    run "t3code-desktop"
 
     tag 9
     run "chromium --app=http://gal/$(date +%Y).html"
