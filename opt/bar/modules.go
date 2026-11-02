@@ -171,7 +171,7 @@ func diskUsage(res json.RawMessage) *Part {
 			continue
 		}
 
-		usagePercent := float64(p.Bytes.Used) / float64(p.Bytes.Total) * 100
+		usagePercent := float64(p.Bytes.Total-p.Bytes.Free) / float64(p.Bytes.Total) * 100
 		return &Part{Icon: "", Value: fmt.Sprintf("%.0f%%", usagePercent)}
 	}
 	return nil

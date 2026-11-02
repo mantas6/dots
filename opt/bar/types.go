@@ -37,7 +37,7 @@ type BatteryResult struct {
 }
 
 type DiskBytesResult struct {
-	Used  int64 `json:"used"`
+	Free  int64 `json:"free"`
 	Total int64 `json:"total"`
 }
 
