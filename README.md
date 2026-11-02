@@ -51,7 +51,7 @@ nixos-rebuild switch --flake .#__host__ --target-host __host__ --ask-sudo-passwo
 
 ### Nix-managed home (no stow)
 
-Hosts that only run T3 Code (`agents-t3code-home` module, e.g. `ag`) get the few files the agents need linked into `$HOME` from the nix store by user tmpfiles rules, and `sh/` served from the store via a generated `~/.zshenv`. No `~/.dots` checkout or `dsy` sync is needed there.
+Hosts that only run T3 Code (`agents-t3code-home` module, e.g. `ag`) get the few files the agents need linked into `$HOME` from the nix store by user tmpfiles rules. The user shell is bash and the t3code service sets `T3CODE_HOME` itself, so no `~/.dots` checkout, `dsy` sync or `sh/` config is needed there.
 
 Switching an existing stowed host over:
 

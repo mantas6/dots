@@ -9,8 +9,7 @@
   }: let
     user = "mantas";
     inherit (config.users.users.${user}) group;
-    repo = ../../..;
-    home = repo + "/home";
+    home = ../../../home;
 
     # Read-only symlinks into the nix store
     linked = [
@@ -22,9 +21,6 @@
       ".config/composer/composer.json"
       ".config/composer/composer.lock"
       ".ignore"
-      # Pointed at by sh/zprofile.d/50-general.zsh (wget refuses to run if $WGETRC is missing)
-      ".config/npm/npmrc"
-      ".config/wgetrc"
     ];
 
     # Writable copies for files the tool itself rewrites, reset to the repo version on every switch and boot
@@ -40,17 +36,6 @@
       fileset = lib.fileset.unions (map (p: home + "/${p}") managed);
     };
 
-    # sh/.zprofile and sh/.zshrc iterate over $DOTS_DIR/sh/*.d and put $DOTS_DIR/bin on PATH
-    dots = lib.fileset.toSource {
-      root = repo;
-      fileset = lib.fileset.unions [(repo + "/sh") (repo + "/bin")];
-    };
-
-    zshenv = pkgs.writeText "zshenv" ''
-      export DOTS_DIR="${dots}"
-      export ZDOTDIR="$DOTS_DIR/sh"
-    '';
-
     # Every ancestor directory of a managed path (".config", ".config/git", ...)
     parents = lib.unique (lib.concatMap (
         p: let
@@ -60,13 +45,11 @@
       )
       managed);
   in {
+    # No zsh config from sh/ on this host; the t3code service sets the environment it needs
+    users.users.${user}.shell = pkgs.bashInteractive;
+
     systemd.user.tmpfiles.users.${user}.rules =
-      [
-        "L+ %h/.zshenv - - - - ${zshenv}"
-        "d %h/.local/state/zsh 0700"
-        "d %h/.cache/zsh 0700"
-      ]
-      ++ map (p: "L+ %h/${p} - - - - ${files}/${p}") linked
+      map (p: "L+ %h/${p} - - - - ${files}/${p}") linked
       # C needs an explicit owner: with "-" it tries to keep the store's root ownership and fails
       ++ lib.concatMap (p: [
         "r %h/${p}"

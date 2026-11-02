@@ -5,7 +5,8 @@
     pkgs-unstable,
     ...
   }: let
-    zsh = lib.getExe config.users.users.mantas.shell;
+    inherit (config.users.users.mantas) home;
+    shell = lib.getExe config.users.users.mantas.shell;
     t3 = "${pkgs-unstable.t3code}/bin/t3";
   in {
     environment.systemPackages = [pkgs-unstable.t3code];
@@ -16,9 +17,12 @@
       after = ["network-online.target"];
       wants = ["network-online.target"];
       unitConfig.ConditionUser = "!root";
-      environment.SHELL = zsh;
+      environment = {
+        SHELL = shell;
+        T3CODE_HOME = "${home}/.local/share/t3";
+      };
       serviceConfig = {
-        ExecStart = "${zsh} -lc 'exec ${t3} serve --mode web --port 3773 --host 0.0.0.0 --no-browser'";
+        ExecStart = "${shell} -lc 'exec ${t3} serve --mode web --port 3773 --host 0.0.0.0 --no-browser'";
         WorkingDirectory = "%h";
         Restart = "always";
         RestartSec = 2;
