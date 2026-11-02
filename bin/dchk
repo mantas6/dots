@@ -1,6 +1,9 @@
 #!/usr/bin/env sh
 # Check for changes in dotfiles repo
 
+# Nothing to check when dotfiles come from the nix store
+[ -d "$DOTS_DIR/.git" ] || exit 0
+
 cd "$DOTS_DIR" || exit 1
 
 if [ "$(git branch --show-current)" != 'main' ]; then

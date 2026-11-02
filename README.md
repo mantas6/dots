@@ -49,6 +49,20 @@ nix run nixpkgs#nixos-anywhere -- \
 nixos-rebuild switch --flake .#__host__ --target-host __host__ --ask-sudo-password
 ```
 
+### Nix-managed home (no stow)
+
+Hosts that only run T3 Code (`agents-t3code-home` module, e.g. `ag`) get the few files the agents need linked into `$HOME` from the nix store by user tmpfiles rules, and `sh/` served from the store via a generated `~/.zshenv`. No `~/.dots` checkout or `dsy` sync is needed there.
+
+Switching an existing stowed host over:
+
+```sh
+cd "$HOME/.dots" && ./bin/stw -D
+sudo nixos-rebuild switch --flake github:mantas6/dots#ag
+trash "$HOME/.dots"
+```
+
+`~/.claude/settings.json` is a writable copy that is reset to the repo version on every switch and boot. Everything else is a read-only symlink. Local state (`~/.local/share/t3`, `~/.claude/projects`, credentials) is never touched.
+
 ## Rescue
 
 ### Upgrade outdated dotfiles

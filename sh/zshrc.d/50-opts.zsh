@@ -29,7 +29,8 @@ setopt autocd
 setopt interactive_comments
 
 # Load completions
-autoload -Uz compinit && compinit -i
+mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+autoload -Uz compinit && compinit -i -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
