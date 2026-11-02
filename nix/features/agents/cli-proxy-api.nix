@@ -6,19 +6,19 @@
   flake.modules.nixos."agents-cli-proxy-api" = {pkgs, ...}: let
     port = 8317;
     pkg = self.packages.${pkgs.stdenv.hostPlatform.system}.cli-proxy-api;
-    configFile = pkgs.writeText "cli-proxy-api-config.yaml" ''
-      config-version: 8
-      server:
-        host: "0.0.0.0"
-        port: ${toString port}
-      management:
-        secret-key: ""
-        disable-control-panel: true
-      access:
-        api-keys: []
-      oauth:
-        auth-dir: "~/.cli-proxy-api"
-    '';
+    configFile = (pkgs.formats.yaml {}).generate "cli-proxy-api-config.yaml" {
+      config-version = 8;
+      server = {
+        host = "0.0.0.0";
+        inherit port;
+      };
+      management = {
+        secret-key = "";
+        disable-control-panel = true;
+      };
+      access.api-keys = [];
+      oauth.auth-dir = "~/.cli-proxy-api";
+    };
   in {
     environment.systemPackages = [pkg];
 
