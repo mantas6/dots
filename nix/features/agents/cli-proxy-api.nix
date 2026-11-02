@@ -17,7 +17,8 @@
         disable-control-panel = true;
       };
       access.api-keys = [];
-      oauth.auth-dir = "~/.cli-proxy-api";
+      # XDG_DATA_HOME, upstream only expands a leading ~
+      oauth.auth-dir = "~/.local/share/cli-proxy-api";
     };
   in {
     environment.systemPackages = [pkg];
