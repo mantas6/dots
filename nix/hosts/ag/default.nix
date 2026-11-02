@@ -22,6 +22,7 @@
         collections-develop
         progs-shell
         services-docker
+        services-mysql
         agents-claude-timer
         agents-codex-timer
         agents-t3code
