@@ -1,17 +1,27 @@
 return {
   {
-    'MeanderingProgrammer/render-markdown.nvim',
+    'OXY2DEV/markview.nvim',
+    -- Already lazy-loads itself; must load after the colorscheme (default priority is 50).
+    lazy = false,
+    priority = 49,
 
     opts = {
-      code = {
-        -- Determines how the top / bottom of code block are rendered.
-        -- | none  | do not render a border                               |
-        -- | thick | use the same highlight as the code body              |
-        -- | thin  | when lines are empty overlay the above & below icons |
-        -- | hide  | conceal lines unless language name or icon is added  |
-        border = 'thin',
+      preview = {
+        icon_provider = 'devicons',
+        -- Rendered in these modes; insert / visual show the raw buffer.
+        modes = { 'n', 'no', 'c' },
+        -- Keep empty so the cursor line is never un-rendered while moving around.
+        hybrid_modes = {},
       },
-      heading = { enabled = false },
+      markdown = {
+        headings = { enable = false },
+        list_items = {
+          -- No virtual indentation, so lists don't shift when switching to insert mode.
+          marker_minus = { add_padding = false },
+          marker_plus = { add_padding = false },
+          marker_star = { add_padding = false },
+        },
+      },
     },
 
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
