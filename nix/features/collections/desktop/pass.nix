@@ -13,13 +13,13 @@
 
     environment.systemPackages = with pkgs; [
       pass
-      # Use default_autotype for multi-line entries too, instead of hardcoded "user :tab pass"
+      # Entries without autotype field: type "user :tab" only if user field is set, then default_autotype
       (rofi-pass.overrideAttrs (old: {
         postPatch =
           (old.postPatch or "")
           + ''
             substituteInPlace rofi-pass \
-              --replace-fail '"''${USERNAME_field} :tab pass"' '"''${default_autotype}"'
+              --replace-fail '"''${USERNAME_field} :tab pass"' '"''${stuff[$USERNAME_field]:+$USERNAME_field :tab }''${default_autotype}"'
           '';
       }))
       pwgen
