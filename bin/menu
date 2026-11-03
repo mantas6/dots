@@ -14,7 +14,6 @@ while getopts 'wp' opt; do
             prompt=1
             ;;
         ?)
-            echo "Invalid option: -${OPTARG}."
             exit 1
             ;;
     esac

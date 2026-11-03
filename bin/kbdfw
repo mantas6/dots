@@ -20,7 +20,6 @@ while getopts 'nf' opt; do
             force_build=1
             ;;
         ?)
-            echo "Invalid option: -${OPTARG}."
             exit 1
             ;;
     esac

@@ -23,7 +23,6 @@ while getopts 'd:go:h' opt; do
             exit 0
             ;;
         ?)
-            echo "Invalid option: -${OPTARG}."
             exit 1
             ;;
     esac
