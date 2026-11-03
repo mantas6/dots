@@ -32,7 +32,6 @@ fi
 
 alias zr='cd "$(git rev-parse --show-toplevel)"'
 alias ze='cd "$(tmux display-message -p "#{session_path}")"'
-alias zf='eval "$(__fzf_cd__)"'
 
 alias artisan="a"
 alias composer="c"
