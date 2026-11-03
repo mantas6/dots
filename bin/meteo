@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 place_file="${XDG_CONFIG_HOME:-$HOME/.config}/meteo/place_code"
-place_code=$(cat "$place_file")
+place_code=$(cat "$place_file" 2>/dev/null)
 
 lines=$(tput lines)
 forecast_length=$((lines - 10))
