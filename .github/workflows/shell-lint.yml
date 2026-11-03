@@ -1,26 +1,8 @@
 name: "Shell lint"
 on:
   pull_request:
-    paths:
-      - 'bin/**'
-      - 'etc/**'
-      - 'home/**'
-      - 'opt/**'
-      - 'sh/**'
-      - 'srv/**'
-      - '.editorconfig'
-      - '.github/workflows/shell-lint.yml'
   push:
     branches: [main]
-    paths:
-      - 'bin/**'
-      - 'etc/**'
-      - 'home/**'
-      - 'opt/**'
-      - 'sh/**'
-      - 'srv/**'
-      - '.editorconfig'
-      - '.github/workflows/shell-lint.yml'
 
 permissions:
   contents: read
