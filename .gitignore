@@ -1,6 +1,3 @@
-/mods/base/.config/bm/list.local
-/mods/base/.stow-local-ignore
-
 /srv/*/data/*
 /srv/*/.env
 /srv/*.local
