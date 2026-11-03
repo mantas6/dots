@@ -21,6 +21,7 @@
         # services-printing
         services-docker
         services-beamng-mcp
+        services-sat-backups
       ])
       ++ [./_hardware.nix];
 

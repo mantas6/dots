@@ -36,4 +36,9 @@ in {
     publicKeys = users ++ [systems.pd];
     armor = true;
   };
+
+  "${basePath}/backups-token.age" = {
+    publicKeys = users ++ [systems.pd systems.l4 systems.mt systems.ix];
+    armor = true;
+  };
 }
