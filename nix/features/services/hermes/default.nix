@@ -43,8 +43,8 @@
 
         session_reset = {
           mode = "idle";
-          # Reset on the first user message after 12 hours of inactivity.
-          idle_minutes = 60 * 12;
+          # Reset on the first user message after 4 hours of inactivity.
+          idle_minutes = 60 * 4;
         };
 
         stt.enabled = false;
