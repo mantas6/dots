@@ -1,8 +1,26 @@
 name: "Shell lint"
 on:
   pull_request:
+    paths-ignore:
+      - '**.nix'
+      - '**.lua'
+      - '**.go'
+      - '**.md'
+      - '**.json'
+      - '**.jsonc'
+      - '**.toml'
+      - '**.age'
   push:
     branches: [main]
+    paths-ignore:
+      - '**.nix'
+      - '**.lua'
+      - '**.go'
+      - '**.md'
+      - '**.json'
+      - '**.jsonc'
+      - '**.toml'
+      - '**.age'
 
 permissions:
   contents: read
