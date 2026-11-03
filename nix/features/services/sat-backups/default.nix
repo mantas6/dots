@@ -5,8 +5,7 @@
     ...
   }: let
     outputPath = "/home/mantas/Offload/Sat/backups";
-    # Set to a directory to keep the first backup of each month there.
-    monthlyPath = null;
+    monthlyPath = "/home/mantas/Offload/Sat/Monthly";
     keepForDays = 365;
 
     # Talks to `<base url>/api/backups/{query,retrieve,mark}` with a bearer
@@ -31,7 +30,7 @@
       environment = {
         HOST = config.networking.hostName;
         OUTPUT_PATH = outputPath;
-        MONTHLY_PATH = toString monthlyPath;
+        MONTHLY_PATH = monthlyPath;
         KEEP_FOR = toString keepForDays;
       };
 

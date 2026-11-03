@@ -65,7 +65,7 @@ fi
 echo "Removing backups older than $KEEP_FOR days"
 find "$OUTPUT_PATH" -type f -mtime "+$KEEP_FOR" -exec rm -v {} +
 
-if [[ -n "$MONTHLY_PATH" && "$(date +%-d)" -eq 1 ]]; then
+if [[ "$(date +%-d)" -eq 1 ]]; then
     echo "Keeping a monthly copy"
     mkdir -p "$MONTHLY_PATH"
     cp -nv "$target" "$MONTHLY_PATH/$filename"
