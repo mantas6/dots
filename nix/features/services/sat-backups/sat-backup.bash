@@ -11,8 +11,8 @@ request() {
     local method=$1 endpoint=$2 params=$3
     shift 3
 
-    jq -n --arg host "$HOST" --argjson params "$params" '{host: $host} + $params' \
-        | curl \
+    jq -n --arg host "$HOST" --argjson params "$params" '{host: $host} + $params' |
+        curl \
             --fail-with-body \
             --silent \
             --show-error \
@@ -44,6 +44,7 @@ target="$OUTPUT_PATH/$filename"
 
 request GET retrieve "$(jq -n --arg filename "$filename" '{filename: $filename}')" \
     --output "$target.part"
+
 mv "$target.part" "$target"
 echo "Wrote $target"
 
