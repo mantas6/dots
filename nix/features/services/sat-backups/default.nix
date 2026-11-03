@@ -6,7 +6,7 @@
   }: let
     user = "mantas";
     backupsDir = "${config.users.users.${user}.home}/Offload/Sat";
-    outputPath = "${backupsDir}/backups";
+    outputPath = "${backupsDir}/Daily";
     monthlyPath = "${backupsDir}/Monthly";
     keepForDays = 365;
 
