@@ -5,7 +5,6 @@
     ...
   }: let
     HOME = "/home/mantas";
-    PHOTOSYNC_ORIGINALS = "${HOME}/Pictures/Gallery/Originals";
     PHOTOSYNC_SITE = "${HOME}/Pictures/Gallery/Site";
   in {
     services.caddy = {
@@ -20,7 +19,7 @@
         "http://l4:8081" = {
           extraConfig = ''
             root * ${PHOTOSYNC_SITE}
-                   file_server
+            file_server
           '';
         };
       };
