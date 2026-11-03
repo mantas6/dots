@@ -59,9 +59,6 @@ else
     bg "sessionizer connect large"
     run "alacritty -o font.size=50 -e tmux attach-session -t large"
 
-    tag 5
-    run "t3code-desktop"
-
     tag 9
     run "chromium --app=http://gal/$(date +%Y).html"
 fi
