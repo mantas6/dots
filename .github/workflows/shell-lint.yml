@@ -1,0 +1,49 @@
+name: "Shell lint"
+on:
+  pull_request:
+    paths-ignore:
+      - '**.nix'
+      - '**.lua'
+      - '**.go'
+      - '**.md'
+      - '**.json'
+      - '**.jsonc'
+      - '**.toml'
+      - '**.age'
+      - '**/composer.lock'
+      - '**/trust.json.lock'
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.nix'
+      - '**.lua'
+      - '**.go'
+      - '**.md'
+      - '**.json'
+      - '**.jsonc'
+      - '**.toml'
+      - '**.age'
+      - '**/composer.lock'
+      - '**/trust.json.lock'
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install tools
+        run: nix profile install --inputs-from . nixpkgs#shfmt nixpkgs#shellcheck
+      - name: Check formatting
+        run: shfmt -f . | xargs shfmt -d
+      # ShellCheck does not support zsh
+      - name: Run shellcheck
+        run: shfmt -f . | grep -v '\.zsh$' | xargs shellcheck -S warning
