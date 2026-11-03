@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-# Commit and push dotfiles changes
-
-set -e
-cd "$DOTS_DIR"
-glz
