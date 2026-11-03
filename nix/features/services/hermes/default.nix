@@ -1,5 +1,10 @@
 {inputs, ...}: {
-  flake.modules.nixos."services-hermes" = {pkgs-unstable, ...}: {
+  flake.modules.nixos."services-hermes" = {
+    self,
+    pkgs,
+    pkgs-unstable,
+    ...
+  }: {
     imports = [
       inputs.hermes-agent.nixosModules.default
     ];
@@ -51,6 +56,8 @@
       };
 
       extraPackages = with pkgs-unstable; [
+        self.packages.${pkgs.stdenv.hostPlatform.system}.sat
+
         # python313
         # python313Packages.pip
 
