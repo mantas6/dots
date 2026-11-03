@@ -16,7 +16,10 @@
       after = ["network-online.target"];
       wants = ["network-online.target"];
       unitConfig.ConditionUser = "!root";
-      environment.SHELL = zsh;
+      environment = {
+        SHELL = zsh;
+        T3CODE_HOME = "%h/.local/share/t3";
+      };
       serviceConfig = {
         ExecStart = "${zsh} -lc 'exec ${t3} serve --mode web --port 3773 --host 0.0.0.0 --no-browser'";
         WorkingDirectory = "%h";
