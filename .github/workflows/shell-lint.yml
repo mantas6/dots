@@ -10,6 +10,8 @@ on:
       - '**.jsonc'
       - '**.toml'
       - '**.age'
+      - '**/composer.lock'
+      - '**/trust.json.lock'
   push:
     branches: [main]
     paths-ignore:
@@ -21,6 +23,8 @@ on:
       - '**.jsonc'
       - '**.toml'
       - '**.age'
+      - '**/composer.lock'
+      - '**/trust.json.lock'
 
 permissions:
   contents: read
