@@ -4,9 +4,9 @@
  * GTFS Departures Lookup — CLI Tool
  *
  * Usage:
- *   php departures.php <stop_name>
- *   php departures.php <stop_name> --limit=20
- *   php departures.php <stop_name> --time=14:30
+ *   departures <stop_name>
+ *   departures <stop_name> --limit=20
+ *   departures <stop_name> --time=14:30
  *
  * Reads GTFS .txt files from the current directory and displays
  * upcoming departures from stops matching the given name.
@@ -20,7 +20,7 @@ $defaultLimit = 10;
 // ── Parse CLI arguments ─────────────────────────────────────────────
 
 if ($argc < 2) {
-    fwrite(STDERR, "Usage: php departures.php <stop_name> [--dir=TEXT] [--limit=N] [--time=HH:MM]\n");
+    fwrite(STDERR, "Usage: departures <stop_name> [--dir=TEXT] [--limit=N] [--time=HH:MM]\n");
     fwrite(STDERR, "  --dir=TEXT     Filter stops by direction (matches stop_desc, e.g. \"centro\")\n");
     fwrite(STDERR, "  --limit=N      Number of departures to show (default: $defaultLimit)\n");
     fwrite(STDERR, "  --time=HH:MM   Query a specific time instead of now\n");
