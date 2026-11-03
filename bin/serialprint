@@ -2,7 +2,7 @@
 
 device="${1:-/dev/ttyUSB0}"
 
-[ ! -e "$device" ] && echo "Device $device does not exist"
+[ ! -e "$device" ] && echo "Device $device does not exist" >&2 && exit 1
 
 stty -F "$device" 115200 || echo "Failed to set baud rate"
 
