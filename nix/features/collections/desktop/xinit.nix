@@ -17,6 +17,11 @@
         # Let D-Bus activated user services (gnome-keyring prompts etc.) reach X
         ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd DISPLAY XAUTHORITY
 
+        # Unlock the keyring before any app stores secrets in it (see keyring.nix)
+        if ! ${pkgs.systemd}/bin/systemctl --user start gnome-keyring-unlock.service; then
+          ${pkgs.xmessage}/bin/xmessage -center "Keyring NOT unlocked: do not cancel its prompt" &
+        fi
+
         ${pkgs.xset}/bin/xset -b
 
         ${pkgs.unclutter}/bin/unclutter &
