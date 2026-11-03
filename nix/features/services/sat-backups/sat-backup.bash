@@ -49,12 +49,10 @@ mv "$target.part" "$target"
 echo "Wrote $target"
 
 checksum=$(openssl sha512 -r "$target" | cut -d ' ' -f 1)
-available_space=$(df -k --output=avail "$OUTPUT_PATH" | tail -n 1 | tr -d ' ')
 
 result=$(request POST mark "$(jq -n \
     --arg filename "$filename" \
     --arg checksum "$checksum" \
-    --arg available_space "$available_space" \
     '$ARGS.named')")
 echo "Result: $result"
 
