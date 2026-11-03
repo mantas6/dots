@@ -2,10 +2,12 @@
   flake.modules.nixos."services-sat-backups" = {
     config,
     pkgs,
-    lib,
     ...
   }: let
-    cfg = config.features.satBackups;
+    outputPath = "/home/mantas/Offload/Sat/backups";
+    # Set to a directory to keep the first backup of each month there.
+    monthlyPath = null;
+    keepForDays = 365;
 
     # Pulls the latest backup from Sat and marks it as retrieved.
     # Talks to `<base url>/api/backups/{query,retrieve,mark}` with a bearer
@@ -90,69 +92,40 @@
         '';
     };
   in {
-    options.features.satBackups = {
-      outputPath = lib.mkOption {
-        type = lib.types.str;
-        default = "/home/mantas/Offload/Sat/backups";
-        description = "Directory that receives the daily backups";
-      };
-
-      monthlyPath = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-        example = "/home/mantas/Offload/Sat/monthly";
-        description = "Directory that keeps a copy of the first backup of each month (null to disable)";
-      };
-
-      keepFor = lib.mkOption {
-        type = lib.types.int;
-        default = 365;
-        description = "Days to keep backups in outputPath";
-      };
-
-      host = lib.mkOption {
-        type = lib.types.str;
-        default = config.networking.hostName;
-        description = "Host name the backups are registered under";
-      };
+    age.secrets = {
+      sat-base-url.file = ../../_lib/secrets/sat-base-url.age;
+      backups-token.file = ../../_lib/secrets/backups-token.age;
     };
 
-    config = {
-      age.secrets = {
-        sat-base-url.file = ../../_lib/secrets/sat-base-url.age;
-        backups-token.file = ../../_lib/secrets/backups-token.age;
+    systemd.services.sat-backups = {
+      description = "Pull the latest backup from Sat";
+
+      after = ["network-online.target"];
+      wants = ["network-online.target"];
+
+      environment = {
+        HOST = config.networking.hostName;
+        OUTPUT_PATH = outputPath;
+        MONTHLY_PATH = toString monthlyPath;
+        KEEP_FOR = toString keepForDays;
       };
 
-      systemd.services.sat-backups = {
-        description = "Pull the latest backup from Sat";
-
-        after = ["network-online.target"];
-        wants = ["network-online.target"];
-
-        environment = {
-          HOST = cfg.host;
-          OUTPUT_PATH = cfg.outputPath;
-          MONTHLY_PATH = toString cfg.monthlyPath;
-          KEEP_FOR = toString cfg.keepFor;
-        };
-
-        serviceConfig = {
-          Type = "oneshot";
-          User = "mantas";
-          LoadCredential = [
-            "sat-base-url:${config.age.secrets.sat-base-url.path}"
-            "backups-token:${config.age.secrets.backups-token.path}"
-          ];
-          ExecStart = "${satBackup}/bin/sat-backup";
-        };
-
-        startAt = ["03:00" "09:00"];
+      serviceConfig = {
+        Type = "oneshot";
+        User = "mantas";
+        LoadCredential = [
+          "sat-base-url:${config.age.secrets.sat-base-url.path}"
+          "backups-token:${config.age.secrets.backups-token.path}"
+        ];
+        ExecStart = "${satBackup}/bin/sat-backup";
       };
 
-      systemd.timers.sat-backups = {
-        timerConfig = {
-          Persistent = true;
-        };
+      startAt = ["03:00" "09:00"];
+    };
+
+    systemd.timers.sat-backups = {
+      timerConfig = {
+        Persistent = true;
       };
     };
   };
