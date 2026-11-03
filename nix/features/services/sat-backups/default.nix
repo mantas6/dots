@@ -4,8 +4,10 @@
     pkgs,
     ...
   }: let
-    outputPath = "/home/mantas/Offload/Sat/backups";
-    monthlyPath = "/home/mantas/Offload/Sat/Monthly";
+    user = "mantas";
+    backupsDir = "${config.users.users.${user}.home}/Offload/Sat";
+    outputPath = "${backupsDir}/backups";
+    monthlyPath = "${backupsDir}/Monthly";
     keepForDays = 365;
 
     # Talks to `<base url>/api/backups/{query,retrieve,mark}` with a bearer
@@ -36,7 +38,7 @@
 
       serviceConfig = {
         Type = "oneshot";
-        User = "mantas";
+        User = user;
         LoadCredential = [
           "sat-base-url:${config.age.secrets.sat-base-url.path}"
           "backups-token:${config.age.secrets.backups-token.path}"
