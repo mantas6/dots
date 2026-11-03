@@ -157,7 +157,7 @@ Edit/create a secret:
 agenix -e nix/_lib/secrets/__name__.age
 ```
 
-After saving update the `secrets.nix`
+After saving update the `agenix-rules.nix`
 
 #### Rekey secrets
 
