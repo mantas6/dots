@@ -15,14 +15,16 @@
       OOMScoreAdjust = 500;
     };
 
-    nix.settings = {
-      max-substitution-jobs = 4;
-      http-connections = 8;
-    };
+    nix = {
+      settings = {
+        max-substitution-jobs = 4;
+        http-connections = 8;
+      };
 
-    # Spread the weekly gc/optimise, both default to Mon 00:00.
-    nix.gc.randomizedDelaySec = "1h";
-    nix.optimise.randomizedDelaySec = "1h";
+      # Spread the weekly gc/optimise, both default to Mon 00:00.
+      gc.randomizedDelaySec = "1h";
+      optimise.randomizedDelaySec = "1h";
+    };
 
     system.autoUpgrade.randomizedDelaySec = "15min";
 

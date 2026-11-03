@@ -25,13 +25,14 @@
 
     disko.devices.disk.main-disk.device = "/dev/nvme0n1";
 
-    networking.stevenblack.enable = true;
-    networking.networkmanager.enable = true;
+    networking = {
+      hostName = "tp";
+      stevenblack.enable = true;
+      networkmanager.enable = true;
+    };
     users.users.mantas.extraGroups = ["networkmanager"];
 
     services.logind.settings.Login.HandlePowerKey = "suspend";
-
-    networking.hostName = "tp";
 
     system.stateVersion = "25.05";
   };
