@@ -17,6 +17,7 @@
         services-auto-brightness
         quirks-prevent-sleep
         purposes-monitor
+        services-sat-backups
       ])
       ++ [./_hardware.nix];
 

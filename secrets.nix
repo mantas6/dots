@@ -38,7 +38,7 @@ in {
   };
 
   "${basePath}/backups-token.age" = {
-    publicKeys = users ++ [systems.pd systems.l4];
+    publicKeys = users ++ [systems.pd systems.l4 systems.mt];
     armor = true;
   };
 }
