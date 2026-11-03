@@ -2,16 +2,12 @@
   "$schema": "https://opencode.ai/config.json",
   "update": "disable",
   "default_agent": "plan",
+  // `claude-agent` runs the local Claude Code via the Agent SDK on the Claude subscription, needs `claude auth login`
   "enabled_providers": [
-    "anthropic",
+    "claude-agent",
     "openai"
   ],
-  // "model": "anthropic/claude-opus-5-5",
-  "plugins": [
-    // https://github.com/ex-machina-co/opencode-anthropic-auth
-    // v2 builds are published on the `next` npm tag, pin via `npm view @ex-machina/opencode-anthropic-auth dist-tags.next`
-    "@ex-machina/opencode-anthropic-auth@2.0.0-next.6"
-  ],
+  // "model": "claude-agent/opus",
   // Ordered rules, last match wins. `*` also matches `/`.
   "permissions": [
     { "action": "read", "resource": "*.env", "effect": "deny" },
