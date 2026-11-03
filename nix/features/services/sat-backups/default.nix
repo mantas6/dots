@@ -14,7 +14,7 @@
     satBackup = pkgs.writeShellApplication {
       name = "sat-backup";
       runtimeInputs = with pkgs; [curl jq openssl coreutils findutils];
-      text = builtins.readFile ./sat-backup.sh;
+      text = builtins.readFile ./sat-backup.bash;
     };
   in {
     age.secrets = {
