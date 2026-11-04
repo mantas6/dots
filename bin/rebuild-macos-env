@@ -123,6 +123,9 @@ fn-node() {
 fn-php() {
     bash -c "$(curl -fsSL https://php.new/install/mac/8.5)"
 
+    # Prevent macOS Taskgated from rejecting Herd's PHP signature.
+    codesign --force --sign - "$HOME/.config/herd-lite/bin/php"
+
     # local bin="$HOME/.local/bin/phpactor"
     # local tmp
     #
