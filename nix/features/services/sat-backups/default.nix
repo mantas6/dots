@@ -52,6 +52,7 @@
     systemd.timers.sat-backups = {
       timerConfig = {
         Persistent = true;
+        RandomizedDelaySec = "5m";
       };
     };
   };
