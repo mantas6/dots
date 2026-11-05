@@ -173,12 +173,17 @@
         # the run alive after the unit stops.
         script = "timeout 1h php artisan schedule:run &";
 
+        # systemd removes PrivateTmp as soon as the unit stops, while the
+        # backgrounded run is still going; temp files go to state that outlives it.
+        environment.TMPDIR = "/var/lib/sat/tmp";
+
         serviceConfig =
           defaultServiceConfig
           // {
             Type = "oneshot";
             Restart = "no";
             KillMode = "process";
+            StateDirectory = ["sat" "sat/tmp"];
           };
 
         restartIfChanged = false;
@@ -186,6 +191,11 @@
 
         startAt = "minutely";
       };
+
+    # Clears temp files left behind by scheduler runs that died mid-way.
+    systemd.tmpfiles.rules = [
+      "e /var/lib/sat/tmp - - - 1d"
+    ];
 
     systemd.services.sat-octane =
       defaultServiceOptions
