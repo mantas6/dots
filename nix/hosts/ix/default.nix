@@ -14,6 +14,9 @@
         base-home
         disks-normal
         hardware-amd
+
+        jobs-os-upgrade-desktop
+
         collections-desktop
         collections-develop
         progs-shell

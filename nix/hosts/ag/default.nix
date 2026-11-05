@@ -14,7 +14,7 @@
         base-home
         disks-normal
 
-        jobs-os-upgrade-desktop
+        jobs-os-upgrade
         jobs-dots-sync
 
         # purposes-app-server
