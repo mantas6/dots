@@ -1,7 +1,7 @@
 {...}: {
   flake.modules.nixos.base-home = {pkgs-unstable, ...}: let
     serviceName = "trash-empty";
-    pruneAfterDays = "60";
+    pruneAfterDays = "30";
   in {
     environment.systemPackages = with pkgs-unstable; [
       trash-cli
