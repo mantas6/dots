@@ -27,6 +27,11 @@ func callTmux(args ...string) (string, error) {
 	return strings.TrimSpace(string(out)), nil
 }
 
+// sessionTarget builds an exact-match session target so names containing "." or ":" aren't parsed as window/pane
+func sessionTarget(name string) string {
+	return "=" + name + ":"
+}
+
 func Attached() bool {
 	return os.Getenv("TMUX") != ""
 }
@@ -36,12 +41,12 @@ func ListSessions() (output string, err error) {
 }
 
 func SwitchClient(target string) error {
-	_, err := callTmux("switch-client", "-t", target)
+	_, err := callTmux("switch-client", "-t", sessionTarget(target))
 	return err
 }
 
 func Attach(target string) error {
-	cmd := exec.Command("tmux", "attach", "-t", target)
+	cmd := exec.Command("tmux", "attach", "-t", sessionTarget(target))
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
@@ -54,7 +59,7 @@ func NewSession(name string, path string) error {
 }
 
 func SendKeys(target string, keys []string) error {
-	args := append([]string{"send-keys", "-t", target}, keys...)
+	args := append([]string{"send-keys", "-t", sessionTarget(target)}, keys...)
 	_, err := callTmux(args...)
 	return err
 }
