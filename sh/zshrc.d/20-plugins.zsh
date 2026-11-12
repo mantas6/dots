@@ -1,18 +1,16 @@
 #!/usr/bin/env zsh
+# Plugin locations; loaded by 55-plugins.zsh and 99-syntax-highlighting.zsh
 
-[[ $OSTYPE != darwin* ]] && return
-
-source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-fpath=("$(brew --prefix)/share/zsh-completions" $fpath)
-
-fzf_tab_path="$HOME/.local/state/zsh/fzf-tab"
-
-if [ -d "$fzf_tab_path" ]; then
-    source "$fzf_tab_path/fzf-tab.plugin.zsh"
+if [[ $OSTYPE == darwin* ]]; then
+    _plugins_dir="$HOMEBREW_PREFIX/share"
+    _fzf_tab_dir="$HOME/.local/state/zsh/fzf-tab"
+    # Must be on fpath before compinit
+    fpath=("$_plugins_dir/zsh-completions" $fpath)
+else
+    # Linked by nix/features/progs/shell.nix
+    _plugins_dir=/run/current-system/sw/share
+    _fzf_tab_dir="$_plugins_dir/fzf-tab"
 fi
-
-unset fzf_tab_path
 
 # https://github.com/Aloxaf/fzf-tab?tab=readme-ov-file#install
 # https://formulae.brew.sh/formula/zsh-completions
