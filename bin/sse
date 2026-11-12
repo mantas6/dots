@@ -15,4 +15,11 @@ else
     fi
 fi
 
+# Remote hosts usually lack terminfo for newer terminals (e.g. xterm-ghostty),
+# which breaks colors and keys in interactive apps, so fall back to a common one
+case "${TERM:-}" in
+    xterm | xterm-256color | screen | screen-256color | tmux | tmux-256color) ;;
+    *) export TERM=xterm-256color ;;
+esac
+
 ssh -o LogLevel=QUIET -tt "$name" "cd $base; $cmd"
