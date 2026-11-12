@@ -1,5 +1,5 @@
 {...}: {
-  flake.modules.nixos."services-root-ssh" = {lib, ...}: let
+  flake.modules.nixos."quirks-root-ssh" = {lib, ...}: let
     keys = builtins.attrValues (import ../../_lib/users.nix).primary;
   in {
     services.openssh.settings = {
