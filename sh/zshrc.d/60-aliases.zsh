@@ -36,11 +36,9 @@ alias ze='cd "$(tmux display-message -p "#{session_path}")"'
 alias artisan="a"
 alias composer="c"
 
-alias glc="git log -1 --pretty=%B"
 alias g='git status --short --branch'
 
 alias lg='lazygit'
-alias cmatrix='cmatrix -ab'
 alias ff='fastfetch'
 alias onefetch='onefetch --no-color-palette --no-merges --include-hidden'
 
@@ -48,14 +46,6 @@ alias onefetch='onefetch --no-color-palette --no-merges --include-hidden'
 [ "$(uname)" = 'Darwin' ] && alias cal='cal -A 2'
 
 alias keepon="xset s off && xset -dpms"
-
-# Networking
-alias pingg="ping google.com"
-
-alias sshvm='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -A'
-
-# Other
-alias nj="jq . | nvim -Rc 'set syntax=json | set nospell' -"
 
 # Directories
 hash -d d="$HOME/Downloads"
