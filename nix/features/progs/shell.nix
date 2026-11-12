@@ -17,6 +17,8 @@
         source "${zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh"
         fpath=("${zsh-completions}/share/zsh/site-functions" $fpath)
       '';
+      # The prompt is defined in sh/zshrc.d/45-prompt.zsh
+      promptInit = "";
     };
 
     # Replaces the manual ssh-agent bootstrap formerly in sh/zshrc.d/80-ssh-agent.zsh.
