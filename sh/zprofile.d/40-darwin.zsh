@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-[ "$(uname)" != "Darwin" ] && return
+[[ $OSTYPE != darwin* ]] && return
 
 # Homebrew rootless
 if [ -d "$HOME/.local/brew" ]; then

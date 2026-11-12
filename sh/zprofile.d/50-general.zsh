@@ -14,7 +14,7 @@ else
 fi
 
 # Other
-if [ "$(uname)" != "Darwin" ]; then
+if [[ $OSTYPE != darwin* ]]; then
     export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
     export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
 
