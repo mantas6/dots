@@ -42,8 +42,8 @@ alias lg='lazygit'
 alias ff='fastfetch'
 alias onefetch='onefetch --no-color-palette --no-merges --include-hidden'
 
-[ "$(uname)" != 'Darwin' ] && alias cal='cal --monday'
-[ "$(uname)" = 'Darwin' ] && alias cal='cal -A 2'
+[[ $OSTYPE != darwin* ]] && alias cal='cal --monday'
+[[ $OSTYPE == darwin* ]] && alias cal='cal -A 2'
 
 alias keepon="xset s off && xset -dpms"
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-[ "$(uname)" != "Darwin" ] && return
+[[ $OSTYPE != darwin* ]] && return
 
 source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"

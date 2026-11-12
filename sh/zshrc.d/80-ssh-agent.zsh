@@ -8,7 +8,7 @@
 #     AddKeysToAgent yes
 #     UseKeychain yes
 
-if [[ "$(uname)" = 'Darwin' ]]; then
+if [[ $OSTYPE == darwin* ]]; then
     [[ ! -S "$SSH_AUTH_SOCK" ]] && export SSH_AUTH_SOCK="$(launchctl getenv SSH_AUTH_SOCK 2>/dev/null)"
     ssh-add --apple-load-keychain >/dev/null 2>&1
     return
