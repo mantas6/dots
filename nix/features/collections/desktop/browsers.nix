@@ -3,7 +3,6 @@
     environment.systemPackages = with pkgs; [
       # (chromium.override {enableWideVine = true;})
       chromium
-      qutebrowser
     ];
 
     # nixpkgs.config.allowUnfreePredicate = pkg:
