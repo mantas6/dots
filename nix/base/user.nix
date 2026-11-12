@@ -1,5 +1,5 @@
 {...}: {
-  flake.modules.nixos.base = {pkgs-unstable, ...}: {
+  flake.modules.nixos.base = {...}: {
     users.mutableUsers = false;
 
     users.users.mantas = {
@@ -8,6 +8,11 @@
       extraGroups = ["wheel"];
     };
 
-    environment.variables.EDITOR = "${pkgs-unstable.neovim}/bin/nvim";
+    # Stable vim keeps minimal hosts off nixpkgs-unstable; interactive shells
+    # switch EDITOR to nvim when it is installed (sh/zprofile.d/50-general.zsh).
+    programs.vim = {
+      enable = true;
+      defaultEditor = true;
+    };
   };
 }
