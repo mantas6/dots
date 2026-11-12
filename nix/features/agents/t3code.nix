@@ -44,6 +44,7 @@
       environment = {
         SHELL = zsh;
         T3CODE_HOME = "%h/.local/share/t3";
+        T3CODE_TELEMETRY_ENABLED = "false";
       };
       serviceConfig = {
         ExecStart = "${zsh} -lc 'exec ${t3} serve --mode web --port 3773 --host 0.0.0.0 --no-browser'";
