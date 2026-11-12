@@ -6,6 +6,7 @@
         efiSupport = true;
         device = "nodev";
         useOSProber = lib.mkDefault false;
+        memtest86.enable = lib.mkDefault true;
       };
 
       timeout = lib.mkDefault 1;
