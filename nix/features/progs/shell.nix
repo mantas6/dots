@@ -11,6 +11,8 @@
 
     programs.zsh = {
       enable = true;
+      # compinit runs in sh/zshrc.d/50-opts.zsh
+      enableGlobalCompInit = false;
       interactiveShellInit = with pkgs-unstable; ''
         source "${zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
         source "${zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
