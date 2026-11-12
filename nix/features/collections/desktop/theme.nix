@@ -24,5 +24,11 @@
         }
       ];
     };
+
+    # Sets QT_QPA_PLATFORMTHEME and installs qt5ct and qt6ct (handles both)
+    qt = {
+      enable = true;
+      platformTheme = "qt5ct";
+    };
   };
 }

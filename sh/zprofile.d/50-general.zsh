@@ -32,8 +32,6 @@ export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 
 export WGETRC="$XDG_CONFIG_HOME/wgetrc"
 
-export QT_QPA_PLATFORMTHEME=qt6ct
-
 export ANTHROPIC_ENABLE_1M_CONTEXT=true
 
 [ -f "$XDG_CONFIG_HOME/shell/local/profile" ] && . "$XDG_CONFIG_HOME/shell/local/profile"
