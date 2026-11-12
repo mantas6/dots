@@ -2,6 +2,7 @@
   flake.modules.nixos."agents-t3code" = {
     lib,
     config,
+    pkgs,
     pkgs-unstable,
     ...
   }: let
@@ -9,6 +10,30 @@
     t3 = "${pkgs-unstable.t3code}/bin/t3";
   in {
     environment.systemPackages = [pkgs-unstable.t3code];
+
+    # T3's browser downloads a generic chrome-headless-shell binary, run it via nix-ld
+    programs.nix-ld = {
+      enable = true;
+      libraries = with pkgs; [
+        glib
+        nspr
+        nss
+        at-spi2-core
+        dbus
+        libx11
+        libxcomposite
+        libxdamage
+        libxext
+        libxfixes
+        libxrandr
+        libxcb
+        libgbm
+        expat
+        libxkbcommon
+        systemdLibs
+        alsa-lib
+      ];
+    };
 
     systemd.user.services.t3code = {
       description = "T3 Code server";
