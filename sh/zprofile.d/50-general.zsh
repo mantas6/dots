@@ -56,5 +56,3 @@ export T3CODE_HOME="$XDG_DATA_HOME/t3"
 
 [ -d "$HOME/.local/share/cargo/bin" ] && export PATH="$HOME/.local/share/cargo/bin:$PATH"
 [ -d "$GOPATH/bin" ] && export PATH="$GOPATH/bin:$PATH"
-
-[ -f '/etc/profile.d/nix.sh' ] && source '/etc/profile.d/nix.sh'
