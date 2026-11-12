@@ -18,7 +18,8 @@ HISTFILE=~/.local/state/zsh/history
 SAVEHIST=$HISTSIZE
 
 setopt appendhistory
-# setopt sharehistory
+# NixOS enables this globally in /etc/zshrc
+unsetopt share_history
 setopt hist_ignore_space
 setopt hist_ignore_all_dups
 setopt hist_save_no_dups
