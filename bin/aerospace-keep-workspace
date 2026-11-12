@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# Stay on a workspace after its last window closes instead of following macOS focus elsewhere
+
+state="${TMPDIR:-/tmp}/aerospace-keep-workspace"
+mkdir -p "$state"
+
+# on-focus-changed: remember the focused window of each workspace
+focus() {
+    local window workspace
+    read -r window workspace < <(aerospace list-windows --focused --format '%{window-id} %{workspace}' 2>/dev/null)
+
+    if [[ -n $window ]]; then
+        echo "$window" >"$state/$workspace"
+        rm -f "$state/$workspace.gone"
+        return
+    fi
+
+    # Workspace went empty; keep the record briefly in case macOS jumps away right after
+    workspace=$(aerospace list-workspaces --focused)
+    [[ -f $state/$workspace ]] && mv "$state/$workspace" "$state/$workspace.gone" && touch "$state/$workspace.gone"
+}
+
+# exec-on-workspace-change: jump back if the previous workspace lost its last window
+switch() {
+    local prev=$AEROSPACE_PREV_WORKSPACE file window
+    [[ -z $prev ]] && return
+
+    if [[ -f $state/$prev ]]; then
+        file=$state/$prev
+    elif [[ -f $state/$prev.gone ]] && (($(date +%s) - $(date -r "$state/$prev.gone" +%s) <= 1)); then
+        file=$state/$prev.gone
+    fi
+
+    [[ -n $file ]] && window=$(<"$file")
+    rm -f "$state/$prev" "$state/$prev.gone"
+    [[ -z $window ]] && return
+
+    [[ $(aerospace list-windows --workspace "$prev" --count) -ne 0 ]] && return
+    aerospace list-windows --all --format '%{window-id}' | grep -qx "$window" && return
+
+    aerospace workspace "$prev"
+}
+
+case $1 in
+    focus) focus ;;
+    switch) switch ;;
+    *)
+        echo "usage: ${0##*/} focus|switch" >&2
+        exit 1
+        ;;
+esac
