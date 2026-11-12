@@ -87,7 +87,21 @@
         request_body {
           max_size ${maxSize}
         }
-        reverse_proxy 127.0.0.1:${toString port}
+        # rustypaste serves every text-like file (HTML included) as text/plain,
+        # so HTML uploads would show as source. Restore text/html here and
+        # loosen the CSP so the page renders with its own styles and scripts.
+        # The sandbox has no allow-same-origin, so the page still runs in an
+        # opaque origin and cannot touch the upload page or other files.
+        @html path *.html *.htm
+        handle @html {
+          reverse_proxy 127.0.0.1:${toString port} {
+            header_down Content-Type text/plain text/html
+            header_down Content-Security-Policy "sandbox allow-scripts allow-forms allow-popups allow-modals"
+          }
+        }
+        handle {
+          reverse_proxy 127.0.0.1:${toString port}
+        }
       '';
     };
   };
