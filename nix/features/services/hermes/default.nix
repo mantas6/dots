@@ -35,7 +35,20 @@
       settings = {
         plugins.enabled = ["hermes-session-reset-policy"];
 
-        model.default = "openai/gpt-6.1-sol";
+        model = {
+          default = "openai/gpt-6.1-sol";
+          provider = "openai-codex";
+        };
+
+        # Migrated PM Chromium is a generic Linux binary and fails on NixOS.
+        browser.executable_path = "${pkgs-unstable.chromium}/bin/chromium";
+
+        # Codex native search cannot extract pages. Keep search autodetection,
+        # but use Parallel's anonymous, rate-limited free tier for extraction.
+        web = {
+          extract_backend = "parallel";
+          provider_tier.parallel = "free";
+        };
 
         agent = {
           reasoning_effort = "medium";
@@ -94,6 +107,7 @@
 
         chromium
         nodejs_24
+        pnpm
       ];
     };
   };
