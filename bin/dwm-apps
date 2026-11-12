@@ -37,10 +37,10 @@ if printf '%s' "$(uname -n)" | grep -q 'tp'; then
     run "$term attach-session -t generic"
 
     tag 2
-    run "qutebrowser"
+    run "chromium --new-window"
 
     tag 3
-    run "qutebrowser"
+    run "chromium --new-window"
 else
     tag 1
     run "chromium --new-window"
