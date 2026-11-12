@@ -24,8 +24,6 @@
     nix.gc.randomizedDelaySec = "1h";
     nix.optimise.randomizedDelaySec = "1h";
 
-    system.autoUpgrade.randomizedDelaySec = "15min";
-
     # The slowest locally built derivation, never substitutable for flake systems.
     documentation.nixos.enable = false;
   };

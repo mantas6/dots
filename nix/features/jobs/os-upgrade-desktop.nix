@@ -6,6 +6,7 @@
 
       flake = "github:mantas6/dots";
       dates = "07:00";
+      randomizedDelaySec = "5min";
       operation = "boot";
 
       allowReboot = false;
