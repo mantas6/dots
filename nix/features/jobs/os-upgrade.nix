@@ -7,7 +7,7 @@
 
       flake = "github:mantas6/dots";
       dates = lib.mkDefault "02:00";
-      randomizedDelaySec = lib.mkDefault "5min";
+      randomizedDelaySec = "5min";
 
       allowReboot = true;
       rebootWindow = {

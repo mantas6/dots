@@ -1,12 +1,12 @@
 {...}: {
-  flake.modules.nixos."jobs-os-upgrade-desktop" = {lib, ...}: {
+  flake.modules.nixos."jobs-os-upgrade-desktop" = {
     system.autoUpgrade = {
       enable = true;
       persistent = true;
 
       flake = "github:mantas6/dots";
       dates = "07:00";
-      randomizedDelaySec = lib.mkDefault "5min";
+      randomizedDelaySec = "5min";
       operation = "boot";
 
       allowReboot = false;
