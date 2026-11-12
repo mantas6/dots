@@ -10,8 +10,6 @@ autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
 
-typeset -U PATH
-
 # History
 HISTSIZE=50000
 HISTFILE=~/.local/state/zsh/history
