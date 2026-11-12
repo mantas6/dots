@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 
 # Colors
-alias ls='ls --color=auto -h'
 alias grep='grep --color=auto'
 alias ip='ip -color=auto'
 alias diff='diff --color=auto'
