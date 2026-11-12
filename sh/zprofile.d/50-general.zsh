@@ -52,7 +52,7 @@ export ANTHROPIC_ENABLE_1M_CONTEXT=true
 
 export PATH="$PATH:$DOTS_DIR/bin"
 
-[ -x "$(command -v npm)" ] && PATH="$(npm config get prefix)/bin:$PATH"
+[ -d "$XDG_DATA_HOME/npm/bin" ] && export PATH="$XDG_DATA_HOME/npm/bin:$PATH"
 
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 [ -d "$HOME/Repos/private/bin" ] && export PATH="$HOME/Repos/private/bin:$PATH"
