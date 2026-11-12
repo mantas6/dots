@@ -36,8 +36,6 @@ export QT_QPA_PLATFORMTHEME=qt6ct
 
 export ANTHROPIC_ENABLE_1M_CONTEXT=true
 
-[ -f "$XDG_CONFIG_HOME/shell/local/profile" ] && . "$XDG_CONFIG_HOME/shell/local/profile"
-
 export PATH="$PATH:$DOTS_DIR/bin"
 
 [ -d "$XDG_DATA_HOME/npm/bin" ] && export PATH="$XDG_DATA_HOME/npm/bin:$PATH"
