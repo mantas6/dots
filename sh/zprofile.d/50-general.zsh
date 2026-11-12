@@ -28,20 +28,12 @@ export GOPATH="$XDG_DATA_HOME"/go
 export GOMODCACHE="$XDG_CACHE_HOME"/go/mod
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 
-export ATAC_MAIN_DIR="$XDG_CONFIG_HOME/atac"
-export ATAC_KEY_BINDINGS="$XDG_CONFIG_HOME/atac/key.toml"
-
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 export PASSWORD_STORE_CHARACTER_SET="[:alnum:]"
 
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 
 export WGETRC="$XDG_CONFIG_HOME/wgetrc"
-export VIT_DIR="$XDG_CONFIG_HOME/vit"
-
-export NBRC_PATH="$HOME/.config/nb/nbrc"
-export NB_DIR="$XDG_DATA_HOME/nb"
-export NB_HIST="$XDG_STATE_HOME/nb/history"
 
 export MOZ_USE_XINPUT2=1
 export QT_QPA_PLATFORMTHEME=qt6ct
