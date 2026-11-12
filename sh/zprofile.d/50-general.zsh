@@ -15,9 +15,6 @@ fi
 
 # Other
 if [[ $OSTYPE != darwin* ]]; then
-    export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
-    export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
-
     if [ -x "$(command -v gem)" ]; then
         export GEM_HOME=$(gem env user_gemhome)
         export PATH="$PATH:$GEM_HOME/bin"
