@@ -11,11 +11,11 @@
       sources = {
         x86_64-linux = {
           variant = "linux_amd64_no-plugin";
-          hash = "sha256-T2p81QVddA/KwRkUyBtdhVNzo21nMVvGHFBxglB+dPU=";
+          hash = "sha256-otjSrY6vXdvrxB1bzEDIEKezSPQKx3DBzZ0AGV+r0fc=";
         };
         aarch64-linux = {
           variant = "linux_aarch64_no-plugin";
-          hash = "sha256-ckNJIP3jbzgUXrNLtmvgTYUK0cyvbg9BMqPR9FWDiWc=";
+          hash = "sha256-Zxi4ModURt29pWhH00h8x8LBqciF7jEMv8EOY0ns7Mg=";
         };
       };
 
@@ -28,7 +28,7 @@
     in
       stdenv.mkDerivation (finalAttrs: {
         pname = "cli-proxy-api";
-        version = "8.0.76";
+        version = "8.0.77";
 
         src = fetchurl {
           url = "https://github.com/router-for-me/CLIProxyAPI/releases/download/v${finalAttrs.version}/CLIProxyAPI_${finalAttrs.version}_${variant}.tar.gz";
