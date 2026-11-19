@@ -36,7 +36,7 @@
         plugins.enabled = ["hermes-session-reset-policy"];
 
         model = {
-          default = "openai/gpt-6.1-sol";
+          default = "openai/gpt-6.2-sol";
           provider = "openai-codex";
         };
 
