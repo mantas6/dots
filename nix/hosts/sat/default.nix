@@ -23,6 +23,9 @@
 
     users.users.mantas.hashedPassword = "$y$j9T$tWZJEW0K.eEV.zQfnBbyh0$ieDjH/01NA6DLLeapQa1VPTnYKtP5rE36mTRi8ueuI5";
 
+    # Upgrade weekly, the night after the Wednesday flake.lock bump workflow.
+    system.autoUpgrade.dates = "Thu 02:00";
+
     networking.hostName = "sat";
 
     networking.useDHCP = false;
