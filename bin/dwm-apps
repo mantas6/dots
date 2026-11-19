@@ -24,17 +24,11 @@ run() {
     done
 }
 
-bg() {
-    sh -c "$1" >/dev/null 2>&1 &
-    sleep 0.3
-}
-
-term="alacritty -e tmux"
+term="alacritty -e sessionizer"
 
 if printf '%s' "$(uname -n)" | grep -q 'tp'; then
     tag 1
-    bg "sessionizer connect generic"
-    run "$term attach-session -t generic"
+    run "$term connect generic"
 
     tag 2
     run "chromium --new-window"
@@ -44,8 +38,7 @@ if printf '%s' "$(uname -n)" | grep -q 'tp'; then
 else
     tag 1
     run "chromium --new-window"
-    bg "sessionizer connect generic"
-    run "$term attach-session -t generic"
+    run "$term connect generic"
 
     tag 2
     run "chromium --new-window https://meteofor.lt/weather-alytus-4152/month"
@@ -56,8 +49,7 @@ else
     run "firefox --new-window https://www.youtube.com/feed/subscriptions"
 
     tag 4
-    bg "sessionizer connect large"
-    run "alacritty -o font.size=50 -e tmux attach-session -t large"
+    run "alacritty -o font.size=50 -e sessionizer connect large"
 
     tag 9
     run "chromium --app=http://gal/$(date +%Y).html"
