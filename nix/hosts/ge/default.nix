@@ -15,14 +15,13 @@
         disks-normal
 
         jobs-os-upgrade
-        # jobs-dots-sync
+        jobs-dots-sync
 
-        # collections-develop
-        # progs-shell
-        # services-docker
-        # agents-claude-timer
-        # agents-codex-timer
-        # agents-t3code
+        collections-develop
+        progs-shell
+        services-docker
+
+        agents-t3code
       ])
       ++ [./_hardware.nix];
 
