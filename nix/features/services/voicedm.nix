@@ -41,14 +41,16 @@
     # tailnet over HTTPS; the call audio (UDP) goes over the same interface
     systemd.services.voicedm-tailscale-serve = lib.mkIf config.services.tailscale.enable {
       description = "Publish voicedm on the tailnet";
-      after = ["tailscaled.service"];
-      wants = ["tailscaled.service"];
+      after = ["tailscaled.service" "network-online.target"];
+      wants = ["tailscaled.service" "network-online.target"];
       wantedBy = ["multi-user.target"];
 
       serviceConfig = {
         RemainAfterExit = true;
+        # Right after boot tailscaled may not have reached the control server
+        # yet, which fails the command; retry soon
         Restart = "on-failure";
-        RestartSec = "1min";
+        RestartSec = "10s";
         ExecStart = lib.getExe tailscaleServe;
       };
     };
