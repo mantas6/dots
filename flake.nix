@@ -16,6 +16,10 @@
     };
 
     hermes-agent.url = "github:NousResearch/hermes-agent";
+    voicedm = {
+      url = "github:mantas6/voicedm";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";

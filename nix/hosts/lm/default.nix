@@ -17,6 +17,8 @@
         containers-chatterbox
         jobs-os-upgrade-desktop
         services-ollama
+        services-tailscale
+        services-voicedm
       ])
       ++ [./_hardware.nix];
 
