@@ -5,4 +5,4 @@ set -euo 'pipefail'
 
 udisksctl mount --no-user-interaction -b "$@" \
     | grep 'Mounted' \
-    | awk '{print $4}'
+    | cut -d ' ' -f 4-
