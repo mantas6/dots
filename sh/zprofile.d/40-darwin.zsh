@@ -38,5 +38,5 @@ export DOCKER_CLI_HINTS=false
 
 export COLIMA_HOME="$HOME/.colima"
 
-# export DOCKER_CONFIG="$XDG_CONFIG_HOME/docker-darwin"
-# export DOCKER_HOST="unix://$HOME/.colima/default/docker.sock"
+export DOCKER_CONFIG="$XDG_CONFIG_HOME/docker-darwin"
+export DOCKER_HOST="unix://$COLIMA_HOME/default/docker.sock"
