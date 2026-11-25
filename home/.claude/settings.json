@@ -17,5 +17,6 @@
   "tui": "fullscreen",
   "autoMemoryEnabled": false,
   "theme": "dark",
-  "switchModelsOnFlag": true
+  "switchModelsOnFlag": true,
+  "cleanupPeriodDays": 60
 }
