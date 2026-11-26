@@ -223,7 +223,7 @@ systemctl status nixos-upgrade.timer
 
 ### Chatterbox TTS
 
-Hosts with `containers-chatterbox` (currently `lm`) serve [Chatterbox Turbo](https://github.com/resemble-ai/chatterbox) text-to-speech on port `8004` with an OpenAI-compatible API. The container starts on the first connection and stops after 15 minutes without traffic, so the first request after idle takes a while (tens of seconds, several minutes on the very first run while the model downloads). Use a generous client timeout.
+Hosts with `containers-chatterbox` (currently `lm` and `au`) serve [Chatterbox Turbo](https://github.com/resemble-ai/chatterbox) text-to-speech on port `8004` with an OpenAI-compatible API. The container starts on the first connection and stops after 15 minutes without traffic, so the first request after idle takes a while (tens of seconds, several minutes on the very first run while the model downloads). Use a generous client timeout.
 
 Generate speech with the default female voice:
 
