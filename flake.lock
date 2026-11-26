@@ -369,11 +369,11 @@
         "uv2nix": "uv2nix_2"
       },
       "locked": {
-        "lastModified": 1795258125,
-        "narHash": "sha256-PnqK5fH9GFhdZQlEB9NqdtFgtzA9QqH8P0lrTU7cqP0=",
+        "lastModified": 1795676780,
+        "narHash": "sha256-TrfeLCKmq1bZ7c5VOZ2M0qsW04WDvlt0xaEjRPiiass=",
         "owner": "mantas6",
         "repo": "voicedm",
-        "rev": "3ef3d79c388dfaf98954771a35d23c11b216940f",
+        "rev": "8ca15a08c46151477ca09288bee013de884c34e0",
         "type": "github"
       },
       "original": {
