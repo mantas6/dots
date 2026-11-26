@@ -28,6 +28,12 @@
 
     networking.hostName = "lm";
 
+    # The local Ollama first, then the one on `au`; the model picker offers both
+    services.voicedm.ollamaUrls = [
+      "http://localhost:11434"
+      "http://au:11434"
+    ];
+
     system.stateVersion = "26.05";
   };
 }
