@@ -12,7 +12,7 @@
       (with self.modules.nixos; [
         base
         base-home
-        disks-normal
+        disks-efi
         jobs-os-upgrade-desktop
         services-ollama
       ])
